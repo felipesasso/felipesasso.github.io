@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Felipe Coral Sasso - Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom styles for better readability and aesthetics */
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        /* Helper for printing */
+        @media print {
+            body {
+                -webkit-print-color-adjust: exact; /* Chrome, Safari */
+                color-adjust: exact; /* Firefox */
+            }
+            .no-print {
+                display: none !important;
+            }
+            .page-break {
+                page-break-after: always;
+            }
+            .bg-white { /* Ensure white backgrounds print correctly */
+                background-color: #fff !important;
+            }
+            .shadow-lg { /* Remove shadows for print */
+                box-shadow: none !important;
+            }
+        }
+        /* Ensure icons are vertically aligned with text */
+        .contact-link p svg {
+            vertical-align: middle;
+        }
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="bg-slate-100 text-slate-800">
+
+    <div class="container mx-auto max-w-5xl p-4 sm:p-6 lg:p-8">
+
+        <header class="bg-white shadow-lg rounded-xl p-6 md:p-8 mb-8">
+            <div class="flex flex-col md:flex-row items-center">
+                <div class="md:w-2/3 text-center md:text-left">
+                    <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold text-sky-700">Felipe Coral Sasso</h1>
+                    <p class="text-md sm:text-lg md:text-xl text-slate-600 mt-2">Software Engineer | Master's in Computer Science</p>
+                    <p class="text-sm sm:text-md text-slate-500 mt-1">Building robust Python applications and crafting intuitive APIs.</p>
+                    <p class="text-xs sm:text-sm text-slate-400 mt-1">Florianópolis, Santa Catarina, Brazil</p>
+
+                    <div class="mt-6 text-sm text-slate-700 space-y-2 contact-link">
+                        <p class="flex items-center justify-center md:justify-start">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-2 text-sky-600 shrink-0"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" /></svg>
+                            <a href="mailto:felipecsasso@gmail.com" class="hover:text-sky-700 hover:underline break-all">felipecsasso@gmail.com</a>
+                        </p>
+                        <p class="flex items-center justify-center md:justify-start">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-2 text-sky-600 shrink-0"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.362-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 6.75z" /></svg>
+                            <a href="tel:+5548998272716" class="hover:text-sky-700 hover:underline break-all">+55 48 99827-2716</a>
+                        </p>
+                        <p class="flex items-center justify-center md:justify-start">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 mr-2 text-sky-600 shrink-0"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                            <a href="https://www.linkedin.com/in/felipecoralsasso" target="_blank" rel="noopener noreferrer" class="hover:text-sky-700 hover:underline break-all">linkedin.com/in/felipecoralsasso</a>
+                        </p>
+                    </div>
+                </div>
+                <div class="md:w-1/3 mt-6 md:mt-0 flex justify-center md:justify-end">
+                    <div class="w-40 h-40 sm:w-48 sm:h-48 md:w-56 md:h-56 lg:w-64 lg:h-64 bg-slate-200 rounded-full flex items-center justify-center border-4 border-sky-600 shadow-md overflow-hidden">
+                        <img src="https://avatars.githubusercontent.com/u/5435710" alt="Felipe Coral Sasso" class="rounded-full object-cover w-full h-full" onerror="this.src='https://placehold.co/300x300/E2E8F0/4A5568?text=Image+Not+Found';">
+                        </div>
+                </div>
+            </div>
+            <div class="mt-8 pt-6 border-t border-slate-200">
+                <h2 class="text-xl sm:text-2xl font-semibold text-sky-700 mb-3">Summary</h2>
+                <p class="text-slate-700 leading-relaxed text-sm sm:text-base">
+                    Full-stack developer with 5+ years of experience building robust back-end systems with Python and dynamic user interfaces with React.
+                </p>
+            </div>
+        </header>
+
+        <section id="skills" class="bg-white shadow-lg rounded-xl p-6 md:p-8 mb-8">
+            <h2 class="text-xl sm:text-2xl font-semibold text-sky-700 mb-4">Top Skills</h2>
+            <div class="flex flex-wrap gap-2 sm:gap-3">
+                <span class="bg-sky-100 text-sky-700 px-3 py-1 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-medium">Microservices</span>
+                <span class="bg-sky-100 text-sky-700 px-3 py-1 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-medium">Large Language Models (LLM)</span>
+                <span class="bg-sky-100 text-sky-700 px-3 py-1 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-medium">Flask</span>
+                <span class="bg-sky-100 text-sky-700 px-3 py-1 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-medium">Python</span>
+                <span class="bg-sky-100 text-sky-700 px-3 py-1 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-medium">React</span>
+                <span class="bg-sky-100 text-sky-700 px-3 py-1 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-medium">API Development</span>
+                 </div>
+        </section>
+
+        <section id="experience" class="bg-white shadow-lg rounded-xl p-6 md:p-8 mb-8">
+            <h2 class="text-xl sm:text-2xl font-semibold text-sky-700 mb-6">Experience</h2>
+            <div class="space-y-8">
+                <div class="border-l-4 border-sky-500 pl-4 sm:pl-6">
+                    <h3 class="text-lg sm:text-xl font-semibold text-slate-800">Python Engineer</h3>
+                    <p class="text-sm sm:text-md font-medium text-sky-600">Pinterest</p>
+                    <p class="text-xs sm:text-sm text-slate-500" id="pinterest-duration">May 2024 - Present</p>
+                    </div>
+
+                <div class="border-l-4 border-sky-500 pl-4 sm:pl-6">
+                    <h3 class="text-lg sm:text-xl font-semibold text-slate-800">Software Engineer</h3>
+                    <p class="text-sm sm:text-md font-medium text-sky-600">Baires Dev</p>
+                    <p class="text-xs sm:text-sm text-slate-500" id="bairesdev-duration">January 2022 - Present &middot; San Francisco, California, United States</p>
+                    <p class="mt-2 text-slate-600 leading-relaxed text-sm sm:text-base">
+                        Architecting and engineering scalable and high-performing software solutions to meet client business challenges. Part of a leading Nearshore Technology Solutions company, working with Fortune 500 companies and leading brands.
+                    </p>
+                </div>
+
+                <div class="border-l-4 border-sky-500 pl-4 sm:pl-6">
+                    <h3 class="text-lg sm:text-xl font-semibold text-slate-800">Full Stack Software Engineer</h3>
+                    <p class="text-sm sm:text-md font-medium text-sky-600">Freeplay</p>
+                    <p class="text-xs sm:text-sm text-slate-500">August 2023 - January 2024 (6 months) &middot; Boulder, Colorado, United States</p>
+                    <p class="mt-2 text-slate-600 leading-relaxed text-sm sm:text-base">Helping product teams build with LLMs.</p>
+                    <ul class="mt-2 list-disc list-inside text-slate-600 space-y-1 text-xs sm:text-sm">
+                        <li>Contributed to the development of new products and features.</li>
+                        <li>Back-end Development: Designing and implementing server-side logic and APIs using Python.</li>
+                        <li>Front-end Development: Developing user interfaces and interactive features using React.js, JavaScript, and TypeScript.</li>
+                        <li>SDK Development: Designing and implementing SDKs using Python, Node, and Java.</li>
+                        <li>Actively participated in daily standup meetings and discussions.</li>
+                    </ul>
+                </div>
+
+                <div class="border-l-4 border-sky-500 pl-4 sm:pl-6">
+                    <h3 class="text-lg sm:text-xl font-semibold text-slate-800">Full Stack Engineer</h3>
+                    <p class="text-sm sm:text-md font-medium text-sky-600">NextRoll</p>
+                    <p class="text-xs sm:text-sm text-slate-500">May 2022 - July 2023 (1 year 3 months) &middot; San Francisco Bay Area</p>
+                    <p class="mt-2 text-slate-600 leading-relaxed text-sm sm:text-base">Worked on RollWorks, a leading B2B marketing platform specializing in account-based marketing and demand generation.</p>
+                    <ul class="mt-2 list-disc list-inside text-slate-600 space-y-1 text-xs sm:text-sm">
+                        <li>Contributed to the development of new products and features.</li>
+                        <li>Front-end Development: Developing user interfaces and interactive features using React.js, JavaScript, and TypeScript.</li>
+                        <li>Back-end Development: Designing and implementing server-side logic and APIs using Go and Python.</li>
+                        <li>Actively participated in daily standup meetings and discussions.</li>
+                    </ul>
+                </div>
+
+                <div class="border-l-4 border-sky-500 pl-4 sm:pl-6">
+                    <h3 class="text-lg sm:text-xl font-semibold text-slate-800">Back-end Developer</h3>
+                    <p class="text-sm sm:text-md font-medium text-sky-600">SenseData</p>
+                    <p class="text-xs sm:text-sm text-slate-500">March 2021 - December 2021 (10 months)</p>
+                    <p class="mt-2 text-slate-600 leading-relaxed text-sm sm:text-base">Python developer working on SenseData, a platform that helps companies build better relationships with their customers.</p>
+                    <ul class="mt-2 list-disc list-inside text-slate-600 space-y-1 text-xs sm:text-sm">
+                        <li>Developed and tested APIs using Python and Flask.</li>
+                        <li>Created interactive dashboards using Javascript and React.</li>
+                        <li>Contributed to the development of new products and features.</li>
+                    </ul>
+                    <p class="mt-2 text-xs font-semibold text-slate-500">Tech Stack: Python, Flask, unittest, Nose2, Javascript, React, Jira, Bitbucket, Postgres, MongoDB</p>
+                </div>
+
+                <div class="border-l-4 border-sky-500 pl-4 sm:pl-6">
+                    <h3 class="text-lg sm:text-xl font-semibold text-slate-800">Research Programmer</h3>
+                    <p class="text-sm sm:text-md font-medium text-sky-600">BC Cancer</p>
+                    <p class="text-xs sm:text-sm text-slate-500">February 2020 - January 2021 (1 year) &middot; Vancouver, Canada Area</p>
+                    <p class="mt-2 text-slate-600 leading-relaxed text-sm sm:text-base">Research Programmer at Canada's Michael Smith Genome Sciences Centre. Worked on CanDIG, a Canada-wide distributed genomics sharing platform, and for the Canadian COVID Genomics Network (CanCOGEN), creating a Dashboard for COVID-19 data visualization.</p>
+                    <ul class="mt-2 list-disc list-inside text-slate-600 space-y-1 text-xs sm:text-sm">
+                        <li>Creation and testing of APIs using Python, Flask, and OpenAPI.</li>
+                        <li>Creation of dashboards using Javascript and React.</li>
+                    </ul>
+                     <p class="mt-2 text-xs font-semibold text-slate-500">Tech Stack: React, JavaScript, Python, Flask, SQLite, PyTest, Nose, unittest, OpenAPI 3.0, Tox, Travis CI</p>
+                </div>
+
+                <div class="border-l-4 border-sky-500 pl-4 sm:pl-6">
+                    <h3 class="text-lg sm:text-xl font-semibold text-slate-800">Software Engineer</h3>
+                    <p class="text-sm sm:text-md font-medium text-sky-600">Cisco</p>
+                    <p class="text-xs sm:text-sm text-slate-500">March 2019 - October 2019 (8 months) &middot; Ottawa, Canada Area</p>
+                    <p class="mt-2 text-slate-600 leading-relaxed text-sm sm:text-base">Developer of Cisco's Genie and pyATS automation infrastructure.</p>
+                    <ul class="mt-2 list-disc list-inside text-slate-600 space-y-1 text-xs sm:text-sm">
+                        <li>Designed, developed, and tested features for Cisco's Python network automation framework.</li>
+                        <li>Developed parsers for networking protocols using RegEx (NXOS/IOS/IOSXE/IOSXR).</li>
+                        <li>Developed Python scripts for automated tests on Cisco devices.</li>
+                    </ul>
+                    <p class="mt-2 text-xs font-semibold text-slate-500">Tech Stack: Python 3.6, Regex, Git, Bitbucket, Agile, SCRUM, unittest</p>
+                </div>
+                
+                <div class="border-l-4 border-sky-500 pl-4 sm:pl-6">
+                    <h3 class="text-lg sm:text-xl font-semibold text-slate-800">Researcher/Developer</h3>
+                    <p class="text-sm sm:text-md font-medium text-sky-600">Computer Security Laboratory (LabSEC) - UFSC</p>
+                    <p class="text-xs sm:text-sm text-slate-500">January 2014 - February 2016 (2 years 2 months) &middot; Florianópolis</p>
+                    <p class="mt-2 text-slate-600 leading-relaxed text-sm sm:text-base">Proposed an Identity Card based on ICAO 9303 passport pattern for Master's research, including security validation.</p>
+                </div>
+
+            </div>
+        </section>
+
+        <section id="education" class="bg-white shadow-lg rounded-xl p-6 md:p-8 mb-8">
+            <h2 class="text-xl sm:text-2xl font-semibold text-sky-700 mb-6">Education</h2>
+            <div class="space-y-6">
+                <div class="border-l-4 border-sky-500 pl-4 sm:pl-6">
+                    <h3 class="text-lg sm:text-xl font-semibold text-slate-800">Master's degree, Computer Science</h3>
+                    <p class="text-sm sm:text-md font-medium text-sky-600">Universidade Federal de Santa Catarina</p>
+                    <p class="text-xs sm:text-sm text-slate-500">2014 - 2016</p>
+                </div>
+                <div class="border-l-4 border-sky-500 pl-4 sm:pl-6">
+                    <h3 class="text-lg sm:text-xl font-semibold text-slate-800">Bachelor's degree, Computer Science</h3>
+                    <p class="text-sm sm:text-md font-medium text-sky-600">Universidade do Extremo Sul Catarinense</p>
+                    <p class="text-xs sm:text-sm text-slate-500">2008 - 2012</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="languages" class="bg-white shadow-lg rounded-xl p-6 md:p-8 mb-8"> 
+            <h2 class="text-xl sm:text-2xl font-semibold text-sky-700 mb-4">Languages</h2>
+            <ul class="list-disc list-inside space-y-2 text-slate-700 text-sm sm:text-base">
+                <li>Português (Native or Bilingual)</li>
+                <li>Inglês (Professional Working)</li>
+            </ul>
+        </section>
+
+        <footer class="text-center py-8 text-xs sm:text-sm text-slate-500">
+            <p>&copy; <span id="currentYear"></span> Felipe Coral Sasso. All rights reserved.</p>
+            <p>Built with Tailwind CSS.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Function to calculate and display duration for current jobs
+        function displayJobDuration(startDateString, elementId, originalText) {
+            const targetElement = document.getElementById(elementId);
+            if (!targetElement) {
+                console.error("Element with ID " + elementId + " not found.");
+                return;
+            }
+
+            // Parse the start date
+            const parts = startDateString.split(" "); // e.g., "May 2024"
+            const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+            const startMonth = monthNames.indexOf(parts[0]);
+            const startYear = parseInt(parts[1]);
+
+            if (startMonth === -1 || isNaN(startYear)) {
+                console.error("Invalid start date format for " + elementId + ": " + startDateString);
+                targetElement.textContent = originalText; // Fallback to original text
+                return;
+            }
+
+            const startDate = new Date(startYear, startMonth);
+            const currentDate = new Date();
+
+            let years = currentDate.getFullYear() - startDate.getFullYear();
+            let months = currentDate.getMonth() - startDate.getMonth();
+
+            if (months < 0) {
+                years--;
+                months += 12;
+            }
+            
+            let durationString = "";
+            if (years > 0) {
+                durationString += years + (years === 1 ? " year" : " years");
+            }
+            if (months > 0) {
+                if (years > 0) durationString += " "; // Add a space if there are years
+                durationString += months + (months === 1 ? " month" : " months");
+            }
+            
+            // Handle cases like "0 years 0 months" or very recent starts
+            if (years === 0 && months === 0) {
+                if (currentDate.getFullYear() === startDate.getFullYear() && currentDate.getMonth() === startDate.getMonth()) {
+                    durationString = "Less than a month";
+                } else { 
+                    // This case implies it's exactly on a year/month boundary but calculated to 0y 0m due to day differences
+                    // or it's a future start date (which shouldn't happen with "Present" jobs)
+                    // For simplicity, if it's 0y 0m, it's likely within the first month or an edge case.
+                     durationString = "Less than a month"; // Default for 0y 0m
+                }
+            }
+
+
+            // Preserve any additional text like location
+            // Ensure baseText correctly captures only the date part before any potential existing parenthesis
+            let baseText = originalText;
+            if (originalText.includes("(")) { // If there's an existing duration, remove it
+                 baseText = originalText.substring(0, originalText.indexOf("(")).trim();
+            } else if (originalText.includes("·")) { // If no duration but has location
+                 baseText = originalText.substring(0, originalText.indexOf("·")).trim();
+            } else { // Just the date part
+                 baseText = originalText.trim();
+            }
+
+
+            const locationText = originalText.includes("·") ? " " + originalText.substring(originalText.indexOf("·")) : "";
+            
+            targetElement.textContent = `${baseText} (${durationString})${locationText}`;
+        }
+
+        // Set current year in footer
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+        // Update job durations on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Pinterest: May 2024 - Present
+            const pinterestOriginalText = document.getElementById('pinterest-duration').textContent; // Get current text
+            displayJobDuration("May 2024", "pinterest-duration", pinterestOriginalText);
+
+            // Baires Dev: January 2022 - Present · San Francisco, California, United States
+            const bairesOriginalText = document.getElementById('bairesdev-duration').textContent; // Get current text
+            displayJobDuration("January 2022", "bairesdev-duration", bairesOriginalText);
+        });
+    </script>
+
+</body>
+</html>
