@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,33 +12,43 @@
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
         }
+
         @media print {
             body {
-                -webkit-print-color-adjust: exact; 
-                color-adjust: exact; 
+                -webkit-print-color-adjust: exact;
+                color-adjust: exact;
             }
+
             .no-print {
                 display: none !important;
             }
+
             .page-break {
                 page-break-after: always;
             }
-            .bg-white { 
+
+            .bg-white {
                 background-color: #fff !important;
             }
-            .shadow-lg { 
+
+            .shadow-lg {
                 box-shadow: none !important;
             }
         }
+
         .contact-link p svg {
             vertical-align: middle;
         }
+
         .link-highlight {
-            color: #2E4057; /* Default link color - same as primary accent */
+            color: #2E4057;
+            /* Default link color - same as primary accent */
             text-decoration: underline;
         }
+
         .link-highlight:hover {
-            color: #1c2b3a; /* Darker shade for hover */
+            color: #1c2b3a;
+            /* Darker shade for hover */
             text-decoration: underline;
         }
     </style>
@@ -45,50 +56,76 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
+
 <body class="bg-[#ECEFF1] text-[#37474F]">
 
     <div class="container mx-auto max-w-5xl p-4 sm:p-6 lg:p-8">
 
         <header class="bg-white shadow-lg rounded-xl p-6 md:p-8 mb-8">
-            <div class="flex flex-col md:flex-row md:items-start"> 
-                
+            <div class="flex flex-col md:flex-row md:items-start">
+
                 <div class="w-full md:w-2/3 text-center md:text-left">
                     <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold text-[#2E4057]">Felipe Coral Sasso</h1>
-                    
+
                     <div class="flex justify-center my-4 md:hidden">
-                        <div class="w-40 h-40 sm:w-48 sm:h-48 bg-[#CFD8DC] rounded-full flex items-center justify-center border-4 border-[#2E4057] shadow-md overflow-hidden">
-                            <img src="https://avatars.githubusercontent.com/u/5435710" alt="Felipe Coral Sasso" class="rounded-full object-cover w-full h-full" onerror="this.src='https://placehold.co/300x300/CFD8DC/2E4057?text=Image+Not+Found';">
+                        <div
+                            class="w-40 h-40 sm:w-48 sm:h-48 bg-[#CFD8DC] rounded-full flex items-center justify-center border-4 border-[#2E4057] shadow-md overflow-hidden">
+                            <img src="https://avatars.githubusercontent.com/u/5435710" alt="Felipe Coral Sasso"
+                                class="rounded-full object-cover w-full h-full"
+                                onerror="this.src='https://placehold.co/300x300/CFD8DC/2E4057?text=Image+Not+Found';">
                         </div>
                     </div>
 
-                    <p class="text-md sm:text-lg md:text-xl text-[#607D8B] mt-2">Software Engineer | Master's in Computer Science</p>
+                    <p class="text-md sm:text-lg md:text-xl text-[#607D8B] mt-2">Software Engineer | Master's in
+                        Computer Science</p>
                     <p class="text-xs sm:text-sm text-[#607D8B] mt-1">Florianópolis, Santa Catarina, Brazil</p>
 
                     <div class="mt-6 text-sm text-[#37474F] space-y-2 contact-link">
                         <p class="flex items-center justify-center md:justify-start">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-2 text-[#2E4057] shrink-0"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" /></svg>
-                            <a href="mailto:felipecsasso@gmail.com" class="link-highlight break-all">felipecsasso@gmail.com</a>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                stroke="currentColor" class="w-5 h-5 mr-2 text-[#2E4057] shrink-0">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
+                            </svg>
+                            <a href="mailto:felipecsasso@gmail.com"
+                                class="link-highlight break-all">felipecsasso@gmail.com</a>
                         </p>
                         <p class="flex items-center justify-center md:justify-start">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-2 text-[#2E4057] shrink-0"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.362-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 6.75z" /></svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                stroke="currentColor" class="w-5 h-5 mr-2 text-[#2E4057] shrink-0">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.362-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 6.75z" />
+                            </svg>
                             <a href="tel:+5548998272716" class="link-highlight break-all">+55 48 99827-2716</a>
                         </p>
                         <p class="flex items-center justify-center md:justify-start">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 mr-2 text-[#2E4057] shrink-0"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
-                            <a href="https://www.linkedin.com/in/felipecoralsasso" target="_blank" rel="noopener noreferrer" class="link-highlight break-all">linkedin.com/in/felipecoralsasso</a>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                                class="w-5 h-5 mr-2 text-[#2E4057] shrink-0">
+                                <path
+                                    d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
+                            </svg>
+                            <a href="https://www.linkedin.com/in/felipecoralsasso" target="_blank"
+                                rel="noopener noreferrer"
+                                class="link-highlight break-all">linkedin.com/in/felipecoralsasso</a>
                         </p>
                         <p class="flex items-center justify-center md:justify-start">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 mr-2 text-[#2E4057] shrink-0">
-                                <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                                class="w-5 h-5 mr-2 text-[#2E4057] shrink-0">
+                                <path
+                                    d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" />
                             </svg>
-                            <a href="https://github.com/felipesasso" target="_blank" rel="noopener noreferrer" class="link-highlight break-all">github.com/felipesasso</a>
+                            <a href="https://github.com/felipesasso" target="_blank" rel="noopener noreferrer"
+                                class="link-highlight break-all">github.com/felipesasso</a>
                         </p>
                     </div>
                 </div>
 
                 <div class="hidden md:flex md:w-1/3 md:pl-8 items-center justify-center">
-                    <div class="w-40 h-40 sm:w-48 sm:h-48 md:w-56 md:h-56 lg:w-64 lg:h-64 bg-[#CFD8DC] rounded-full flex items-center justify-center border-4 border-[#2E4057] shadow-md overflow-hidden">
-                        <img src="https://avatars.githubusercontent.com/u/5435710" alt="Felipe Coral Sasso" class="rounded-full object-cover w-full h-full" onerror="this.src='https://placehold.co/300x300/CFD8DC/2E4057?text=Image+Not+Found';">
+                    <div
+                        class="w-40 h-40 sm:w-48 sm:h-48 md:w-56 md:h-56 lg:w-64 lg:h-64 bg-[#CFD8DC] rounded-full flex items-center justify-center border-4 border-[#2E4057] shadow-md overflow-hidden">
+                        <img src="https://avatars.githubusercontent.com/u/5435710" alt="Felipe Coral Sasso"
+                            class="rounded-full object-cover w-full h-full"
+                            onerror="this.src='https://placehold.co/300x300/CFD8DC/2E4057?text=Image+Not+Found';">
                     </div>
                 </div>
             </div>
@@ -96,10 +133,11 @@
             <div class="mt-8 pt-6 border-t border-[#CFD8DC]">
                 <h2 class="text-xl sm:text-2xl font-semibold text-[#2E4057] mb-3 text-center sm:text-left">Summary</h2>
                 <p class="text-[#607D8B] leading-relaxed text-sm sm:text-base text-center sm:text-left">
-                    Software Engineer with 5+ years of experience building robust, scalable back-end systems with Python and crafting dynamic, intuitive user interfaces using React.
+                    Software Engineer with 5+ years of experience building robust, scalable back-end systems with Python
+                    and crafting dynamic, intuitive user interfaces using React.
                 </p>
-                <div class="mt-4 text-center sm:text-left"> 
-                    <h3 class="text-lg font-semibold text-[#2E4057] mb-1">Languages</h3> 
+                <div class="mt-4 text-center sm:text-left">
+                    <h3 class="text-lg font-semibold text-[#2E4057] mb-1">Languages</h3>
                     <ul class="list-disc list-inside space-y-1 text-[#607D8B] text-sm inline-block text-left">
                         <li>Português (Native)</li>
                         <li>Inglês (Professional Working)</li>
@@ -120,86 +158,128 @@
                 <div class="border-l-4 border-[#2E4057] pl-4 sm:pl-6">
                     <h3 class="text-lg sm:text-xl font-semibold text-[#2E4057]">Python Engineer</h3>
                     <p class="text-sm sm:text-md font-medium text-[#37474F]">
-                        <a href="https://newsroom.pinterest.com/en-ca/company/" target="_blank" rel="noopener noreferrer" class="link-highlight">Pinterest</a>
+                        <a href="https://newsroom.pinterest.com/en-ca/company/" target="_blank"
+                            rel="noopener noreferrer" class="link-highlight">Pinterest</a>
                     </p>
                     <p class="text-xs sm:text-sm text-[#607D8B]" id="pinterest-duration">May 2024 - Present</p>
-                    <p class="mt-2 text-[#607D8B] leading-relaxed text-sm sm:text-base">Developing and maintaining scalable Python-based services and features, contributing to a high-traffic, visual discovery platform.</p>
-                    <p class="mt-2 text-xs font-semibold text-[#607D8B]">Tech Stack: Python, Typescript, GraphQL, React</p>
+                    <p class="mt-2 text-xs font-semibold text-[#607D8B]">Tech Stack: Python, Typescript, GraphQL, React
+                    </p>
                 </div>
 
                 <div class="border-l-4 border-[#2E4057] pl-4 sm:pl-6">
                     <h3 class="text-lg sm:text-xl font-semibold text-[#2E4057]">Software Engineer</h3>
                     <p class="text-sm sm:text-md font-medium text-[#37474F]">
-                         <a href="https://www.bairesdev.com/" target="_blank" rel="noopener noreferrer" class="link-highlight">BairesDev</a>
+                        <a href="https://www.bairesdev.com/" target="_blank" rel="noopener noreferrer"
+                            class="link-highlight">BairesDev</a>
                     </p>
-                    <p class="text-xs sm:text-sm text-[#607D8B]" id="bairesdev-duration">January 2022 - Present &middot; San Francisco, California, United States</p>
+                    <p class="text-xs sm:text-sm text-[#607D8B]" id="bairesdev-duration">January 2022 - Present &middot;
+                        San Francisco, California, United States</p>
+                    <p class="mt-2 text-[#607D8B] leading-relaxed text-sm sm:text-base">
+                        As a leading Nearshore Technology Solutions company, we architect and engineer scalable and
+                        high-performing software solutions to meet the business challenges of our clients. Using our
+                        tech expertise and cross-industry experience, we evolve digital transformation into digital
+                        acceleration.
+                    </p>
                 </div>
 
                 <div class="border-l-4 border-[#2E4057] pl-4 sm:pl-6">
                     <h3 class="text-lg sm:text-xl font-semibold text-[#2E4057]">Full Stack Software Engineer</h3>
                     <p class="text-sm sm:text-md font-medium text-[#37474F]">
-                        <a href="https://freeplay.ai/" target="_blank" rel="noopener noreferrer" class="link-highlight">Freeplay</a>
+                        <a href="https://freeplay.ai/" target="_blank" rel="noopener noreferrer"
+                            class="link-highlight">Freeplay</a>
                     </p>
-                    <p class="text-xs sm:text-sm text-[#607D8B]">August 2023 - January 2024 (6 months) &middot; Boulder, Colorado, United States</p>
-                    <p class="mt-2 text-[#607D8B] leading-relaxed text-sm sm:text-base">Empowered product teams by developing innovative solutions using Large Language Models (LLMs). Contributed to full-stack development, including Python back-ends, React front-ends, and multi-language SDKs (Python, Node, Java).</p>
+                    <p class="text-xs sm:text-sm text-[#607D8B]">August 2023 - January 2024 (6 months) &middot; Boulder,
+                        Colorado, United States</p>
+                    <p class="mt-2 text-[#607D8B] leading-relaxed text-sm sm:text-base">Empowered product teams by
+                        developing innovative solutions using Large Language Models (LLMs). Contributed to full-stack
+                        development, including Python back-ends, React front-ends, and multi-language SDKs (Python,
+                        Node, Java).</p>
                     <ul class="mt-2 list-disc list-inside text-[#607D8B] space-y-1 text-xs sm:text-sm">
                         <li>Designed and implemented server-side logic and APIs with Python.</li>
-                        <li>Developed user interfaces and interactive features using React.js, JavaScript, and TypeScript.</li>
+                        <li>Developed user interfaces and interactive features using React.js, JavaScript, and
+                            TypeScript.</li>
                         <li>Engineered and maintained SDKs in Python, Node.js, and Java.</li>
                     </ul>
-                    <p class="mt-2 text-xs font-semibold text-[#607D8B]">Tech Stack: Python, Flask, Javascript, Typescript, React, Postgres, SQL, Large language models (LLM), Node, Linear, Git, GitHub, Java</p>
+                    <p class="mt-2 text-xs font-semibold text-[#607D8B]">Tech Stack: Python, Flask, Javascript,
+                        Typescript, React, Postgres, SQL, Large language models (LLM), Node, Linear, Git, GitHub, Java
+                    </p>
                 </div>
 
                 <div class="border-l-4 border-[#2E4057] pl-4 sm:pl-6">
                     <h3 class="text-lg sm:text-xl font-semibold text-[#2E4057]">Full Stack Engineer</h3>
                     <p class="text-sm sm:text-md font-medium text-[#37474F]">
-                        <a href="https://www.nextroll.com/" target="_blank" rel="noopener noreferrer" class="link-highlight">NextRoll</a>
+                        <a href="https://www.nextroll.com/" target="_blank" rel="noopener noreferrer"
+                            class="link-highlight">NextRoll</a>
                     </p>
-                    <p class="text-xs sm:text-sm text-[#607D8B]">May 2022 - July 2023 (1 year 3 months) &middot; San Francisco Bay Area</p>
-                    <p class="mt-2 text-[#607D8B] leading-relaxed text-sm sm:text-base">Contributed to RollWorks, a leading B2B marketing platform, by developing new product features and enhancing existing functionalities. Involved in both front-end (React) and back-end (Go, Python) development to support account-based marketing and demand generation.</p>
-                     <ul class="mt-2 list-disc list-inside text-[#607D8B] space-y-1 text-xs sm:text-sm">
+                    <p class="text-xs sm:text-sm text-[#607D8B]">May 2022 - July 2023 (1 year 3 months) &middot; San
+                        Francisco Bay Area</p>
+                    <p class="mt-2 text-[#607D8B] leading-relaxed text-sm sm:text-base">Contributed to RollWorks, a
+                        leading B2B marketing platform, by developing new product features and enhancing existing
+                        functionalities. Involved in both front-end (React) and back-end (Go, Python) development to
+                        support account-based marketing and demand generation.</p>
+                    <ul class="mt-2 list-disc list-inside text-[#607D8B] space-y-1 text-xs sm:text-sm">
                         <li>Developed responsive user interfaces with React.js, JavaScript, and TypeScript.</li>
                         <li>Built and maintained server-side logic and APIs using Go and Python.</li>
                     </ul>
-                    <p class="mt-2 text-xs font-semibold text-[#607D8B]">Tech Stack: Python, Flask, Go, Javascript, React, Typescript, Jira, Git, GitHub, SQL, Postgres</p>
+                    <p class="mt-2 text-xs font-semibold text-[#607D8B]">Tech Stack: Python, Flask, Go, Javascript,
+                        React, Typescript, Jira, Git, GitHub, SQL, Postgres</p>
                 </div>
 
                 <div class="border-l-4 border-[#2E4057] pl-4 sm:pl-6">
                     <h3 class="text-lg sm:text-xl font-semibold text-[#2E4057]">Back-end Developer</h3>
                     <p class="text-sm sm:text-md font-medium text-[#37474F]">
-                        <a href="https://sensedata.com.br/" target="_blank" rel="noopener noreferrer" class="link-highlight">SenseData</a>
+                        <a href="https://sensedata.com.br/" target="_blank" rel="noopener noreferrer"
+                            class="link-highlight">SenseData</a>
                     </p>
                     <p class="text-xs sm:text-sm text-[#607D8B]">March 2021 - December 2021 (10 months)</p>
-                    <p class="mt-2 text-[#607D8B] leading-relaxed text-sm sm:text-base">Developed and tested robust APIs using Python and Flask for a customer relationship platform. Created interactive dashboards with JavaScript and React to enhance data visualization and user engagement.</p>
-                    <p class="mt-2 text-xs font-semibold text-[#607D8B]">Tech Stack: Python, Flask, unittest, Nose2, Javascript, React, Jira, Bitbucket, Postgres, MongoDB</p>
+                    <p class="mt-2 text-[#607D8B] leading-relaxed text-sm sm:text-base">Developed and tested robust APIs
+                        using Python and Flask for a customer relationship platform. Created interactive dashboards with
+                        JavaScript and React to enhance data visualization and user engagement.</p>
+                    <p class="mt-2 text-xs font-semibold text-[#607D8B]">Tech Stack: Python, Flask, unittest, Nose2,
+                        Javascript, React, Jira, Bitbucket, Postgres, MongoDB</p>
                 </div>
 
                 <div class="border-l-4 border-[#2E4057] pl-4 sm:pl-6">
                     <h3 class="text-lg sm:text-xl font-semibold text-[#2E4057]">Research Programmer</h3>
                     <p class="text-sm sm:text-md font-medium text-[#37474F]">
-                        <a href="http://www.bccancer.bc.ca/" target="_blank" rel="noopener noreferrer" class="link-highlight">BC Cancer</a>
+                        <a href="http://www.bccancer.bc.ca/" target="_blank" rel="noopener noreferrer"
+                            class="link-highlight">BC Cancer</a>
                     </p>
-                    <p class="text-xs sm:text-sm text-[#607D8B]">February 2020 - January 2021 (1 year) &middot; Vancouver, Canada Area</p>
-                    <p class="mt-2 text-[#607D8B] leading-relaxed text-sm sm:text-base">Developed APIs (Python, Flask, OpenAPI) and interactive dashboards (JavaScript, React) for <a href="https://www.distributedgenomics.ca/" target="_blank" rel="noopener noreferrer" class="link-highlight">CanDIG</a>, a distributed genomics platform, and CanCOGEN, visualizing COVID-19 data at Canada's Michael Smith Genome Sciences Centre.</p>
-                    <p class="mt-2 text-xs font-semibold text-[#607D8B]">Tech Stack: React, JavaScript, Python, Flask, SQLite, PyTest, Nose, unittest, OpenAPI 3.0, Tox, Travis CI</p>
+                    <p class="text-xs sm:text-sm text-[#607D8B]">February 2020 - January 2021 (1 year) &middot;
+                        Vancouver, Canada Area</p>
+                    <p class="mt-2 text-[#607D8B] leading-relaxed text-sm sm:text-base">Developed APIs (Python, Flask,
+                        OpenAPI) and interactive dashboards (JavaScript, React) for <a
+                            href="https://www.distributedgenomics.ca/" target="_blank" rel="noopener noreferrer"
+                            class="link-highlight">CanDIG</a>, a distributed genomics platform, and CanCOGEN,
+                        visualizing COVID-19 data at Canada's Michael Smith Genome Sciences Centre.</p>
+                    <p class="mt-2 text-xs font-semibold text-[#607D8B]">Tech Stack: React, JavaScript, Python, Flask,
+                        SQLite, PyTest, Nose, unittest, OpenAPI 3.0, Tox, Travis CI</p>
                 </div>
 
                 <div class="border-l-4 border-[#2E4057] pl-4 sm:pl-6">
                     <h3 class="text-lg sm:text-xl font-semibold text-[#2E4057]">Software Engineer</h3>
                     <p class="text-sm sm:text-md font-medium text-[#37474F]">
-                        <a href="https://developer.cisco.com/docs/pyats/" target="_blank" rel="noopener noreferrer" class="link-highlight">Cisco</a>
+                        <a href="https://developer.cisco.com/docs/pyats/" target="_blank" rel="noopener noreferrer"
+                            class="link-highlight">Cisco</a>
                     </p>
-                    <p class="text-xs sm:text-sm text-[#607D8B]">March 2019 - October 2019 (8 months) &middot; Ottawa, Canada Area</p>
-                    <p class="mt-2 text-[#607D8B] leading-relaxed text-sm sm:text-base">Contributed to Cisco's Genie and pyATS automation infrastructure by designing, developing, and testing scalable features for Python network automation. Developed RegEx-based parsers for various networking protocols and created Python scripts for automated device testing.</p>
-                    <p class="mt-2 text-xs font-semibold text-[#607D8B]">Tech Stack: Python 3.6, Regex, Git, Bitbucket, Agile, SCRUM, unittest</p>
+                    <p class="text-xs sm:text-sm text-[#607D8B]">March 2019 - October 2019 (8 months) &middot; Ottawa,
+                        Canada Area</p>
+                    <p class="mt-2 text-[#607D8B] leading-relaxed text-sm sm:text-base">Contributed to Cisco's Genie and
+                        pyATS automation infrastructure by designing, developing, and testing scalable features for
+                        Python network automation. Developed RegEx-based parsers for various networking protocols and
+                        created Python scripts for automated device testing.</p>
+                    <p class="mt-2 text-xs font-semibold text-[#607D8B]">Tech Stack: Python 3.6, Regex, Git, Bitbucket,
+                        Agile, SCRUM, unittest</p>
                 </div>
 
                 <div class="border-l-4 border-[#2E4057] pl-4 sm:pl-6">
                     <h3 class="text-lg sm:text-xl font-semibold text-[#2E4057]">Kitchen Specialist</h3>
                     <p class="text-sm sm:text-md font-medium text-[#37474F]">Bridgehead Coffee</p>
-                    <p class="text-xs sm:text-sm text-[#607D8B]">Jul 2016 - Mar 2019 &middot; 2 yrs 9 mos &middot; Ottawa, Canada Area</p>
+                    <p class="text-xs sm:text-sm text-[#607D8B]">Jul 2016 - Mar 2019 &middot; 2 yrs 9 mos &middot;
+                        Ottawa, Canada Area</p>
                     <p class="mt-2 text-[#607D8B] leading-relaxed text-sm sm:text-base">
-                        Gained valuable Canadian work experience as a Kitchen Specialist, enhancing communication, leadership, pressure handling, and pro-activity. 
+                        Gained valuable Canadian work experience as a Kitchen Specialist, enhancing communication,
+                        leadership, pressure handling, and pro-activity.
                         Concurrently, self-taught and improved technical skills to stay current with technology.
                     </p>
                     <div class="mt-2 text-xs text-[#607D8B]">
@@ -212,19 +292,27 @@
                         </ul>
                     </div>
                 </div>
-                
+
                 <div class="border-l-4 border-[#2E4057] pl-4 sm:pl-6">
                     <h3 class="text-lg sm:text-xl font-semibold text-[#2E4057]">Researcher/Developer</h3>
                     <p class="text-sm sm:text-md font-medium text-[#37474F]">
-                        <a href="https://labsec.ufsc.br/" target="_blank" rel="noopener noreferrer" class="link-highlight">Computer Security Laboratory (LabSEC) - UFSC</a>
+                        <a href="https://labsec.ufsc.br/" target="_blank" rel="noopener noreferrer"
+                            class="link-highlight">Computer Security Laboratory (LabSEC) - UFSC</a>
                     </p>
-                    <p class="text-xs sm:text-sm text-[#607D8B]">January 2014 - February 2016 (2 years 2 months) &middot; Florianópolis</p>
-                    <p class="mt-2 text-[#607D8B] leading-relaxed text-sm sm:text-base">Conducted Master's research involving the proposal and security validation of a unified Identity Card based on the ICAO 9303 passport standard for academic federation environments. Contributed to various security projects during this period.</p>
+                    <p class="text-xs sm:text-sm text-[#607D8B]">January 2014 - February 2016 (2 years 2 months)
+                        &middot; Florianópolis</p>
+                    <p class="mt-2 text-[#607D8B] leading-relaxed text-sm sm:text-base">Conducted Master's research
+                        involving the proposal and security validation of a unified Identity Card based on the ICAO 9303
+                        passport standard for academic federation environments. Contributed to various security projects
+                        during this period.</p>
                     <div class="mt-3 text-xs text-[#607D8B]">
                         <p class="font-semibold">Related Publication:</p>
                         <p class="mt-1">
-                            F. C. Sasso, R. A. Reinaldo De Moraes and J. E. Martina, "A Proposal for a Unified Identity Card for Use in an Academic Federation Environment," 2014 Ninth International Conference on Availability, Reliability and Security, Fribourg, Switzerland, 2014, pp. 265-272, 
-                            <a href="https://ieeexplore.ieee.org/document/6980291" target="_blank" rel="noopener noreferrer" class="link-highlight">doi: 10.1109/ARES.2014.42</a>.
+                            F. C. Sasso, R. A. Reinaldo De Moraes and J. E. Martina, "A Proposal for a Unified Identity
+                            Card for Use in an Academic Federation Environment," 2014 Ninth International Conference on
+                            Availability, Reliability and Security, Fribourg, Switzerland, 2014, pp. 265-272,
+                            <a href="https://ieeexplore.ieee.org/document/6980291" target="_blank"
+                                rel="noopener noreferrer" class="link-highlight">doi: 10.1109/ARES.2014.42</a>.
                         </p>
                     </div>
                 </div>
@@ -261,13 +349,13 @@
                 return;
             }
 
-            const parts = startDateString.split(" "); 
+            const parts = startDateString.split(" ");
             const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
             const startMonth = monthNames.indexOf(parts[0]);
             const startYear = parseInt(parts[1]);
 
             if (startMonth === -1 || isNaN(startYear)) {
-                targetElement.textContent = originalText; 
+                targetElement.textContent = originalText;
                 return;
             }
 
@@ -281,35 +369,35 @@
                 years--;
                 months += 12;
             }
-            
+
             let durationString = "";
             if (years > 0) {
                 durationString += years + (years === 1 ? " year" : " years");
             }
             if (months > 0) {
-                if (years > 0) durationString += " "; 
+                if (years > 0) durationString += " ";
                 durationString += months + (months === 1 ? " month" : " months");
             }
-            
+
             if (years === 0 && months === 0) {
                 if (currentDate.getFullYear() === startDate.getFullYear() && currentDate.getMonth() === startDate.getMonth()) {
                     durationString = "Less than a month";
-                } else { 
-                    durationString = "Less than a month"; 
+                } else {
+                    durationString = "Less than a month";
                 }
             }
 
             let baseText = originalText;
-            if (originalText.includes("(")) { 
-                 baseText = originalText.substring(0, originalText.indexOf("(")).trim();
-            } else if (originalText.includes("·")) { 
-                 baseText = originalText.substring(0, originalText.indexOf("·")).trim();
-            } else { 
-                 baseText = originalText.trim();
+            if (originalText.includes("(")) {
+                baseText = originalText.substring(0, originalText.indexOf("(")).trim();
+            } else if (originalText.includes("·")) {
+                baseText = originalText.substring(0, originalText.indexOf("·")).trim();
+            } else {
+                baseText = originalText.trim();
             }
 
             const locationText = originalText.includes("·") ? " " + originalText.substring(originalText.indexOf("·")) : "";
-            
+
             targetElement.textContent = `${baseText} (${durationString})${locationText}`;
         }
 
@@ -318,10 +406,10 @@
             if (!skillsContainer) return;
 
             const topSkills = ["API Development", "Python", "React", "Typescript", "Unit Testing"];
-            
-            const sortedSkills = topSkills.sort((a,b) => a.localeCompare(b));
 
-            skillsContainer.innerHTML = ''; 
+            const sortedSkills = topSkills.sort((a, b) => a.localeCompare(b));
+
+            skillsContainer.innerHTML = '';
 
             sortedSkills.forEach(skill => {
                 const skillElement = document.createElement('span');
@@ -334,11 +422,11 @@
 
         document.getElementById('currentYear').textContent = new Date().getFullYear();
 
-        document.addEventListener('DOMContentLoaded', function() {
-            const pinterestOriginalText = document.getElementById('pinterest-duration').textContent; 
+        document.addEventListener('DOMContentLoaded', function () {
+            const pinterestOriginalText = document.getElementById('pinterest-duration').textContent;
             displayJobDuration("May 2024", "pinterest-duration", pinterestOriginalText);
 
-            const bairesOriginalText = document.getElementById('bairesdev-duration').textContent; 
+            const bairesOriginalText = document.getElementById('bairesdev-duration').textContent;
             displayJobDuration("January 2022", "bairesdev-duration", bairesOriginalText);
 
             populateSkills();
@@ -346,4 +434,5 @@
     </script>
 
 </body>
+
 </html>
