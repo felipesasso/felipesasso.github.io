@@ -42,14 +42,36 @@
 
         .link-highlight {
             color: #2E4057;
-            /* Default link color - same as primary accent */
             text-decoration: underline;
         }
 
         .link-highlight:hover {
             color: #1c2b3a;
-            /* Darker shade for hover */
             text-decoration: underline;
+        }
+
+        .lang-button {
+            background-color: #CFD8DC;
+            color: #2E4057;
+            padding: 0.25rem 0.75rem;
+            border-radius: 0.375rem;
+            /* rounded-md */
+            font-weight: 500;
+            font-size: 0.875rem;
+            /* text-sm */
+            margin-left: 0.5rem;
+            cursor: pointer;
+            border: 1px solid transparent;
+        }
+
+        .lang-button.active {
+            background-color: #2E4057;
+            color: #ECEFF1;
+            border-color: #2E4057;
+        }
+
+        .lang-button:hover:not(.active) {
+            background-color: #B0BEC5;
         }
     </style>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -60,12 +82,16 @@
 <body class="bg-[#ECEFF1] text-[#37474F]">
 
     <div class="container mx-auto max-w-5xl p-4 sm:p-6 lg:p-8">
+        <div class="fixed top-4 right-4 z-50 no-print">
+            <button id="lang-en" class="lang-button active" onclick="switchLanguage('en')">EN</button>
+            <button id="lang-pt" class="lang-button" onclick="switchLanguage('pt')">PT</button>
+        </div>
 
-        <header class="bg-white shadow-lg rounded-xl p-6 md:p-8 mb-8">
+        <header class="bg-white shadow-lg rounded-xl p-6 md:p-8 mb-8 mt-16 md:mt-8">
             <div class="flex flex-col md:flex-row md:items-start">
-
                 <div class="w-full md:w-2/3 text-center md:text-left">
-                    <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold text-[#2E4057]">Felipe Coral Sasso</h1>
+                    <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold text-[#2E4057]" data-translate-key="name">
+                        Felipe Coral Sasso</h1>
 
                     <div class="flex justify-center my-4 md:hidden">
                         <div
@@ -76,9 +102,10 @@
                         </div>
                     </div>
 
-                    <p class="text-md sm:text-lg md:text-xl text-[#607D8B] mt-2">Software Engineer | Master's in
-                        Computer Science</p>
-                    <p class="text-xs sm:text-sm text-[#607D8B] mt-1">Florianópolis, Santa Catarina, Brazil</p>
+                    <p class="text-md sm:text-lg md:text-xl text-[#607D8B] mt-2" data-translate-key="jobTitleFull">
+                        Software Engineer | Master's in Computer Science</p>
+                    <p class="text-xs sm:text-sm text-[#607D8B] mt-1" data-translate-key="location">Florianópolis, Santa
+                        Catarina, Brazil</p>
 
                     <div class="mt-6 text-sm text-[#37474F] space-y-2 contact-link">
                         <p class="flex items-center justify-center md:justify-start">
@@ -131,50 +158,63 @@
             </div>
 
             <div class="mt-8 pt-6 border-t border-[#CFD8DC]">
-                <h2 class="text-xl sm:text-2xl font-semibold text-[#2E4057] mb-3 text-center sm:text-left">Summary</h2>
-                <p class="text-[#607D8B] leading-relaxed text-sm sm:text-base text-center sm:text-left">
+                <h2 class="text-xl sm:text-2xl font-semibold text-[#2E4057] mb-3 text-center sm:text-left"
+                    data-translate-key="summaryTitle">Summary</h2>
+                <p class="text-[#607D8B] leading-relaxed text-sm sm:text-base text-center sm:text-left"
+                    data-translate-key="summaryText">
                     Software Engineer with 5+ years of experience building robust, scalable back-end systems with Python
                     and crafting dynamic, intuitive user interfaces using React.
                 </p>
                 <div class="mt-4 text-center sm:text-left">
-                    <h3 class="text-lg font-semibold text-[#2E4057] mb-1">Languages</h3>
+                    <h3 class="text-lg font-semibold text-[#2E4057] mb-1" data-translate-key="languagesTitle">Languages
+                    </h3>
                     <ul class="list-disc list-inside space-y-1 text-[#607D8B] text-sm inline-block text-left">
-                        <li>Português (Native)</li>
-                        <li>Inglês (Professional Working)</li>
+                        <li data-translate-key="langPortuguese">Português (Native)</li>
+                        <li data-translate-key="langEnglish">Inglês (Professional Working)</li>
                     </ul>
                 </div>
             </div>
         </header>
 
         <section id="skills" class="bg-white shadow-lg rounded-xl p-6 md:p-8 mb-8">
-            <h2 class="text-xl sm:text-2xl font-semibold text-[#2E4057] mb-4">Top Skills</h2>
+            <h2 class="text-xl sm:text-2xl font-semibold text-[#2E4057] mb-4" data-translate-key="topSkillsTitle">Top
+                Skills</h2>
             <div class="flex flex-wrap gap-2 sm:gap-3" id="skills-list">
             </div>
         </section>
 
         <section id="experience" class="bg-white shadow-lg rounded-xl p-6 md:p-8 mb-8">
-            <h2 class="text-xl sm:text-2xl font-semibold text-[#2E4057] mb-6">Experience</h2>
+            <h2 class="text-xl sm:text-2xl font-semibold text-[#2E4057] mb-6" data-translate-key="experienceTitle">
+                Experience</h2>
             <div class="space-y-8">
                 <div class="border-l-4 border-[#2E4057] pl-4 sm:pl-6">
-                    <h3 class="text-lg sm:text-xl font-semibold text-[#2E4057]">Python Engineer</h3>
+                    <h3 class="text-lg sm:text-xl font-semibold text-[#2E4057]" data-translate-key="jobTitlePinterest">
+                        Python Engineer</h3>
                     <p class="text-sm sm:text-md font-medium text-[#37474F]">
                         <a href="https://newsroom.pinterest.com/en-ca/company/" target="_blank"
                             rel="noopener noreferrer" class="link-highlight">Pinterest</a>
                     </p>
-                    <p class="text-xs sm:text-sm text-[#607D8B]" id="pinterest-duration">May 2024 - Present</p>
-                    <p class="mt-2 text-xs font-semibold text-[#607D8B]">Tech Stack: Python, Typescript, GraphQL, React
-                    </p>
+                    <p class="text-xs sm:text-sm text-[#607D8B]" data-job-duration data-start-date="2024-05-01"
+                        data-end-date="Present" data-location-en="" data-location-pt=""></p>
+                    <p class="mt-2 text-[#607D8B] leading-relaxed text-sm sm:text-base"
+                        data-translate-key="pinterestDesc">Developing and maintaining scalable Python-based services and
+                        features, contributing to a high-traffic, visual discovery platform.</p>
+                    <p class="mt-2 text-xs font-semibold text-[#607D8B]"><span data-translate-key="techStackLabel">Tech
+                            Stack:</span> Python, Typescript, GraphQL, React</p>
                 </div>
 
                 <div class="border-l-4 border-[#2E4057] pl-4 sm:pl-6">
-                    <h3 class="text-lg sm:text-xl font-semibold text-[#2E4057]">Software Engineer</h3>
+                    <h3 class="text-lg sm:text-xl font-semibold text-[#2E4057]" data-translate-key="jobTitleBairesDev">
+                        Software Engineer</h3>
                     <p class="text-sm sm:text-md font-medium text-[#37474F]">
                         <a href="https://www.bairesdev.com/" target="_blank" rel="noopener noreferrer"
                             class="link-highlight">BairesDev</a>
                     </p>
-                    <p class="text-xs sm:text-sm text-[#607D8B]" id="bairesdev-duration">January 2022 - Present &middot;
-                        San Francisco, California, United States</p>
-                    <p class="mt-2 text-[#607D8B] leading-relaxed text-sm sm:text-base">
+                    <p class="text-xs sm:text-sm text-[#607D8B]" data-job-duration data-start-date="2022-01-01"
+                        data-end-date="Present" data-location-en="&middot; San Francisco, California, United States"
+                        data-location-pt="&middot; São Francisco, Califórnia, Estados Unidos"></p>
+                    <p class="mt-2 text-[#607D8B] leading-relaxed text-sm sm:text-base"
+                        data-translate-key="bairesdevDesc">
                         As a leading Nearshore Technology Solutions company, we architect and engineer scalable and
                         high-performing software solutions to meet the business challenges of our clients. Using our
                         tech expertise and cross-industry experience, we evolve digital transformation into digital
@@ -183,131 +223,159 @@
                 </div>
 
                 <div class="border-l-4 border-[#2E4057] pl-4 sm:pl-6">
-                    <h3 class="text-lg sm:text-xl font-semibold text-[#2E4057]">Full Stack Software Engineer</h3>
+                    <h3 class="text-lg sm:text-xl font-semibold text-[#2E4057]" data-translate-key="jobTitleFreeplay">
+                        Full Stack Software Engineer</h3>
                     <p class="text-sm sm:text-md font-medium text-[#37474F]">
                         <a href="https://freeplay.ai/" target="_blank" rel="noopener noreferrer"
                             class="link-highlight">Freeplay</a>
                     </p>
-                    <p class="text-xs sm:text-sm text-[#607D8B]">August 2023 - January 2024 (6 months) &middot; Boulder,
-                        Colorado, United States</p>
-                    <p class="mt-2 text-[#607D8B] leading-relaxed text-sm sm:text-base">Empowered product teams by
-                        developing innovative solutions using Large Language Models (LLMs). Contributed to full-stack
-                        development, including Python back-ends, React front-ends, and multi-language SDKs (Python,
-                        Node, Java).</p>
+                    <p class="text-xs sm:text-sm text-[#607D8B]" data-job-duration data-start-date="2023-08-01"
+                        data-end-date="2024-01-31" data-location-en="&middot; Boulder, Colorado, United States"
+                        data-location-pt="&middot; Boulder, Colorado, Estados Unidos"></p>
+                    <p class="mt-2 text-[#607D8B] leading-relaxed text-sm sm:text-base"
+                        data-translate-key="freeplayDesc">Empowered product teams by developing innovative solutions
+                        using Large Language Models (LLMs). Contributed to full-stack development, including Python
+                        back-ends, React front-ends, and multi-language SDKs (Python, Node, Java).</p>
                     <ul class="mt-2 list-disc list-inside text-[#607D8B] space-y-1 text-xs sm:text-sm">
-                        <li>Designed and implemented server-side logic and APIs with Python.</li>
-                        <li>Developed user interfaces and interactive features using React.js, JavaScript, and
-                            TypeScript.</li>
-                        <li>Engineered and maintained SDKs in Python, Node.js, and Java.</li>
+                        <li data-translate-key="freeplayDetail1">Designed and implemented server-side logic and APIs
+                            with Python.</li>
+                        <li data-translate-key="freeplayDetail2">Developed user interfaces and interactive features
+                            using React.js, JavaScript, and TypeScript.</li>
+                        <li data-translate-key="freeplayDetail3">Engineered and maintained SDKs in Python, Node.js, and
+                            Java.</li>
                     </ul>
-                    <p class="mt-2 text-xs font-semibold text-[#607D8B]">Tech Stack: Python, Flask, Javascript,
-                        Typescript, React, Postgres, SQL, Large language models (LLM), Node, Linear, Git, GitHub, Java
-                    </p>
+                    <p class="mt-2 text-xs font-semibold text-[#607D8B]"><span data-translate-key="techStackLabel">Tech
+                            Stack:</span> Python, Flask, Javascript, Typescript, React, Postgres, SQL, Large language
+                        models (LLM), Node, Linear, Git, GitHub, Java</p>
                 </div>
 
                 <div class="border-l-4 border-[#2E4057] pl-4 sm:pl-6">
-                    <h3 class="text-lg sm:text-xl font-semibold text-[#2E4057]">Full Stack Engineer</h3>
+                    <h3 class="text-lg sm:text-xl font-semibold text-[#2E4057]" data-translate-key="jobTitleNextRoll">
+                        Full Stack Engineer</h3>
                     <p class="text-sm sm:text-md font-medium text-[#37474F]">
                         <a href="https://www.nextroll.com/" target="_blank" rel="noopener noreferrer"
                             class="link-highlight">NextRoll</a>
                     </p>
-                    <p class="text-xs sm:text-sm text-[#607D8B]">May 2022 - July 2023 (1 year 3 months) &middot; San
-                        Francisco Bay Area</p>
-                    <p class="mt-2 text-[#607D8B] leading-relaxed text-sm sm:text-base">Contributed to RollWorks, a
-                        leading B2B marketing platform, by developing new product features and enhancing existing
-                        functionalities. Involved in both front-end (React) and back-end (Go, Python) development to
-                        support account-based marketing and demand generation.</p>
+                    <p class="text-xs sm:text-sm text-[#607D8B]" data-job-duration data-start-date="2022-05-01"
+                        data-end-date="2023-07-31" data-location-en="&middot; San Francisco Bay Area"
+                        data-location-pt="&middot; Região da Baía de São Francisco"></p>
+                    <p class="mt-2 text-[#607D8B] leading-relaxed text-sm sm:text-base"
+                        data-translate-key="nextrollDesc">Contributed to RollWorks, a leading B2B marketing platform, by
+                        developing new product features and enhancing existing functionalities. Involved in both
+                        front-end (React) and back-end (Go, Python) development to support account-based marketing and
+                        demand generation.</p>
                     <ul class="mt-2 list-disc list-inside text-[#607D8B] space-y-1 text-xs sm:text-sm">
-                        <li>Developed responsive user interfaces with React.js, JavaScript, and TypeScript.</li>
-                        <li>Built and maintained server-side logic and APIs using Go and Python.</li>
+                        <li data-translate-key="nextrollDetail1">Developed responsive user interfaces with React.js,
+                            JavaScript, and TypeScript.</li>
+                        <li data-translate-key="nextrollDetail2">Built and maintained server-side logic and APIs using
+                            Go and Python.</li>
                     </ul>
-                    <p class="mt-2 text-xs font-semibold text-[#607D8B]">Tech Stack: Python, Flask, Go, Javascript,
-                        React, Typescript, Jira, Git, GitHub, SQL, Postgres</p>
+                    <p class="mt-2 text-xs font-semibold text-[#607D8B]"><span data-translate-key="techStackLabel">Tech
+                            Stack:</span> Python, Flask, Go, Javascript, React, Typescript, Jira, Git, GitHub, SQL,
+                        Postgres</p>
                 </div>
 
                 <div class="border-l-4 border-[#2E4057] pl-4 sm:pl-6">
-                    <h3 class="text-lg sm:text-xl font-semibold text-[#2E4057]">Back-end Developer</h3>
+                    <h3 class="text-lg sm:text-xl font-semibold text-[#2E4057]" data-translate-key="jobTitleSenseData">
+                        Back-end Developer</h3>
                     <p class="text-sm sm:text-md font-medium text-[#37474F]">
                         <a href="https://sensedata.com.br/" target="_blank" rel="noopener noreferrer"
                             class="link-highlight">SenseData</a>
                     </p>
-                    <p class="text-xs sm:text-sm text-[#607D8B]">March 2021 - December 2021 (10 months)</p>
-                    <p class="mt-2 text-[#607D8B] leading-relaxed text-sm sm:text-base">Developed and tested robust APIs
-                        using Python and Flask for a customer relationship platform. Created interactive dashboards with
-                        JavaScript and React to enhance data visualization and user engagement.</p>
-                    <p class="mt-2 text-xs font-semibold text-[#607D8B]">Tech Stack: Python, Flask, unittest, Nose2,
-                        Javascript, React, Jira, Bitbucket, Postgres, MongoDB</p>
+                    <p class="text-xs sm:text-sm text-[#607D8B]" data-job-duration data-start-date="2021-03-01"
+                        data-end-date="2021-12-31" data-location-en="" data-location-pt=""></p>
+                    <p class="mt-2 text-[#607D8B] leading-relaxed text-sm sm:text-base"
+                        data-translate-key="sensedataDesc">Developed and tested robust APIs using Python and Flask for a
+                        customer relationship platform. Created interactive dashboards with JavaScript and React to
+                        enhance data visualization and user engagement.</p>
+                    <p class="mt-2 text-xs font-semibold text-[#607D8B]"><span data-translate-key="techStackLabel">Tech
+                            Stack:</span> Python, Flask, unittest, Nose2, Javascript, React, Jira, Bitbucket, Postgres,
+                        MongoDB</p>
                 </div>
 
                 <div class="border-l-4 border-[#2E4057] pl-4 sm:pl-6">
-                    <h3 class="text-lg sm:text-xl font-semibold text-[#2E4057]">Research Programmer</h3>
+                    <h3 class="text-lg sm:text-xl font-semibold text-[#2E4057]" data-translate-key="jobTitleBCCancer">
+                        Research Programmer</h3>
                     <p class="text-sm sm:text-md font-medium text-[#37474F]">
                         <a href="http://www.bccancer.bc.ca/" target="_blank" rel="noopener noreferrer"
                             class="link-highlight">BC Cancer</a>
                     </p>
-                    <p class="text-xs sm:text-sm text-[#607D8B]">February 2020 - January 2021 (1 year) &middot;
-                        Vancouver, Canada Area</p>
-                    <p class="mt-2 text-[#607D8B] leading-relaxed text-sm sm:text-base">Developed APIs (Python, Flask,
-                        OpenAPI) and interactive dashboards (JavaScript, React) for <a
-                            href="https://www.distributedgenomics.ca/" target="_blank" rel="noopener noreferrer"
-                            class="link-highlight">CanDIG</a>, a distributed genomics platform, and CanCOGEN,
-                        visualizing COVID-19 data at Canada's Michael Smith Genome Sciences Centre.</p>
-                    <p class="mt-2 text-xs font-semibold text-[#607D8B]">Tech Stack: React, JavaScript, Python, Flask,
-                        SQLite, PyTest, Nose, unittest, OpenAPI 3.0, Tox, Travis CI</p>
+                    <p class="text-xs sm:text-sm text-[#607D8B]" data-job-duration data-start-date="2020-02-01"
+                        data-end-date="2021-01-31" data-location-en="&middot; Vancouver, Canada Area"
+                        data-location-pt="&middot; Região de Vancouver, Canadá"></p>
+                    <p class="mt-2 text-[#607D8B] leading-relaxed text-sm sm:text-base"
+                        data-translate-key="bccancerDesc">Developed APIs (Python, Flask, OpenAPI) and interactive
+                        dashboards (JavaScript, React) for <a href="https://www.distributedgenomics.ca/" target="_blank"
+                            rel="noopener noreferrer" class="link-highlight">CanDIG</a>, a distributed genomics
+                        platform, and CanCOGEN, visualizing COVID-19 data at Canada's Michael Smith Genome Sciences
+                        Centre.</p>
+                    <p class="mt-2 text-xs font-semibold text-[#607D8B]"><span data-translate-key="techStackLabel">Tech
+                            Stack:</span> React, JavaScript, Python, Flask, SQLite, PyTest, Nose, unittest, OpenAPI 3.0,
+                        Tox, Travis CI</p>
                 </div>
 
                 <div class="border-l-4 border-[#2E4057] pl-4 sm:pl-6">
-                    <h3 class="text-lg sm:text-xl font-semibold text-[#2E4057]">Software Engineer</h3>
+                    <h3 class="text-lg sm:text-xl font-semibold text-[#2E4057]" data-translate-key="jobTitleCisco">
+                        Software Engineer</h3>
                     <p class="text-sm sm:text-md font-medium text-[#37474F]">
                         <a href="https://developer.cisco.com/docs/pyats/" target="_blank" rel="noopener noreferrer"
                             class="link-highlight">Cisco</a>
                     </p>
-                    <p class="text-xs sm:text-sm text-[#607D8B]">March 2019 - October 2019 (8 months) &middot; Ottawa,
-                        Canada Area</p>
-                    <p class="mt-2 text-[#607D8B] leading-relaxed text-sm sm:text-base">Contributed to Cisco's Genie and
-                        pyATS automation infrastructure by designing, developing, and testing scalable features for
-                        Python network automation. Developed RegEx-based parsers for various networking protocols and
-                        created Python scripts for automated device testing.</p>
-                    <p class="mt-2 text-xs font-semibold text-[#607D8B]">Tech Stack: Python 3.6, Regex, Git, Bitbucket,
-                        Agile, SCRUM, unittest</p>
+                    <p class="text-xs sm:text-sm text-[#607D8B]" data-job-duration data-start-date="2019-03-01"
+                        data-end-date="2019-10-31" data-location-en="&middot; Ottawa, Canada Area"
+                        data-location-pt="&middot; Região de Ottawa, Canadá"></p>
+                    <p class="mt-2 text-[#607D8B] leading-relaxed text-sm sm:text-base" data-translate-key="ciscoDesc">
+                        Contributed to Cisco's Genie and pyATS automation infrastructure by designing, developing, and
+                        testing scalable features for Python network automation. Developed RegEx-based parsers for
+                        various networking protocols and created Python scripts for automated device testing.</p>
+                    <p class="mt-2 text-xs font-semibold text-[#607D8B]"><span data-translate-key="techStackLabel">Tech
+                            Stack:</span> Python 3.6, Regex, Git, Bitbucket, Agile, SCRUM, unittest</p>
                 </div>
 
                 <div class="border-l-4 border-[#2E4057] pl-4 sm:pl-6">
-                    <h3 class="text-lg sm:text-xl font-semibold text-[#2E4057]">Kitchen Specialist</h3>
+                    <h3 class="text-lg sm:text-xl font-semibold text-[#2E4057]" data-translate-key="jobTitleBridgehead">
+                        Kitchen Specialist</h3>
                     <p class="text-sm sm:text-md font-medium text-[#37474F]">Bridgehead Coffee</p>
-                    <p class="text-xs sm:text-sm text-[#607D8B]">Jul 2016 - Mar 2019 &middot; 2 yrs 9 mos &middot;
-                        Ottawa, Canada Area</p>
-                    <p class="mt-2 text-[#607D8B] leading-relaxed text-sm sm:text-base">
+                    <p class="text-xs sm:text-sm text-[#607D8B]" data-job-duration data-start-date="2016-07-01"
+                        data-end-date="2019-03-31" data-location-en="&middot; Ottawa, Canada Area"
+                        data-location-pt="&middot; Região de Ottawa, Canadá"></p>
+                    <p class="mt-2 text-[#607D8B] leading-relaxed text-sm sm:text-base"
+                        data-translate-key="bridgeheadDesc">
                         Gained valuable Canadian work experience as a Kitchen Specialist, enhancing communication,
                         leadership, pressure handling, and pro-activity.
                         Concurrently, self-taught and improved technical skills to stay current with technology.
                     </p>
                     <div class="mt-2 text-xs text-[#607D8B]">
-                        <p class="font-semibold">Skills Acquired/Enhanced:</p>
+                        <p class="font-semibold" data-translate-key="skillsAcquiredLabel">Skills Acquired/Enhanced:</p>
                         <ul class="list-disc list-inside ml-4">
-                            <li>Python (requests, BeautifulSoup4, unittest, Django v2.1, virtualenv)</li>
-                            <li>Front-end (HTML, CSS, Bootstrap, Bulma)</li>
-                            <li>Tools (Git, GitHub, Heroku)</li>
-                            <li>Problem-solving (HackerRank challenges)</li>
+                            <li data-translate-key="bridgeheadSkillPython">Python (requests, BeautifulSoup4, unittest,
+                                Django v2.1, virtualenv)</li>
+                            <li data-translate-key="bridgeheadSkillFrontend">Front-end (HTML, CSS, Bootstrap, Bulma)
+                            </li>
+                            <li data-translate-key="bridgeheadSkillTools">Tools (Git, GitHub, Heroku)</li>
+                            <li data-translate-key="bridgeheadSkillProblemSolving">Problem-solving (HackerRank
+                                challenges)</li>
                         </ul>
                     </div>
                 </div>
 
                 <div class="border-l-4 border-[#2E4057] pl-4 sm:pl-6">
-                    <h3 class="text-lg sm:text-xl font-semibold text-[#2E4057]">Researcher/Developer</h3>
+                    <h3 class="text-lg sm:text-xl font-semibold text-[#2E4057]" data-translate-key="jobTitleLabsec">
+                        Researcher/Developer</h3>
                     <p class="text-sm sm:text-md font-medium text-[#37474F]">
                         <a href="https://labsec.ufsc.br/" target="_blank" rel="noopener noreferrer"
                             class="link-highlight">Computer Security Laboratory (LabSEC) - UFSC</a>
                     </p>
-                    <p class="text-xs sm:text-sm text-[#607D8B]">January 2014 - February 2016 (2 years 2 months)
-                        &middot; Florianópolis</p>
-                    <p class="mt-2 text-[#607D8B] leading-relaxed text-sm sm:text-base">Conducted Master's research
-                        involving the proposal and security validation of a unified Identity Card based on the ICAO 9303
-                        passport standard for academic federation environments. Contributed to various security projects
-                        during this period.</p>
+                    <p class="text-xs sm:text-sm text-[#607D8B]" data-job-duration data-start-date="2014-01-01"
+                        data-end-date="2016-02-29" data-location-en="&middot; Florianópolis"
+                        data-location-pt="&middot; Florianópolis"></p>
+                    <p class="mt-2 text-[#607D8B] leading-relaxed text-sm sm:text-base" data-translate-key="labsecDesc">
+                        Conducted Master's research involving the proposal and security validation of a unified Identity
+                        Card based on the ICAO 9303 passport standard for academic federation environments. Contributed
+                        to various security projects during this period.</p>
                     <div class="mt-3 text-xs text-[#607D8B]">
-                        <p class="font-semibold">Related Publication:</p>
-                        <p class="mt-1">
+                        <p class="font-semibold" data-translate-key="relatedPublicationLabel">Related Publication:</p>
+                        <p class="mt-1" data-translate-key="labsecPublicationText">
                             F. C. Sasso, R. A. Reinaldo De Moraes and J. E. Martina, "A Proposal for a Unified Identity
                             Card for Use in an Academic Federation Environment," 2014 Ninth International Conference on
                             Availability, Reliability and Security, Fribourg, Switzerland, 2014, pp. 265-272,
@@ -316,20 +384,22 @@
                         </p>
                     </div>
                 </div>
-
             </div>
         </section>
 
         <section id="education" class="bg-white shadow-lg rounded-xl p-6 md:p-8 mb-8">
-            <h2 class="text-xl sm:text-2xl font-semibold text-[#2E4057] mb-6">Education</h2>
+            <h2 class="text-xl sm:text-2xl font-semibold text-[#2E4057] mb-6" data-translate-key="educationTitle">
+                Education</h2>
             <div class="space-y-6">
                 <div class="border-l-4 border-[#2E4057] pl-4 sm:pl-6">
-                    <h3 class="text-lg sm:text-xl font-semibold text-[#2E4057]">Master's degree, Computer Science</h3>
+                    <h3 class="text-lg sm:text-xl font-semibold text-[#2E4057]" data-translate-key="mastersDegree">
+                        Master's degree, Computer Science</h3>
                     <p class="text-sm sm:text-md font-medium text-[#37474F]">Universidade Federal de Santa Catarina</p>
                     <p class="text-xs sm:text-sm text-[#607D8B]">2014 - 2016</p>
                 </div>
                 <div class="border-l-4 border-[#2E4057] pl-4 sm:pl-6">
-                    <h3 class="text-lg sm:text-xl font-semibold text-[#2E4057]">Bachelor's degree, Computer Science</h3>
+                    <h3 class="text-lg sm:text-xl font-semibold text-[#2E4057]" data-translate-key="bachelorsDegree">
+                        Bachelor's degree, Computer Science</h3>
                     <p class="text-sm sm:text-md font-medium text-[#37474F]">Universidade do Extremo Sul Catarinense</p>
                     <p class="text-xs sm:text-sm text-[#607D8B]">2008 - 2012</p>
                 </div>
@@ -337,80 +407,230 @@
         </section>
 
         <footer class="text-center py-8 text-xs sm:text-sm text-[#607D8B]">
-            <p>&copy; <span id="currentYear"></span> Felipe Coral Sasso. All rights reserved.</p>
-            <p>Built with Tailwind CSS.</p>
+            <p id="footer-rights" data-translate-key="footerRights">&copy; <span id="currentYear"></span> Felipe Coral
+                Sasso. All rights reserved.</p>
+            <p data-translate-key="footerBuiltWith">Built with Tailwind CSS.</p>
         </footer>
     </div>
 
     <script>
-        function displayJobDuration(startDateString, elementId, originalText) {
-            const targetElement = document.getElementById(elementId);
-            if (!targetElement) {
-                return;
+        const translations = {
+            en: {
+                name: "Felipe Coral Sasso",
+                jobTitleFull: "Software Engineer | Master's in Computer Science",
+                location: "Florianópolis, Santa Catarina, Brazil",
+                summaryTitle: "Summary",
+                summaryText: "Software Engineer with 5+ years of experience building robust, scalable back-end systems with Python and crafting dynamic, intuitive user interfaces using React.",
+                languagesTitle: "Languages",
+                langPortuguese: "Portuguese (Native)",
+                langEnglish: "English (Professional Working)",
+                topSkillsTitle: "Top Skills",
+                experienceTitle: "Experience",
+                educationTitle: "Education",
+                footerRights: "&copy; {year} Felipe Coral Sasso. All rights reserved.",
+                footerBuiltWith: "Built with Tailwind CSS.",
+
+                jobTitlePinterest: "Python Engineer",
+                pinterestDesc: "Developing and maintaining scalable Python-based services and features, contributing to a high-traffic, visual discovery platform.",
+                jobTitleBairesDev: "Software Engineer",
+                bairesdevDesc: "As a leading Nearshore Technology Solutions company, we architect and engineer scalable and high-performing software solutions to meet the business challenges of our clients. Using our tech expertise and cross-industry experience, we evolve digital transformation into digital acceleration.",
+                jobTitleFreeplay: "Full Stack Software Engineer",
+                freeplayDesc: "Empowered product teams by developing innovative solutions using Large Language Models (LLMs). Contributed to full-stack development, including Python back-ends, React front-ends, and multi-language SDKs (Python, Node, Java).",
+                freeplayDetail1: "Designed and implemented server-side logic and APIs with Python.",
+                freeplayDetail2: "Developed user interfaces and interactive features using React.js, JavaScript, and TypeScript.",
+                freeplayDetail3: "Engineered and maintained SDKs in Python, Node.js, and Java.",
+                jobTitleNextRoll: "Full Stack Engineer",
+                nextrollDesc: "Contributed to RollWorks, a leading B2B marketing platform, by developing new product features and enhancing existing functionalities. Involved in both front-end (React) and back-end (Go, Python) development to support account-based marketing and demand generation.",
+                nextrollDetail1: "Developed responsive user interfaces with React.js, JavaScript, and TypeScript.",
+                nextrollDetail2: "Built and maintained server-side logic and APIs using Go and Python.",
+                jobTitleSenseData: "Back-end Developer",
+                sensedataDesc: "Developed and tested robust APIs using Python and Flask for a customer relationship platform. Created interactive dashboards with JavaScript and React to enhance data visualization and user engagement.",
+                jobTitleBCCancer: "Research Programmer",
+                bccancerDesc: "Developed APIs (Python, Flask, OpenAPI) and interactive dashboards (JavaScript, React) for CanDIG, a distributed genomics platform, and CanCOGEN, visualizing COVID-19 data at Canada's Michael Smith Genome Sciences Centre.",
+                jobTitleCisco: "Software Engineer",
+                ciscoDesc: "Contributed to Cisco's Genie and pyATS automation infrastructure by designing, developing, and testing scalable features for Python network automation. Developed RegEx-based parsers for various networking protocols and created Python scripts for automated device testing.",
+                jobTitleBridgehead: "Kitchen Specialist",
+                bridgeheadDesc: "Gained valuable Canadian work experience as a Kitchen Specialist, enhancing communication, leadership, pressure handling, and pro-activity. Concurrently, self-taught and improved technical skills to stay current with technology.",
+                bridgeheadSkillPython: "Python (requests, BeautifulSoup4, unittest, Django v2.1, virtualenv)",
+                bridgeheadSkillFrontend: "Front-end (HTML, CSS, Bootstrap, Bulma)",
+                bridgeheadSkillTools: "Tools (Git, GitHub, Heroku)",
+                bridgeheadSkillProblemSolving: "Problem-solving (HackerRank challenges)",
+                jobTitleLabsec: "Researcher/Developer",
+                labsecDesc: "Conducted Master's research involving the proposal and security validation of a unified Identity Card based on the ICAO 9303 passport standard for academic federation environments. Contributed to various security projects during this period.",
+                labsecPublicationText: 'F. C. Sasso, R. A. Reinaldo De Moraes and J. E. Martina, "A Proposal for a Unified Identity Card for Use in an Academic Federation Environment," 2014 Ninth International Conference on Availability, Reliability and Security, Fribourg, Switzerland, 2014, pp. 265-272, <a href="https://ieeexplore.ieee.org/document/6980291" target="_blank" rel="noopener noreferrer" class="link-highlight">doi: 10.1109/ARES.2014.42</a>.',
+
+                techStackLabel: "Tech Stack:",
+                skillsLabel: "Skills:",
+                skillsAcquiredLabel: "Skills Acquired/Enhanced:",
+                relatedPublicationLabel: "Related Publication:",
+                mastersDegree: "Master's degree, Computer Science",
+                bachelorsDegree: "Bachelor's degree, Computer Science",
+
+                present: "Present",
+                year: "year",
+                years: "years",
+                month: "month",
+                months: "months",
+                lessThanAMonth: "Less than a month",
+                monthNames: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+            },
+            pt: {
+                name: "Felipe Coral Sasso",
+                jobTitleFull: "Engenheiro de Software | Mestre em Ciência da Computação",
+                location: "Florianópolis, Santa Catarina, Brasil",
+                summaryTitle: "Resumo",
+                summaryText: "Engenheiro de Software com mais de 5 anos de experiência na construção de sistemas back-end robustos e escaláveis com Python e na criação de interfaces de usuário dinâmicas e intuitivas usando React.",
+                languagesTitle: "Idiomas",
+                langPortuguese: "Português (Nativo)",
+                langEnglish: "Inglês (Profissional)",
+                topSkillsTitle: "Principais Habilidades",
+                experienceTitle: "Experiência",
+                educationTitle: "Formação",
+                footerRights: "&copy; {year} Felipe Coral Sasso. Todos os direitos reservados.",
+                footerBuiltWith: "Construído com Tailwind CSS.",
+
+                jobTitlePinterest: "Engenheiro Python",
+                pinterestDesc: "Desenvolvendo e mantendo serviços e funcionalidades escaláveis baseadas em Python, contribuindo para uma plataforma de descoberta visual de alto tráfego.",
+                jobTitleBairesDev: "Engenheiro de Software",
+                bairesdevDesc: "Como uma empresa líder em Soluções de Tecnologia Nearshore, arquitetamos e projetamos soluções de software escaláveis e de alto desempenho para enfrentar os desafios de negócios de nossos clientes. Usando nossa expertise tecnológica e experiência intersetorial, evoluímos a transformação digital em aceleração digital.",
+                jobTitleFreeplay: "Engenheiro de Software Full Stack",
+                freeplayDesc: "Capacitou equipes de produto desenvolvendo soluções inovadoras usando Modelos de Linguagem Grandes (LLMs). Contribuiu para o desenvolvimento full-stack, incluindo back-ends Python, front-ends React e SDKs multi-linguagem (Python, Node, Java).",
+                freeplayDetail1: "Projetou e implementou lógica de servidor e APIs com Python.",
+                freeplayDetail2: "Desenvolveu interfaces de usuário e funcionalidades interativas usando React.js, JavaScript e TypeScript.",
+                freeplayDetail3: "Projetou e manteve SDKs em Python, Node.js e Java.",
+                jobTitleNextRoll: "Engenheiro Full Stack",
+                nextrollDesc: "Contribuiu para a RollWorks, uma plataforma líder de marketing B2B, desenvolvendo novas funcionalidades de produto e aprimorando as existentes. Envolvido no desenvolvimento front-end (React) e back-end (Go, Python) para apoiar o marketing baseado em contas e a geração de demanda.",
+                nextrollDetail1: "Desenvolveu interfaces de usuário responsivas com React.js, JavaScript e TypeScript.",
+                nextrollDetail2: "Construiu e manteve lógica de servidor e APIs usando Go e Python.",
+                jobTitleSenseData: "Desenvolvedor Back-end",
+                sensedataDesc: "Desenvolveu e testou APIs robustas usando Python e Flask para uma plataforma de relacionamento com o cliente. Criou painéis interativos com JavaScript e React para aprimorar a visualização de dados e o engajamento do usuário.",
+                jobTitleBCCancer: "Programador de Pesquisa",
+                bccancerDesc: "Desenvolveu APIs (Python, Flask, OpenAPI) e painéis interativos (JavaScript, React) para CanDIG, uma plataforma distribuída de genômica, e CanCOGEN, visualizando dados de COVID-19 no Michael Smith Genome Sciences Centre do Canadá.",
+                jobTitleCisco: "Engenheiro de Software",
+                ciscoDesc: "Contribuiu para a infraestrutura de automação Genie e pyATS da Cisco, projetando, desenvolvendo e testando funcionalidades escaláveis para automação de redes Python. Desenvolveu parsers baseados em RegEx para vários protocolos de rede e criou scripts Python para testes automatizados de dispositivos.",
+                jobTitleBridgehead: "Especialista de Cozinha",
+                bridgeheadDesc: "Adquiriu valiosa experiência de trabalho canadense como Especialista de Cozinha, aprimorando habilidades de comunicação, liderança, gerenciamento de pressão e proatividade. Concomitantemente, autodidata e aprimorou habilidades técnicas para se manter atualizado com a tecnologia.",
+                bridgeheadSkillPython: "Python (requests, BeautifulSoup4, unittest, Django v2.1, virtualenv)",
+                bridgeheadSkillFrontend: "Front-end (HTML, CSS, Bootstrap, Bulma)",
+                bridgeheadSkillTools: "Ferramentas (Git, GitHub, Heroku)",
+                bridgeheadSkillProblemSolving: "Resolução de problemas (desafios HackerRank)",
+                jobTitleLabsec: "Pesquisador/Desenvolvedor",
+                labsecDesc: "Conduziu pesquisa de mestrado envolvendo a proposta e validação de segurança de uma Carteira de Identidade unificada baseada no padrão de passaporte ICAO 9303 para ambientes de federação acadêmica. Contribuiu para vários projetos de segurança durante este período.",
+                labsecPublicationText: 'F. C. Sasso, R. A. Reinaldo De Moraes e J. E. Martina, "A Proposal for a Unified Identity Card for Use in an Academic Federation Environment," 2014 Ninth International Conference on Availability, Reliability and Security, Fribourg, Suíça, 2014, pp. 265-272, <a href="https://ieeexplore.ieee.org/document/6980291" target="_blank" rel="noopener noreferrer" class="link-highlight">doi: 10.1109/ARES.2014.42</a>.',
+
+                techStackLabel: "Stack de Tecnologias:",
+                skillsLabel: "Habilidades:",
+                skillsAcquiredLabel: "Habilidades Adquiridas/Aprimoradas:",
+                relatedPublicationLabel: "Publicação Relacionada:",
+                mastersDegree: "Mestrado, Ciência da Computação",
+                bachelorsDegree: "Bacharelado, Ciência da Computação",
+
+                present: "Atual",
+                year: "ano",
+                years: "anos",
+                month: "mês",
+                months: "meses",
+                lessThanAMonth: "Menos de um mês",
+                monthNames: ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"]
             }
+        };
 
-            const parts = startDateString.split(" ");
-            const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-            const startMonth = monthNames.indexOf(parts[0]);
-            const startYear = parseInt(parts[1]);
+        let currentLanguage = 'en';
 
-            if (startMonth === -1 || isNaN(startYear)) {
-                targetElement.textContent = originalText;
-                return;
-            }
+        function updateJobDurations(lang) {
+            const durationElements = document.querySelectorAll('[data-job-duration]');
+            const currentTranslations = translations[lang];
 
-            const startDate = new Date(startYear, startMonth);
-            const currentDate = new Date();
+            durationElements.forEach(element => {
+                const startDateStr = element.dataset.startDate;
+                const endDateStr = element.dataset.endDate;
+                const locationEn = element.dataset.locationEn || "";
+                const locationPt = element.dataset.locationPt || "";
 
-            let years = currentDate.getFullYear() - startDate.getFullYear();
-            let months = currentDate.getMonth() - startDate.getMonth();
+                const [startYear, startMonth, startDay] = startDateStr.split('-').map(Number);
+                const startDate = new Date(startYear, startMonth - 1, startDay);
 
-            if (months < 0) {
-                years--;
-                months += 12;
-            }
-
-            let durationString = "";
-            if (years > 0) {
-                durationString += years + (years === 1 ? " year" : " years");
-            }
-            if (months > 0) {
-                if (years > 0) durationString += " ";
-                durationString += months + (months === 1 ? " month" : " months");
-            }
-
-            if (years === 0 && months === 0) {
-                if (currentDate.getFullYear() === startDate.getFullYear() && currentDate.getMonth() === startDate.getMonth()) {
-                    durationString = "Less than a month";
+                let endDate;
+                let isPresent = false;
+                if (endDateStr.toLowerCase() === 'present') {
+                    endDate = new Date();
+                    isPresent = true;
                 } else {
-                    durationString = "Less than a month";
+                    const [endYear, endMonth, endDay] = endDateStr.split('-').map(Number);
+                    endDate = new Date(endYear, endMonth - 1, endDay);
                 }
-            }
 
-            let baseText = originalText;
-            if (originalText.includes("(")) {
-                baseText = originalText.substring(0, originalText.indexOf("(")).trim();
-            } else if (originalText.includes("·")) {
-                baseText = originalText.substring(0, originalText.indexOf("·")).trim();
-            } else {
-                baseText = originalText.trim();
-            }
+                let years = endDate.getFullYear() - startDate.getFullYear();
+                let months = endDate.getMonth() - startDate.getMonth();
 
-            const locationText = originalText.includes("·") ? " " + originalText.substring(originalText.indexOf("·")) : "";
+                if (endDate.getDate() < startDate.getDate() && !(endDate.getFullYear() === startDate.getFullYear() && endDate.getMonth() === startDate.getMonth())) {
+                    months--;
+                }
 
-            targetElement.textContent = `${baseText} (${durationString})${locationText}`;
+                if (months < 0) {
+                    years--;
+                    months += 12;
+                }
+
+                let durationText = "";
+                if (years > 0) {
+                    durationText += years + " " + (years === 1 ? currentTranslations.year : currentTranslations.years);
+                }
+                if (months > 0) {
+                    if (years > 0) durationText += " ";
+                    durationText += months + " " + (months === 1 ? currentTranslations.month : currentTranslations.months);
+                }
+
+                if (years === 0 && months <= 0 && isPresent) {
+                    durationText = currentTranslations.lessThanAMonth;
+                } else if (years === 0 && months <= 0 && !isPresent) {
+                    durationText = currentTranslations.lessThanAMonth;
+                }
+
+
+                const startMonthName = translations.en.monthNames[startDate.getMonth()];
+                const startYearNum = startDate.getFullYear();
+
+                let dateRangeStr = `${translations[lang].monthNames[startDate.getMonth()]} ${startYearNum} - `;
+                if (isPresent) {
+                    dateRangeStr += currentTranslations.present;
+                } else {
+                    dateRangeStr += `${translations[lang].monthNames[endDate.getMonth()]} ${endDate.getFullYear()}`;
+                }
+
+                const locationStr = lang === 'pt' ? locationPt : locationEn;
+
+                element.textContent = `${dateRangeStr} (${durationText}) ${locationStr}`;
+            });
+        }
+
+
+        function switchLanguage(lang) {
+            currentLanguage = lang;
+            document.querySelectorAll('[data-translate-key]').forEach(element => {
+                const key = element.dataset.translateKey;
+                let translatedText = translations[lang][key] || translations.en[key];
+
+                if (key === 'footerRights') {
+                    translatedText = translatedText.replace('{year}', new Date().getFullYear());
+                }
+
+                if (translatedText !== undefined) {
+                    element.innerHTML = translatedText;
+                }
+            });
+            updateJobDurations(lang);
+
+            document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+            document.getElementById('lang-pt').classList.toggle('active', lang === 'pt');
         }
 
         function populateSkills() {
             const skillsContainer = document.getElementById('skills-list');
             if (!skillsContainer) return;
-
             const topSkills = ["API Development", "Python", "React", "Typescript", "Unit Testing"];
-
             const sortedSkills = topSkills.sort((a, b) => a.localeCompare(b));
-
             skillsContainer.innerHTML = '';
-
             sortedSkills.forEach(skill => {
                 const skillElement = document.createElement('span');
                 skillElement.className = 'bg-[#2E4057] text-[#ECEFF1] px-3 py-1 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-medium';
@@ -419,16 +639,10 @@
             });
         }
 
-
         document.getElementById('currentYear').textContent = new Date().getFullYear();
 
         document.addEventListener('DOMContentLoaded', function () {
-            const pinterestOriginalText = document.getElementById('pinterest-duration').textContent;
-            displayJobDuration("May 2024", "pinterest-duration", pinterestOriginalText);
-
-            const bairesOriginalText = document.getElementById('bairesdev-duration').textContent;
-            displayJobDuration("January 2022", "bairesdev-duration", bairesOriginalText);
-
+            switchLanguage(currentLanguage);
             populateSkills();
         });
     </script>
