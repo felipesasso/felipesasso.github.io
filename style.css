@@ -1,0 +1,82 @@
+/* General body styles */
+body {
+    font-family: 'Inter', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Print-specific styles */
+@media print {
+    body {
+        -webkit-print-color-adjust: exact;
+        color-adjust: exact;
+    }
+
+    .no-print {
+        display: none !important;
+    }
+
+    .page-break {
+        page-break-after: always;
+    }
+
+    .bg-white {
+        background-color: #fff !important;
+    }
+
+    .shadow-lg {
+        box-shadow: none !important;
+    }
+}
+
+/* Contact link icon alignment */
+.contact-link p svg {
+    vertical-align: middle;
+}
+
+/* Link highlight style */
+.link-highlight {
+    color: #2E4057;
+    /* Tailwind color: text-slate-700 (approx) */
+    text-decoration: underline;
+}
+
+.link-highlight:hover {
+    color: #1c2b3a;
+    /* Darker shade for hover */
+    text-decoration: underline;
+}
+
+/* Language button styles */
+.lang-button {
+    background-color: #CFD8DC;
+    /* Tailwind color: bg-blue-grey-100 */
+    color: #2E4057;
+    /* Tailwind color: text-slate-700 (approx) */
+    padding: 0.25rem 0.75rem;
+    /* Tailwind classes: px-3 py-1 */
+    border-radius: 0.375rem;
+    /* Tailwind class: rounded-md */
+    font-weight: 500;
+    /* Tailwind class: font-medium */
+    font-size: 0.875rem;
+    /* Tailwind class: text-sm */
+    margin-left: 0.5rem;
+    /* Tailwind class: ml-2 */
+    cursor: pointer;
+    border: 1px solid transparent;
+}
+
+.lang-button.active {
+    background-color: #2E4057;
+    /* Tailwind color: bg-slate-700 (approx) */
+    color: #ECEFF1;
+    /* Tailwind color: text-blue-grey-50 */
+    border-color: #2E4057;
+    /* Tailwind color: border-slate-700 (approx) */
+}
+
+.lang-button:hover:not(.active) {
+    background-color: #B0BEC5;
+    /* Tailwind color: hover:bg-blue-grey-200 */
+}
