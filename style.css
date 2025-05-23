@@ -5,43 +5,44 @@ body {
     -moz-osx-font-smoothing: grayscale;
 
     /* Default (Original) Colors */
-    --primary-bg: #eceff1; /* Light grey blue */
-    --secondary-bg: #ffffff; /* White */
-    --text-primary: #37474f; /* Dark slate grey */
-    --text-secondary: #607d8b; /* Medium slate blue */
-    --accent-color: #2e4057; /* Darker slate blue (headings, borders, active lang button, skill tag bg) */
-    --link-color: #2e4057; /* Link highlight */
+    --primary-bg: #ECEFF1; /* Light grey blue */
+    --secondary-bg: #FFFFFF; /* White */
+    --text-primary: #37474F; /* Dark slate grey */
+    --text-secondary: #607D8B; /* Medium slate blue */
+    --accent-color: #2E4057; /* Darker slate blue (headings, borders, active lang button, skill tag bg) */
+    --link-color: #2E4057; /* Link highlight */
     --link-hover-color: #1c2b3a; /* Darker link hover */
-    --skill-bg: #2e4057; /* Skill tag background */
-    --skill-text: #eceff1; /* Skill tag text */
-    --lang-button-bg: #cfd8dc; /* Language button background */
-    --lang-button-text: #2e4057; /* Language button text */
-    --lang-button-active-bg: #2e4057; /* Active language button background */
-    --lang-button-active-text: #eceff1; /* Active language button text */
-    --lang-button-hover-bg: #b0bec5; /* Language button hover background */
-    --profile-bg: #cfd8dc; /* Profile image background */
-    --profile-border: #2e4057; /* Profile image border */
+    --skill-bg: #2E4057; /* Skill tag background */
+    --skill-text: #ECEFF1; /* Skill tag text */
+    --lang-button-bg: #CFD8DC; /* Language button background */
+    --lang-button-text: #2E4057; /* Language button text */
+    --lang-button-active-bg: #2E4057; /* Active language button background */
+    --lang-button-active-text: #ECEFF1; /* Active language button text */
+    --lang-button-hover-bg: #B0BEC5; /* Language button hover background */
+    --profile-bg: #CFD8DC; /* Profile image background */
+    --profile-border: #2E4057; /* Profile image border */
 }
 
 /* Colorblind Mode Colors */
 body.colorblind-active {
-    --primary-bg: #f0f0f0; /* Very light grey */
-    --secondary-bg: #ffffff; /* White */
+    --primary-bg: #F0F0F0; /* Very light grey */
+    --secondary-bg: #FFFFFF; /* White */
     --text-primary: #212121; /* Very dark grey */
     --text-secondary: #424242; /* Dark grey */
-    --accent-color: #007bff; /* Strong blue */
-    --link-color: #ffa000; /* Amber/Orange */
-    --link-hover-color: #d88800; /* Darker amber */
-    --skill-bg: #007bff; /* Skill tag background (same as accent) */
-    --skill-text: #ffffff; /* Skill tag text */
-    --lang-button-bg: #e0e0e0; /* Light grey */
+    --accent-color: #007BFF; /* Strong blue */
+    --link-color: #FFA000; /* Amber/Orange */
+    --link-hover-color: #D88800; /* Darker amber */
+    --skill-bg: #007BFF; /* Skill tag background (same as accent) */
+    --skill-text: #FFFFFF; /* Skill tag text */
+    --lang-button-bg: #E0E0E0; /* Light grey */
     --lang-button-text: #212121; /* Very dark grey */
-    --lang-button-active-bg: #007bff; /* Active language button background */
-    --lang-button-active-text: #ffffff; /* Active language button text */
-    --lang-button-hover-bg: #bdbdbd; /* Medium grey */
-    --profile-bg: #e0e0e0; /* Profile image background */
-    --profile-border: #007bff; /* Profile image border */
+    --lang-button-active-bg: #007BFF; /* Active language button background */
+    --lang-button-active-text: #FFFFFF; /* Active language button text */
+    --lang-button-hover-bg: #BDBDBD; /* Medium grey */
+    --profile-bg: #E0E0E0; /* Profile image background */
+    --profile-border: #007BFF; /* Profile image border */
 }
+
 
 /* Print-specific styles */
 @media print {
@@ -58,8 +59,7 @@ body.colorblind-active {
         page-break-after: always;
     }
 
-    .bg-white {
-        /* This class is now overridden by variables, but keeping for safety if not all instances are changed */
+    .bg-white { /* This class is now overridden by variables, but keeping for safety if not all instances are changed */
         background-color: #fff !important;
     }
 
@@ -108,8 +108,7 @@ body.colorblind-active {
 }
 
 /* Skill tag styles - using CSS variables */
-.bg-\[\#2E4057\].text-\[\#ECEFF1\] {
-    /* This specific class will be overridden */
+.bg-\[\#2E4057\].text-\[\#ECEFF1\] { /* This specific class will be overridden */
     background-color: var(--skill-bg);
     color: var(--skill-text);
 }
