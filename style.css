@@ -3,6 +3,44 @@ body {
     font-family: 'Inter', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+
+    /* Default (Original) Colors */
+    --primary-bg: #eceff1; /* Light grey blue */
+    --secondary-bg: #ffffff; /* White */
+    --text-primary: #37474f; /* Dark slate grey */
+    --text-secondary: #607d8b; /* Medium slate blue */
+    --accent-color: #2e4057; /* Darker slate blue (headings, borders, active lang button, skill tag bg) */
+    --link-color: #2e4057; /* Link highlight */
+    --link-hover-color: #1c2b3a; /* Darker link hover */
+    --skill-bg: #2e4057; /* Skill tag background */
+    --skill-text: #eceff1; /* Skill tag text */
+    --lang-button-bg: #cfd8dc; /* Language button background */
+    --lang-button-text: #2e4057; /* Language button text */
+    --lang-button-active-bg: #2e4057; /* Active language button background */
+    --lang-button-active-text: #eceff1; /* Active language button text */
+    --lang-button-hover-bg: #b0bec5; /* Language button hover background */
+    --profile-bg: #cfd8dc; /* Profile image background */
+    --profile-border: #2e4057; /* Profile image border */
+}
+
+/* Colorblind Mode Colors */
+body.colorblind-active {
+    --primary-bg: #f0f0f0; /* Very light grey */
+    --secondary-bg: #ffffff; /* White */
+    --text-primary: #212121; /* Very dark grey */
+    --text-secondary: #424242; /* Dark grey */
+    --accent-color: #007bff; /* Strong blue */
+    --link-color: #ffa000; /* Amber/Orange */
+    --link-hover-color: #d88800; /* Darker amber */
+    --skill-bg: #007bff; /* Skill tag background (same as accent) */
+    --skill-text: #ffffff; /* Skill tag text */
+    --lang-button-bg: #e0e0e0; /* Light grey */
+    --lang-button-text: #212121; /* Very dark grey */
+    --lang-button-active-bg: #007bff; /* Active language button background */
+    --lang-button-active-text: #ffffff; /* Active language button text */
+    --lang-button-hover-bg: #bdbdbd; /* Medium grey */
+    --profile-bg: #e0e0e0; /* Profile image background */
+    --profile-border: #007bff; /* Profile image border */
 }
 
 /* Print-specific styles */
@@ -21,6 +59,7 @@ body {
     }
 
     .bg-white {
+        /* This class is now overridden by variables, but keeping for safety if not all instances are changed */
         background-color: #fff !important;
     }
 
@@ -36,88 +75,41 @@ body {
 
 /* Link highlight style */
 .link-highlight {
-    color: #2E4057;
-    /* Tailwind color: text-slate-700 (approx) */
+    color: var(--link-color);
     text-decoration: underline;
-    outline-offset: 2px;
-    /* For better focus visibility */
 }
 
 .link-highlight:hover {
-    color: #1c2b3a;
-    /* Darker shade for hover */
+    color: var(--link-hover-color);
     text-decoration: underline;
 }
-
-.link-highlight:focus {
-    /* Added focus style */
-    color: #1c2b3a;
-    text-decoration: underline;
-    outline: 2px solid #2E4057;
-    /* Example focus ring, adjust as needed */
-}
-
 
 /* Language button styles */
 .lang-button {
-    background-color: #CFD8DC;
-    /* Tailwind color: bg-blue-grey-100 */
-    color: #2E4057;
-    /* Tailwind color: text-slate-700 (approx) */
+    background-color: var(--lang-button-bg);
+    color: var(--lang-button-text);
     padding: 0.25rem 0.75rem;
-    /* Tailwind classes: px-3 py-1 */
     border-radius: 0.375rem;
-    /* Tailwind class: rounded-md */
     font-weight: 500;
-    /* Tailwind class: font-medium */
     font-size: 0.875rem;
-    /* Tailwind class: text-sm */
-    margin-left: 0.5rem;
-    /* Tailwind class: ml-2 */
     cursor: pointer;
     border: 1px solid transparent;
-    outline-offset: 2px;
-    /* For better focus visibility */
+    transition: background-color 0.2s, color 0.2s, border-color 0.2s; /* Smooth transition */
 }
 
 .lang-button.active {
-    background-color: #2E4057;
-    /* Tailwind color: bg-slate-700 (approx) */
-    color: #ECEFF1;
-    /* Tailwind color: text-blue-grey-50 */
-    border-color: #2E4057;
-    /* Tailwind color: border-slate-700 (approx) */
+    background-color: var(--lang-button-active-bg);
+    color: var(--lang-button-active-text);
+    border-color: var(--lang-button-active-bg);
 }
 
 .lang-button:hover:not(.active) {
-    background-color: #B0BEC5;
-    /* Tailwind color: hover:bg-blue-grey-200 */
+    background-color: var(--lang-button-hover-bg);
 }
 
-.lang-button:focus {
-    /* Added focus style */
-    outline: 2px solid #2E4057;
-    /* Example focus ring */
-    box-shadow: 0 0 0 3px rgba(46, 64, 87, 0.3);
-    /* Optional: softer outer glow */
-}
-
-.lang-button.active:focus {
-    /* Specific focus for active button if needed */
-    outline: 2px solid #ECEFF1;
-    /* Example: different color for active focus */
-}
-
-
-/* Screen-reader only text */
-.sr-only {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border-width: 0;
+/* Skill tag styles - using CSS variables */
+.bg-\[\#2E4057\].text-\[\#ECEFF1\] {
+    /* This specific class will be overridden */
+    background-color: var(--skill-bg);
+    color: var(--skill-text);
 }
