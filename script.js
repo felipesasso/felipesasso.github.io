@@ -151,8 +151,28 @@ const translations = {
     }
 };
 
-// Variable to store the current language, default is 'en'
-let currentLanguage = 'en';
+// Variable to store the current language
+let currentLanguage = 'en'; // Default to English
+
+/**
+ * Sets the initial language based on browser settings.
+ * Defaults to 'en' if Portuguese is not detected or navigator.language is unavailable.
+ */
+function setInitialLanguage() {
+    try {
+        const browserLang = navigator.language || navigator.userLanguage;
+        if (browserLang && browserLang.toLowerCase().startsWith('pt')) {
+            currentLanguage = 'pt';
+        } else {
+            currentLanguage = 'en';
+        }
+    } catch (e) {
+        // Fallback to English if navigator.language is not accessible (e.g., in some test environments)
+        console.warn("Could not access browser language, defaulting to English.", e);
+        currentLanguage = 'en';
+    }
+}
+
 
 /**
  * Updates the job duration text based on start and end dates.
@@ -212,7 +232,7 @@ function updateJobDurations(lang) {
         if (years === 0 && months <= 0 && isPresent) {
             durationText = currentTranslations.lessThanAMonth;
         } else if (years === 0 && months <= 0 && !isPresent) {
-            // If not present and duration is 0 or negative (e.g. start and end in same month), show as less than a month.
+             // If not present and duration is 0 or negative (e.g. start and end in same month), show as less than a month.
             durationText = currentTranslations.lessThanAMonth;
         }
 
@@ -268,7 +288,7 @@ function switchLanguage(lang) {
             }
         }
         else if (translatedText !== undefined) {
-            // For most elements, just set their innerHTML
+             // For most elements, just set their innerHTML
             element.innerHTML = translatedText;
         }
     });
@@ -307,7 +327,8 @@ function populateSkills() {
 // Set the current year in the footer
 document.getElementById('currentYear').textContent = new Date().getFullYear();
 
-// Initialize the page with the default language when the DOM is fully loaded
+// Initialize the page: set initial language then switch to it.
 document.addEventListener('DOMContentLoaded', function () {
-    switchLanguage(currentLanguage);
+    setInitialLanguage(); // Determine language based on browser settings
+    switchLanguage(currentLanguage); // Apply the determined language
 });
