@@ -39,6 +39,8 @@ body {
     color: #2E4057;
     /* Tailwind color: text-slate-700 (approx) */
     text-decoration: underline;
+    outline-offset: 2px;
+    /* For better focus visibility */
 }
 
 .link-highlight:hover {
@@ -46,6 +48,15 @@ body {
     /* Darker shade for hover */
     text-decoration: underline;
 }
+
+.link-highlight:focus {
+    /* Added focus style */
+    color: #1c2b3a;
+    text-decoration: underline;
+    outline: 2px solid #2E4057;
+    /* Example focus ring, adjust as needed */
+}
+
 
 /* Language button styles */
 .lang-button {
@@ -65,6 +76,8 @@ body {
     /* Tailwind class: ml-2 */
     cursor: pointer;
     border: 1px solid transparent;
+    outline-offset: 2px;
+    /* For better focus visibility */
 }
 
 .lang-button.active {
@@ -79,4 +92,32 @@ body {
 .lang-button:hover:not(.active) {
     background-color: #B0BEC5;
     /* Tailwind color: hover:bg-blue-grey-200 */
+}
+
+.lang-button:focus {
+    /* Added focus style */
+    outline: 2px solid #2E4057;
+    /* Example focus ring */
+    box-shadow: 0 0 0 3px rgba(46, 64, 87, 0.3);
+    /* Optional: softer outer glow */
+}
+
+.lang-button.active:focus {
+    /* Specific focus for active button if needed */
+    outline: 2px solid #ECEFF1;
+    /* Example: different color for active focus */
+}
+
+
+/* Screen-reader only text */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
 }

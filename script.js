@@ -32,7 +32,7 @@ const translations = {
         jobTitleMsgsc: "Research Programmer",
         companyMsgsc: "Canada's Michael Smith Genome Sciences Centre",
         msgscDesc: "Developed APIs (Python, Flask, OpenAPI) and interactive dashboards (JavaScript, React) for CanDIG, a distributed genomics platform, and CanCOGEN, visualizing COVID-19 data.",
-        candigPublicationText: 'L. Jonathan Dursi, Zoltan Bozoky, Richard de Borja, et al., "CanDIG: Secure Federated Genomic Queries and Analyses Across Jurisdictions," bioRxiv 2021.03.30.434101; <a href="https://doi.org/10.1101/2021.03.30.434101" target="_blank" rel="noopener noreferrer" class="link-highlight">doi: https://doi.org/10.1101/2021.03.30.434101</a>.',
+        candigPublicationText: 'L. Jonathan Dursi, Zoltan Bozoky, Richard de Borja, et al., "CanDIG: Secure Federated Genomic Queries and Analyses Across Jurisdictions," bioRxiv 2021.03.30.434101; <a href="https://doi.org/10.1101/2021.03.30.434101" target="_blank" rel="noopener noreferrer" class="link-highlight">doi: https://doi.org/10.1101/2021.03.30.434101 <span class="sr-only">(opens in new window)</span></a>.',
         jobTitleCisco: "Software Engineer",
         ciscoDesc: "Contributed to Cisco's Genie and pyATS automation infrastructure by designing, developing, and testing scalable features for network automation in Python. Developed RegEx-based parsers for various networking protocols and created Python scripts for automated device testing.",
         jobTitleBridgehead: "Kitchen Specialist",
@@ -44,7 +44,7 @@ const translations = {
         jobTitleLabsec: "Researcher/Developer",
         companyLabsec: "Laboratório de Segurança em Computação (LabSEC) - UFSC",
         labsecDesc: "Conducted Master's research involving the proposal and security validation of a unified Identity Card based on the ICAO 9303 passport standard for academic federation environments. Contributed to various security projects during this period.",
-        labsecPublicationText: 'F. C. Sasso, R. A. Reinaldo De Moraes and J. E. Martina, "A Proposal for a Unified Identity Card for Use in an Academic Federation Environment," 2014 Ninth International Conference on Availability, Reliability and Security, Fribourg, Switzerland, 2014, pp. 265-272, <a href="https://ieeexplore.ieee.org/document/6980291" target="_blank" rel="noopener noreferrer" class="link-highlight">doi: 10.1109/ARES.2014.42</a>.',
+        labsecPublicationText: 'F. C. Sasso, R. A. Reinaldo De Moraes and J. E. Martina, "A Proposal for a Unified Identity Card for Use in an Academic Federation Environment," 2014 Ninth International Conference on Availability, Reliability and Security, Fribourg, Switzerland, 2014, pp. 265-272, <a href="https://ieeexplore.ieee.org/document/6980291" target="_blank" rel="noopener noreferrer" class="link-highlight">doi: 10.1109/ARES.2014.42 <span class="sr-only">(opens in new window)</span></a>.',
 
         techStackLabel: "Tech Stack:",
         skillsLabel: "Skills:",
@@ -58,7 +58,7 @@ const translations = {
         dissertationTitle: "Cartão de identificação humana para autenticação e autorização segura",
         dissertationAbstractLabel: "Abstract:",
         dissertationAbstract: "Several efforts have been made recently to establish identity federations. Efforts towards availability of authentication data to be usable by all entities of the federation are the core of this model. However some issues are still open. The first issue is related to offline operation of the authentication process. Today's model of federation requires that systems work online and synchronously, which limits the use for some applications. The second is related to the fact that data federations are only to computer systems and not by human agents. Thus it is difficult for humans involved in the process to assess such credentials. Finally, federation has numerous technical and legal issues for the provision of private data, such as biometric parameters, and it would make a much stronger authentication process. The purpose of this thesis is to describe an identity card based on the ICAO 9303 standard to solve the problems present in Identity Federations. Besides the creation of the card we also performed an evaluation of the Security in various usage scenarios. It was possible to identify which security issues may arise during the use of the card and how to solve them.",
-        dissertationLink: "Access Thesis at UFSC Repository",
+        dissertationLinkText: "Access Thesis at UFSC Repository", // Changed from dissertationLink to avoid conflict if key is used as text directly
 
         apiDevelopment: "REST API Development",
         python: "Python",
@@ -72,7 +72,8 @@ const translations = {
         month: "month",
         months: "months",
         lessThanAMonth: "Less than a month",
-        monthNames: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+        monthNames: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+        srOnlyNewWindow: "(opens in new window)"
     },
     pt: {
         name: "Felipe Coral Sasso",
@@ -106,7 +107,7 @@ const translations = {
         jobTitleMsgsc: "Programador de Pesquisa",
         companyMsgsc: "Canada's Michael Smith Genome Sciences Centre",
         msgscDesc: "Desenvolveu APIs (Python, Flask, OpenAPI) e dashboards interativos (JavaScript, React) para CanDIG, uma plataforma distribuída de genômica, e CanCOGEN, visualizando dados de COVID-19.",
-        candigPublicationText: 'L. Jonathan Dursi, Zoltan Bozoky, Richard de Borja, et al., "CanDIG: Secure Federated Genomic Queries and Analyses Across Jurisdictions," bioRxiv 2021.03.30.434101; <a href="https://doi.org/10.1101/2021.03.30.434101" target="_blank" rel="noopener noreferrer" class="link-highlight">doi: https://doi.org/10.1101/2021.03.30.434101</a>.',
+        candigPublicationText: 'L. Jonathan Dursi, Zoltan Bozoky, Richard de Borja, et al., "CanDIG: Secure Federated Genomic Queries and Analyses Across Jurisdictions," bioRxiv 2021.03.30.434101; <a href="https://doi.org/10.1101/2021.03.30.434101" target="_blank" rel="noopener noreferrer" class="link-highlight">doi: https://doi.org/10.1101/2021.03.30.434101 <span class="sr-only">(abre em nova janela)</span></a>.',
         jobTitleCisco: "Engenheiro de Software",
         ciscoDesc: "Contribuiu para a infraestrutura de automação Genie e pyATS da Cisco, projetando, desenvolvendo e testando funcionalidades escaláveis para automação de redes em Python. Desenvolveu parsers baseados em RegEx para vários protocolos de rede e criou scripts Python para testes automatizados de dispositivos.",
         jobTitleBridgehead: "Especialista de Cozinha",
@@ -118,7 +119,7 @@ const translations = {
         jobTitleLabsec: "Pesquisador/Desenvolvedor",
         companyLabsec: "Laboratório de Segurança em Computação (LabSEC) - UFSC",
         labsecDesc: "Conduziu pesquisa de mestrado envolvendo a proposta e validação de segurança de uma Carteira de Identidade unificada baseada no padrão de passaporte ICAO 9303 para ambientes de federação acadêmica. Contribuiu para vários projetos de segurança durante este período.",
-        labsecPublicationText: 'F. C. Sasso, R. A. Reinaldo De Moraes e J. E. Martina, "A Proposal for a Unified Identity Card for Use in an Academic Federation Environment," 2014 Ninth International Conference on Availability, Reliability and Security, Fribourg, Suíça, 2014, pp. 265-272, <a href="https://ieeexplore.ieee.org/document/6980291" target="_blank" rel="noopener noreferrer" class="link-highlight">doi: 10.1109/ARES.2014.42</a>.',
+        labsecPublicationText: 'F. C. Sasso, R. A. Reinaldo De Moraes e J. E. Martina, "A Proposal for a Unified Identity Card for Use in an Academic Federation Environment," 2014 Ninth International Conference on Availability, Reliability and Security, Fribourg, Suíça, 2014, pp. 265-272, <a href="https://ieeexplore.ieee.org/document/6980291" target="_blank" rel="noopener noreferrer" class="link-highlight">doi: 10.1109/ARES.2014.42 <span class="sr-only">(abre em nova janela)</span></a>.',
 
         techStackLabel: "Stack de Tecnologias:",
         skillsLabel: "Habilidades:",
@@ -132,8 +133,7 @@ const translations = {
         dissertationTitle: "Cartão de identificação humana para autenticação e autorização segura",
         dissertationAbstractLabel: "Resumo:",
         dissertationAbstract: "Vários esforços tem sido feitos recentemente no âmbito de federações de identidade. Os esforços para que dados de autenticação sejam disponíveis e utilizáveis por todas as entidades participantes da federação são o pilar deste modelo. No entanto alguns problemas se encontram em aberto. O primeiro deles é o funcionamento offline do processo de autenticação. Hoje o modelo da federação requer que os sistemas trabalhem online de forma síncrona, o que limita seu uso para algumas aplicações. Segundo, os dados da federação somente estão disponíveis para sistemas computacionais e não para as pessoas, tornando difícil a avaliação de tais credenciais. Por fim, a federação tem inúmeros problemas técnicos e legais para a disponibilização de dados considerados de uso privados, tais como biométricos. Estes tornariam a autenticação muito mais forte. A proposta desta dissertação foi descrever um cartão de identificação baseado no padrão ICAO 9303 que soluciona os problemas presentes nas Federações de Identidade. Além da criação do cartão, também foi realizado uma avaliação da segurança deste em diversos cenários de uso. Com isso foi possível identificar quais problemas de segurança podem ocorrer durante a utilização do cartão e como resolvê-los.",
-        dissertationLink: "Acessar Dissertação no Repositório UFSC",
-
+        dissertationLinkText: "Acessar Dissertação no Repositório UFSC", // Changed from dissertationLink
 
         apiDevelopment: "Desenvolvimento de APIs REST",
         python: "Python",
@@ -147,7 +147,8 @@ const translations = {
         month: "mês",
         months: "meses",
         lessThanAMonth: "Menos de um mês",
-        monthNames: ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"]
+        monthNames: ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"],
+        srOnlyNewWindow: "(abre em nova janela)"
     }
 };
 
@@ -155,7 +156,7 @@ const translations = {
 let currentLanguage = 'en'; // Default to English
 
 /**
- * Sets the initial language based on browser settings.
+ * Sets the initial language based on browser settings and updates the HTML lang attribute.
  * Defaults to 'en' if Portuguese is not detected or navigator.language is unavailable.
  */
 function setInitialLanguage() {
@@ -167,10 +168,11 @@ function setInitialLanguage() {
             currentLanguage = 'en';
         }
     } catch (e) {
-        // Fallback to English if navigator.language is not accessible (e.g., in some test environments)
+        // Fallback to English if navigator.language is not accessible
         console.warn("Could not access browser language, defaulting to English.", e);
         currentLanguage = 'en';
     }
+    document.documentElement.lang = currentLanguage; // Set HTML lang attribute
 }
 
 
@@ -228,11 +230,12 @@ function updateJobDurations(lang) {
             durationText += months + " " + (months === 1 ? currentTranslations.month : currentTranslations.months);
         }
 
-        // Handle cases for less than a month
-        if (years === 0 && months <= 0 && isPresent) {
+        if (years === 0 && months === 0 && isPresent) { // If exactly 0 months and present, show "Less than a month"
             durationText = currentTranslations.lessThanAMonth;
         } else if (years === 0 && months <= 0 && !isPresent) {
-             // If not present and duration is 0 or negative (e.g. start and end in same month), show as less than a month.
+            // If not present and duration is 0 or negative (e.g. start and end in same month), show as less than a month.
+            durationText = currentTranslations.lessThanAMonth;
+        } else if (durationText === "") { // If no years and no months (e.g. very short period)
             durationText = currentTranslations.lessThanAMonth;
         }
 
@@ -254,11 +257,35 @@ function updateJobDurations(lang) {
 }
 
 /**
+ * Helper function to add sr-only span to links opening in new tabs.
+ * @param {HTMLElement} parentElement - The element containing the links to process.
+ * @param {string} lang - The current language.
+ */
+function addSrOnlyToNewWindowLinks(parentElement, lang) {
+    parentElement.querySelectorAll('a[target="_blank"]').forEach(a => {
+        // Remove existing sr-only span if present to avoid duplication
+        const existingSrSpan = a.querySelector('span.sr-only');
+        if (existingSrSpan) {
+            existingSrSpan.remove();
+        }
+        // Add new sr-only span
+        const srText = translations[lang].srOnlyNewWindow || translations.en.srOnlyNewWindow;
+        const srSpan = document.createElement('span');
+        srSpan.className = 'sr-only';
+        srSpan.textContent = ` ${srText}`; // Add a leading space for better reading flow
+        a.appendChild(srSpan);
+    });
+}
+
+
+/**
  * Switches the language of the page content.
  * @param {string} lang - The language to switch to ('en' or 'pt').
  */
 function switchLanguage(lang) {
     currentLanguage = lang;
+    document.documentElement.lang = currentLanguage; // Update HTML lang attribute
+
     // Iterate over all elements with a 'data-translate-key' attribute
     document.querySelectorAll('[data-translate-key]').forEach(element => {
         const key = element.dataset.translateKey;
@@ -269,36 +296,81 @@ function switchLanguage(lang) {
             translatedText = translatedText.replace('{year}', new Date().getFullYear());
         }
 
-        // Handle specific cases for elements containing HTML, like links within descriptions
-        if (element.tagName === 'A' && element.parentElement.dataset.translateKey === key) {
-            // If the parent has the translate key, and this is a simple link text
-            if (element.childNodes.length === 1 && element.firstChild.nodeType === Node.TEXT_NODE) {
-                element.firstChild.nodeValue = translatedText;
+        // Special handling for dissertationLink to set only text content
+        if (key === 'dissertationLink') {
+            const linkElement = element.tagName === 'A' ? element : element.querySelector('a');
+            if (linkElement) {
+                const linkTextKey = translations[lang].dissertationLinkText || translations.en.dissertationLinkText;
+                linkElement.firstChild.nodeValue = linkTextKey + " "; // Add space before sr-only
             }
-        } else if (key === 'bccancerDesc' || key === 'labsecPublicationText' || key === 'candigPublicationText' || key === 'msgscDesc') {
+        } else if (key === 'candigPublicationText' || key === 'labsecPublicationText' || key === 'msgscDesc') {
             // For elements that might contain HTML (like publication links)
             const tempDiv = document.createElement('div');
-            tempDiv.innerHTML = translatedText;
+            tempDiv.innerHTML = translatedText; // Use the already accessible-enhanced string from translations
+
             // Ensure links within these translated sections also get the highlight class
-            tempDiv.querySelectorAll('a').forEach(a => a.classList.add('link-highlight'));
+            tempDiv.querySelectorAll('a').forEach(a => {
+                a.classList.add('link-highlight');
+                // The sr-only span is already part of the translated string for these specific keys
+            });
 
             element.innerHTML = ''; // Clear existing content
             while (tempDiv.firstChild) {
                 element.appendChild(tempDiv.firstChild); // Append new translated content
             }
-        }
-        else if (translatedText !== undefined) {
-             // For most elements, just set their innerHTML
+        } else if (translatedText !== undefined) {
+            // For most elements, just set their innerHTML
             element.innerHTML = translatedText;
         }
+
+        // After translating, if the element itself is a link opening in a new window, add sr-only text
+        // This handles cases where the data-translate-key is directly on an <a> tag.
+        if (element.tagName === 'A' && element.target === '_blank') {
+            addSrOnlyToNewWindowLinks(element.parentElement, lang); // Process the parent to catch the link itself
+        }
     });
+
     // Update job durations and skills list based on the new language
     updateJobDurations(lang);
     populateSkills();
 
-    // Update active state of language buttons
-    document.getElementById('lang-en').classList.toggle('active', lang === 'en');
-    document.getElementById('lang-pt').classList.toggle('active', lang === 'pt');
+    // Update active state and aria-pressed for language buttons
+    const langEnButton = document.getElementById('lang-en');
+    const langPtButton = document.getElementById('lang-pt');
+
+    langEnButton.classList.toggle('active', lang === 'en');
+    langEnButton.setAttribute('aria-pressed', lang === 'en');
+
+    langPtButton.classList.toggle('active', lang === 'pt');
+    langPtButton.setAttribute('aria-pressed', lang === 'pt');
+
+    // Re-apply sr-only text to all target="_blank" links after general translation
+    // This ensures any links not covered by specific translation logic (like company names) are handled.
+    document.querySelectorAll('a[target="_blank"]').forEach(a => {
+        // Check if the link is inside an element that had its HTML set by a translation key
+        // which already includes the sr-only span (e.g., candigPublicationText)
+        let parentHasManagedHTML = false;
+        let currentParent = a.parentElement;
+        while (currentParent) {
+            if (currentParent.dataset && currentParent.dataset.translateKey &&
+                ['candigPublicationText', 'labsecPublicationText', 'msgscDesc'].includes(currentParent.dataset.translateKey)) {
+                parentHasManagedHTML = true;
+                break;
+            }
+            currentParent = currentParent.parentElement;
+        }
+
+        if (!parentHasManagedHTML) {
+            const srText = translations[lang].srOnlyNewWindow || translations.en.srOnlyNewWindow;
+            let srSpan = a.querySelector('span.sr-only');
+            if (!srSpan) {
+                srSpan = document.createElement('span');
+                srSpan.className = 'sr-only';
+                a.appendChild(srSpan);
+            }
+            srSpan.textContent = ` ${srText}`; // Update text content
+        }
+    });
 }
 
 /**
@@ -325,10 +397,14 @@ function populateSkills() {
 }
 
 // Set the current year in the footer
-document.getElementById('currentYear').textContent = new Date().getFullYear();
+const currentYearElement = document.getElementById('currentYear');
+if (currentYearElement) {
+    currentYearElement.textContent = new Date().getFullYear();
+}
+
 
 // Initialize the page: set initial language then switch to it.
 document.addEventListener('DOMContentLoaded', function () {
-    setInitialLanguage(); // Determine language based on browser settings
-    switchLanguage(currentLanguage); // Apply the determined language
+    setInitialLanguage(); // Determine language based on browser settings and set HTML lang
+    switchLanguage(currentLanguage); // Apply the determined language to content and ARIA attributes
 });
