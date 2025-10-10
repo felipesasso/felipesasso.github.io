@@ -23,7 +23,17 @@ const translations = {
         linkedinTooltip: "View Felipe's LinkedIn profile", // New tooltip for LinkedIn
         githubTooltip: "View Felipe's GitHub profile", // New tooltip for GitHub
 
-        jobTitlePinterest: 'Python Engineer',
+        jobTitlePinterest: 'Software Engineer',
+        pinterestDesc:
+            'Software Engineer at Pinterest specializing in front-end development and user experience. Leveraging React, TypeScript, and modern styling frameworks to build, test, and deploy key user-facing features for millions of Pinner.',
+        pinterestDetail1:
+            'Build, test, and deploy key user-facing features for millions of Pinner (Pinterest users).',
+        pinterestDetail2:
+            'Own the entire lifecycle of components and features, from initial design review to deployment and A/B testing in production.',
+        pinterestDetail3:
+            'Optimize application performance (load times, rendering, bundle size) to ensure a fast and delightful experience on all platforms.',
+        pinterestDetail4:
+            'Collaborate closely with product and design teams to translate complex concepts into intuitive and highly scalable UIs.',
         jobTitleBairesDev: 'Software Engineer',
         bairesdevDesc:
             'As a leading Nearshore Technology Solutions company, we architect and engineer scalable and high-performing software solutions to meet the business challenges of our clients. Using our tech expertise and cross-industry experience, we evolve digital transformation into digital acceleration.',
@@ -132,7 +142,17 @@ const translations = {
         linkedinTooltip: 'Ver perfil de Felipe no LinkedIn', // New tooltip for LinkedIn
         githubTooltip: 'Ver perfil de Felipe no GitHub', // New tooltip for GitHub
 
-        jobTitlePinterest: 'Engenheiro Python',
+        jobTitlePinterest: 'Engenheiro de Software',
+        pinterestDesc:
+            'Engenheiro de Software no Pinterest com foco em desenvolvimento front-end e experiência do usuário. Desenvolvimento de soluções com React, TypeScript e frameworks modernos para entregar recursos essenciais para milhões de Pinners.',
+        pinterestDetail1:
+            'Desenvolvimento, teste e implantação de recursos essenciais para milhões de Pinners (usuários do Pinterest).',
+        pinterestDetail2:
+            'Gerenciamento do ciclo de vida completo de componentes e funcionalidades, desde a análise inicial do design até implantação e testes A/B em produção.',
+        pinterestDetail3:
+            'Otimização do desempenho da aplicação (tempo de carregamento, renderização, tamanho do bundle) para garantir uma experiência rápida e agradável em todas as plataformas.',
+        pinterestDetail4:
+            'Colaboração com as equipes de produto e design para transformar conceitos complexos em interfaces intuitivas e altamente escaláveis.',
         jobTitleBairesDev: 'Engenheiro de Software',
         bairesdevDesc:
             'Como uma empresa líder em Soluções de Tecnologia Nearshore, arquitetamos e projetamos soluções de software escaláveis e de alto desempenho para enfrentar os desafios de negócios de nossos clientes. Usando nossa expertise tecnológica e experiência intersetorial, evoluímos a transformação digital em aceleração digital.',
