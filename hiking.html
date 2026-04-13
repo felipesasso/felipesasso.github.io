@@ -39,27 +39,41 @@
             text-transform: uppercase;
             letter-spacing: 0.05em;
         }
+
+        [data-lang]:hidden {
+            display: none;
+        }
     </style>
 </head>
 <body class="bg-gray-50 text-gray-900">
 
+    <!-- Language Switcher Overlay -->
+    <nav class="fixed top-4 right-4 z-50">
+        <div class="bg-white/90 backdrop-blur-sm p-1 rounded-full shadow-lg border border-gray-200 flex gap-1">
+            <button onclick="setLanguage('en')" id="btn-en" class="px-4 py-1.5 rounded-full text-xs font-bold transition-all bg-green-600 text-white">EN</button>
+            <button onclick="setLanguage('pt')" id="btn-pt" class="px-4 py-1.5 rounded-full text-xs font-bold transition-all text-gray-600 hover:bg-gray-100">PT</button>
+        </div>
+    </nav>
+
     <!-- Hero Section -->
     <header class="bg-gradient-hero h-[45vh] flex flex-col items-center justify-center text-center text-white px-4">
-        <span class="bg-white/20 backdrop-blur-md text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full mb-4">Explore the Magic Island</span>
-        <h1 class="text-5xl md:text-6xl font-bold mb-4">Florianópolis Hiking Guide</h1>
-        <p class="text-lg md:text-xl max-w-2xl font-light opacity-90">Essential coordinates and verified locations for the best trails in the heart of the island.</p>
+        <span class="bg-white/20 backdrop-blur-md text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full mb-4 lang-en">Explore the Magic Island</span>
+        <span class="bg-white/20 backdrop-blur-md text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full mb-4 lang-pt hidden">Explore a Ilha da Magia</span>
+        
+        <h1 class="text-5xl md:text-6xl font-bold mb-4 lang-en">Florianópolis Hiking Guide</h1>
+        <h1 class="text-5xl md:text-6xl font-bold mb-4 lang-pt hidden">Guia de Trilhas de Florianópolis</h1>
+        
+        <p class="text-lg md:text-xl max-w-2xl font-light opacity-90 lang-en">Essential coordinates and verified locations for the best trails in the heart of the island.</p>
+        <p class="text-lg md:text-xl max-w-2xl font-light opacity-90 lang-pt hidden">Coordenadas essenciais e locais verificados para as melhores trilhas no coração da ilha.</p>
+        
         <div class="mt-8">
-            <a href="#explore" class="px-8 py-3 bg-white text-green-900 font-bold rounded-full hover:bg-gray-100 transition shadow-lg">Explore Trails</a>
+            <a href="#explore" class="px-8 py-3 bg-white text-green-900 font-bold rounded-full hover:bg-gray-100 transition shadow-lg lang-en">Explore Trails</a>
+            <a href="#explore" class="px-8 py-3 bg-white text-green-900 font-bold rounded-full hover:bg-gray-100 transition shadow-lg lang-pt hidden">Explorar Trilhas</a>
         </div>
     </header>
 
     <main class="max-w-7xl mx-auto py-16 px-6" id="explore">
         
-        <!-- Region Navigation -->
-        <div class="flex flex-wrap justify-center gap-3 mb-16">
-            <button class="px-6 py-2 rounded-full border-2 border-green-600 bg-green-600 text-white font-semibold shadow-md">Regional Highlights</button>
-        </div>
-
         <div id="trail-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             
             <!-- Cachoeira do Poção -->
@@ -67,17 +81,28 @@
                 <div class="p-8 flex-grow">
                     <div class="flex justify-between items-start mb-4">
                         <h3 class="text-2xl font-bold">Cachoeira do Poção</h3>
-                        <span class="category-pill difficulty-easy">Easy</span>
+                        <span class="category-pill difficulty-easy lang-en">Easy</span>
+                        <span class="category-pill difficulty-easy lang-pt hidden">Fácil</span>
                     </div>
-                    <p class="text-gray-600 text-sm mb-6 leading-relaxed">A hidden gem in the Córrego Grande valley. It is a short, lush walk leading to a waterfall with a deep pool perfect for a refreshing dip.</p>
+                    <p class="text-gray-600 text-sm mb-6 leading-relaxed lang-en">A hidden gem in the Córrego Grande valley. It is a short, lush walk leading to a waterfall with a deep pool perfect for a refreshing dip.</p>
+                    <p class="text-gray-600 text-sm mb-6 leading-relaxed lang-pt hidden">Uma joia escondida no vale do Córrego Grande. Uma caminhada curta e exuberante que leva a uma cachoeira com um poço profundo para banho.</p>
                     <div class="grid grid-cols-2 gap-4 text-xs font-semibold text-gray-500">
-                        <div class="flex items-center gap-2"><i class="fa-solid fa-person-walking text-green-600"></i> 15-20min</div>
-                        <div class="flex items-center gap-2"><i class="fa-solid fa-droplet text-green-600"></i> River Swim</div>
+                        <div class="flex items-center gap-2">
+                            <i class="fa-solid fa-person-walking text-green-600"></i>
+                            <span class="lang-en">15-20min</span><span class="lang-pt hidden">15-20min</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i class="fa-solid fa-droplet text-green-600"></i>
+                            <span class="lang-en">River Swim</span><span class="lang-pt hidden">Banho de Rio</span>
+                        </div>
                     </div>
                 </div>
                 <div class="p-6 bg-gray-50 grid grid-cols-2 gap-3">
-                    <a href="https://maps.app.goo.gl/hKCU7uXNkxLb1Aha7" target="_blank" class="text-center py-3 bg-white border border-gray-200 rounded-xl text-xs font-bold hover:border-green-500 transition">Start Point</a>
-                    <a href="https://maps.app.goo.gl/1jaghQBPnUfV768s8" target="_blank" class="text-center py-3 bg-white border border-gray-200 rounded-xl text-xs font-bold hover:border-green-500 transition">Waterfall</a>
+                    <a href="https://maps.app.goo.gl/hKCU7uXNkxLb1Aha7" target="_blank" class="text-center py-3 bg-white border border-gray-200 rounded-xl text-xs font-bold hover:border-green-500 transition lang-en">Start Point</a>
+                    <a href="https://maps.app.goo.gl/hKCU7uXNkxLb1Aha7" target="_blank" class="text-center py-3 bg-white border border-gray-200 rounded-xl text-xs font-bold hover:border-green-500 transition lang-pt hidden">Início</a>
+                    
+                    <a href="https://maps.app.goo.gl/1jaghQBPnUfV768s8" target="_blank" class="text-center py-3 bg-white border border-gray-200 rounded-xl text-xs font-bold hover:border-green-500 transition lang-en">Waterfall</a>
+                    <a href="https://maps.app.goo.gl/1jaghQBPnUfV768s8" target="_blank" class="text-center py-3 bg-white border border-gray-200 rounded-xl text-xs font-bold hover:border-green-500 transition lang-pt hidden">Cachoeira</a>
                 </div>
             </div>
 
@@ -86,17 +111,28 @@
                 <div class="p-8 flex-grow">
                     <div class="flex justify-between items-start mb-4">
                         <h3 class="text-2xl font-bold">Morro do Lampião</h3>
-                        <span class="category-pill difficulty-moderate">Moderate</span>
+                        <span class="category-pill difficulty-moderate lang-en">Moderate</span>
+                        <span class="category-pill difficulty-moderate lang-pt hidden">Médio</span>
                     </div>
-                    <p class="text-gray-600 text-sm mb-6 leading-relaxed">Located in Rio Tavares. A steep but short climb that offers the most spectacular 360º view of the central and southern parts of the island.</p>
+                    <p class="text-gray-600 text-sm mb-6 leading-relaxed lang-en">Located in Rio Tavares. A steep but short climb that offers the most spectacular 360º view of the central and southern parts of the island.</p>
+                    <p class="text-gray-600 text-sm mb-6 leading-relaxed lang-pt hidden">Localizado no Rio Tavares. Uma subida íngreme mas curta que oferece a vista 360º mais espetacular do centro e sul da ilha.</p>
                     <div class="grid grid-cols-2 gap-4 text-xs font-semibold text-gray-500">
-                        <div class="flex items-center gap-2"><i class="fa-solid fa-mountain text-green-600"></i> Panoramic View</div>
-                        <div class="flex items-center gap-2"><i class="fa-solid fa-sun text-green-600"></i> Sunset</div>
+                        <div class="flex items-center gap-2">
+                            <i class="fa-solid fa-mountain text-green-600"></i>
+                            <span class="lang-en">Panoramic View</span><span class="lang-pt hidden">Vista Panorâmica</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i class="fa-solid fa-sun text-green-600"></i>
+                            <span class="lang-en">Sunset</span><span class="lang-pt hidden">Pôr do Sol</span>
+                        </div>
                     </div>
                 </div>
                 <div class="p-6 bg-gray-50 grid grid-cols-2 gap-3">
-                    <a href="https://maps.app.goo.gl/7aupRyPafpvbUsG39" target="_blank" class="text-center py-3 bg-white border border-gray-200 rounded-xl text-xs font-bold hover:border-green-500 transition">Start Point</a>
-                    <a href="https://maps.app.goo.gl/bw6JpLb92YphLTqQ8" target="_blank" class="text-center py-3 bg-white border border-gray-200 rounded-xl text-xs font-bold hover:border-green-500 transition">Peak</a>
+                    <a href="https://maps.app.goo.gl/7aupRyPafpvbUsG39" target="_blank" class="text-center py-3 bg-white border border-gray-200 rounded-xl text-xs font-bold hover:border-green-500 transition lang-en">Start Point</a>
+                    <a href="https://maps.app.goo.gl/7aupRyPafpvbUsG39" target="_blank" class="text-center py-3 bg-white border border-gray-200 rounded-xl text-xs font-bold hover:border-green-500 transition lang-pt hidden">Início</a>
+                    
+                    <a href="https://maps.app.goo.gl/bw6JpLb92YphLTqQ8" target="_blank" class="text-center py-3 bg-white border border-gray-200 rounded-xl text-xs font-bold hover:border-green-500 transition lang-en">Peak</a>
+                    <a href="https://maps.app.goo.gl/bw6JpLb92YphLTqQ8" target="_blank" class="text-center py-3 bg-white border border-gray-200 rounded-xl text-xs font-bold hover:border-green-500 transition lang-pt hidden">Topo</a>
                 </div>
             </div>
 
@@ -105,17 +141,28 @@
                 <div class="p-8 flex-grow">
                     <div class="flex justify-between items-start mb-4">
                         <h3 class="text-2xl font-bold">Dolmen da Oração</h3>
-                        <span class="category-pill difficulty-moderate">Moderate</span>
+                        <span class="category-pill difficulty-moderate lang-en">Moderate</span>
+                        <span class="category-pill difficulty-moderate lang-pt hidden">Médio</span>
                     </div>
-                    <p class="text-gray-600 text-sm mb-6 leading-relaxed">A mystical archaeological site above Galheta Beach. Megalithic monuments that served as an astronomical observatory for ancient inhabitants.</p>
+                    <p class="text-gray-600 text-sm mb-6 leading-relaxed lang-en">A mystical archaeological site above Galheta Beach. Megalithic monuments that served as an astronomical observatory.</p>
+                    <p class="text-gray-600 text-sm mb-6 leading-relaxed lang-pt hidden">Um sítio arqueológico místico acima da Praia da Galheta. Monumentos megalíticos que serviam como observatório astronômico.</p>
                     <div class="grid grid-cols-2 gap-4 text-xs font-semibold text-gray-500">
-                        <div class="flex items-center gap-2"><i class="fa-solid fa-scroll text-green-600"></i> Archaeology</div>
-                        <div class="flex items-center gap-2"><i class="fa-solid fa-moon text-green-600"></i> Astronomy</div>
+                        <div class="flex items-center gap-2">
+                            <i class="fa-solid fa-scroll text-green-600"></i>
+                            <span class="lang-en">Archaeology</span><span class="lang-pt hidden">Arqueologia</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i class="fa-solid fa-moon text-green-600"></i>
+                            <span class="lang-en">Astronomy</span><span class="lang-pt hidden">Astronomia</span>
+                        </div>
                     </div>
                 </div>
                 <div class="p-6 bg-gray-50 grid grid-cols-2 gap-3">
-                    <a href="https://maps.app.goo.gl/ZYdWDzCJC237nN626" target="_blank" class="text-center py-3 bg-white border border-gray-200 rounded-xl text-xs font-bold hover:border-green-500 transition">Start Point</a>
-                    <a href="https://maps.app.goo.gl/WJtK7YqHAGa586TF9" target="_blank" class="text-center py-3 bg-white border border-gray-200 rounded-xl text-xs font-bold hover:border-green-500 transition">Peak</a>
+                    <a href="https://maps.app.goo.gl/ZYdWDzCJC237nN626" target="_blank" class="text-center py-3 bg-white border border-gray-200 rounded-xl text-xs font-bold hover:border-green-500 transition lang-en">Start Point</a>
+                    <a href="https://maps.app.goo.gl/ZYdWDzCJC237nN626" target="_blank" class="text-center py-3 bg-white border border-gray-200 rounded-xl text-xs font-bold hover:border-green-500 transition lang-pt hidden">Início</a>
+                    
+                    <a href="https://maps.app.goo.gl/WJtK7YqHAGa586TF9" target="_blank" class="text-center py-3 bg-white border border-gray-200 rounded-xl text-xs font-bold hover:border-green-500 transition lang-en">Peak</a>
+                    <a href="https://maps.app.goo.gl/WJtK7YqHAGa586TF9" target="_blank" class="text-center py-3 bg-white border border-gray-200 rounded-xl text-xs font-bold hover:border-green-500 transition lang-pt hidden">Topo</a>
                 </div>
             </div>
 
@@ -124,17 +171,28 @@
                 <div class="p-8 flex-grow">
                     <div class="flex justify-between items-start mb-4">
                         <h3 class="text-2xl font-bold">Trilha do Gravatá</h3>
-                        <span class="category-pill difficulty-easy">Easy</span>
+                        <span class="category-pill difficulty-easy lang-en">Easy</span>
+                        <span class="category-pill difficulty-easy lang-pt hidden">Fácil</span>
                     </div>
-                    <p class="text-gray-600 text-sm mb-6 leading-relaxed">Located between Praia Mole and Joaquina. A short walk leading to a charming fisherman's village and a small, calm beach.</p>
+                    <p class="text-gray-600 text-sm mb-6 leading-relaxed lang-en">Located between Praia Mole and Joaquina. A short walk leading to a charming fisherman's village and a small beach.</p>
+                    <p class="text-gray-600 text-sm mb-6 leading-relaxed lang-pt hidden">Localizada entre a Praia Mole e a Joaquina. Uma caminhada curta que leva a uma vila de pescadores e uma praia pequena.</p>
                     <div class="grid grid-cols-2 gap-4 text-xs font-semibold text-gray-500">
-                        <div class="flex items-center gap-2"><i class="fa-solid fa-fish text-green-600"></i> Fisherman Village</div>
-                        <div class="flex items-center gap-2"><i class="fa-solid fa-anchor text-green-600"></i> Secret Beach</div>
+                        <div class="flex items-center gap-2">
+                            <i class="fa-solid fa-fish text-green-600"></i>
+                            <span class="lang-en">Fisherman Village</span><span class="lang-pt hidden">Vila de Pescadores</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i class="fa-solid fa-anchor text-green-600"></i>
+                            <span class="lang-en">Secret Beach</span><span class="lang-pt hidden">Praia Secreta</span>
+                        </div>
                     </div>
                 </div>
                 <div class="p-6 bg-gray-50 grid grid-cols-2 gap-3">
-                    <a href="https://maps.app.goo.gl/fdJudjSD5HfaY33P7" target="_blank" class="text-center py-3 bg-white border border-gray-200 rounded-xl text-xs font-bold hover:border-green-500 transition">Start Point</a>
-                    <a href="https://maps.app.goo.gl/kwynA5Z3g2ENrN5Q8" target="_blank" class="text-center py-3 bg-white border border-gray-200 rounded-xl text-xs font-bold hover:border-green-500 transition">Beach</a>
+                    <a href="https://maps.app.goo.gl/fdJudjSD5HfaY33P7" target="_blank" class="text-center py-3 bg-white border border-gray-200 rounded-xl text-xs font-bold hover:border-green-500 transition lang-en">Start Point</a>
+                    <a href="https://maps.app.goo.gl/fdJudjSD5HfaY33P7" target="_blank" class="text-center py-3 bg-white border border-gray-200 rounded-xl text-xs font-bold hover:border-green-500 transition lang-pt hidden">Início</a>
+                    
+                    <a href="https://maps.app.goo.gl/kwynA5Z3g2ENrN5Q8" target="_blank" class="text-center py-3 bg-white border border-gray-200 rounded-xl text-xs font-bold hover:border-green-500 transition lang-en">Beach</a>
+                    <a href="https://maps.app.goo.gl/kwynA5Z3g2ENrN5Q8" target="_blank" class="text-center py-3 bg-white border border-gray-200 rounded-xl text-xs font-bold hover:border-green-500 transition lang-pt hidden">Praia</a>
                 </div>
             </div>
 
@@ -143,17 +201,28 @@
                 <div class="p-8 flex-grow">
                     <div class="flex justify-between items-start mb-4">
                         <h3 class="text-2xl font-bold">Piscinas da Barra</h3>
-                        <span class="category-pill difficulty-easy">Easy</span>
+                        <span class="category-pill difficulty-easy lang-en">Easy</span>
+                        <span class="category-pill difficulty-easy lang-pt hidden">Fácil</span>
                     </div>
-                    <p class="text-gray-600 text-sm mb-6 leading-relaxed">Located near Barra da Lagoa. A short trek over coastal rocks ending in natural pools with crystal-clear waters.</p>
+                    <p class="text-gray-600 text-sm mb-6 leading-relaxed lang-en">Located near Barra da Lagoa. A short trek over coastal rocks ending in natural pools with crystal-clear waters.</p>
+                    <p class="text-gray-600 text-sm mb-6 leading-relaxed lang-pt hidden">Perto da Barra da Lagoa. Uma caminhada curta pelas rochas costeiras terminando em piscinas naturais cristalinas.</p>
                     <div class="grid grid-cols-2 gap-4 text-xs font-semibold text-gray-500">
-                        <div class="flex items-center gap-2"><i class="fa-solid fa-swimmer text-green-600"></i> Swimming</div>
-                        <div class="flex items-center gap-2"><i class="fa-solid fa-camera text-green-600"></i> Photos</div>
+                        <div class="flex items-center gap-2">
+                            <i class="fa-solid fa-swimmer text-green-600"></i>
+                            <span class="lang-en">Swimming</span><span class="lang-pt hidden">Natação</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i class="fa-solid fa-camera text-green-600"></i>
+                            <span class="lang-en">Photos</span><span class="lang-pt hidden">Fotos</span>
+                        </div>
                     </div>
                 </div>
                 <div class="p-6 bg-gray-50 grid grid-cols-2 gap-3">
-                    <a href="https://maps.app.goo.gl/7Ba7igSuUSLGGVp79" target="_blank" class="text-center py-3 bg-white border border-gray-200 rounded-xl text-xs font-bold hover:border-green-500 transition">Start Point</a>
-                    <a href="https://maps.app.goo.gl/NiaNQZE5Q6HpoMMPA" target="_blank" class="text-center py-3 bg-white border border-gray-200 rounded-xl text-xs font-bold hover:border-green-500 transition">Pools</a>
+                    <a href="https://maps.app.goo.gl/7Ba7igSuUSLGGVp79" target="_blank" class="text-center py-3 bg-white border border-gray-200 rounded-xl text-xs font-bold hover:border-green-500 transition lang-en">Start Point</a>
+                    <a href="https://maps.app.goo.gl/7Ba7igSuUSLGGVp79" target="_blank" class="text-center py-3 bg-white border border-gray-200 rounded-xl text-xs font-bold hover:border-green-500 transition lang-pt hidden">Início</a>
+                    
+                    <a href="https://maps.app.goo.gl/NiaNQZE5Q6HpoMMPA" target="_blank" class="text-center py-3 bg-white border border-gray-200 rounded-xl text-xs font-bold hover:border-green-500 transition lang-en">Pools</a>
+                    <a href="https://maps.app.goo.gl/NiaNQZE5Q6HpoMMPA" target="_blank" class="text-center py-3 bg-white border border-gray-200 rounded-xl text-xs font-bold hover:border-green-500 transition lang-pt hidden">Piscinas</a>
                 </div>
             </div>
 
@@ -162,17 +231,28 @@
                 <div class="p-8 flex-grow">
                     <div class="flex justify-between items-start mb-4">
                         <h3 class="text-2xl font-bold">Costa da Lagoa</h3>
-                        <span class="category-pill difficulty-moderate">Moderate</span>
+                        <span class="category-pill difficulty-moderate lang-en">Moderate</span>
+                        <span class="category-pill difficulty-moderate lang-pt hidden">Médio</span>
                     </div>
-                    <p class="text-gray-600 text-sm mb-6 leading-relaxed">A historic trail along the lakeside, passing old mills and fisherman's villages. Ends at several traditional restaurants.</p>
+                    <p class="text-gray-600 text-sm mb-6 leading-relaxed lang-en">A historic trail along the lakeside, passing old mills and fisherman's villages. Ends at traditional restaurants.</p>
+                    <p class="text-gray-600 text-sm mb-6 leading-relaxed lang-pt hidden">Uma trilha histórica à beira da lagoa, passando por engenhos antigos e vilas de pescadores. Termina em restaurantes típicos.</p>
                     <div class="grid grid-cols-2 gap-4 text-xs font-semibold text-gray-500">
-                        <div class="flex items-center gap-2"><i class="fa-solid fa-clock text-green-600"></i> 2h-3h</div>
-                        <div class="flex items-center gap-2"><i class="fa-solid fa-utensils text-green-600"></i> Local Cuisine</div>
+                        <div class="flex items-center gap-2">
+                            <i class="fa-solid fa-clock text-green-600"></i>
+                            <span class="lang-en">2h-3h</span><span class="lang-pt hidden">2h-3h</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i class="fa-solid fa-utensils text-green-600"></i>
+                            <span class="lang-en">Local Cuisine</span><span class="lang-pt hidden">Gastronomia</span>
+                        </div>
                     </div>
                 </div>
                 <div class="p-6 bg-gray-50 grid grid-cols-2 gap-3">
-                    <a href="https://maps.app.goo.gl/hjY79msUQenBA1t29" target="_blank" class="text-center py-3 bg-white border border-gray-200 rounded-xl text-xs font-bold hover:border-green-500 transition">Start Point</a>
-                    <a href="https://maps.app.goo.gl/u7F6dAFw7U2WfSCMA" target="_blank" class="text-center py-3 bg-white border border-gray-200 rounded-xl text-xs font-bold hover:border-green-500 transition">Finish</a>
+                    <a href="https://maps.app.goo.gl/hjY79msUQenBA1t29" target="_blank" class="text-center py-3 bg-white border border-gray-200 rounded-xl text-xs font-bold hover:border-green-500 transition lang-en">Start Point</a>
+                    <a href="https://maps.app.goo.gl/hjY79msUQenBA1t29" target="_blank" class="text-center py-3 bg-white border border-gray-200 rounded-xl text-xs font-bold hover:border-green-500 transition lang-pt hidden">Início</a>
+                    
+                    <a href="https://maps.app.goo.gl/u7F6dAFw7U2WfSCMA" target="_blank" class="text-center py-3 bg-white border border-gray-200 rounded-xl text-xs font-bold hover:border-green-500 transition lang-en">Finish</a>
+                    <a href="https://maps.app.goo.gl/u7F6dAFw7U2WfSCMA" target="_blank" class="text-center py-3 bg-white border border-gray-200 rounded-xl text-xs font-bold hover:border-green-500 transition lang-pt hidden">Chegada</a>
                 </div>
             </div>
 
@@ -182,38 +262,59 @@
         <section class="mt-24 bg-gray-900 text-white rounded-[3rem] p-12 relative overflow-hidden" id="guide">
             <div class="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-12">
                 <div>
-                    <h2 class="text-4xl font-bold mb-8">Hiker's Survival Guide</h2>
+                    <h2 class="text-4xl font-bold mb-8 lang-en">Hiker's Survival Guide</h2>
+                    <h2 class="text-4xl font-bold mb-8 lang-pt hidden">Guia de Sobrevivência</h2>
+                    
                     <div class="space-y-6">
                         <div class="flex gap-4">
                             <div class="w-12 h-12 rounded-2xl bg-blue-500 flex-shrink-0 flex items-center justify-center text-xl">🚌</div>
                             <div>
-                                <h4 class="font-bold text-lg">Public Transport</h4>
-                                <p class="text-gray-300 text-sm">Most trails are accessible via bus lines leaving from the main terminals (TITRI or TILAG). Use the 'Floripa no Ponto' app for live schedules.</p>
+                                <h4 class="font-bold text-lg lang-en">Public Transport</h4>
+                                <h4 class="font-bold text-lg lang-pt hidden">Transporte Público</h4>
+                                <p class="text-gray-300 text-sm lang-en">Most trails are accessible via bus lines leaving from the main terminals. Use 'Floripa no Ponto' app.</p>
+                                <p class="text-gray-300 text-sm lang-pt hidden">A maioria das trilhas é acessível via ônibus saindo dos terminais principais. Use o app 'Floripa no Ponto'.</p>
                             </div>
                         </div>
                         <div class="flex gap-4">
                             <div class="w-12 h-12 rounded-2xl bg-green-500 flex-shrink-0 flex items-center justify-center text-xl">🚤</div>
                             <div>
-                                <h4 class="font-bold text-lg">The "Escape" Boat</h4>
-                                <p class="text-gray-300 text-sm">For Costa da Lagoa and similar lakeside trails, look for the official boat transport (Cooperbarco) if you prefer not to walk back.</p>
+                                <h4 class="font-bold text-lg lang-en">The "Escape" Boat</h4>
+                                <h4 class="font-bold text-lg lang-pt hidden">O Barco de "Fuga"</h4>
+                                <p class="text-gray-300 text-sm lang-en">For lakeside trails, look for official boat transport if you prefer not to walk back.</p>
+                                <p class="text-gray-300 text-sm lang-pt hidden">Para trilhas à beira da lagoa, procure o transporte oficial de barcos se preferir não voltar a pé.</p>
                             </div>
                         </div>
                         <div class="flex gap-4">
                             <div class="w-12 h-12 rounded-2xl bg-red-500 flex-shrink-0 flex items-center justify-center text-xl">🐍</div>
                             <div>
-                                <h4 class="font-bold text-lg">Trail Safety</h4>
-                                <p class="text-gray-300 text-sm">Pit vipers (jararacas) are well-camouflaged in the forest leaf litter. Stick to the paths and avoid thick brush in flip-flops.</p>
+                                <h4 class="font-bold text-lg lang-en">Trail Safety</h4>
+                                <h4 class="font-bold text-lg lang-pt hidden">Segurança na Trilha</h4>
+                                <p class="text-gray-300 text-sm lang-en">Pit vipers (jararacas) are camouflaged in the forest. Stick to the paths.</p>
+                                <p class="text-gray-300 text-sm lang-pt hidden">Jararacas camuflam-se na floresta. Mantenha-se nos caminhos marcados.</p>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="bg-white/5 p-8 rounded-3xl border border-white/10">
-                    <h4 class="font-bold text-xl mb-6">Essential Kit</h4>
+                    <h4 class="font-bold text-xl mb-6 lang-en">Essential Kit</h4>
+                    <h4 class="font-bold text-xl mb-6 lang-pt hidden">Kit Essencial</h4>
                     <ul class="space-y-4">
-                        <li class="flex items-center gap-3"><i class="fa-solid fa-check text-green-400"></i> Water (minimum 1L-2L)</li>
-                        <li class="flex items-center gap-3"><i class="fa-solid fa-check text-green-400"></i> Insect repellent (essential for forest trails)</li>
-                        <li class="flex items-center gap-3"><i class="fa-solid fa-check text-green-400"></i> Sturdy footwear with good grip</li>
-                        <li class="flex items-center gap-3"><i class="fa-solid fa-check text-green-400"></i> Flashlight (for sunset hikes)</li>
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-check text-green-400"></i>
+                            <span class="lang-en">Water (minimum 1L-2L)</span><span class="lang-pt hidden">Água (mínimo 1L-2L)</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-check text-green-400"></i>
+                            <span class="lang-en">Insect repellent</span><span class="lang-pt hidden">Repelente de insetos</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-check text-green-400"></i>
+                            <span class="lang-en">Sturdy footwear</span><span class="lang-pt hidden">Calçado resistente</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-check text-green-400"></i>
+                            <span class="lang-en">Flashlight (for sunset)</span><span class="lang-pt hidden">Lanterna (para o pôr do sol)</span>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -223,10 +324,37 @@
     <footer class="bg-gray-50 border-t border-gray-200 py-16 text-center">
         <div class="max-w-xs mx-auto mb-8">
             <h2 class="text-2xl font-bold text-gray-900 mb-2">Floripa Hiking</h2>
-            <p class="text-gray-500 text-sm">Local guide for exploring the Magic Island responsibly.</p>
+            <p class="text-gray-500 text-sm lang-en">Local guide for exploring the Magic Island responsibly.</p>
+            <p class="text-gray-500 text-sm lang-pt hidden">Guia local para explorar a Ilha da Magia com responsabilidade.</p>
         </div>
         <p class="text-xs text-gray-400 tracking-widest uppercase">&copy; 2024 Florianópolis Trail Guide</p>
     </footer>
+
+    <script>
+        function setLanguage(lang) {
+            // Update UI toggles
+            const btnEn = document.getElementById('btn-en');
+            const btnPt = document.getElementById('btn-pt');
+            
+            if (lang === 'en') {
+                btnEn.classList.add('bg-green-600', 'text-white');
+                btnEn.classList.remove('text-gray-600', 'hover:bg-gray-100');
+                btnPt.classList.remove('bg-green-600', 'text-white');
+                btnPt.classList.add('text-gray-600', 'hover:bg-gray-100');
+                
+                document.querySelectorAll('.lang-en').forEach(el => el.classList.remove('hidden'));
+                document.querySelectorAll('.lang-pt').forEach(el => el.classList.add('hidden'));
+            } else {
+                btnPt.classList.add('bg-green-600', 'text-white');
+                btnPt.classList.remove('text-gray-600', 'hover:bg-gray-100');
+                btnEn.classList.remove('bg-green-600', 'text-white');
+                btnEn.classList.add('text-gray-600', 'hover:bg-gray-100');
+                
+                document.querySelectorAll('.lang-pt').forEach(el => el.classList.remove('hidden'));
+                document.querySelectorAll('.lang-en').forEach(el => el.classList.add('hidden'));
+            }
+        }
+    </script>
 
 </body>
 </html>
