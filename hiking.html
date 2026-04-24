@@ -48,10 +48,11 @@
 <body class="bg-gray-50 text-gray-900">
 
     <!-- Language Switcher Overlay -->
-    <nav class="fixed top-4 right-4 z-50">
+    <nav class="fixed top-4 right-4 z-50 flex items-center gap-2">
+        <a href="/" class="bg-white/90 backdrop-blur-sm px-3 py-1.5 rounded-full shadow-lg border border-gray-200 text-xs font-bold text-gray-600 hover:text-green-700 transition-colors" aria-label="Back to portfolio">← Portfolio</a>
         <div class="bg-white/90 backdrop-blur-sm p-1 rounded-full shadow-lg border border-gray-200 flex gap-1">
-            <button onclick="setLanguage('en')" id="btn-en" class="px-4 py-1.5 rounded-full text-xs font-bold transition-all bg-green-600 text-white">EN</button>
-            <button onclick="setLanguage('pt')" id="btn-pt" class="px-4 py-1.5 rounded-full text-xs font-bold transition-all text-gray-600 hover:bg-gray-100">PT</button>
+            <button id="btn-en" class="px-4 py-1.5 rounded-full text-xs font-bold transition-all bg-green-600 text-white" aria-pressed="true" aria-label="Switch to English">EN</button>
+            <button id="btn-pt" class="px-4 py-1.5 rounded-full text-xs font-bold transition-all text-gray-600 hover:bg-gray-100" aria-pressed="false" aria-label="Mudar para Português">PT</button>
         </div>
     </nav>
 
@@ -327,21 +328,21 @@
             <p class="text-gray-500 text-sm lang-en">Local guide for exploring the Magic Island responsibly.</p>
             <p class="text-gray-500 text-sm lang-pt hidden">Guia local para explorar a Ilha da Magia com responsabilidade.</p>
         </div>
-        <p class="text-xs text-gray-400 tracking-widest uppercase">&copy; 2024 Florianópolis Trail Guide</p>
+        <p class="text-xs text-gray-400 tracking-widest uppercase">&copy; <span id="footer-year"></span> Florianópolis Trail Guide</p>
     </footer>
 
     <script>
+        document.getElementById('footer-year').textContent = new Date().getFullYear();
+
         function setLanguage(lang) {
-            // Update UI toggles
             const btnEn = document.getElementById('btn-en');
             const btnPt = document.getElementById('btn-pt');
-            
+
             if (lang === 'en') {
                 btnEn.classList.add('bg-green-600', 'text-white');
                 btnEn.classList.remove('text-gray-600', 'hover:bg-gray-100');
                 btnPt.classList.remove('bg-green-600', 'text-white');
                 btnPt.classList.add('text-gray-600', 'hover:bg-gray-100');
-                
                 document.querySelectorAll('.lang-en').forEach(el => el.classList.remove('hidden'));
                 document.querySelectorAll('.lang-pt').forEach(el => el.classList.add('hidden'));
             } else {
@@ -349,11 +350,18 @@
                 btnPt.classList.remove('text-gray-600', 'hover:bg-gray-100');
                 btnEn.classList.remove('bg-green-600', 'text-white');
                 btnEn.classList.add('text-gray-600', 'hover:bg-gray-100');
-                
                 document.querySelectorAll('.lang-pt').forEach(el => el.classList.remove('hidden'));
                 document.querySelectorAll('.lang-en').forEach(el => el.classList.add('hidden'));
             }
+
+            btnEn.setAttribute('aria-pressed', lang === 'en' ? 'true' : 'false');
+            btnPt.setAttribute('aria-pressed', lang === 'pt' ? 'true' : 'false');
         }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            document.getElementById('btn-en').addEventListener('click', () => setLanguage('en'));
+            document.getElementById('btn-pt').addEventListener('click', () => setLanguage('pt'));
+        });
     </script>
 
 </body>
