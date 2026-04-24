@@ -75,7 +75,7 @@ const translations = {
         labsecDesc:
             "Conducted Master's research involving the proposal and security validation of a unified Identity Card based on the ICAO 9303 passport standard for academic federation environments. Contributed to various security projects during this period.",
         labsecPublicationText:
-            'F. C. Sasso, R. A. Reinaldo De Moraes and J. E. Martina, "A Proposal for a Unified Identity Card for Use in an Academic Federation Environment," 2014 Ninth International Conference on Availability, Reliability and Security, Fribourg, Switzerland, 2014, pp. 265-272, <a href="https://ieeexplore.ieee.org/document/6980291" target="_blank" rel="noopener noreferrer" class="link-highlight">doi: https://doi.org/10.1101/2021.03.30.434101</a>.',
+            'F. C. Sasso, R. A. Reinaldo De Moraes and J. E. Martina, "A Proposal for a Unified Identity Card for Use in an Academic Federation Environment," 2014 Ninth International Conference on Availability, Reliability and Security, Fribourg, Switzerland, 2014, pp. 265-272, <a href="https://ieeexplore.ieee.org/document/6980291" target="_blank" rel="noopener noreferrer" class="link-highlight">doi: 10.1109/ARES.2014.44</a>.',
 
         techStackLabel: 'Tech Stack:',
         skillsLabel: 'Skills:',
@@ -194,7 +194,7 @@ const translations = {
         labsecDesc:
             'Conduziu pesquisa de mestrado envolvendo a proposta e validação de segurança de uma Carteira de Identidade unificada baseada no padrão de passaporte ICAO 9303 para ambientes de federação acadêmica. Contribuiu para vários projetos de segurança durante este período.',
         labsecPublicationText:
-            'F. C. Sasso, R. A. Reinaldo De Moraes e J. E. Martina, "A Proposal for a Unified Identity Card for Use in an Academic Federation Environment," 2014 Ninth International Conference on Availability, Reliability and Security, Fribourg, Suíça, 2014, pp. 265-272, <a href="https://ieeexplore.ieee.org/document/6980291" target="_blank" rel="noopener noreferrer" class="link-highlight">doi: https://doi.org/10.1101/2021.03.30.434101</a>.',
+            'F. C. Sasso, R. A. Reinaldo De Moraes e J. E. Martina, "A Proposal for a Unified Identity Card for Use in an Academic Federation Environment," 2014 Ninth International Conference on Availability, Reliability and Security, Fribourg, Suíça, 2014, pp. 265-272, <a href="https://ieeexplore.ieee.org/document/6980291" target="_blank" rel="noopener noreferrer" class="link-highlight">doi: 10.1109/ARES.2014.44</a>.',
 
         techStackLabel: 'Stack de Tecnologias:',
         skillsLabel: 'Habilidades:',
@@ -420,9 +420,13 @@ function switchLanguage(lang) {
     updateJobDurations(lang);
     populateSkills();
 
-    // Update active state of language buttons
-    document.getElementById('lang-en').classList.toggle('active', lang === 'en');
-    document.getElementById('lang-pt').classList.toggle('active', lang === 'pt');
+    // Update active state and aria-pressed of language buttons
+    const btnEn = document.getElementById('lang-en');
+    const btnPt = document.getElementById('lang-pt');
+    btnEn.classList.toggle('active', lang === 'en');
+    btnPt.classList.toggle('active', lang === 'pt');
+    btnEn.setAttribute('aria-pressed', lang === 'en' ? 'true' : 'false');
+    btnPt.setAttribute('aria-pressed', lang === 'pt' ? 'true' : 'false');
 }
 
 /**
@@ -468,9 +472,8 @@ function toggleColorblindMode() {
 function updateColorblindButtonState(isActive) {
     const colorblindButton = document.getElementById('colorblind-toggle');
     if (colorblindButton) {
-        // The colorblind button has a static title, so no translation needed here.
-        // Its title is directly set in index.html for simplicity.
         colorblindButton.classList.toggle('active', isActive);
+        colorblindButton.setAttribute('aria-pressed', isActive ? 'true' : 'false');
     }
 }
 
@@ -493,7 +496,11 @@ document.getElementById('currentYear').textContent = new Date().getFullYear();
 
 // Initialize the page: set initial language and apply saved colorblind mode, then switch to it.
 document.addEventListener('DOMContentLoaded', function () {
-    setInitialLanguage(); // Determine language based on browser settings
-    applySavedColorblindMode(); // Apply saved colorblind mode preference
-    switchLanguage(currentLanguage); // Apply the determined language and update content
+    setInitialLanguage();
+    applySavedColorblindMode();
+    switchLanguage(currentLanguage);
+
+    document.getElementById('lang-en').addEventListener('click', () => switchLanguage('en'));
+    document.getElementById('lang-pt').addEventListener('click', () => switchLanguage('pt'));
+    document.getElementById('colorblind-toggle').addEventListener('click', toggleColorblindMode);
 });

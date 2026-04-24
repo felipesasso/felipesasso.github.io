@@ -23,6 +23,28 @@ body {
     --profile-border: #2E4057; /* Profile image border */
 }
 
+/* Dark Mode Colors */
+@media (prefers-color-scheme: dark) {
+    body:not(.colorblind-active) {
+        --primary-bg: #1a1e2e;
+        --secondary-bg: #232940;
+        --text-primary: #dce6f5;
+        --text-secondary: #94aec8;
+        --accent-color: #7eaaff;
+        --link-color: #7eaaff;
+        --link-hover-color: #a8c4ff;
+        --skill-bg: #7eaaff;
+        --skill-text: #1a1e2e;
+        --lang-button-bg: #2e3550;
+        --lang-button-text: #dce6f5;
+        --lang-button-active-bg: #7eaaff;
+        --lang-button-active-text: #1a1e2e;
+        --lang-button-hover-bg: #3a4468;
+        --profile-bg: #2e3550;
+        --profile-border: #7eaaff;
+    }
+}
+
 /* Colorblind Mode Colors */
 body.colorblind-active {
     --primary-bg: #F0F0F0; /* Very light grey */
