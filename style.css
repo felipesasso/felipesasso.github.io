@@ -4,44 +4,44 @@ body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 
-    /* Default (Original) Colors */
-    --primary-bg: #ECEFF1; /* Light grey blue */
-    --secondary-bg: #FFFFFF; /* White */
-    --text-primary: #37474F; /* Dark slate grey */
-    --text-secondary: #607D8B; /* Medium slate blue */
-    --accent-color: #2E4057; /* Darker slate blue (headings, borders, active lang button, skill tag bg) */
-    --link-color: #2E4057; /* Link highlight */
-    --link-hover-color: #1c2b3a; /* Darker link hover */
-    --skill-bg: #2E4057; /* Skill tag background */
-    --skill-text: #ECEFF1; /* Skill tag text */
-    --lang-button-bg: #CFD8DC; /* Language button background */
-    --lang-button-text: #2E4057; /* Language button text */
-    --lang-button-active-bg: #2E4057; /* Active language button background */
-    --lang-button-active-text: #ECEFF1; /* Active language button text */
-    --lang-button-hover-bg: #B0BEC5; /* Language button hover background */
-    --profile-bg: #CFD8DC; /* Profile image background */
-    --profile-border: #2E4057; /* Profile image border */
+    /* Warm off-white + Indigo */
+    --primary-bg: #F8F7F4;
+    --secondary-bg: #FFFFFF;
+    --text-primary: #1E293B;
+    --text-secondary: #64748B;
+    --accent-color: #4F46E5;
+    --link-color: #4F46E5;
+    --link-hover-color: #3730A3;
+    --skill-bg: #4F46E5;
+    --skill-text: #FFFFFF;
+    --lang-button-bg: #E0E7FF;
+    --lang-button-text: #4338CA;
+    --lang-button-active-bg: #4F46E5;
+    --lang-button-active-text: #FFFFFF;
+    --lang-button-hover-bg: #C7D2FE;
+    --profile-bg: #E0E7FF;
+    --profile-border: #4F46E5;
 }
 
 /* Dark Mode Colors */
 @media (prefers-color-scheme: dark) {
     body:not(.colorblind-active) {
-        --primary-bg: #1a1e2e;
-        --secondary-bg: #232940;
-        --text-primary: #dce6f5;
-        --text-secondary: #94aec8;
-        --accent-color: #7eaaff;
-        --link-color: #7eaaff;
-        --link-hover-color: #a8c4ff;
-        --skill-bg: #7eaaff;
-        --skill-text: #1a1e2e;
-        --lang-button-bg: #2e3550;
-        --lang-button-text: #dce6f5;
-        --lang-button-active-bg: #7eaaff;
-        --lang-button-active-text: #1a1e2e;
-        --lang-button-hover-bg: #3a4468;
-        --profile-bg: #2e3550;
-        --profile-border: #7eaaff;
+        --primary-bg: #0F172A;
+        --secondary-bg: #1E293B;
+        --text-primary: #E2E8F0;
+        --text-secondary: #94A3B8;
+        --accent-color: #818CF8;
+        --link-color: #818CF8;
+        --link-hover-color: #A5B4FC;
+        --skill-bg: #3730A3;
+        --skill-text: #E0E7FF;
+        --lang-button-bg: #293548;
+        --lang-button-text: #E2E8F0;
+        --lang-button-active-bg: #818CF8;
+        --lang-button-active-text: #0F172A;
+        --lang-button-hover-bg: #334155;
+        --profile-bg: #1E3A5F;
+        --profile-border: #818CF8;
     }
 }
 
