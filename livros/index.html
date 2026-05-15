@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Livros Mais Famosos do Mundo — Felipe Sasso</title>
+  <meta name="description" content="O livro mais representativo de cada país — 195 países mapeados." />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #0a0f1e 0%, #0f1729 50%, #0d1220 100%);
+      font-family: 'Georgia', 'Times New Roman', serif;
+      color: #e2e8f0;
+    }
+
+    .top-bar {
+      height: 4px;
+      background: linear-gradient(90deg, #fbbf24, #34d399, #60a5fa, #f87171, #c084fc);
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem;
+    }
+
+    /* ── Header ── */
+    .page-header {
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+
+    .page-header .emoji { font-size: 3rem; margin-bottom: 0.5rem; }
+
+    .page-title {
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      font-weight: 700;
+      background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 40%, #e2e8f0 70%, #93c5fd 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin: 0 0 0.5rem 0;
+      letter-spacing: -0.02em;
+    }
+
+    .page-subtitle {
+      color: #94a3b8;
+      font-size: 1rem;
+      font-family: system-ui, sans-serif;
+    }
+
+    /* ── Back link ── */
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      color: #94a3b8;
+      font-family: system-ui, sans-serif;
+      font-size: 0.82rem;
+      text-decoration: none;
+      margin-bottom: 1.5rem;
+      transition: color 0.2s;
+    }
+    .back-link:hover { color: #e2e8f0; }
+
+    /* ── Search ── */
+    .search-wrap {
+      position: relative;
+      margin-bottom: 1.25rem;
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 1.1rem;
+      color: #64748b;
+      pointer-events: none;
+    }
+
+    #search-input {
+      width: 100%;
+      padding: 0.85rem 2.8rem;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      color: #e2e8f0;
+      font-size: 0.95rem;
+      font-family: system-ui, sans-serif;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    #search-input::placeholder { color: #475569; }
+    #search-input:focus { border-color: var(--accent, #e2e8f0); }
+
+    #clear-btn {
+      position: absolute;
+      right: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: #94a3b8;
+      cursor: pointer;
+      font-size: 1.1rem;
+      padding: 0;
+      display: none;
+    }
+
+    /* ── Continent tabs ── */
+    .tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .tab-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.45rem 1rem;
+      border-radius: 999px;
+      border: 1.5px solid rgba(255, 255, 255, 0.12);
+      background: transparent;
+      color: #94a3b8;
+      cursor: pointer;
+      font-family: system-ui, sans-serif;
+      font-size: 0.82rem;
+      font-weight: 400;
+      transition: all 0.2s;
+    }
+
+    .tab-btn.active {
+      font-weight: 700;
+    }
+
+    .tab-badge {
+      border-radius: 999px;
+      padding: 0 0.4rem;
+      font-size: 0.72rem;
+      font-weight: 700;
+      min-width: 1.4rem;
+      text-align: center;
+      background: rgba(255, 255, 255, 0.1);
+      color: #94a3b8;
+    }
+
+    .tab-btn.active .tab-badge {
+      color: #0a0f1e;
+    }
+
+    /* ── Results count ── */
+    #results-count {
+      font-family: system-ui, sans-serif;
+      font-size: 0.82rem;
+      color: #64748b;
+      margin-bottom: 1.25rem;
+      padding-left: 0.25rem;
+    }
+
+    /* ── Grid ── */
+    #cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+      gap: 1rem;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 4rem;
+      color: #475569;
+      font-family: system-ui, sans-serif;
+    }
+
+    .empty-state .big-icon { font-size: 3rem; margin-bottom: 1rem; }
+
+    /* ── Cards ── */
+    .card {
+      border-radius: 14px;
+      padding: 1.1rem 1.2rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      position: relative;
+      overflow: hidden;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .card:hover {
+      transform: translateY(-1px);
+    }
+
+    .card-top {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .card-flag { font-size: 1.5rem; line-height: 1; }
+
+    .card-country-name {
+      font-family: system-ui, sans-serif;
+      font-weight: 700;
+      font-size: 0.88rem;
+      color: #f1f5f9;
+    }
+
+    .card-continent {
+      font-family: system-ui, sans-serif;
+      font-size: 0.7rem;
+      opacity: 0.85;
+    }
+
+    .card-year {
+      margin-left: auto;
+      font-size: 0.68rem;
+      color: #475569;
+      font-family: system-ui, sans-serif;
+      white-space: nowrap;
+    }
+
+    .card-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #f8fafc;
+      line-height: 1.35;
+      margin-bottom: 0.3rem;
+    }
+
+    .card-author {
+      font-family: system-ui, sans-serif;
+      font-size: 0.8rem;
+      color: #94a3b8;
+    }
+
+    .card-orig {
+      margin-top: 0.75rem;
+      padding-top: 0.75rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      display: none;
+    }
+
+    .card.expanded .card-orig { display: block; }
+
+    .card-orig-label {
+      font-family: system-ui, sans-serif;
+      font-size: 0.7rem;
+      color: #64748b;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      margin-bottom: 0.2rem;
+    }
+
+    .card-orig-text {
+      font-style: italic;
+      font-size: 0.85rem;
+      color: #cbd5e1;
+    }
+
+    .card-hint {
+      margin-top: 0.5rem;
+      font-family: system-ui, sans-serif;
+      font-size: 0.68rem;
+      color: #475569;
+    }
+
+    .card.expanded .card-hint { display: none; }
+
+    /* ── Footer note ── */
+    .page-footer {
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      text-align: center;
+      font-family: system-ui, sans-serif;
+      font-size: 0.75rem;
+      color: #475569;
+      line-height: 1.6;
+    }
+
+    .page-footer p + p { margin-top: 0.4rem; }
+  </style>
+</head>
+<body>
+  <div class="top-bar"></div>
+
+  <div class="container">
+
+    <a href="/" class="back-link">← Felipe Sasso</a>
+
+    <div class="page-header">
+      <div class="emoji">📚</div>
+      <h1 class="page-title">Livros Mais Famosos do Mundo</h1>
+      <p class="page-subtitle">O livro mais representativo de cada país — <span id="total-count"></span> países mapeados</p>
+    </div>
+
+    <div class="search-wrap">
+      <span class="search-icon">🔍</span>
+      <input
+        id="search-input"
+        type="text"
+        placeholder="Buscar por país, título, autor ou título original..."
+        autocomplete="off"
+      />
+      <button id="clear-btn" aria-label="Limpar busca">✕</button>
+    </div>
+
+    <div class="tabs" id="tabs"></div>
+
+    <div id="results-count"></div>
+
+    <div id="cards-grid"></div>
+
+    <div class="page-footer">
+      <p>⚠️ A seleção é baseada em relevância literária, impacto cultural e reconhecimento internacional — e é, por natureza, subjetiva.</p>
+      <p>Países com tradições literárias escritas menos desenvolvidas podem ter representantes de poesia oral, coleções de contos ou obras históricas.</p>
+    </div>
+
+  </div>
+
+  <script>
+    const DATA = [
+      // ── ÁFRICA ──
+      { country: "África do Sul",         continent: "África",   flag: "🇿🇦", book: "Chora, Amada Pátria",                  orig: "Cry, the Beloved Country",                    author: "Alan Paton",                   year: 1948 },
+      { country: "Argélia",               continent: "África",   flag: "🇩🇿", book: "O Estrangeiro",                        orig: "L'Étranger",                                  author: "Albert Camus",                 year: 1942 },
+      { country: "Angola",                continent: "África",   flag: "🇦🇴", book: "Mayombe",                              orig: "Mayombe",                                      author: "Pepetela",                     year: 1980 },
+      { country: "Benim",                 continent: "África",   flag: "🇧🇯", book: "Doguicimi",                            orig: "Doguicimi",                                    author: "Paul Hazoumé",                 year: 1938 },
+      { country: "Botsuana",              continent: "África",   flag: "🇧🇼", book: "Quando as Nuvens de Chuva se Juntam",  orig: "When Rain Clouds Gather",                      author: "Bessie Head",                  year: 1969 },
+      { country: "Burkina Faso",          continent: "África",   flag: "🇧🇫", book: "Crepúsculo dos Tempos Antigos",        orig: "Crépuscule des temps anciens",                 author: "Nazi Boni",                    year: 1962 },
+      { country: "Burundi",               continent: "África",   flag: "🇧🇮", book: "Mon Père Inconnu",                     orig: "Mon Père Inconnu",                             author: "Michel Kayoya",                year: 1971 },
+      { country: "Cabo Verde",            continent: "África",   flag: "🇨🇻", book: "Chiquinho",                            orig: "Chiquinho",                                    author: "Baltasar Lopes da Silva",      year: 1947 },
+      { country: "Camarões",              continent: "África",   flag: "🇨🇲", book: "Missão para Kala",                     orig: "Mission to Kala",                              author: "Mongo Beti",                   year: 1957 },
+      { country: "Chade",                 continent: "África",   flag: "🇹🇩", book: "Au Tchad sous les étoiles",            orig: "Au Tchad sous les étoiles",                    author: "Joseph Brahim Seid",           year: 1962 },
+      { country: "Comores",               continent: "África",   flag: "🇰🇲", book: "La République des imberbes",           orig: "La République des imberbes",                   author: "Nassuf Djailani",              year: 2005 },
+      { country: "Congo (Brazzaville)",   continent: "África",   flag: "🇨🇬", book: "O Riso do Choro",                      orig: "Le Pleurer-Rire",                              author: "Henri Lopes",                  year: 1982 },
+      { country: "Congo (Kinshasa)",      continent: "África",   flag: "🇨🇩", book: "A Vida e Meia",                        orig: "La Vie et demie",                              author: "Sony Labou Tansi",             year: 1979 },
+      { country: "Costa do Marfim",       continent: "África",   flag: "🇨🇮", book: "Os Sóis das Independências",           orig: "Les Soleils des indépendances",                author: "Ahmadou Kourouma",             year: 1968 },
+      { country: "Djibuti",               continent: "África",   flag: "🇩🇯", book: "Trânsito",                             orig: "Transit",                                      author: "Abdourahman A. Waberi",        year: 1994 },
+      { country: "Egito",                 continent: "África",   flag: "🇪🇬", book: "Trilogia do Cairo",                    orig: "Thulāthiyyat al-Qāhira",                       author: "Naguib Mahfouz",               year: 1956 },
+      { country: "Eritreia",              continent: "África",   flag: "🇪🇷", book: "A Outra Guerra",                       orig: "The Other War",                                author: "Alemseged Tesfai",             year: 2002 },
+      { country: "Eswatini",              continent: "África",   flag: "🇸🇿", book: "Indvuna yeNkhosi",                     orig: "Indvuna yeNkhosi",                             author: "J.M. Matsebula",               year: 1976 },
+      { country: "Etiópia",               continent: "África",   flag: "🇪🇹", book: "Amor até a Morte",                     orig: "Fikir Eske Mekabir",                           author: "Haddis Alemayehu",             year: 1966 },
+      { country: "Gabão",                 continent: "África",   flag: "🇬🇦", book: "Au bout du silence",                   orig: "Au bout du silence",                           author: "Laurent Owondo",               year: 1985 },
+      { country: "Gâmbia",                continent: "África",   flag: "🇬🇲", book: "A Segunda Rodada",                     orig: "The Second Round",                             author: "Lenrie Peters",                year: 1965 },
+      { country: "Gana",                  continent: "África",   flag: "🇬🇭", book: "Os Belos Ainda Não Nasceram",          orig: "The Beautyful Ones Are Not Yet Born",          author: "Ayi Kwei Armah",               year: 1968 },
+      { country: "Guiné",                 continent: "África",   flag: "🇬🇳", book: "A Criança Negra",                      orig: "L'Enfant noir",                                author: "Camara Laye",                  year: 1953 },
+      { country: "Guiné Equatorial",      continent: "África",   flag: "🇬🇶", book: "Cuando los Combes Luchaban",           orig: "Cuando los Combes Luchaban",                   author: "Leoncio Evita Enoy",           year: 1953 },
+      { country: "Guiné-Bissau",          continent: "África",   flag: "🇬🇼", book: "Kikia Matcho",                         orig: "Kikia Matcho",                                 author: "Filinto de Barros",            year: 1997 },
+      { country: "Lesoto",                continent: "África",   flag: "🇱🇸", book: "Chaka",                                orig: "Chaka",                                        author: "Thomas Mofolo",                year: 1925 },
+      { country: "Libéria",               continent: "África",   flag: "🇱🇷", book: "Assassinato no Roçado de Mandioca",   orig: "Murder in the Cassava Patch",                  author: "Bai T. Moore",                 year: 1968 },
+      { country: "Líbia",                 continent: "África",   flag: "🇱🇾", book: "No País dos Homens",                   orig: "In the Country of Men",                        author: "Hisham Matar",                 year: 2006 },
+      { country: "Madagascar",            continent: "África",   flag: "🇲🇬", book: "Presque-Songes",                       orig: "Presque-Songes",                               author: "Jean-Joseph Rabearivelo",      year: 1934 },
+      { country: "Malauí",                continent: "África",   flag: "🇲🇼", book: "A Sombra que Avança",                  orig: "The Looming Shadow",                           author: "Legson Kayira",                year: 1967 },
+      { country: "Mali",                  continent: "África",   flag: "🇲🇱", book: "O Dever de Violência",                 orig: "Le Devoir de violence",                        author: "Yambo Ouologuem",              year: 1968 },
+      { country: "Marrocos",              continent: "África",   flag: "🇲🇦", book: "O Pão Nu",                             orig: "Le Pain nu",                                   author: "Mohamed Choukri",              year: 1973 },
+      { country: "Maurício",              continent: "África",   flag: "🇲🇺", book: "Sens-Plastique",                       orig: "Sens-Plastique",                               author: "Malcolm de Chazal",            year: 1948 },
+      { country: "Mauritânia",            continent: "África",   flag: "🇲🇷", book: "O Olho da Noite",                      orig: "L'Œil de la nuit",                             author: "Moussa Ould Ebnou",            year: 1992 },
+      { country: "Moçambique",            continent: "África",   flag: "🇲🇿", book: "Terra Sonâmbula",                      orig: "Terra Sonâmbula",                              author: "Mia Couto",                    year: 1992 },
+      { country: "Namíbia",               continent: "África",   flag: "🇳🇦", book: "Nascido do Sol",                       orig: "Born of the Sun",                              author: "Joseph Diescho",               year: 1988 },
+      { country: "Níger",                 continent: "África",   flag: "🇳🇪", book: "Kotia-Nima",                           orig: "Kotia-Nima",                                   author: "Boubou Hama",                  year: 1969 },
+      { country: "Nigéria",               continent: "África",   flag: "🇳🇬", book: "O Mundo Se Despedaça",                 orig: "Things Fall Apart",                            author: "Chinua Achebe",                year: 1958 },
+      { country: "Rep. Centro-Africana",  continent: "África",   flag: "🇨🇫", book: "Nouvelles de Bangui",                  orig: "Nouvelles de Bangui",                          author: "Pierre Makombo Bamboté",       year: 1980 },
+      { country: "Ruanda",                continent: "África",   flag: "🇷🇼", book: "Nossa Senhora do Nilo",                orig: "Notre-Dame du Nil",                            author: "Scholastique Mukasonga",       year: 2012 },
+      { country: "São Tomé e Príncipe",   continent: "África",   flag: "🇸🇹", book: "Crónicas de uma Guerra Inventada",    orig: "Crónicas de uma Guerra Inventada",             author: "Olinda Beja",                  year: 2009 },
+      { country: "Senegal",               continent: "África",   flag: "🇸🇳", book: "Os Pedaços de Madeira de Deus",        orig: "Les Bouts de bois de Dieu",                    author: "Sembène Ousmane",              year: 1960 },
+      { country: "Serra Leoa",            continent: "África",   flag: "🇸🇱", book: "O Último Harmattan de Alusine Dunbar", orig: "The Last Harmattan of Alusine Dunbar",         author: "Syl Cheney-Coker",             year: 1990 },
+      { country: "Somália",               continent: "África",   flag: "🇸🇴", book: "Mapas",                                orig: "Maps",                                         author: "Nuruddin Farah",               year: 1986 },
+      { country: "Sudão",                 continent: "África",   flag: "🇸🇩", book: "Temporada de Migração para o Norte",  orig: "Mawsim al-Hijra ilā al-Shamāl",               author: "Tayeb Salih",                  year: 1966 },
+      { country: "Sudão do Sul",          continent: "África",   flag: "🇸🇸", book: "Baladhiyaat",                          orig: "Baladhiyaat",                                  author: "Stella Gaitano",               year: 2010 },
+      { country: "Tanzânia",              continent: "África",   flag: "🇹🇿", book: "Nagona",                               orig: "Nagona",                                       author: "Euphrase Kezilahabi",          year: 1990 },
+      { country: "Togo",                  continent: "África",   flag: "🇹🇬", book: "La Récade pour Kéyéwa",               orig: "La Récade pour Kéyéwa",                        author: "Sénouvo Agbota Zinsou",        year: 1985 },
+      { country: "Tunísia",               continent: "África",   flag: "🇹🇳", book: "A Estátua de Sal",                     orig: "La Statue de sel",                             author: "Albert Memmi",                 year: 1953 },
+      { country: "Uganda",                continent: "África",   flag: "🇺🇬", book: "Canção de Lawino",                     orig: "Song of Lawino",                               author: "Okot p'Bitek",                 year: 1966 },
+      { country: "Zâmbia",                continent: "África",   flag: "🇿🇲", book: "A Língua do Mudo",                     orig: "The Tongue of the Dumb",                       author: "Dominic Mulaisho",             year: 1971 },
+      { country: "Zimbabwe",              continent: "África",   flag: "🇿🇼", book: "Condições Nervosas",                   orig: "Nervous Conditions",                           author: "Tsitsi Dangarembga",           year: 1988 },
+
+      // ── AMÉRICAS ──
+      { country: "Antígua e Barbuda",     continent: "Américas", flag: "🇦🇬", book: "Annie John",                           orig: "Annie John",                                   author: "Jamaica Kincaid",              year: 1985 },
+      { country: "Argentina",             continent: "Américas", flag: "🇦🇷", book: "Ficções",                              orig: "Ficciones",                                    author: "Jorge Luis Borges",            year: 1944 },
+      { country: "Bahamas",               continent: "Américas", flag: "🇧🇸", book: "Uma Noite em Guanima",                 orig: "An Evening in Guanima",                        author: "Patricia Glinton-Meicholas",   year: 1994 },
+      { country: "Barbados",              continent: "Américas", flag: "🇧🇧", book: "No Castelo da Minha Pele",             orig: "In the Castle of My Skin",                     author: "George Lamming",               year: 1953 },
+      { country: "Belize",                continent: "Américas", flag: "🇧🇿", book: "Beka Lamb",                            orig: "Beka Lamb",                                    author: "Zee Edgell",                   year: 1982 },
+      { country: "Bolívia",               continent: "Américas", flag: "🇧🇴", book: "Juan de la Rosa",                      orig: "Juan de la Rosa",                              author: "Nataniel Aguirre",             year: 1885 },
+      { country: "Brasil",                continent: "Américas", flag: "🇧🇷", book: "Dom Casmurro",                         orig: "Dom Casmurro",                                 author: "Machado de Assis",             year: 1899 },
+      { country: "Canadá",                continent: "Américas", flag: "🇨🇦", book: "O Conto da Aia",                       orig: "The Handmaid's Tale",                          author: "Margaret Atwood",              year: 1985 },
+      { country: "Chile",                 continent: "Américas", flag: "🇨🇱", book: "A Casa dos Espíritos",                 orig: "La Casa de los Espíritus",                     author: "Isabel Allende",               year: 1982 },
+      { country: "Colômbia",              continent: "Américas", flag: "🇨🇴", book: "Cem Anos de Solidão",                  orig: "Cien años de soledad",                         author: "Gabriel García Márquez",       year: 1967 },
+      { country: "Costa Rica",            continent: "Américas", flag: "🇨🇷", book: "O Metal do Diabo",                     orig: "El Metal del Diablo",                          author: "Fabián Dobles",                year: 1979 },
+      { country: "Cuba",                  continent: "Américas", flag: "🇨🇺", book: "O Reino deste Mundo",                  orig: "El reino de este mundo",                       author: "Alejo Carpentier",             year: 1949 },
+      { country: "Dominica",              continent: "Américas", flag: "🇩🇲", book: "Mar Largo dos Sargaços",               orig: "Wide Sargasso Sea",                            author: "Jean Rhys",                    year: 1966 },
+      { country: "República Dominicana",  continent: "Américas", flag: "🇩🇴", book: "No Tempo das Borboletas",              orig: "In the Time of the Butterflies",               author: "Julia Alvarez",                year: 1994 },
+      { country: "Equador",               continent: "Américas", flag: "🇪🇨", book: "Huasipungo",                           orig: "Huasipungo",                                   author: "Jorge Icaza",                  year: 1934 },
+      { country: "El Salvador",           continent: "Américas", flag: "🇸🇻", book: "Miguel Mármol",                        orig: "Miguel Mármol",                                author: "Roque Dalton",                 year: 1972 },
+      { country: "Estados Unidos",        continent: "Américas", flag: "🇺🇸", book: "O Grande Gatsby",                      orig: "The Great Gatsby",                             author: "F. Scott Fitzgerald",          year: 1925 },
+      { country: "Granada",               continent: "Américas", flag: "🇬🇩", book: "Minha Pele Tão Escura",                orig: "Until I Lose My Soul",                         author: "Jacob Ross",                   year: 1999 },
+      { country: "Guatemala",             continent: "Américas", flag: "🇬🇹", book: "O Senhor Presidente",                  orig: "El Señor Presidente",                          author: "Miguel Ángel Asturias",        year: 1946 },
+      { country: "Guiana",                continent: "Américas", flag: "🇬🇾", book: "Palácio do Pavão",                     orig: "Palace of the Peacock",                        author: "Wilson Harris",                year: 1960 },
+      { country: "Haiti",                 continent: "Américas", flag: "🇭🇹", book: "Senhores do Orvalho",                  orig: "Gouverneurs de la rosée",                      author: "Jacques Roumain",              year: 1944 },
+      { country: "Honduras",              continent: "Américas", flag: "🇭🇳", book: "Prisão Verde",                         orig: "Prisión Verde",                                author: "Ramón Amaya Amador",           year: 1950 },
+      { country: "Jamaica",               continent: "Américas", flag: "🇯🇲", book: "Irmão Homem",                          orig: "Brother Man",                                  author: "Roger Mais",                   year: 1954 },
+      { country: "México",                continent: "Américas", flag: "🇲🇽", book: "Pedro Páramo",                         orig: "Pedro Páramo",                                 author: "Juan Rulfo",                   year: 1955 },
+      { country: "Nicarágua",             continent: "Américas", flag: "🇳🇮", book: "Azul...",                              orig: "Azul...",                                       author: "Rubén Darío",                  year: 1888 },
+      { country: "Panamá",                continent: "Américas", flag: "🇵🇦", book: "Plenilunio",                           orig: "Plenilunio",                                   author: "Ricardo Miró",                 year: 1917 },
+      { country: "Paraguai",              continent: "Américas", flag: "🇵🇾", book: "Eu, o Supremo",                        orig: "Yo el Supremo",                                author: "Augusto Roa Bastos",           year: 1974 },
+      { country: "Peru",                  continent: "Américas", flag: "🇵🇪", book: "Conversa na Catedral",                 orig: "Conversación en La Catedral",                  author: "Mario Vargas Llosa",           year: 1969 },
+      { country: "São Cristóvão e Nevis", continent: "Américas", flag: "🇰🇳", book: "Um Estado de Independência",           orig: "A State of Independence",                      author: "Caryl Phillips",               year: 1986 },
+      { country: "Santa Lúcia",           continent: "Américas", flag: "🇱🇨", book: "Omeros",                               orig: "Omeros",                                       author: "Derek Walcott",                year: 1990 },
+      { country: "S. Vicente e Granadinas", continent: "Américas", flag: "🇻🇨", book: "O Vinho do Assombro",               orig: "The Wine of Astonishment",                     author: "Earl Lovelace",                year: 1982 },
+      { country: "Suriname",              continent: "Américas", flag: "🇸🇷", book: "Quanto Custou o Açúcar?",              orig: "Hoe duur was de suiker",                       author: "Cynthia McLeod",               year: 1987 },
+      { country: "Trinidad e Tobago",     continent: "Américas", flag: "🇹🇹", book: "Uma Casa para o Sr. Biswas",           orig: "A House for Mr Biswas",                        author: "V.S. Naipaul",                 year: 1961 },
+      { country: "Uruguai",               continent: "Américas", flag: "🇺🇾", book: "O Estaleiro",                          orig: "El Astillero",                                 author: "Juan Carlos Onetti",           year: 1961 },
+      { country: "Venezuela",             continent: "Américas", flag: "🇻🇪", book: "Dona Bárbara",                         orig: "Doña Bárbara",                                 author: "Rómulo Gallegos",              year: 1929 },
+
+      // ── ÁSIA ──
+      { country: "Afeganistão",           continent: "Ásia",     flag: "🇦🇫", book: "O Caçador de Pipas",                   orig: "The Kite Runner",                              author: "Khaled Hosseini",              year: 2003 },
+      { country: "Arábia Saudita",        continent: "Ásia",     flag: "🇸🇦", book: "Cidades de Sal",                       orig: "Mudun al-Milh",                                author: "Abdelrahman Munif",            year: 1984 },
+      { country: "Armênia",               continent: "Ásia",     flag: "🇦🇲", book: "As Feridas da Armênia",                orig: "Verk Hayastani",                               author: "Khachatur Abovian",            year: 1858 },
+      { country: "Azerbaijão",            continent: "Ásia",     flag: "🇦🇿", book: "Ali e Nino",                           orig: "Ali und Nino",                                 author: "Kurban Said",                  year: 1937 },
+      { country: "Bahrein",               continent: "Ásia",     flag: "🇧🇭", book: "A Fala de Baraka",                     orig: "Kalam Baraka",                                 author: "Mohammed Abdul-Malik",         year: 1975 },
+      { country: "Bangladesh",            continent: "Ásia",     flag: "🇧🇩", book: "Vergonha",                             orig: "Lajja",                                        author: "Taslima Nasrin",               year: 1993 },
+      { country: "Brunei",                continent: "Ásia",     flag: "🇧🇳", book: "Manusia Bertopeng",                    orig: "Manusia Bertopeng",                            author: "Harun Aminurrashid",           year: 1965 },
+      { country: "Butão",                 continent: "Ásia",     flag: "🇧🇹", book: "O Círculo do Karma",                   orig: "The Circle of Karma",                          author: "Kunzang Choden",               year: 2005 },
+      { country: "Camboja",               continent: "Ásia",     flag: "🇰🇭", book: "Primeiro Mataram Meu Pai",             orig: "First They Killed My Father",                  author: "Loung Ung",                    year: 2000 },
+      { country: "Cazaquistão",           continent: "Ásia",     flag: "🇰🇿", book: "O Caminho de Abai",                    orig: "Abay Zholy",                                   author: "Mukhtar Auezov",               year: 1942 },
+      { country: "China",                 continent: "Ásia",     flag: "🇨🇳", book: "O Sonho do Pavilhão Vermelho",         orig: "Hóng Lóu Mèng",                               author: "Cao Xueqin",                   year: 1791 },
+      { country: "Coreia do Norte",       continent: "Ásia",     flag: "🇰🇵", book: "Flor de Fogo",                         orig: "Bulkkot",                                      author: "Choe Seo-hae",                 year: 1925 },
+      { country: "Coreia do Sul",         continent: "Ásia",     flag: "🇰🇷", book: "A Vegetariana",                        orig: "Chaesikjuuija",                                author: "Han Kang",                     year: 2007 },
+      { country: "Emirados Árabes Unidos",continent: "Ásia",     flag: "🇦🇪", book: "Areias de Ouro",                       orig: "Rimal al-Dhahab",                              author: "Mohammed Al-Murr",             year: 1986 },
+      { country: "Filipinas",             continent: "Ásia",     flag: "🇵🇭", book: "Noli Me Tangere",                      orig: "Noli Me Tangere",                              author: "José Rizal",                   year: 1887 },
+      { country: "Geórgia",               continent: "Ásia",     flag: "🇬🇪", book: "O Cavaleiro com Pele de Leopardo",     orig: "Vepkhistqaosani",                              author: "Shota Rustaveli",              year: 1200 },
+      { country: "Índia",                 continent: "Ásia",     flag: "🇮🇳", book: "O Deus das Pequenas Coisas",           orig: "The God of Small Things",                      author: "Arundhati Roy",                year: 1997 },
+      { country: "Indonésia",             continent: "Ásia",     flag: "🇮🇩", book: "Esta Terra que Herdamos",              orig: "Bumi Manusia",                                 author: "Pramoedya Ananta Toer",        year: 1980 },
+      { country: "Irã",                   continent: "Ásia",     flag: "🇮🇷", book: "Shahnameh",                            orig: "Shāhnāmeh",                                    author: "Ferdowsi",                     year: 1010 },
+      { country: "Iraque",                continent: "Ásia",     flag: "🇮🇶", book: "A Última Pomba",                       orig: "Akhir al-Malāʾika",                            author: "Fadhil al-Azzawi",             year: 1992 },
+      { country: "Israel",                continent: "Ásia",     flag: "🇮🇱", book: "Meu Miguel",                           orig: "Mikha'el Sheli",                               author: "Amos Oz",                      year: 1968 },
+      { country: "Japão",                 continent: "Ásia",     flag: "🇯🇵", book: "A História de Genji",                  orig: "Genji Monogatari",                             author: "Murasaki Shikibu",             year: 1010 },
+      { country: "Jordânia",              continent: "Ásia",     flag: "🇯🇴", book: "As Estações da Última Vida",           orig: "Al-Mawsim al-Akhir",                           author: "Ghalib Halasa",                year: 1982 },
+      { country: "Kuwait",                continent: "Ásia",     flag: "🇰🇼", book: "O Barco",                              orig: "Al-Bark",                                      author: "Ismail Fahd Ismail",           year: 1970 },
+      { country: "Quirguistão",           continent: "Ásia",     flag: "🇰🇬", book: "O Dia Dura Mais que Cem Anos",         orig: "I dolshe veka dlitsya den",                    author: "Chingiz Aitmatov",             year: 1980 },
+      { country: "Laos",                  continent: "Ásia",     flag: "🇱🇦", book: "Contos Laocianos",                     orig: "Phasa Lao",                                    author: "Outhine Bounyavong",           year: 1987 },
+      { country: "Líbano",                continent: "Ásia",     flag: "🇱🇧", book: "O Profeta",                            orig: "The Prophet",                                  author: "Kahlil Gibran",                year: 1923 },
+      { country: "Malásia",               continent: "Ásia",     flag: "🇲🇾", book: "Salina",                               orig: "Salina",                                       author: "A. Samad Said",                year: 1961 },
+      { country: "Maldivas",              continent: "Ásia",     flag: "🇲🇻", book: "Dheenuge Hiyaa",                       orig: "Dheenuge Hiyaa",                               author: "Ahmed Naseem",                 year: 1990 },
+      { country: "Mongólia",              continent: "Ásia",     flag: "🇲🇳", book: "História Secreta dos Mongóis",         orig: "Монголын нууц товчоо",                         author: "Anônimo",                      year: 1240 },
+      { country: "Myanmar",               continent: "Ásia",     flag: "🇲🇲", book: "As Trinta Camaradas",                  orig: "Bhama Khit Thu Thway",                         author: "Thein Pe Myint",               year: 1942 },
+      { country: "Nepal",                 continent: "Ásia",     flag: "🇳🇵", book: "Sumnima",                              orig: "Sumnima",                                      author: "B.P. Koirala",                 year: 1984 },
+      { country: "Omã",                   continent: "Ásia",     flag: "🇴🇲", book: "A Torção do Destino",                  orig: "Inhiyaf al-Matar",                             author: "Abdullah al-Tai",              year: 1975 },
+      { country: "Paquistão",             continent: "Ásia",     flag: "🇵🇰", book: "O Fundamentalista Relutante",          orig: "The Reluctant Fundamentalist",                 author: "Mohsin Hamid",                 year: 2007 },
+      { country: "Palestina",             continent: "Ásia",     flag: "🇵🇸", book: "Homens no Sol",                        orig: "Rijal fi al-Shams",                            author: "Ghassan Kanafani",             year: 1963 },
+      { country: "Catar",                 continent: "Ásia",     flag: "🇶🇦", book: "O Falcão de Ouro",                     orig: "Al-Saqr al-Dhahabi",                           author: "Abdelaziz Al-Mahmoud",         year: 1988 },
+      { country: "Singapura",             continent: "Ásia",     flag: "🇸🇬", book: "Se Sonharmos por Muito Tempo",         orig: "If We Dream Too Long",                         author: "Goh Poh Seng",                 year: 1972 },
+      { country: "Sri Lanka",             continent: "Ásia",     flag: "🇱🇰", book: "Recife",                               orig: "Reef",                                         author: "Romesh Gunesekera",            year: 1994 },
+      { country: "Síria",                 continent: "Ásia",     flag: "🇸🇾", book: "Sabriya",                              orig: "Sabriya",                                      author: "Ulfat Idilbi",                 year: 1991 },
+      { country: "Tadjiquistão",          continent: "Ásia",     flag: "🇹🇯", book: "Escravos",                             orig: "Ghulomon",                                     author: "Sadriddin Aini",               year: 1934 },
+      { country: "Tailândia",             continent: "Ásia",     flag: "🇹🇭", book: "Quatro Reinados",                      orig: "Si Phaendin",                                  author: "Kukrit Pramoj",                year: 1953 },
+      { country: "Timor-Leste",           continent: "Ásia",     flag: "🇹🇱", book: "A Terra de Pau-Caju",                  orig: "A Terra de Pau-Caju",                          author: "Luís Cardoso",                 year: 1997 },
+      { country: "Turquia",               continent: "Ásia",     flag: "🇹🇷", book: "Meu Nome é Vermelho",                  orig: "Benim Adım Kırmızı",                           author: "Orhan Pamuk",                  year: 1998 },
+      { country: "Turcomenistão",         continent: "Ásia",     flag: "🇹🇲", book: "Ruhnama",                              orig: "Ruhnama",                                      author: "Saparmurat Niyazov",           year: 2001 },
+      { country: "Uzbequistão",           continent: "Ásia",     flag: "🇺🇿", book: "Dias Passados",                        orig: "O'tgan kunlar",                                author: "Abdulla Qodiriy",              year: 1926 },
+      { country: "Vietnã",                continent: "Ásia",     flag: "🇻🇳", book: "O Conto de Kiều",                      orig: "Truyện Kiều",                                  author: "Nguyễn Du",                    year: 1820 },
+      { country: "Iêmen",                 continent: "Ásia",     flag: "🇾🇪", book: "O Reféns",                             orig: "Al-Rahina",                                    author: "Zayd Muti Dammaj",             year: 1984 },
+
+      // ── EUROPA ──
+      { country: "Albânia",               continent: "Europa",   flag: "🇦🇱", book: "O General do Exército Morto",          orig: "Gjenerali i ushtrisë së vdekur",               author: "Ismail Kadare",                year: 1963 },
+      { country: "Alemanha",              continent: "Europa",   flag: "🇩🇪", book: "Fausto",                               orig: "Faust",                                        author: "Johann Wolfgang von Goethe",   year: 1808 },
+      { country: "Andorra",               continent: "Europa",   flag: "🇦🇩", book: "A Crise de Cristo",                    orig: "La crisi de Crist",                            author: "Albert Salvadó",               year: 1995 },
+      { country: "Áustria",               continent: "Europa",   flag: "🇦🇹", book: "O Homem Sem Qualidades",               orig: "Der Mann ohne Eigenschaften",                  author: "Robert Musil",                 year: 1930 },
+      { country: "Bielorrússia",          continent: "Europa",   flag: "🇧🇾", book: "Os Meninos de Zinco",                  orig: "Zinkovye Malchiki",                            author: "Svetlana Alexievich",          year: 1989 },
+      { country: "Bélgica",               continent: "Europa",   flag: "🇧🇪", book: "A Lenda de Till Ulenspiegel",          orig: "La Légende et les Aventures d'Ulenspiegel",    author: "Charles De Coster",            year: 1867 },
+      { country: "Bósnia e Herzegovina",  continent: "Europa",   flag: "🇧🇦", book: "Morte e Dervixe",                      orig: "Derviš i smrt",                                author: "Meša Selimović",               year: 1966 },
+      { country: "Bulgária",              continent: "Europa",   flag: "🇧🇬", book: "Sob o Jugo",                           orig: "Pod igoto",                                    author: "Ivan Vazov",                   year: 1893 },
+      { country: "Chipre",                continent: "Europa",   flag: "🇨🇾", book: "Erofile",                              orig: "Erofile",                                      author: "Georgios Chortatzis",          year: 1637 },
+      { country: "Croácia",               continent: "Europa",   flag: "🇭🇷", book: "O Retorno de Felipe Latinovicz",       orig: "Povratak Filipa Latinovicza",                  author: "Miroslav Krleža",              year: 1932 },
+      { country: "República Tcheca",      continent: "Europa",   flag: "🇨🇿", book: "O Bom Soldado Švejk",                  orig: "Osudy dobrého vojáka Švejka",                  author: "Jaroslav Hašek",               year: 1921 },
+      { country: "Dinamarca",             continent: "Europa",   flag: "🇩🇰", book: "A Fazenda Africana",                   orig: "Den afrikanske farm",                          author: "Karen Blixen",                 year: 1937 },
+      { country: "Eslováquia",            continent: "Europa",   flag: "🇸🇰", book: "O Látego Vivo",                        orig: "Živý bič",                                     author: "Milo Urban",                   year: 1927 },
+      { country: "Eslovênia",             continent: "Europa",   flag: "🇸🇮", book: "Alamut",                               orig: "Alamut",                                       author: "Vladimir Bartol",              year: 1938 },
+      { country: "Espanha",               continent: "Europa",   flag: "🇪🇸", book: "Dom Quixote",                          orig: "Don Quijote de la Mancha",                     author: "Miguel de Cervantes",          year: 1605 },
+      { country: "Estônia",               continent: "Europa",   flag: "🇪🇪", book: "Verdade e Justiça",                    orig: "Tõde ja õigus",                                author: "A.H. Tammsaare",               year: 1926 },
+      { country: "Finlândia",             continent: "Europa",   flag: "🇫🇮", book: "Sete Irmãos",                          orig: "Seitsemän veljestä",                           author: "Aleksis Kivi",                 year: 1870 },
+      { country: "França",                continent: "Europa",   flag: "🇫🇷", book: "Os Miseráveis",                        orig: "Les Misérables",                               author: "Victor Hugo",                  year: 1862 },
+      { country: "Grécia",                continent: "Europa",   flag: "🇬🇷", book: "A Odisseia",                           orig: "Ὀδύσσεια",                                    author: "Homero",                       year: -800 },
+      { country: "Hungria",               continent: "Europa",   flag: "🇭🇺", book: "Estrelas de Eger",                     orig: "Egri csillagok",                               author: "Géza Gárdonyi",                year: 1899 },
+      { country: "Islândia",              continent: "Europa",   flag: "🇮🇸", book: "Povo Independente",                    orig: "Sjálfstætt fólk",                              author: "Halldór Laxness",              year: 1934 },
+      { country: "Irlanda",               continent: "Europa",   flag: "🇮🇪", book: "Ulisses",                              orig: "Ulysses",                                      author: "James Joyce",                  year: 1922 },
+      { country: "Itália",                continent: "Europa",   flag: "🇮🇹", book: "A Divina Comédia",                     orig: "La Divina Commedia",                           author: "Dante Alighieri",              year: 1320 },
+      { country: "Kosovo",                continent: "Europa",   flag: "🇽🇰", book: "A Morte da Cavalaria",                 orig: "Vdekja m'ndodhi në Paris",                     author: "Rexhep Qosja",                 year: 1974 },
+      { country: "Letônia",               continent: "Europa",   flag: "🇱🇻", book: "Lāčplēsis",                            orig: "Lāčplēsis",                                    author: "Andrejs Pumpurs",              year: 1888 },
+      { country: "Liechtenstein",         continent: "Europa",   flag: "🇱🇮", book: "História do Principado de Liechtenstein", orig: "Geschichte des Fürstenthums Liechtenstein", author: "Peter Kaiser",                 year: 1847 },
+      { country: "Lituânia",              continent: "Europa",   flag: "🇱🇹", book: "A Floresta dos Deuses",                orig: "Dievų miškas",                                 author: "Balys Sruoga",                 year: 1957 },
+      { country: "Luxemburgo",            continent: "Europa",   flag: "🇱🇺", book: "Renert",                               orig: "Renert oder de Fuuss am Frack",                author: "Michel Rodange",               year: 1872 },
+      { country: "Macedônia do Norte",    continent: "Europa",   flag: "🇲🇰", book: "O Tempo das Cabras",                   orig: "Vreme na kozite",                              author: "Živko Čingo",                  year: 1967 },
+      { country: "Malta",                 continent: "Europa",   flag: "🇲🇹", book: "Dun Karm: Poeta Malti",                orig: "Dun Karm: Poeta Malti",                        author: "Dun Karm Psaila",              year: 1961 },
+      { country: "Moldávia",              continent: "Europa",   flag: "🇲🇩", book: "Folhas de Saudade",                    orig: "Frunze de dor",                                author: "Ion Druță",                    year: 1957 },
+      { country: "Mônaco",                continent: "Europa",   flag: "🇲🇨", book: "La Princessa Alice",                   orig: "La Princessa Alice",                           author: "Louis Notari",                 year: 1924 },
+      { country: "Montenegro",            continent: "Europa",   flag: "🇲🇪", book: "A Coroa da Montanha",                  orig: "Gorski vijenac",                               author: "Petar Petrović Njegoš",        year: 1847 },
+      { country: "Noruega",               continent: "Europa",   flag: "🇳🇴", book: "Fome",                                 orig: "Sult",                                         author: "Knut Hamsun",                  year: 1890 },
+      { country: "Países Baixos",         continent: "Europa",   flag: "🇳🇱", book: "O Diário de Anne Frank",               orig: "Het Achterhuis",                               author: "Anne Frank",                   year: 1947 },
+      { country: "Polônia",               continent: "Europa",   flag: "🇵🇱", book: "Pan Tadeusz",                          orig: "Pan Tadeusz",                                  author: "Adam Mickiewicz",              year: 1834 },
+      { country: "Portugal",              continent: "Europa",   flag: "🇵🇹", book: "Os Lusíadas",                          orig: "Os Lusíadas",                                  author: "Luís de Camões",               year: 1572 },
+      { country: "Reino Unido",           continent: "Europa",   flag: "🇬🇧", book: "1984",                                 orig: "Nineteen Eighty-Four",                         author: "George Orwell",                year: 1949 },
+      { country: "Romênia",               continent: "Europa",   flag: "🇷🇴", book: "Ion",                                  orig: "Ion",                                          author: "Liviu Rebreanu",               year: 1920 },
+      { country: "Rússia",                continent: "Europa",   flag: "🇷🇺", book: "Guerra e Paz",                         orig: "Война и мир",                                  author: "Lev Tolstói",                  year: 1869 },
+      { country: "San Marino",            continent: "Europa",   flag: "🇸🇲", book: "Storia di San Marino",                 orig: "Storia di San Marino",                         author: "Giovanni Gasperoni",           year: 1894 },
+      { country: "Sérvia",                continent: "Europa",   flag: "🇷🇸", book: "A Ponte sobre o Drina",                orig: "Na Drini ćuprija",                             author: "Ivo Andrić",                   year: 1945 },
+      { country: "Suécia",                continent: "Europa",   flag: "🇸🇪", book: "A Maravilhosa Viagem de Nils",         orig: "Nils Holgerssons underbara resa",              author: "Selma Lagerlöf",               year: 1906 },
+      { country: "Suíça",                 continent: "Europa",   flag: "🇨🇭", book: "Heidi",                                orig: "Heidi",                                        author: "Johanna Spyri",                year: 1881 },
+      { country: "Ucrânia",               continent: "Europa",   flag: "🇺🇦", book: "Kobzar",                               orig: "Кобзар",                                       author: "Taras Shevchenko",             year: 1840 },
+      { country: "Vaticano",              continent: "Europa",   flag: "🇻🇦", book: "A Bíblia (Vulgata)",                   orig: "Biblia Sacra Vulgata",                         author: "São Jerônimo",                 year: 405 },
+
+      // ── OCEANIA ──
+      { country: "Austrália",             continent: "Oceania",  flag: "🇦🇺", book: "Cloudstreet",                          orig: "Cloudstreet",                                  author: "Tim Winton",                   year: 1991 },
+      { country: "Fiji",                  continent: "Oceania",  flag: "🇫🇯", book: "Sharda na Terra dos Céus",             orig: "Sharda in the Land of Heavens",                author: "Joseph Veramo",                year: 1995 },
+      { country: "Ilhas Marshall",        continent: "Oceania",  flag: "🇲🇭", book: "Iep Jāltok",                           orig: "Iep Jāltok",                                   author: "Kathy Jetnil-Kijiner",         year: 2017 },
+      { country: "Kiribati",              continent: "Oceania",  flag: "🇰🇮", book: "Nei Beia ma Tabomoa",                  orig: "Nei Beia ma Tabomoa",                          author: "Tekarei Rineua",               year: 2000 },
+      { country: "Micronésia",            continent: "Oceania",  flag: "🇫🇲", book: "Pohnpei: An Island Argosy",            orig: "Pohnpei: An Island Argosy",                    author: "Gene Ashby",                   year: 1993 },
+      { country: "Nauru",                 continent: "Oceania",  flag: "🇳🇷", book: "Nauru Island Report",                  orig: "Nauru Island Report",                          author: "Timothy Detudamo",             year: 1932 },
+      { country: "Nova Zelândia",         continent: "Oceania",  flag: "🇳🇿", book: "Os Ossos das Pessoas",                 orig: "The Bone People",                              author: "Keri Hulme",                   year: 1984 },
+      { country: "Palau",                 continent: "Oceania",  flag: "🇵🇼", book: "Rechuodel",                            orig: "Rechuodel",                                    author: "Adalbert Obak",                year: 1990 },
+      { country: "Papua Nova Guiné",      continent: "Oceania",  flag: "🇵🇬", book: "O Crocodilo",                          orig: "The Crocodile",                                author: "Vincent Eri",                  year: 1970 },
+      { country: "Samoa",                 continent: "Oceania",  flag: "🇼🇸", book: "Filhos para o Retorno a Casa",         orig: "Sons for the Return Home",                     author: "Albert Wendt",                 year: 1973 },
+      { country: "Ilhas Salomão",         continent: "Oceania",  flag: "🇸🇧", book: "From Nius Blong Iumi",                 orig: "From Nius Blong Iumi",                         author: "Jully Makini",                 year: 2004 },
+      { country: "Tonga",                 continent: "Oceania",  flag: "🇹🇴", book: "Contos dos Tikongs",                   orig: "Tales of the Tikongs",                         author: "Epeli Hau'ofa",                year: 1983 },
+      { country: "Tuvalu",                continent: "Oceania",  flag: "🇹🇻", book: "Te Fenua Moana",                       orig: "Te Fenua Moana",                               author: "Vários Autores",               year: 2000 },
+      { country: "Vanuatu",               continent: "Oceania",  flag: "🇻🇺", book: "Colonialism Blong Mi",                 orig: "Colonialism Blong Mi",                         author: "Grace Mera Molisa",            year: 1983 },
+    ];
+
+    const CONTINENTS = {
+      "Todos":    { color: "#e2e8f0", bg: "rgba(226,232,240,0.15)", border: "#e2e8f0" },
+      "África":   { color: "#fbbf24", bg: "rgba(251,191,36,0.12)",  border: "#fbbf24" },
+      "Américas": { color: "#34d399", bg: "rgba(52,211,153,0.12)",  border: "#34d399" },
+      "Ásia":     { color: "#f87171", bg: "rgba(248,113,113,0.12)", border: "#f87171" },
+      "Europa":   { color: "#60a5fa", bg: "rgba(96,165,250,0.12)",  border: "#60a5fa" },
+      "Oceania":  { color: "#c084fc", bg: "rgba(192,132,252,0.12)", border: "#c084fc" },
+    };
+
+    function formatYear(y) {
+      if (y < 0) return `c. ${Math.abs(y)} a.C.`;
+      if (y < 1000) return `c. ${y} d.C.`;
+      return String(y);
+    }
+
+    // ── State ──
+    let activeContinent = "Todos";
+    let searchQuery = "";
+    let expandedCountry = null;
+
+    // ── DOM refs ──
+    const searchInput = document.getElementById("search-input");
+    const clearBtn = document.getElementById("clear-btn");
+    const tabsEl = document.getElementById("tabs");
+    const gridEl = document.getElementById("cards-grid");
+    const countEl = document.getElementById("results-count");
+    const totalEl = document.getElementById("total-count");
+
+    totalEl.textContent = DATA.length;
+
+    // ── Build tabs ──
+    const continentCounts = {};
+    for (const c of Object.keys(CONTINENTS)) {
+      continentCounts[c] = c === "Todos" ? DATA.length : DATA.filter(d => d.continent === c).length;
+    }
+
+    for (const [name, cfg] of Object.entries(CONTINENTS)) {
+      const btn = document.createElement("button");
+      btn.className = "tab-btn" + (name === "Todos" ? " active" : "");
+      btn.dataset.continent = name;
+      btn.innerHTML = `${name}<span class="tab-badge">${continentCounts[name]}</span>`;
+      btn.addEventListener("click", () => {
+        activeContinent = name;
+        expandedCountry = null;
+        document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        applyTabStyle(btn, cfg, true);
+        document.querySelectorAll(".tab-btn:not(.active)").forEach(b => {
+          const bCfg = CONTINENTS[b.dataset.continent];
+          applyTabStyle(b, bCfg, false);
+        });
+        document.documentElement.style.setProperty("--accent", cfg.color);
+        render();
+      });
+      applyTabStyle(btn, cfg, name === "Todos");
+      tabsEl.appendChild(btn);
+    }
+
+    function applyTabStyle(btn, cfg, isActive) {
+      btn.style.borderColor = isActive ? cfg.color : "rgba(255,255,255,0.12)";
+      btn.style.background = isActive ? cfg.bg : "transparent";
+      btn.style.color = isActive ? cfg.color : "#94a3b8";
+      const badge = btn.querySelector(".tab-badge");
+      badge.style.background = isActive ? cfg.color : "rgba(255,255,255,0.1)";
+      badge.style.color = isActive ? "#0a0f1e" : "#94a3b8";
+    }
+
+    // initialize accent CSS var
+    document.documentElement.style.setProperty("--accent", CONTINENTS["Todos"].color);
+
+    // ── Search ──
+    searchInput.addEventListener("input", () => {
+      searchQuery = searchInput.value;
+      clearBtn.style.display = searchQuery ? "block" : "none";
+      expandedCountry = null;
+      render();
+    });
+
+    clearBtn.addEventListener("click", () => {
+      searchInput.value = "";
+      searchQuery = "";
+      clearBtn.style.display = "none";
+      expandedCountry = null;
+      render();
+    });
+
+    // ── Render ──
+    function getFiltered() {
+      const q = searchQuery.toLowerCase().trim();
+      return DATA
+        .filter(item => {
+          const matchC = activeContinent === "Todos" || item.continent === activeContinent;
+          const matchQ = !q ||
+            item.country.toLowerCase().includes(q) ||
+            item.book.toLowerCase().includes(q) ||
+            item.author.toLowerCase().includes(q) ||
+            item.orig.toLowerCase().includes(q);
+          return matchC && matchQ;
+        })
+        .sort((a, b) => a.country.localeCompare(b.country, "pt-BR"));
+    }
+
+    function render() {
+      const filtered = getFiltered();
+      const cfg = CONTINENTS[activeContinent];
+
+      // Results count
+      if (filtered.length === DATA.length) {
+        countEl.textContent = `Todos os ${DATA.length} países`;
+      } else {
+        countEl.textContent = `${filtered.length} de ${DATA.length} países` +
+          (searchQuery ? ` para "${searchQuery}"` : "");
+      }
+
+      // Grid
+      gridEl.innerHTML = "";
+
+      if (filtered.length === 0) {
+        gridEl.innerHTML = `
+          <div class="empty-state" style="grid-column:1/-1">
+            <div class="big-icon">🔎</div>
+            <p>Nenhum resultado encontrado.</p>
+          </div>`;
+        return;
+      }
+
+      for (const item of filtered) {
+        const itemCfg = CONTINENTS[item.continent];
+        const isExpanded = expandedCountry === item.country;
+        const hasOrig = item.orig !== item.book;
+
+        const card = document.createElement("div");
+        card.className = "card" + (isExpanded ? " expanded" : "");
+        card.style.borderLeft = `3px solid ${itemCfg.color}`;
+        card.style.background = isExpanded ? itemCfg.bg : "rgba(255,255,255,0.03)";
+        card.style.borderColor = isExpanded ? itemCfg.border : "rgba(255,255,255,0.08)";
+
+        card.innerHTML = `
+          <div class="card-top">
+            <span class="card-flag">${item.flag}</span>
+            <div>
+              <div class="card-country-name">${item.country}</div>
+              <div class="card-continent" style="color:${itemCfg.color}">${item.continent}</div>
+            </div>
+            <span class="card-year">${formatYear(item.year)}</span>
+          </div>
+          <div class="card-title">${item.book}</div>
+          <div class="card-author">${item.author}</div>
+          ${hasOrig ? `
+          <div class="card-orig">
+            <div class="card-orig-label">Título Original</div>
+            <div class="card-orig-text">${item.orig}</div>
+          </div>
+          <div class="card-hint">Clique para ver título original</div>
+          ` : ""}
+        `;
+
+        card.addEventListener("mouseenter", () => {
+          if (!card.classList.contains("expanded")) {
+            card.style.background = itemCfg.bg;
+            card.style.borderColor = itemCfg.border;
+          }
+          card.style.transform = "translateY(-1px)";
+        });
+
+        card.addEventListener("mouseleave", () => {
+          if (!card.classList.contains("expanded")) {
+            card.style.background = "rgba(255,255,255,0.03)";
+            card.style.borderColor = "rgba(255,255,255,0.08)";
+          }
+          card.style.transform = "";
+        });
+
+        card.addEventListener("click", () => {
+          expandedCountry = isExpanded ? null : item.country;
+          render();
+        });
+
+        gridEl.appendChild(card);
+      }
+    }
+
+    render();
+  </script>
+</body>
+</html>
