@@ -7,7 +7,6 @@
         <meta name="description" content="Lista de livros lidos por Felipe Coral Sasso." />
         <meta name="author" content="Felipe Coral Sasso" />
 
-        <!-- Apply theme before first paint to avoid flash -->
         <script>
             (function () {
                 var stored = localStorage.getItem('theme');
@@ -21,31 +20,20 @@
         <link rel="stylesheet" href="/style.css" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-        <link
-            href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
-            rel="stylesheet"
-        />
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
     </head>
 
     <body class="bg-[var(--primary-bg)] text-[var(--text-primary)]">
 
-        <!-- Sticky Navigation -->
         <nav id="main-nav" class="sticky top-0 z-50 bg-[var(--secondary-bg)] border-b border-[var(--lang-button-bg)]">
             <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 flex items-center justify-between h-14">
                 <a href="/" class="font-semibold text-sm text-[var(--accent-color)] shrink-0">Felipe Sasso</a>
-
                 <div class="hidden sm:flex items-center gap-6">
                     <a href="/" class="nav-link">Home</a>
                     <span class="text-sm font-medium text-[var(--accent-color)] border-b-2 border-[var(--accent-color)] pb-0.5">Livros</span>
                 </div>
-
                 <div class="flex items-center gap-1 sm:gap-2 shrink-0">
-                    <button
-                        id="theme-toggle"
-                        class="lang-button"
-                        aria-label="Toggle dark mode"
-                        aria-pressed="false"
-                    >
+                    <button id="theme-toggle" class="lang-button" aria-label="Toggle dark mode" aria-pressed="false">
                         <svg id="icon-moon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z" />
                         </svg>
@@ -58,449 +46,32 @@
         </nav>
 
         <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
-
             <section class="bg-[var(--secondary-bg)] shadow-sm rounded-xl p-6 md:p-8">
                 <h1 class="section-heading text-xl sm:text-2xl font-semibold text-[var(--accent-color)] mb-3">Livros</h1>
-
                 <p class="text-sm sm:text-base text-[var(--text-secondary)] leading-relaxed mb-2">
                     Ler é uma das coisas que mais gosto de fazer. Ficção científica, terror, clássicos da literatura — pouco importa o gênero, desde que a história me prenda. Aqui estão todos os livros que já li, ordenados por ano de publicação.
                 </p>
                 <div class="flex items-center gap-3 mb-6">
-                    <a
-                        href="https://www.goodreads.com/felipecoralsasso"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        class="contact-chip"
-                        aria-label="Perfil no Goodreads"
-                    >
+                    <a href="https://www.goodreads.com/felipecoralsasso" target="_blank" rel="noopener noreferrer" class="contact-chip" aria-label="Perfil no Goodreads">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-3.5 h-3.5 shrink-0">
                             <path d="M11.43 23.995c-3.608-.208-6.274-2.077-6.448-5.648h2.972c.174 2.082 2.084 3.038 4.41 3.038 3.286 0 4.785-1.657 4.785-4.663v-1.34h-.065c-.87 1.606-2.547 2.624-4.763 2.624-4.194 0-7.07-3.27-7.07-7.603 0-4.441 2.787-7.9 7.09-7.9 2.215 0 3.89 1.018 4.783 2.624h.065V3.12h2.712v13.694c0 4.15-2.03 7.181-8.471 7.181zm.38-20.537c-2.842 0-4.478 2.255-4.478 5.402 0 3.017 1.548 5.403 4.478 5.403 2.97 0 4.763-2.386 4.763-5.403 0-3.147-1.79-5.402-4.763-5.402z"/>
                         </svg>
                         Goodreads
                     </a>
-                    <span class="text-xs text-[var(--text-secondary)]">67 livros lidos</span>
+                    <span id="book-count" class="text-xs text-[var(--text-secondary)]"></span>
                 </div>
 
                 <div class="overflow-x-auto">
                     <table class="w-full text-sm">
                         <thead>
                             <tr class="border-b border-[var(--lang-button-bg)]">
-                                <th class="text-left py-2 pr-4 font-semibold text-[var(--text-secondary)] text-xs uppercase tracking-wide w-8 select-none">#</th>
-                                <th class="text-left py-2 pr-4 font-semibold text-[var(--text-secondary)] text-xs uppercase tracking-wide cursor-pointer select-none hover:text-[var(--accent-color)] transition-colors" data-col="title">
-                                    Título <span class="sort-icon opacity-40">↕</span>
-                                </th>
-                                <th class="text-left py-2 pr-4 font-semibold text-[var(--text-secondary)] text-xs uppercase tracking-wide cursor-pointer select-none hover:text-[var(--accent-color)] transition-colors" data-col="author">
-                                    Autor <span class="sort-icon opacity-40">↕</span>
-                                </th>
-                                <th class="text-left py-2 font-semibold text-[var(--text-secondary)] text-xs uppercase tracking-wide whitespace-nowrap cursor-pointer select-none hover:text-[var(--accent-color)] transition-colors" data-col="year">
-                                    Ano <span class="sort-icon">↓</span>
-                                </th>
+                                <th class="text-left py-2 pr-4 text-[var(--text-secondary)] text-xs uppercase tracking-wide font-semibold w-8 select-none">#</th>
+                                <th class="text-left py-2 pr-4 text-[var(--text-secondary)] text-xs uppercase tracking-wide font-semibold cursor-pointer select-none hover:text-[var(--accent-color)] transition-colors" data-col="title">Título <span class="sort-icon opacity-40">&#x21C5;</span></th>
+                                <th class="text-left py-2 pr-4 text-[var(--text-secondary)] text-xs uppercase tracking-wide font-semibold cursor-pointer select-none hover:text-[var(--accent-color)] transition-colors" data-col="author">Autor <span class="sort-icon opacity-40">&#x21C5;</span></th>
+                                <th class="text-left py-2 text-[var(--text-secondary)] text-xs uppercase tracking-wide font-semibold whitespace-nowrap cursor-pointer select-none hover:text-[var(--accent-color)] transition-colors" data-col="year">Ano <span class="sort-icon">&#x2193;</span></th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr class="border-b border-[var(--lang-button-bg)] hover:bg-[var(--primary-bg)] transition-colors">
-                                <td class="py-3 pr-4 text-[var(--text-secondary)] text-xs">1</td>
-                                <td class="py-3 pr-4 text-[var(--text-primary)] font-medium">Uma Família Feliz</td>
-                                <td class="py-3 pr-4 text-[var(--text-secondary)]">Raphael Montes</td>
-                                <td class="py-3 text-[var(--text-secondary)]">2024</td>
-                            </tr>
-                            <tr class="border-b border-[var(--lang-button-bg)] hover:bg-[var(--primary-bg)] transition-colors">
-                                <td class="py-3 pr-4 text-[var(--text-secondary)] text-xs">2</td>
-                                <td class="py-3 pr-4 text-[var(--text-primary)] font-medium">O Pequeno Livro do TDAH</td>
-                                <td class="py-3 pr-4 text-[var(--text-secondary)]">Alice Gendron</td>
-                                <td class="py-3 text-[var(--text-secondary)]">2024</td>
-                            </tr>
-                            <tr class="border-b border-[var(--lang-button-bg)] hover:bg-[var(--primary-bg)] transition-colors">
-                                <td class="py-3 pr-4 text-[var(--text-secondary)] text-xs">3</td>
-                                <td class="py-3 pr-4 text-[var(--text-primary)] font-medium">O Massacre da Família Hope</td>
-                                <td class="py-3 pr-4 text-[var(--text-secondary)]">Riley Sager</td>
-                                <td class="py-3 text-[var(--text-secondary)]">2023</td>
-                            </tr>
-                            <tr class="border-b border-[var(--lang-button-bg)] hover:bg-[var(--primary-bg)] transition-colors">
-                                <td class="py-3 pr-4 text-[var(--text-secondary)] text-xs">4</td>
-                                <td class="py-3 pr-4 text-[var(--text-primary)] font-medium">Conto de Fadas</td>
-                                <td class="py-3 pr-4 text-[var(--text-secondary)]">Stephen King</td>
-                                <td class="py-3 text-[var(--text-secondary)]">2022</td>
-                            </tr>
-                            <tr class="border-b border-[var(--lang-button-bg)] hover:bg-[var(--primary-bg)] transition-colors">
-                                <td class="py-3 pr-4 text-[var(--text-secondary)] text-xs">5</td>
-                                <td class="py-3 pr-4 text-[var(--text-primary)] font-medium">How to Make the Best Coffee at Home</td>
-                                <td class="py-3 pr-4 text-[var(--text-secondary)]">James Hoffmann</td>
-                                <td class="py-3 text-[var(--text-secondary)]">2022</td>
-                            </tr>
-                            <tr class="border-b border-[var(--lang-button-bg)] hover:bg-[var(--primary-bg)] transition-colors">
-                                <td class="py-3 pr-4 text-[var(--text-secondary)] text-xs">6</td>
-                                <td class="py-3 pr-4 text-[var(--text-primary)] font-medium">Os Cinco Sobreviventes</td>
-                                <td class="py-3 pr-4 text-[var(--text-secondary)]">Holly Jackson</td>
-                                <td class="py-3 text-[var(--text-secondary)]">2022</td>
-                            </tr>
-                            <tr class="border-b border-[var(--lang-button-bg)] hover:bg-[var(--primary-bg)] transition-colors">
-                                <td class="py-3 pr-4 text-[var(--text-secondary)] text-xs">7</td>
-                                <td class="py-3 pr-4 text-[var(--text-primary)] font-medium">Epaminondas</td>
-                                <td class="py-3 pr-4 text-[var(--text-secondary)]">Clóvis de Barros Filho</td>
-                                <td class="py-3 text-[var(--text-secondary)]">2022</td>
-                            </tr>
-                            <tr class="border-b border-[var(--lang-button-bg)] hover:bg-[var(--primary-bg)] transition-colors">
-                                <td class="py-3 pr-4 text-[var(--text-secondary)] text-xs">8</td>
-                                <td class="py-3 pr-4 text-[var(--text-primary)] font-medium">Billy Summers</td>
-                                <td class="py-3 pr-4 text-[var(--text-secondary)]">Stephen King</td>
-                                <td class="py-3 text-[var(--text-secondary)]">2021</td>
-                            </tr>
-                            <tr class="border-b border-[var(--lang-button-bg)] hover:bg-[var(--primary-bg)] transition-colors">
-                                <td class="py-3 pr-4 text-[var(--text-secondary)] text-xs">9</td>
-                                <td class="py-3 pr-4 text-[var(--text-primary)] font-medium">Depois</td>
-                                <td class="py-3 pr-4 text-[var(--text-secondary)]">Stephen King</td>
-                                <td class="py-3 text-[var(--text-secondary)]">2021</td>
-                            </tr>
-                            <tr class="border-b border-[var(--lang-button-bg)] hover:bg-[var(--primary-bg)] transition-colors">
-                                <td class="py-3 pr-4 text-[var(--text-secondary)] text-xs">10</td>
-                                <td class="py-3 pr-4 text-[var(--text-primary)] font-medium">Com Sangue</td>
-                                <td class="py-3 pr-4 text-[var(--text-secondary)]">Stephen King</td>
-                                <td class="py-3 text-[var(--text-secondary)]">2020</td>
-                            </tr>
-                            <tr class="border-b border-[var(--lang-button-bg)] hover:bg-[var(--primary-bg)] transition-colors">
-                                <td class="py-3 pr-4 text-[var(--text-secondary)] text-xs">11</td>
-                                <td class="py-3 pr-4 text-[var(--text-primary)] font-medium">O Instituto</td>
-                                <td class="py-3 pr-4 text-[var(--text-secondary)]">Stephen King</td>
-                                <td class="py-3 text-[var(--text-secondary)]">2019</td>
-                            </tr>
-                            <tr class="border-b border-[var(--lang-button-bg)] hover:bg-[var(--primary-bg)] transition-colors">
-                                <td class="py-3 pr-4 text-[var(--text-secondary)] text-xs">12</td>
-                                <td class="py-3 pr-4 text-[var(--text-primary)] font-medium">Expedição Oriente</td>
-                                <td class="py-3 pr-4 text-[var(--text-secondary)]">Heloisa Schurmann</td>
-                                <td class="py-3 text-[var(--text-secondary)]">2019</td>
-                            </tr>
-                            <tr class="border-b border-[var(--lang-button-bg)] hover:bg-[var(--primary-bg)] transition-colors">
-                                <td class="py-3 pr-4 text-[var(--text-secondary)] text-xs">13</td>
-                                <td class="py-3 pr-4 text-[var(--text-primary)] font-medium">A Incendiária</td>
-                                <td class="py-3 pr-4 text-[var(--text-secondary)]">Stephen King</td>
-                                <td class="py-3 text-[var(--text-secondary)]">2018</td>
-                            </tr>
-                            <tr class="border-b border-[var(--lang-button-bg)] hover:bg-[var(--primary-bg)] transition-colors">
-                                <td class="py-3 pr-4 text-[var(--text-secondary)] text-xs">14</td>
-                                <td class="py-3 pr-4 text-[var(--text-primary)] font-medium">Outsider</td>
-                                <td class="py-3 pr-4 text-[var(--text-secondary)]">Stephen King</td>
-                                <td class="py-3 text-[var(--text-secondary)]">2018</td>
-                            </tr>
-                            <tr class="border-b border-[var(--lang-button-bg)] hover:bg-[var(--primary-bg)] transition-colors">
-                                <td class="py-3 pr-4 text-[var(--text-secondary)] text-xs">15</td>
-                                <td class="py-3 pr-4 text-[var(--text-primary)] font-medium">Ascensão</td>
-                                <td class="py-3 pr-4 text-[var(--text-secondary)]">Stephen King</td>
-                                <td class="py-3 text-[var(--text-secondary)]">2018</td>
-                            </tr>
-                            <tr class="border-b border-[var(--lang-button-bg)] hover:bg-[var(--primary-bg)] transition-colors">
-                                <td class="py-3 pr-4 text-[var(--text-secondary)] text-xs">16</td>
-                                <td class="py-3 pr-4 text-[var(--text-primary)] font-medium">Verity</td>
-                                <td class="py-3 pr-4 text-[var(--text-secondary)]">Colleen Hoover</td>
-                                <td class="py-3 text-[var(--text-secondary)]">2018</td>
-                            </tr>
-                            <tr class="border-b border-[var(--lang-button-bg)] hover:bg-[var(--primary-bg)] transition-colors">
-                                <td class="py-3 pr-4 text-[var(--text-secondary)] text-xs">17</td>
-                                <td class="py-3 pr-4 text-[var(--text-primary)] font-medium">Onde Morrem os Aviões</td>
-                                <td class="py-3 pr-4 text-[var(--text-secondary)]">Lito Sousa</td>
-                                <td class="py-3 text-[var(--text-secondary)]">2018</td>
-                            </tr>
-                            <tr class="border-b border-[var(--lang-button-bg)] hover:bg-[var(--primary-bg)] transition-colors">
-                                <td class="py-3 pr-4 text-[var(--text-secondary)] text-xs">18</td>
-                                <td class="py-3 pr-4 text-[var(--text-primary)] font-medium">Arquitetura Limpa</td>
-                                <td class="py-3 pr-4 text-[var(--text-secondary)]">Robert C. Martin</td>
-                                <td class="py-3 text-[var(--text-secondary)]">2017</td>
-                            </tr>
-                            <tr class="border-b border-[var(--lang-button-bg)] hover:bg-[var(--primary-bg)] transition-colors">
-                                <td class="py-3 pr-4 text-[var(--text-secondary)] text-xs">19</td>
-                                <td class="py-3 pr-4 text-[var(--text-primary)] font-medium">Último Turno</td>
-                                <td class="py-3 pr-4 text-[var(--text-secondary)]">Stephen King</td>
-                                <td class="py-3 text-[var(--text-secondary)]">2016</td>
-                            </tr>
-                            <tr class="border-b border-[var(--lang-button-bg)] hover:bg-[var(--primary-bg)] transition-colors">
-                                <td class="py-3 pr-4 text-[var(--text-secondary)] text-xs">20</td>
-                                <td class="py-3 pr-4 text-[var(--text-primary)] font-medium">Achados e Perdidos</td>
-                                <td class="py-3 pr-4 text-[var(--text-secondary)]">Stephen King</td>
-                                <td class="py-3 text-[var(--text-secondary)]">2015</td>
-                            </tr>
-                            <tr class="border-b border-[var(--lang-button-bg)] hover:bg-[var(--primary-bg)] transition-colors">
-                                <td class="py-3 pr-4 text-[var(--text-secondary)] text-xs">21</td>
-                                <td class="py-3 pr-4 text-[var(--text-primary)] font-medium">Mr. Mercedes</td>
-                                <td class="py-3 pr-4 text-[var(--text-secondary)]">Stephen King</td>
-                                <td class="py-3 text-[var(--text-secondary)]">2014</td>
-                            </tr>
-                            <tr class="border-b border-[var(--lang-button-bg)] hover:bg-[var(--primary-bg)] transition-colors">
-                                <td class="py-3 pr-4 text-[var(--text-secondary)] text-xs">22</td>
-                                <td class="py-3 pr-4 text-[var(--text-primary)] font-medium">Dias Perfeitos</td>
-                                <td class="py-3 pr-4 text-[var(--text-secondary)]">Raphael Montes</td>
-                                <td class="py-3 text-[var(--text-secondary)]">2014</td>
-                            </tr>
-                            <tr class="border-b border-[var(--lang-button-bg)] hover:bg-[var(--primary-bg)] transition-colors">
-                                <td class="py-3 pr-4 text-[var(--text-secondary)] text-xs">23</td>
-                                <td class="py-3 pr-4 text-[var(--text-primary)] font-medium">Joyland</td>
-                                <td class="py-3 pr-4 text-[var(--text-secondary)]">Stephen King</td>
-                                <td class="py-3 text-[var(--text-secondary)]">2013</td>
-                            </tr>
-                            <tr class="border-b border-[var(--lang-button-bg)] hover:bg-[var(--primary-bg)] transition-colors">
-                                <td class="py-3 pr-4 text-[var(--text-secondary)] text-xs">24</td>
-                                <td class="py-3 pr-4 text-[var(--text-primary)] font-medium">Suicidas</td>
-                                <td class="py-3 pr-4 text-[var(--text-secondary)]">Raphael Montes</td>
-                                <td class="py-3 text-[var(--text-secondary)]">2012</td>
-                            </tr>
-                            <tr class="border-b border-[var(--lang-button-bg)] hover:bg-[var(--primary-bg)] transition-colors">
-                                <td class="py-3 pr-4 text-[var(--text-secondary)] text-xs">25</td>
-                                <td class="py-3 pr-4 text-[var(--text-primary)] font-medium">Saco de Ossos</td>
-                                <td class="py-3 pr-4 text-[var(--text-secondary)]">Stephen King</td>
-                                <td class="py-3 text-[var(--text-secondary)]">2012</td>
-                            </tr>
-                            <tr class="border-b border-[var(--lang-button-bg)] hover:bg-[var(--primary-bg)] transition-colors">
-                                <td class="py-3 pr-4 text-[var(--text-secondary)] text-xs">26</td>
-                                <td class="py-3 pr-4 text-[var(--text-primary)] font-medium">Duna Saga</td>
-                                <td class="py-3 pr-4 text-[var(--text-secondary)]">Frank Herbert</td>
-                                <td class="py-3 text-[var(--text-secondary)]">2012</td>
-                            </tr>
-                            <tr class="border-b border-[var(--lang-button-bg)] hover:bg-[var(--primary-bg)] transition-colors">
-                                <td class="py-3 pr-4 text-[var(--text-secondary)] text-xs">27</td>
-                                <td class="py-3 pr-4 text-[var(--text-primary)] font-medium">Novembro de 63</td>
-                                <td class="py-3 pr-4 text-[var(--text-secondary)]">Stephen King</td>
-                                <td class="py-3 text-[var(--text-secondary)]">2011</td>
-                            </tr>
-                            <tr class="border-b border-[var(--lang-button-bg)] hover:bg-[var(--primary-bg)] transition-colors">
-                                <td class="py-3 pr-4 text-[var(--text-secondary)] text-xs">28</td>
-                                <td class="py-3 pr-4 text-[var(--text-primary)] font-medium">Escuridão Total Sem Estrelas</td>
-                                <td class="py-3 pr-4 text-[var(--text-secondary)]">Stephen King</td>
-                                <td class="py-3 text-[var(--text-secondary)]">2011</td>
-                            </tr>
-                            <tr class="border-b border-[var(--lang-button-bg)] hover:bg-[var(--primary-bg)] transition-colors">
-                                <td class="py-3 pr-4 text-[var(--text-secondary)] text-xs">29</td>
-                                <td class="py-3 pr-4 text-[var(--text-primary)] font-medium">Sob a Redoma</td>
-                                <td class="py-3 pr-4 text-[var(--text-secondary)]">Stephen King</td>
-                                <td class="py-3 text-[var(--text-secondary)]">2009</td>
-                            </tr>
-                            <tr class="border-b border-[var(--lang-button-bg)] hover:bg-[var(--primary-bg)] transition-colors">
-                                <td class="py-3 pr-4 text-[var(--text-secondary)] text-xs">30</td>
-                                <td class="py-3 pr-4 text-[var(--text-primary)] font-medium">Cinzas do Norte</td>
-                                <td class="py-3 pr-4 text-[var(--text-secondary)]">Milton Hatoum</td>
-                                <td class="py-3 text-[var(--text-secondary)]">2005</td>
-                            </tr>
-                            <tr class="border-b border-[var(--lang-button-bg)] hover:bg-[var(--primary-bg)] transition-colors">
-                                <td class="py-3 pr-4 text-[var(--text-secondary)] text-xs">31</td>
-                                <td class="py-3 pr-4 text-[var(--text-primary)] font-medium">O Apanhador de Sonhos</td>
-                                <td class="py-3 pr-4 text-[var(--text-secondary)]">Stephen King</td>
-                                <td class="py-3 text-[var(--text-secondary)]">2001</td>
-                            </tr>
-                            <tr class="border-b border-[var(--lang-button-bg)] hover:bg-[var(--primary-bg)] transition-colors">
-                                <td class="py-3 pr-4 text-[var(--text-secondary)] text-xs">32</td>
-                                <td class="py-3 pr-4 text-[var(--text-primary)] font-medium">À Espera de um Milagre</td>
-                                <td class="py-3 pr-4 text-[var(--text-secondary)]">Stephen King</td>
-                                <td class="py-3 text-[var(--text-secondary)]">1996</td>
-                            </tr>
-                            <tr class="border-b border-[var(--lang-button-bg)] hover:bg-[var(--primary-bg)] transition-colors">
-                                <td class="py-3 pr-4 text-[var(--text-secondary)] text-xs">33</td>
-                                <td class="py-3 pr-4 text-[var(--text-primary)] font-medium">Dolores Claiborne</td>
-                                <td class="py-3 pr-4 text-[var(--text-secondary)]">Stephen King</td>
-                                <td class="py-3 text-[var(--text-secondary)]">1992</td>
-                            </tr>
-                            <tr class="border-b border-[var(--lang-button-bg)] hover:bg-[var(--primary-bg)] transition-colors">
-                                <td class="py-3 pr-4 text-[var(--text-secondary)] text-xs">34</td>
-                                <td class="py-3 pr-4 text-[var(--text-primary)] font-medium">Jogo Perigoso</td>
-                                <td class="py-3 pr-4 text-[var(--text-secondary)]">Stephen King</td>
-                                <td class="py-3 text-[var(--text-secondary)]">1992</td>
-                            </tr>
-                            <tr class="border-b border-[var(--lang-button-bg)] hover:bg-[var(--primary-bg)] transition-colors">
-                                <td class="py-3 pr-4 text-[var(--text-secondary)] text-xs">35</td>
-                                <td class="py-3 pr-4 text-[var(--text-primary)] font-medium">Trocas Macabras</td>
-                                <td class="py-3 pr-4 text-[var(--text-secondary)]">Stephen King</td>
-                                <td class="py-3 text-[var(--text-secondary)]">1991</td>
-                            </tr>
-                            <tr class="border-b border-[var(--lang-button-bg)] hover:bg-[var(--primary-bg)] transition-colors">
-                                <td class="py-3 pr-4 text-[var(--text-secondary)] text-xs">36</td>
-                                <td class="py-3 pr-4 text-[var(--text-primary)] font-medium">Jurassic Park</td>
-                                <td class="py-3 pr-4 text-[var(--text-secondary)]">Michael Crichton</td>
-                                <td class="py-3 text-[var(--text-secondary)]">1990</td>
-                            </tr>
-                            <tr class="border-b border-[var(--lang-button-bg)] hover:bg-[var(--primary-bg)] transition-colors">
-                                <td class="py-3 pr-4 text-[var(--text-secondary)] text-xs">37</td>
-                                <td class="py-3 pr-4 text-[var(--text-primary)] font-medium">The Sandman, Vol. 3: Dream Country</td>
-                                <td class="py-3 pr-4 text-[var(--text-secondary)]">Neil Gaiman</td>
-                                <td class="py-3 text-[var(--text-secondary)]">1990</td>
-                            </tr>
-                            <tr class="border-b border-[var(--lang-button-bg)] hover:bg-[var(--primary-bg)] transition-colors">
-                                <td class="py-3 pr-4 text-[var(--text-secondary)] text-xs">38</td>
-                                <td class="py-3 pr-4 text-[var(--text-primary)] font-medium">The Sandman, Vol. 2: The Doll's House</td>
-                                <td class="py-3 pr-4 text-[var(--text-secondary)]">Neil Gaiman</td>
-                                <td class="py-3 text-[var(--text-secondary)]">1990</td>
-                            </tr>
-                            <tr class="border-b border-[var(--lang-button-bg)] hover:bg-[var(--primary-bg)] transition-colors">
-                                <td class="py-3 pr-4 text-[var(--text-secondary)] text-xs">39</td>
-                                <td class="py-3 pr-4 text-[var(--text-primary)] font-medium">Os Pilares da Terra</td>
-                                <td class="py-3 pr-4 text-[var(--text-secondary)]">Ken Follett</td>
-                                <td class="py-3 text-[var(--text-secondary)]">1989</td>
-                            </tr>
-                            <tr class="border-b border-[var(--lang-button-bg)] hover:bg-[var(--primary-bg)] transition-colors">
-                                <td class="py-3 pr-4 text-[var(--text-secondary)] text-xs">40</td>
-                                <td class="py-3 pr-4 text-[var(--text-primary)] font-medium">A Metade Sombria</td>
-                                <td class="py-3 pr-4 text-[var(--text-secondary)]">Stephen King</td>
-                                <td class="py-3 text-[var(--text-secondary)]">1989</td>
-                            </tr>
-                            <tr class="border-b border-[var(--lang-button-bg)] hover:bg-[var(--primary-bg)] transition-colors">
-                                <td class="py-3 pr-4 text-[var(--text-secondary)] text-xs">41</td>
-                                <td class="py-3 pr-4 text-[var(--text-primary)] font-medium">The Sandman, Vol. 1: Preludes &amp; Nocturnes</td>
-                                <td class="py-3 pr-4 text-[var(--text-secondary)]">Neil Gaiman</td>
-                                <td class="py-3 text-[var(--text-secondary)]">1988</td>
-                            </tr>
-                            <tr class="border-b border-[var(--lang-button-bg)] hover:bg-[var(--primary-bg)] transition-colors">
-                                <td class="py-3 pr-4 text-[var(--text-secondary)] text-xs">42</td>
-                                <td class="py-3 pr-4 text-[var(--text-primary)] font-medium">Misery</td>
-                                <td class="py-3 pr-4 text-[var(--text-secondary)]">Stephen King</td>
-                                <td class="py-3 text-[var(--text-secondary)]">1987</td>
-                            </tr>
-                            <tr class="border-b border-[var(--lang-button-bg)] hover:bg-[var(--primary-bg)] transition-colors">
-                                <td class="py-3 pr-4 text-[var(--text-secondary)] text-xs">43</td>
-                                <td class="py-3 pr-4 text-[var(--text-primary)] font-medium">It: a Coisa</td>
-                                <td class="py-3 pr-4 text-[var(--text-secondary)]">Stephen King</td>
-                                <td class="py-3 text-[var(--text-secondary)]">1986</td>
-                            </tr>
-                            <tr class="border-b border-[var(--lang-button-bg)] hover:bg-[var(--primary-bg)] transition-colors">
-                                <td class="py-3 pr-4 text-[var(--text-secondary)] text-xs">44</td>
-                                <td class="py-3 pr-4 text-[var(--text-primary)] font-medium">Tripulação de Esqueletos</td>
-                                <td class="py-3 pr-4 text-[var(--text-secondary)]">Stephen King</td>
-                                <td class="py-3 text-[var(--text-secondary)]">1985</td>
-                            </tr>
-                            <tr class="border-b border-[var(--lang-button-bg)] hover:bg-[var(--primary-bg)] transition-colors">
-                                <td class="py-3 pr-4 text-[var(--text-secondary)] text-xs">45</td>
-                                <td class="py-3 pr-4 text-[var(--text-primary)] font-medium">A Hora do Lobisomem</td>
-                                <td class="py-3 pr-4 text-[var(--text-secondary)]">Stephen King</td>
-                                <td class="py-3 text-[var(--text-secondary)]">1983</td>
-                            </tr>
-                            <tr class="border-b border-[var(--lang-button-bg)] hover:bg-[var(--primary-bg)] transition-colors">
-                                <td class="py-3 pr-4 text-[var(--text-secondary)] text-xs">46</td>
-                                <td class="py-3 pr-4 text-[var(--text-primary)] font-medium">O Cemitério</td>
-                                <td class="py-3 pr-4 text-[var(--text-secondary)]">Stephen King</td>
-                                <td class="py-3 text-[var(--text-secondary)]">1983</td>
-                            </tr>
-                            <tr class="border-b border-[var(--lang-button-bg)] hover:bg-[var(--primary-bg)] transition-colors">
-                                <td class="py-3 pr-4 text-[var(--text-secondary)] text-xs">47</td>
-                                <td class="py-3 pr-4 text-[var(--text-primary)] font-medium">Christine</td>
-                                <td class="py-3 pr-4 text-[var(--text-secondary)]">Stephen King</td>
-                                <td class="py-3 text-[var(--text-secondary)]">1983</td>
-                            </tr>
-                            <tr class="border-b border-[var(--lang-button-bg)] hover:bg-[var(--primary-bg)] transition-colors">
-                                <td class="py-3 pr-4 text-[var(--text-secondary)] text-xs">48</td>
-                                <td class="py-3 pr-4 text-[var(--text-primary)] font-medium">Creepshow</td>
-                                <td class="py-3 pr-4 text-[var(--text-secondary)]">Stephen King</td>
-                                <td class="py-3 text-[var(--text-secondary)]">1982</td>
-                            </tr>
-                            <tr class="border-b border-[var(--lang-button-bg)] hover:bg-[var(--primary-bg)] transition-colors">
-                                <td class="py-3 pr-4 text-[var(--text-secondary)] text-xs">49</td>
-                                <td class="py-3 pr-4 text-[var(--text-primary)] font-medium">O Concorrente</td>
-                                <td class="py-3 pr-4 text-[var(--text-secondary)]">Richard Bachman</td>
-                                <td class="py-3 text-[var(--text-secondary)]">1982</td>
-                            </tr>
-                            <tr class="border-b border-[var(--lang-button-bg)] hover:bg-[var(--primary-bg)] transition-colors">
-                                <td class="py-3 pr-4 text-[var(--text-secondary)] text-xs">50</td>
-                                <td class="py-3 pr-4 text-[var(--text-primary)] font-medium">Quatro Estações</td>
-                                <td class="py-3 pr-4 text-[var(--text-secondary)]">Stephen King</td>
-                                <td class="py-3 text-[var(--text-secondary)]">1982</td>
-                            </tr>
-                            <tr class="border-b border-[var(--lang-button-bg)] hover:bg-[var(--primary-bg)] transition-colors">
-                                <td class="py-3 pr-4 text-[var(--text-secondary)] text-xs">51</td>
-                                <td class="py-3 pr-4 text-[var(--text-primary)] font-medium">Cujo</td>
-                                <td class="py-3 pr-4 text-[var(--text-secondary)]">Stephen King</td>
-                                <td class="py-3 text-[var(--text-secondary)]">1981</td>
-                            </tr>
-                            <tr class="border-b border-[var(--lang-button-bg)] hover:bg-[var(--primary-bg)] transition-colors">
-                                <td class="py-3 pr-4 text-[var(--text-secondary)] text-xs">52</td>
-                                <td class="py-3 pr-4 text-[var(--text-primary)] font-medium">Ghost Story</td>
-                                <td class="py-3 pr-4 text-[var(--text-secondary)]">Peter Straub</td>
-                                <td class="py-3 text-[var(--text-secondary)]">1979</td>
-                            </tr>
-                            <tr class="border-b border-[var(--lang-button-bg)] hover:bg-[var(--primary-bg)] transition-colors">
-                                <td class="py-3 pr-4 text-[var(--text-secondary)] text-xs">53</td>
-                                <td class="py-3 pr-4 text-[var(--text-primary)] font-medium">A Longa Marcha</td>
-                                <td class="py-3 pr-4 text-[var(--text-secondary)]">Richard Bachman</td>
-                                <td class="py-3 text-[var(--text-secondary)]">1979</td>
-                            </tr>
-                            <tr class="border-b border-[var(--lang-button-bg)] hover:bg-[var(--primary-bg)] transition-colors">
-                                <td class="py-3 pr-4 text-[var(--text-secondary)] text-xs">54</td>
-                                <td class="py-3 pr-4 text-[var(--text-primary)] font-medium">Sombras da Noite</td>
-                                <td class="py-3 pr-4 text-[var(--text-secondary)]">Stephen King</td>
-                                <td class="py-3 text-[var(--text-secondary)]">1978</td>
-                            </tr>
-                            <tr class="border-b border-[var(--lang-button-bg)] hover:bg-[var(--primary-bg)] transition-colors">
-                                <td class="py-3 pr-4 text-[var(--text-secondary)] text-xs">55</td>
-                                <td class="py-3 pr-4 text-[var(--text-primary)] font-medium">O Iluminado</td>
-                                <td class="py-3 pr-4 text-[var(--text-secondary)]">Stephen King</td>
-                                <td class="py-3 text-[var(--text-secondary)]">1977</td>
-                            </tr>
-                            <tr class="border-b border-[var(--lang-button-bg)] hover:bg-[var(--primary-bg)] transition-colors">
-                                <td class="py-3 pr-4 text-[var(--text-secondary)] text-xs">56</td>
-                                <td class="py-3 pr-4 text-[var(--text-primary)] font-medium">Salem</td>
-                                <td class="py-3 pr-4 text-[var(--text-secondary)]">Stephen King</td>
-                                <td class="py-3 text-[var(--text-secondary)]">1975</td>
-                            </tr>
-                            <tr class="border-b border-[var(--lang-button-bg)] hover:bg-[var(--primary-bg)] transition-colors">
-                                <td class="py-3 pr-4 text-[var(--text-secondary)] text-xs">57</td>
-                                <td class="py-3 pr-4 text-[var(--text-primary)] font-medium">Tubarão</td>
-                                <td class="py-3 pr-4 text-[var(--text-secondary)]">Peter Benchley</td>
-                                <td class="py-3 text-[var(--text-secondary)]">1974</td>
-                            </tr>
-                            <tr class="border-b border-[var(--lang-button-bg)] hover:bg-[var(--primary-bg)] transition-colors">
-                                <td class="py-3 pr-4 text-[var(--text-secondary)] text-xs">58</td>
-                                <td class="py-3 pr-4 text-[var(--text-primary)] font-medium">Carrie</td>
-                                <td class="py-3 pr-4 text-[var(--text-secondary)]">Stephen King</td>
-                                <td class="py-3 text-[var(--text-secondary)]">1974</td>
-                            </tr>
-                            <tr class="border-b border-[var(--lang-button-bg)] hover:bg-[var(--primary-bg)] transition-colors">
-                                <td class="py-3 pr-4 text-[var(--text-secondary)] text-xs">59</td>
-                                <td class="py-3 pr-4 text-[var(--text-primary)] font-medium">O Messias de Duna</td>
-                                <td class="py-3 pr-4 text-[var(--text-secondary)]">Frank Herbert</td>
-                                <td class="py-3 text-[var(--text-secondary)]">1969</td>
-                            </tr>
-                            <tr class="border-b border-[var(--lang-button-bg)] hover:bg-[var(--primary-bg)] transition-colors">
-                                <td class="py-3 pr-4 text-[var(--text-secondary)] text-xs">60</td>
-                                <td class="py-3 pr-4 text-[var(--text-primary)] font-medium">I Have No Mouth &amp; I Must Scream</td>
-                                <td class="py-3 pr-4 text-[var(--text-secondary)]">Harlan Ellison</td>
-                                <td class="py-3 text-[var(--text-secondary)]">1967</td>
-                            </tr>
-                            <tr class="border-b border-[var(--lang-button-bg)] hover:bg-[var(--primary-bg)] transition-colors">
-                                <td class="py-3 pr-4 text-[var(--text-secondary)] text-xs">61</td>
-                                <td class="py-3 pr-4 text-[var(--text-primary)] font-medium">Duna</td>
-                                <td class="py-3 pr-4 text-[var(--text-secondary)]">Frank Herbert</td>
-                                <td class="py-3 text-[var(--text-secondary)]">1965</td>
-                            </tr>
-                            <tr class="border-b border-[var(--lang-button-bg)] hover:bg-[var(--primary-bg)] transition-colors">
-                                <td class="py-3 pr-4 text-[var(--text-secondary)] text-xs">62</td>
-                                <td class="py-3 pr-4 text-[var(--text-primary)] font-medium">O Senhor dos Anéis</td>
-                                <td class="py-3 pr-4 text-[var(--text-secondary)]">J.R.R. Tolkien</td>
-                                <td class="py-3 text-[var(--text-secondary)]">1959</td>
-                            </tr>
-                            <tr class="border-b border-[var(--lang-button-bg)] hover:bg-[var(--primary-bg)] transition-colors">
-                                <td class="py-3 pr-4 text-[var(--text-secondary)] text-xs">63</td>
-                                <td class="py-3 pr-4 text-[var(--text-primary)] font-medium">O Apanhador no Campo de Centeio</td>
-                                <td class="py-3 pr-4 text-[var(--text-secondary)]">J.D. Salinger</td>
-                                <td class="py-3 text-[var(--text-secondary)]">1951</td>
-                            </tr>
-                            <tr class="border-b border-[var(--lang-button-bg)] hover:bg-[var(--primary-bg)] transition-colors">
-                                <td class="py-3 pr-4 text-[var(--text-secondary)] text-xs">64</td>
-                                <td class="py-3 pr-4 text-[var(--text-primary)] font-medium">Capitães da Areia</td>
-                                <td class="py-3 pr-4 text-[var(--text-secondary)]">Jorge Amado</td>
-                                <td class="py-3 text-[var(--text-secondary)]">1937</td>
-                            </tr>
-                            <tr class="border-b border-[var(--lang-button-bg)] hover:bg-[var(--primary-bg)] transition-colors">
-                                <td class="py-3 pr-4 text-[var(--text-secondary)] text-xs">65</td>
-                                <td class="py-3 pr-4 text-[var(--text-primary)] font-medium">A Metamorfose</td>
-                                <td class="py-3 pr-4 text-[var(--text-secondary)]">Franz Kafka</td>
-                                <td class="py-3 text-[var(--text-secondary)]">1915</td>
-                            </tr>
-                            <tr class="border-b border-[var(--lang-button-bg)] hover:bg-[var(--primary-bg)] transition-colors">
-                                <td class="py-3 pr-4 text-[var(--text-secondary)] text-xs">66</td>
-                                <td class="py-3 pr-4 text-[var(--text-primary)] font-medium">Os Miseráveis</td>
-                                <td class="py-3 pr-4 text-[var(--text-secondary)]">Victor Hugo</td>
-                                <td class="py-3 text-[var(--text-secondary)]">1862</td>
-                            </tr>
-                            <tr class="hover:bg-[var(--primary-bg)] transition-colors">
-                                <td class="py-3 pr-4 text-[var(--text-secondary)] text-xs">67</td>
-                                <td class="py-3 pr-4 text-[var(--text-primary)] font-medium">Noites Brancas</td>
-                                <td class="py-3 pr-4 text-[var(--text-secondary)]">Fiodor Dostoïevski</td>
-                                <td class="py-3 text-[var(--text-secondary)]">1848</td>
-                            </tr>
-                        </tbody>
+                        <tbody id="books-tbody"></tbody>
                     </table>
                 </div>
             </section>
@@ -518,21 +89,13 @@
             const iconSun = document.getElementById('icon-sun');
 
             function applyTheme(dark) {
-                if (dark) {
-                    document.documentElement.classList.add('dark');
-                    iconMoon.classList.add('hidden');
-                    iconSun.classList.remove('hidden');
-                    themeToggle.setAttribute('aria-pressed', 'true');
-                } else {
-                    document.documentElement.classList.remove('dark');
-                    iconMoon.classList.remove('hidden');
-                    iconSun.classList.add('hidden');
-                    themeToggle.setAttribute('aria-pressed', 'false');
-                }
+                document.documentElement.classList.toggle('dark', dark);
+                iconMoon.classList.toggle('hidden', dark);
+                iconSun.classList.toggle('hidden', !dark);
+                themeToggle.setAttribute('aria-pressed', String(dark));
             }
 
             applyTheme(document.documentElement.classList.contains('dark'));
-
             themeToggle.addEventListener('click', () => {
                 const isDark = document.documentElement.classList.contains('dark');
                 localStorage.setItem('theme', isDark ? 'light' : 'dark');
@@ -540,66 +103,70 @@
             });
 
             window.addEventListener('scroll', () => {
-                const nav = document.getElementById('main-nav');
-                nav.classList.toggle('scrolled', window.scrollY > 10);
+                document.getElementById('main-nav').classList.toggle('scrolled', window.scrollY > 10);
             });
 
-            // Sortable table
-            const tbody = document.querySelector('tbody');
-            const headers = document.querySelectorAll('th[data-col]');
+            let books = [];
             let sortCol = 'year';
             let sortAsc = false;
 
-            function cellValue(row, col) {
-                const cells = row.querySelectorAll('td');
-                if (col === 'title')  return cells[1].textContent.trim().toLowerCase();
-                if (col === 'author') return cells[2].textContent.trim().toLowerCase();
-                if (col === 'year') {
-                    const v = cells[3].textContent.trim();
-                    return v === '—' ? -Infinity : parseInt(v, 10);
-                }
-                return '';
+            const tbody = document.getElementById('books-tbody');
+            const headers = document.querySelectorAll('th[data-col]');
+
+            function renderTable() {
+                const sorted = [...books].sort((a, b) => {
+                    let av = a[sortCol], bv = b[sortCol];
+                    if (sortCol === 'year') {
+                        av = av ?? -Infinity;
+                        bv = bv ?? -Infinity;
+                    } else {
+                        av = (av ?? '').toLowerCase();
+                        bv = (bv ?? '').toLowerCase();
+                    }
+                    if (av < bv) return sortAsc ? -1 : 1;
+                    if (av > bv) return sortAsc ? 1 : -1;
+                    return 0;
+                });
+
+                tbody.innerHTML = sorted.map((book, i) => `
+                    <tr class="${i < sorted.length - 1 ? 'border-b border-[var(--lang-button-bg)]' : ''} hover:bg-[var(--primary-bg)] transition-colors">
+                        <td class="py-3 pr-4 text-[var(--text-secondary)] text-xs">${i + 1}</td>
+                        <td class="py-3 pr-4 text-[var(--text-primary)] font-medium">${book.title}</td>
+                        <td class="py-3 pr-4 text-[var(--text-secondary)]">${book.author}</td>
+                        <td class="py-3 text-[var(--text-secondary)]">${book.year ?? '&#x2014;'}</td>
+                    </tr>
+                `).join('');
             }
 
-            function sortTable(col) {
+            function setSort(col) {
                 if (sortCol === col) {
                     sortAsc = !sortAsc;
                 } else {
                     sortCol = col;
                     sortAsc = col !== 'year';
                 }
-
-                const rows = Array.from(tbody.querySelectorAll('tr'));
-                rows.sort((a, b) => {
-                    const av = cellValue(a, col);
-                    const bv = cellValue(b, col);
-                    if (av < bv) return sortAsc ? -1 : 1;
-                    if (av > bv) return sortAsc ? 1 : -1;
-                    return 0;
-                });
-
-                // Re-number and re-append
-                rows.forEach((row, i) => {
-                    row.querySelectorAll('td')[0].textContent = i + 1;
-                    // Remove border from last row, restore on others
-                    row.classList.toggle('border-b', i < rows.length - 1);
-                    tbody.appendChild(row);
-                });
-
-                // Update header icons
                 headers.forEach(th => {
                     const icon = th.querySelector('.sort-icon');
                     if (th.dataset.col === col) {
-                        icon.textContent = sortAsc ? '↑' : '↓';
+                        icon.innerHTML = sortAsc ? '&#x2191;' : '&#x2193;';
                         icon.classList.remove('opacity-40');
                     } else {
-                        icon.textContent = '↕';
+                        icon.innerHTML = '&#x21C5;';
                         icon.classList.add('opacity-40');
                     }
                 });
+                renderTable();
             }
 
-            headers.forEach(th => th.addEventListener('click', () => sortTable(th.dataset.col)));
+            headers.forEach(th => th.addEventListener('click', () => setSort(th.dataset.col)));
+
+            fetch('books.json')
+                .then(r => r.json())
+                .then(data => {
+                    books = data;
+                    document.getElementById('book-count').textContent = books.length + ' livros lidos';
+                    renderTable();
+                });
         </script>
     </body>
 </html>
