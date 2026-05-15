@@ -22,6 +22,16 @@
         <meta name="twitter:description" content="Software Engineer with 5+ years of experience building robust back-end systems with Python and intuitive user interfaces with React." />
         <meta name="twitter:image" content="https://avatars.githubusercontent.com/u/5435710" />
 
+        <!-- Apply theme before first paint to avoid flash -->
+        <script>
+            (function () {
+                var stored = localStorage.getItem('theme');
+                var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+                if (stored === 'dark' || (stored !== 'light' && prefersDark)) {
+                    document.documentElement.classList.add('dark');
+                }
+            })();
+        </script>
         <script src="https://cdn.tailwindcss.com"></script>
         <link rel="stylesheet" href="style.css" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -33,184 +43,71 @@
     </head>
 
     <body class="bg-[var(--primary-bg)] text-[var(--text-primary)]">
-        <div class="container mx-auto max-w-5xl p-4 sm:p-6 lg:p-8">
-            <div class="fixed top-4 right-4 z-50 no-print flex space-x-2">
-                <button
-                    id="lang-en"
-                    class="lang-button active"
-                    data-translate-key="englishLanguageTooltip"
-                    aria-pressed="true"
-                    aria-label="Switch to English"
-                >
-                    EN
-                </button>
-                <button
-                    id="lang-pt"
-                    class="lang-button"
-                    data-translate-key="portugueseLanguageTooltip"
-                    aria-pressed="false"
-                    aria-label="Mudar para Português"
-                >
-                    PT
-                </button>
-                <button
-                    id="colorblind-toggle"
-                    class="lang-button"
-                    aria-label="Toggle Colorblind Mode"
-                    aria-pressed="false"
-                >
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke-width="1.5"
-                        stroke="currentColor"
-                        class="w-5 h-5"
+
+        <!-- Sticky Navigation -->
+        <nav id="main-nav" class="no-print sticky top-0 z-50 bg-[var(--secondary-bg)] border-b border-[var(--lang-button-bg)]">
+            <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 flex items-center justify-between h-14">
+                <a href="#" class="font-semibold text-sm text-[var(--accent-color)] shrink-0">Felipe Sasso</a>
+
+                <div class="hidden sm:flex items-center gap-6">
+                    <a href="#skills" class="nav-link" data-translate-key="navSkills">Skills</a>
+                    <a href="#experience" class="nav-link" data-translate-key="navExperience">Experience</a>
+                    <a href="#education" class="nav-link" data-translate-key="navEducation">Education</a>
+                </div>
+
+                <div class="flex items-center gap-1 sm:gap-2 shrink-0">
+                    <button
+                        id="theme-toggle"
+                        class="lang-button"
+                        aria-label="Toggle dark mode"
+                        aria-pressed="false"
                     >
-                        <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.969 7.124a1.012 1.012 0 0 1 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.969-7.124Z"
-                        />
-                        <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
-                        />
-                    </svg>
-                </button>
+                        <!-- Moon: shown in light mode -->
+                        <svg id="icon-moon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z" />
+                        </svg>
+                        <!-- Sun: shown in dark mode -->
+                        <svg id="icon-sun" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 hidden">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" />
+                        </svg>
+                    </button>
+                    <button
+                        id="lang-en"
+                        class="lang-button active"
+                        data-translate-key="englishLanguageTooltip"
+                        aria-pressed="true"
+                        aria-label="Switch to English"
+                    >EN</button>
+                    <button
+                        id="lang-pt"
+                        class="lang-button"
+                        data-translate-key="portugueseLanguageTooltip"
+                        aria-pressed="false"
+                        aria-label="Mudar para Português"
+                    >PT</button>
+                    <button
+                        id="colorblind-toggle"
+                        class="lang-button"
+                        aria-label="Toggle Colorblind Mode"
+                        aria-pressed="false"
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.969 7.124a1.012 1.012 0 0 1 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.969-7.124Z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                        </svg>
+                    </button>
+                </div>
             </div>
+        </nav>
 
-            <header
-                class="bg-[var(--secondary-bg)] shadow-lg rounded-xl p-6 md:p-8 mb-8 mt-16 md:mt-8"
-            >
-                <div class="flex flex-col md:flex-row md:items-start">
-                    <div class="w-full md:w-2/3 text-center md:text-left">
-                        <h1
-                            class="text-3xl sm:text-4xl md:text-5xl font-bold text-[var(--accent-color)]"
-                            data-translate-key="name"
-                        >
-                            Felipe Coral Sasso
-                        </h1>
+        <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
 
-                        <div class="flex justify-center my-4 md:hidden">
-                            <div
-                                class="w-40 h-40 sm:w-48 sm:h-48 bg-[var(--profile-bg)] rounded-full flex items-center justify-center border-4 border-[var(--profile-border)] shadow-md overflow-hidden"
-                            >
-                                <img
-                                    src="https://avatars.githubusercontent.com/u/5435710"
-                                    alt="Felipe Coral Sasso"
-                                    class="rounded-full object-cover w-full h-full"
-                                    onerror="this.src='https://placehold.co/300x300/CFD8DC/2E4057?text=Image+Not+Found';"
-                                />
-                            </div>
-                        </div>
-
-                        <p
-                            class="text-md sm:text-lg md:text-xl text-[var(--text-secondary)] mt-2"
-                            data-translate-key="jobTitleFull"
-                        >
-                            Software Engineer | Master's in Computer Science
-                        </p>
-                        <p
-                            class="text-xs sm:text-sm text-[var(--text-secondary)] mt-1"
-                            data-translate-key="location"
-                        >
-                            Florianópolis, Santa Catarina, Brazil
-                        </p>
-
-                        <div class="mt-6 text-sm text-[var(--text-primary)] space-y-2 contact-link">
-                            <p class="flex items-center justify-center md:justify-start">
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke-width="1.5"
-                                    stroke="currentColor"
-                                    class="w-5 h-5 mr-2 text-[var(--accent-color)] shrink-0"
-                                >
-                                    <path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"
-                                    />
-                                </svg>
-                                <a
-                                    href="mailto:felipecsasso@gmail.com"
-                                    class="link-highlight break-all"
-                                    data-translate-key="emailTooltip"
-                                    >felipecsasso@gmail.com</a
-                                >
-                            </p>
-                            <p class="flex items-center justify-center md:justify-start">
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke-width="1.5"
-                                    stroke="currentColor"
-                                    class="w-5 h-5 mr-2 text-[var(--accent-color)] shrink-0"
-                                >
-                                    <path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.362-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 6.75z"
-                                    />
-                                </svg>
-                                <a
-                                    href="tel:+5548998272716"
-                                    class="link-highlight break-all"
-                                    data-translate-key="phoneTooltip"
-                                    >+55 48 99827-2716</a
-                                >
-                            </p>
-                            <p class="flex items-center justify-center md:justify-start">
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    viewBox="0 0 24 24"
-                                    fill="currentColor"
-                                    class="w-5 h-5 mr-2 text-[var(--accent-color)] shrink-0"
-                                >
-                                    <path
-                                        d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"
-                                    />
-                                </svg>
-                                <a
-                                    href="https://www.linkedin.com/in/felipecoralsasso"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    class="link-highlight break-all"
-                                    data-translate-key="linkedinTooltip"
-                                    >linkedin.com/in/felipecoralsasso</a
-                                >
-                            </p>
-                            <p class="flex items-center justify-center md:justify-start">
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    viewBox="0 0 24 24"
-                                    fill="currentColor"
-                                    class="w-5 h-5 mr-2 text-[var(--accent-color)] shrink-0"
-                                >
-                                    <path
-                                        d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"
-                                    />
-                                </svg>
-                                <a
-                                    href="https://github.com/felipesasso"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    class="link-highlight break-all"
-                                    data-translate-key="githubTooltip"
-                                    >github.com/felipesasso</a
-                                >
-                            </p>
-                        </div>
-                    </div>
-
-                    <div class="hidden md:flex md:w-1/3 md:pl-8 items-center justify-center">
-                        <div
-                            class="w-40 h-40 sm:w-48 sm:h-48 md:w-56 md:h-56 lg:w-64 lg:h-64 bg-[var(--profile-bg)] rounded-full flex items-center justify-center border-4 border-[var(--profile-border)] shadow-md overflow-hidden"
-                        >
+            <!-- Hero -->
+            <header class="bg-[var(--secondary-bg)] shadow-sm rounded-xl p-6 md:p-8 mb-6">
+                <div class="flex flex-col sm:flex-row sm:items-center gap-6">
+                    <!-- Photo -->
+                    <div class="flex justify-center sm:justify-start flex-shrink-0">
+                        <div class="w-28 h-28 sm:w-32 sm:h-32 md:w-40 md:h-40 bg-[var(--profile-bg)] rounded-full border-4 border-[var(--profile-border)] shadow-md overflow-hidden">
                             <img
                                 src="https://avatars.githubusercontent.com/u/5435710"
                                 alt="Felipe Coral Sasso"
@@ -219,33 +116,70 @@
                             />
                         </div>
                     </div>
+
+                    <!-- Name, title, contacts -->
+                    <div class="flex-1 text-center sm:text-left">
+                        <h1
+                            class="hero-name text-3xl sm:text-4xl md:text-5xl font-bold text-[var(--accent-color)]"
+                            data-translate-key="name"
+                        >Felipe Coral Sasso</h1>
+                        <p
+                            class="text-base sm:text-lg text-[var(--text-secondary)] mt-1 font-medium"
+                            data-translate-key="jobTitleFull"
+                        >Software Engineer | Master's in Computer Science</p>
+                        <p
+                            class="text-xs sm:text-sm text-[var(--text-secondary)] mt-1"
+                            data-translate-key="location"
+                        >Florianópolis, Santa Catarina, Brazil</p>
+
+                        <!-- Contact chips -->
+                        <div class="mt-4 flex flex-wrap gap-2 justify-center sm:justify-start">
+                            <!-- Email: icon-only on mobile, full on sm+ -->
+                            <a href="mailto:felipecsasso@gmail.com" class="contact-chip" data-translate-key="emailTooltip" aria-label="felipecsasso@gmail.com">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-3.5 h-3.5 shrink-0">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
+                                </svg>
+                                <span class="hidden sm:inline">felipecsasso@gmail.com</span>
+                            </a>
+                            <!-- Phone: icon-only on mobile, full on sm+ -->
+                            <a href="tel:+5548998272716" class="contact-chip" data-translate-key="phoneTooltip" aria-label="+55 48 99827-2716">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-3.5 h-3.5 shrink-0">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.362-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 6.75z" />
+                                </svg>
+                                <span class="hidden sm:inline">+55 48 99827-2716</span>
+                            </a>
+                            <a href="https://www.linkedin.com/in/felipecoralsasso" target="_blank" rel="noopener noreferrer" class="contact-chip" aria-label="LinkedIn profile" data-translate-key="linkedinTooltip">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-3.5 h-3.5 shrink-0">
+                                    <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                                </svg>
+                                LinkedIn
+                            </a>
+                            <a href="https://github.com/felipesasso" target="_blank" rel="noopener noreferrer" class="contact-chip" aria-label="GitHub profile" data-translate-key="githubTooltip">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-3.5 h-3.5 shrink-0">
+                                    <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
+                                </svg>
+                                GitHub
+                            </a>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="mt-8 pt-6 border-t border-[var(--lang-button-bg)]">
+                <!-- Summary -->
+                <div class="mt-6 pt-6 border-t border-[var(--lang-button-bg)]">
                     <h2
-                        class="text-xl sm:text-2xl font-semibold text-[var(--accent-color)] mb-3 text-center sm:text-left"
+                        class="text-lg sm:text-xl font-semibold text-[var(--accent-color)] mb-2"
                         data-translate-key="summaryTitle"
-                    >
-                        Summary
-                    </h2>
+                    >Summary</h2>
                     <p
-                        class="text-[var(--text-secondary)] leading-relaxed text-sm sm:text-base text-center sm:text-left"
+                        class="text-[var(--text-secondary)] leading-relaxed text-sm sm:text-base"
                         data-translate-key="summaryText"
-                    >
-                        Software Engineer with 5+ years of experience building robust, scalable
-                        back-end systems with Python and crafting dynamic, intuitive user interfaces
-                        using React.
-                    </p>
-                    <div class="mt-4 text-center sm:text-left">
+                    >Software Engineer with 5+ years of experience building robust, scalable back-end systems with Python and crafting dynamic, intuitive user interfaces using React.</p>
+                    <div class="mt-4">
                         <h3
-                            class="text-lg font-semibold text-[var(--accent-color)] mb-1"
+                            class="text-sm font-semibold text-[var(--accent-color)] mb-1"
                             data-translate-key="languagesTitle"
-                        >
-                            Languages
-                        </h3>
-                        <ul
-                            class="list-disc list-inside space-y-1 text-[var(--text-secondary)] text-sm inline-block text-left"
-                        >
+                        >Languages</h3>
+                        <ul class="list-disc list-inside space-y-1 text-[var(--text-secondary)] text-sm">
                             <li data-translate-key="langPortuguese">Português (Nativo)</li>
                             <li data-translate-key="langEnglish">Inglês (Profissional)</li>
                         </ul>
@@ -253,506 +187,280 @@
                 </div>
             </header>
 
-            <section
-                id="skills"
-                class="bg-[var(--secondary-bg)] shadow-lg rounded-xl p-6 md:p-8 mb-8"
-            >
+            <!-- Skills -->
+            <section id="skills" class="bg-[var(--secondary-bg)] shadow-sm rounded-xl p-6 md:p-8 mb-6 scroll-mt-20">
                 <h2
-                    class="text-xl sm:text-2xl font-semibold text-[var(--accent-color)] mb-4"
+                    class="section-heading text-xl sm:text-2xl font-semibold text-[var(--accent-color)] mb-5"
                     data-translate-key="topSkillsTitle"
-                >
-                    Top Skills
-                </h2>
-                <div class="flex flex-wrap gap-2 sm:gap-3" id="skills-list"></div>
+                >Top Skills</h2>
+                <div id="skills-categories" class="grid grid-cols-1 sm:grid-cols-3 gap-5"></div>
             </section>
 
-            <section
-                id="experience"
-                class="bg-[var(--secondary-bg)] shadow-lg rounded-xl p-6 md:p-8 mb-8"
-            >
+            <!-- Experience -->
+            <section id="experience" class="bg-[var(--secondary-bg)] shadow-sm rounded-xl p-6 md:p-8 mb-6 scroll-mt-20">
                 <h2
-                    class="text-xl sm:text-2xl font-semibold text-[var(--accent-color)] mb-6"
+                    class="section-heading text-xl sm:text-2xl font-semibold text-[var(--accent-color)] mb-6"
                     data-translate-key="experienceTitle"
-                >
-                    Experience
-                </h2>
-                <div class="space-y-8">
-                    <div class="border-l-4 border-[var(--accent-color)] pl-4 sm:pl-6">
-                        <h3
-                            class="text-lg sm:text-xl font-semibold text-[var(--accent-color)]"
-                            data-translate-key="jobTitlePinterest"
-                        >
-                            Software Engineer
-                        </h3>
-                        <p class="text-sm sm:text-md font-medium text-[var(--text-primary)]">
-                            <a
-                                href="https://newsroom.pinterest.com/en-ca/company/"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                class="link-highlight"
-                                >Pinterest</a
-                            >
+                >Experience</h2>
+
+                <div class="timeline">
+
+                    <div class="timeline-item is-current">
+                        <div class="timeline-dot"></div>
+                        <h3 class="text-base sm:text-lg font-semibold text-[var(--accent-color)]" data-translate-key="jobTitlePinterest">Software Engineer</h3>
+                        <p class="text-sm font-medium text-[var(--text-primary)]">
+                            <a href="https://newsroom.pinterest.com/en-ca/company/" target="_blank" rel="noopener noreferrer" class="link-highlight">Pinterest</a>
                         </p>
-                        <p
-                            class="text-xs sm:text-sm text-[var(--text-secondary)]"
+                        <p class="text-xs text-[var(--text-secondary)] mt-0.5"
                             data-job-duration
                             data-start-date="2024-05-01"
                             data-end-date="Present"
                             data-location-en="&middot; San Francisco Bay Area"
                             data-location-pt="&middot; Região da Baía de São Francisco"
                         ></p>
-                        <p
-                            class="mt-2 text-xs sm:text-sm text-[var(--text-secondary)]"
-                            data-translate-key="pinterestDesc"
-                        >
+                        <p class="mt-2 text-xs sm:text-sm text-[var(--text-secondary)]" data-translate-key="pinterestDesc">
                             Software Engineer at Pinterest specializing in front-end development and user experience. Leveraging React, TypeScript, and modern styling frameworks to build, test, and deploy key user-facing features for millions of Pinner.
                         </p>
-                        <ul
-                            class="mt-2 list-disc list-inside text-[var(--text-secondary)] space-y-1 text-xs sm:text-sm"
-                        >
+                        <ul class="mt-2 list-disc list-inside text-[var(--text-secondary)] space-y-0.5 text-xs sm:text-sm">
                             <li data-translate-key="pinterestDetail1">Build, test, and deploy key user-facing features for millions of Pinner (Pinterest users).</li>
                             <li data-translate-key="pinterestDetail2">Own the entire lifecycle of components and features, from initial design review to deployment and A/B testing in production.</li>
                             <li data-translate-key="pinterestDetail3">Optimize application performance (load times, rendering, bundle size) to ensure a fast and delightful experience on all platforms.</li>
                             <li data-translate-key="pinterestDetail4">Collaborate closely with product and design teams to translate complex concepts into intuitive and highly scalable UIs.</li>
                         </ul>
                         <p class="mt-2 text-xs font-semibold text-[var(--text-secondary)]">
-                            <span data-translate-key="techStackLabel">Tech Stack:</span> React,
-                            TypeScript, GraphQL
+                            <span data-translate-key="techStackLabel">Tech Stack:</span> React, TypeScript, GraphQL
                         </p>
                     </div>
 
-                    <div class="border-l-4 border-[var(--accent-color)] pl-4 sm:pl-6">
-                        <h3
-                            class="text-lg sm:text-xl font-semibold text-[var(--accent-color)]"
-                            data-translate-key="jobTitleBairesDev"
-                        >
-                            Software Engineer
-                        </h3>
-                        <p class="text-sm sm:text-md font-medium text-[var(--text-primary)]">
-                            <a
-                                href="https://www.bairesdev.com/"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                class="link-highlight"
-                                >BairesDev</a
-                            >
+                    <div class="timeline-item is-current">
+                        <div class="timeline-dot"></div>
+                        <h3 class="text-base sm:text-lg font-semibold text-[var(--accent-color)]" data-translate-key="jobTitleBairesDev">Software Engineer</h3>
+                        <p class="text-sm font-medium text-[var(--text-primary)]">
+                            <a href="https://www.bairesdev.com/" target="_blank" rel="noopener noreferrer" class="link-highlight">BairesDev</a>
                         </p>
-                        <p
-                            class="text-xs sm:text-sm text-[var(--text-secondary)]"
+                        <p class="text-xs text-[var(--text-secondary)] mt-0.5"
                             data-job-duration
                             data-start-date="2022-01-01"
                             data-end-date="Present"
                             data-location-en="&middot; San Francisco, California, United States"
                             data-location-pt="&middot; São Francisco, Califórnia, Estados Unidos"
                         ></p>
-                        <p
-                            class="mt-2 text-[var(--text-secondary)] leading-relaxed text-sm sm:text-base"
-                            data-translate-key="bairesdevDesc"
-                        >
-                            As a leading Nearshore Technology Solutions company, we architect and
-                            engineer scalable and high-performing software solutions to meet the
-                            business challenges of our clients. Using our tech expertise and
-                            cross-industry experience, we evolve digital transformation into digital
-                            acceleration.
+                        <p class="mt-2 text-xs sm:text-sm text-[var(--text-secondary)]" data-translate-key="bairesdevDesc">
+                            As a leading Nearshore Technology Solutions company, we architect and engineer scalable and high-performing software solutions to meet the business challenges of our clients. Using our tech expertise and cross-industry experience, we evolve digital transformation into digital acceleration.
                         </p>
                     </div>
 
-                    <div class="border-l-4 border-[var(--accent-color)] pl-4 sm:pl-6">
-                        <h3
-                            class="text-lg sm:text-xl font-semibold text-[var(--accent-color)]"
-                            data-translate-key="jobTitleFreeplay"
-                        >
-                            Full Stack Software Engineer
-                        </h3>
-                        <p class="text-sm sm:text-md font-medium text-[var(--text-primary)]">
-                            <a
-                                href="https://freeplay.ai/"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                class="link-highlight"
-                                >Freeplay</a
-                            >
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <h3 class="text-base sm:text-lg font-semibold text-[var(--accent-color)]" data-translate-key="jobTitleFreeplay">Full Stack Software Engineer</h3>
+                        <p class="text-sm font-medium text-[var(--text-primary)]">
+                            <a href="https://freeplay.ai/" target="_blank" rel="noopener noreferrer" class="link-highlight">Freeplay</a>
                         </p>
-                        <p
-                            class="text-xs sm:text-sm text-[var(--text-secondary)]"
+                        <p class="text-xs text-[var(--text-secondary)] mt-0.5"
                             data-job-duration
                             data-start-date="2023-08-01"
                             data-end-date="2024-01-31"
                             data-location-en="&middot; Boulder, Colorado, United States"
                             data-location-pt="&middot; Boulder, Colorado, Estados Unidos"
                         ></p>
-                        <p
-                            class="mt-2 text-[var(--text-secondary)] leading-relaxed text-sm sm:text-base"
-                            data-translate-key="freeplayDesc"
-                        >
-                            Contributed to Freeplay, a platform designed to help product teams build
-                            with Large Language Models (LLMs). Responsibilities included full-stack
-                            development, involving Python back-ends, React front-ends, and
-                            multi-language SDKs (Python, Node, Java).
+                        <p class="mt-2 text-xs sm:text-sm text-[var(--text-secondary)]" data-translate-key="freeplayDesc">
+                            Contributed to Freeplay, a platform designed to help product teams build with Large Language Models (LLMs). Responsibilities included full-stack development, involving Python back-ends, React front-ends, and multi-language SDKs (Python, Node, Java).
                         </p>
-                        <ul
-                            class="mt-2 list-disc list-inside text-[var(--text-secondary)] space-y-1 text-xs sm:text-sm"
-                        >
-                            <li data-translate-key="freeplayDetail1">
-                                Designed and implemented server-side logic and APIs with Python.
-                            </li>
-                            <li data-translate-key="freeplayDetail2">
-                                Developed user interfaces and interactive features using React.js,
-                                JavaScript, and TypeScript.
-                            </li>
-                            <li data-translate-key="freeplayDetail3">
-                                Engineered and maintained SDKs in Python, Node.js, and Java.
-                            </li>
+                        <ul class="mt-2 list-disc list-inside text-[var(--text-secondary)] space-y-0.5 text-xs sm:text-sm">
+                            <li data-translate-key="freeplayDetail1">Designed and implemented server-side logic and APIs with Python.</li>
+                            <li data-translate-key="freeplayDetail2">Developed user interfaces and interactive features using React.js, JavaScript, and TypeScript.</li>
+                            <li data-translate-key="freeplayDetail3">Engineered and maintained SDKs in Python, Node.js, and Java.</li>
                         </ul>
                         <p class="mt-2 text-xs font-semibold text-[var(--text-secondary)]">
-                            <span data-translate-key="techStackLabel">Tech Stack:</span> Python,
-                            Flask, Javascript, Typescript, React, Postgres, SQL, Large language
-                            models (LLM), Node, Linear, Git, GitHub, Java
+                            <span data-translate-key="techStackLabel">Tech Stack:</span> Python, Flask, Javascript, Typescript, React, Postgres, SQL, Large language models (LLM), Node, Java
                         </p>
                     </div>
 
-                    <div class="border-l-4 border-[var(--accent-color)] pl-4 sm:pl-6">
-                        <h3
-                            class="text-lg sm:text-xl font-semibold text-[var(--accent-color)]"
-                            data-translate-key="jobTitleNextRoll"
-                        >
-                            Full Stack Engineer
-                        </h3>
-                        <p class="text-sm sm:text-md font-medium text-[var(--text-primary)]">
-                            <a
-                                href="https://www.nextroll.com/"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                class="link-highlight"
-                                >NextRoll</a
-                            >
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <h3 class="text-base sm:text-lg font-semibold text-[var(--accent-color)]" data-translate-key="jobTitleNextRoll">Full Stack Engineer</h3>
+                        <p class="text-sm font-medium text-[var(--text-primary)]">
+                            <a href="https://www.nextroll.com/" target="_blank" rel="noopener noreferrer" class="link-highlight">NextRoll</a>
                         </p>
-                        <p
-                            class="text-xs sm:text-sm text-[var(--text-secondary)]"
+                        <p class="text-xs text-[var(--text-secondary)] mt-0.5"
                             data-job-duration
                             data-start-date="2022-05-01"
                             data-end-date="2023-07-31"
                             data-location-en="&middot; San Francisco Bay Area"
                             data-location-pt="&middot; Região da Baía de São Francisco"
                         ></p>
-                        <p
-                            class="mt-2 text-[var(--text-secondary)] leading-relaxed text-sm sm:text-base"
-                            data-translate-key="nextrollDesc"
-                        >
-                            Contributed to RollWorks, a leading B2B marketing platform, by
-                            developing new product features and enhancing existing functionalities.
-                            Involved in both front-end (React) and back-end (Go, Python) development
-                            to support account-based marketing and demand generation.
+                        <p class="mt-2 text-xs sm:text-sm text-[var(--text-secondary)]" data-translate-key="nextrollDesc">
+                            Contributed to RollWorks, a leading B2B marketing platform, by developing new product features and enhancing existing functionalities. Involved in both front-end (React) and back-end (Go, Python) development to support account-based marketing and demand generation.
                         </p>
-                        <ul
-                            class="mt-2 list-disc list-inside text-[var(--text-secondary)] space-y-1 text-xs sm:text-sm"
-                        >
-                            <li data-translate-key="nextrollDetail1">
-                                Developed responsive user interfaces with React.js, JavaScript, and
-                                TypeScript.
-                            </li>
-                            <li data-translate-key="nextrollDetail2">
-                                Built and maintained server-side logic and APIs using Go and Python.
-                            </li>
+                        <ul class="mt-2 list-disc list-inside text-[var(--text-secondary)] space-y-0.5 text-xs sm:text-sm">
+                            <li data-translate-key="nextrollDetail1">Developed responsive user interfaces with React.js, JavaScript, and TypeScript.</li>
+                            <li data-translate-key="nextrollDetail2">Built and maintained server-side logic and APIs using Go and Python.</li>
                         </ul>
                         <p class="mt-2 text-xs font-semibold text-[var(--text-secondary)]">
-                            <span data-translate-key="techStackLabel">Tech Stack:</span> Python,
-                            Flask, Go, Javascript, React, Typescript, Jira, Git, GitHub, SQL,
-                            Postgres
+                            <span data-translate-key="techStackLabel">Tech Stack:</span> Python, Flask, Go, Javascript, React, Typescript, Jira, Git, GitHub, SQL, Postgres
                         </p>
                     </div>
 
-                    <div class="border-l-4 border-[var(--accent-color)] pl-4 sm:pl-6">
-                        <h3
-                            class="text-lg sm:text-xl font-semibold text-[var(--accent-color)]"
-                            data-translate-key="jobTitleSenseData"
-                        >
-                            Back-end Developer
-                        </h3>
-                        <p class="text-sm sm:text-md font-medium text-[var(--text-primary)]">
-                            <a
-                                href="https://sensedata.com.br/"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                class="link-highlight"
-                                >SenseData</a
-                            >
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <h3 class="text-base sm:text-lg font-semibold text-[var(--accent-color)]" data-translate-key="jobTitleSenseData">Back-end Developer</h3>
+                        <p class="text-sm font-medium text-[var(--text-primary)]">
+                            <a href="https://sensedata.com.br/" target="_blank" rel="noopener noreferrer" class="link-highlight">SenseData</a>
                         </p>
-                        <p
-                            class="text-xs sm:text-sm text-[var(--text-secondary)]"
+                        <p class="text-xs text-[var(--text-secondary)] mt-0.5"
                             data-job-duration
                             data-start-date="2021-03-01"
                             data-end-date="2021-12-31"
                             data-location-en=""
                             data-location-pt=""
                         ></p>
-                        <p
-                            class="mt-2 text-[var(--text-secondary)] leading-relaxed text-sm sm:text-base"
-                            data-translate-key="sensedataDesc"
-                        >
-                            Developed and tested robust APIs using Python and Flask for a customer
-                            relationship platform. Created interactive dashboards with JavaScript
-                            and React to enhance data visualization and user engagement.
+                        <p class="mt-2 text-xs sm:text-sm text-[var(--text-secondary)]" data-translate-key="sensedataDesc">
+                            Developed and tested robust APIs using Python and Flask for a customer relationship platform. Created interactive dashboards with JavaScript and React to enhance data visualization and user engagement.
                         </p>
                         <p class="mt-2 text-xs font-semibold text-[var(--text-secondary)]">
-                            <span data-translate-key="techStackLabel">Tech Stack:</span> Python,
-                            Flask, unittest, Nose2, Javascript, React, Jira, Bitbucket, Postgres,
-                            MongoDB
+                            <span data-translate-key="techStackLabel">Tech Stack:</span> Python, Flask, unittest, Nose2, Javascript, React, Jira, Bitbucket, Postgres, MongoDB
                         </p>
                     </div>
 
-                    <div class="border-l-4 border-[var(--accent-color)] pl-4 sm:pl-6">
-                        <h3
-                            class="text-lg sm:text-xl font-semibold text-[var(--accent-color)]"
-                            data-translate-key="jobTitleMsgsc"
-                        >
-                            Research Programmer
-                        </h3>
-                        <p class="text-sm sm:text-md font-medium text-[var(--text-primary)]">
-                            <a
-                                href="https://www.bcgsc.ca/"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                class="link-highlight"
-                                data-translate-key="companyMsgsc"
-                                >Canada's Michael Smith Genome Sciences Centre</a
-                            >
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <h3 class="text-base sm:text-lg font-semibold text-[var(--accent-color)]" data-translate-key="jobTitleMsgsc">Research Programmer</h3>
+                        <p class="text-sm font-medium text-[var(--text-primary)]">
+                            <a href="https://www.bcgsc.ca/" target="_blank" rel="noopener noreferrer" class="link-highlight" data-translate-key="companyMsgsc">Canada's Michael Smith Genome Sciences Centre</a>
                         </p>
-                        <p
-                            class="text-xs sm:text-sm text-[var(--text-secondary)]"
+                        <p class="text-xs text-[var(--text-secondary)] mt-0.5"
                             data-job-duration
                             data-start-date="2020-02-01"
                             data-end-date="2021-01-31"
                             data-location-en="&middot; Vancouver, Canada Area"
                             data-location-pt="&middot; Região de Vancouver, Canadá"
                         ></p>
-                        <p
-                            class="mt-2 text-[var(--text-secondary)] leading-relaxed text-sm sm:text-base"
-                            data-translate-key="msgscDesc"
-                        >
-                            Developed APIs (Python, Flask, OpenAPI) and interactive dashboards
-                            (JavaScript, React) for
-                            <a
-                                href="https://www.distributedgenomics.ca/"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                class="link-highlight"
-                                >CanDIG</a
-                            >, a distributed genomics platform, and CanCOGEN, visualizing COVID-19
-                            data.
+                        <p class="mt-2 text-xs sm:text-sm text-[var(--text-secondary)]" data-translate-key="msgscDesc">
+                            Developed APIs (Python, Flask, OpenAPI) and interactive dashboards (JavaScript, React) for CanDIG, a distributed genomics platform, and CanCOGEN, visualizing COVID-19 data.
                         </p>
                         <div class="mt-3 text-xs text-[var(--text-secondary)]">
-                            <p class="font-semibold" data-translate-key="relatedPublicationLabel">
-                                Related Publication:
-                            </p>
+                            <p class="font-semibold" data-translate-key="relatedPublicationLabel">Related Publication:</p>
                             <p class="mt-1" data-translate-key="candigPublicationText">
-                                L. Jonathan Dursi, Zoltan Bozoky, Richard de Borja, et al., "CanDIG:
-                                Secure Federated Genomic Queries and Analyses Across Jurisdictions,"
-                                bioRxiv 2021.03.30.434101;
-                                <a
-                                    href="https://ieeexplore.ieee.org/document/6980291"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    class="link-highlight"
-                                    >doi: 10.1109/ARES.2014.44</a
-                                >.
+                                L. Jonathan Dursi, Zoltan Bozoky, Richard de Borja, et al., "CanDIG: Secure Federated Genomic Queries and Analyses Across Jurisdictions," bioRxiv 2021.03.30.434101;
+                                <a href="https://ieeexplore.ieee.org/document/6980291" target="_blank" rel="noopener noreferrer" class="link-highlight">doi: 10.1109/ARES.2014.44</a>.
                             </p>
                         </div>
                         <p class="mt-2 text-xs font-semibold text-[var(--text-secondary)]">
-                            <span data-translate-key="techStackLabel">Tech Stack:</span> React,
-                            JavaScript, Python, Flask, SQLite, PyTest, Nose, unittest, OpenAPI 3.0,
-                            Tox, Travis CI
+                            <span data-translate-key="techStackLabel">Tech Stack:</span> React, JavaScript, Python, Flask, SQLite, PyTest, Nose, unittest, OpenAPI 3.0, Tox, Travis CI
                         </p>
                     </div>
 
-                    <div class="border-l-4 border-[var(--accent-color)] pl-4 sm:pl-6">
-                        <h3
-                            class="text-lg sm:text-xl font-semibold text-[var(--accent-color)]"
-                            data-translate-key="jobTitleCisco"
-                        >
-                            Software Engineer
-                        </h3>
-                        <p class="text-sm sm:text-md font-medium text-[var(--text-primary)]">
-                            <a
-                                href="https://developer.cisco.com/docs/pyats/"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                class="link-highlight"
-                                >Cisco</a
-                            >
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <h3 class="text-base sm:text-lg font-semibold text-[var(--accent-color)]" data-translate-key="jobTitleCisco">Software Engineer</h3>
+                        <p class="text-sm font-medium text-[var(--text-primary)]">
+                            <a href="https://developer.cisco.com/docs/pyats/" target="_blank" rel="noopener noreferrer" class="link-highlight">Cisco</a>
                         </p>
-                        <p
-                            class="text-xs sm:text-sm text-[var(--text-secondary)]"
+                        <p class="text-xs text-[var(--text-secondary)] mt-0.5"
                             data-job-duration
                             data-start-date="2019-03-01"
                             data-end-date="2019-10-31"
                             data-location-en="&middot; Ottawa, Canada Area"
                             data-location-pt="&middot; Região de Ottawa, Canadá"
                         ></p>
-                        <p
-                            class="mt-2 text-[var(--text-secondary)] leading-relaxed text-sm sm:text-base"
-                            data-translate-key="ciscoDesc"
-                        >
-                            Contributed to Cisco's Genie and pyATS automation infrastructure by
-                            designing, developing, and testing scalable features for network
-                            automation in Python. Developed RegEx-based parsers for various
-                            networking protocols and created Python scripts for automated device
-                            testing.
+                        <p class="mt-2 text-xs sm:text-sm text-[var(--text-secondary)]" data-translate-key="ciscoDesc">
+                            Contributed to Cisco's Genie and pyATS automation infrastructure by designing, developing, and testing scalable features for network automation in Python. Developed RegEx-based parsers for various networking protocols and created Python scripts for automated device testing.
                         </p>
                         <p class="mt-2 text-xs font-semibold text-[var(--text-secondary)]">
-                            <span data-translate-key="techStackLabel">Tech Stack:</span> Python 3.6,
-                            Regex, Git, Bitbucket, Agile, SCRUM, unittest
+                            <span data-translate-key="techStackLabel">Tech Stack:</span> Python 3.6, Regex, Git, Bitbucket, Agile, SCRUM, unittest
                         </p>
                     </div>
 
-                    <div class="border-l-4 border-[var(--accent-color)] pl-4 sm:pl-6">
-                        <h3
-                            class="text-lg sm:text-xl font-semibold text-[var(--accent-color)]"
-                            data-translate-key="jobTitleBridgehead"
-                        >
-                            Kitchen Specialist
-                        </h3>
-                        <p class="text-sm sm:text-md font-medium text-[var(--text-primary)]">
-                            Bridgehead Coffee
-                        </p>
-                        <p
-                            class="text-xs sm:text-sm text-[var(--text-secondary)]"
-                            data-job-duration
-                            data-start-date="2016-07-01"
-                            data-end-date="2019-03-31"
-                            data-location-en="&middot; Ottawa, Canada Area"
-                            data-location-pt="&middot; Região de Ottawa, Canadá"
-                        ></p>
-                        <p
-                            class="mt-2 text-[var(--text-secondary)] leading-relaxed text-sm sm:text-base"
-                            data-translate-key="bridgeheadDesc"
-                        >
-                            Gained valuable Canadian work experience as a Kitchen Specialist,
-                            enhancing communication, leadership, pressure handling, and
-                            pro-activity. Concurrently, self-taught and improved technical skills to
-                            stay current with technology.
-                        </p>
-                        <div class="mt-2 text-xs text-[var(--text-secondary)]">
-                            <p class="font-semibold" data-translate-key="skillsAcquiredLabel">
-                                Skills Acquired/Enhanced:
-                            </p>
-                            <ul class="list-disc list-inside ml-4">
-                                <li data-translate-key="bridgeheadSkillPython">
-                                    Python (requests, BeautifulSoup4, unittest, Django v2.1,
-                                    virtualenv)
-                                </li>
-                                <li data-translate-key="bridgeheadSkillFrontend">
-                                    Front-end (HTML, CSS, Bootstrap, Bulma)
-                                </li>
-                                <li data-translate-key="bridgeheadSkillTools">
-                                    Tools (Git, GitHub, Heroku)
-                                </li>
-                                <li data-translate-key="bridgeheadSkillProblemSolving">
-                                    Problem-solving (HackerRank challenges)
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
+                    <!-- Older / less recent positions (collapsed by default) -->
+                    <div id="older-experience" class="hidden">
 
-                    <div class="border-l-4 border-[var(--accent-color)] pl-4 sm:pl-6">
-                        <h3
-                            class="text-lg sm:text-xl font-semibold text-[var(--accent-color)]"
-                            data-translate-key="jobTitleLabsec"
-                        >
-                            Researcher/Developer
-                        </h3>
-                        <p class="text-sm sm:text-md font-medium text-[var(--text-primary)]">
-                            <a
-                                href="https://labsec.ufsc.br/"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                class="link-highlight"
-                                data-translate-key="companyLabsec"
-                                >Laboratório de Segurança em Computação (LabSEC) - UFSC</a
-                            >
-                        </p>
-                        <p
-                            class="text-xs sm:text-sm text-[var(--text-secondary)]"
-                            data-job-duration
-                            data-start-date="2014-01-01"
-                            data-end-date="2016-02-29"
-                            data-location-en="&middot; Florianópolis"
-                            data-location-pt="&middot; Florianópolis"
-                        ></p>
-                        <p
-                            class="mt-2 text-[var(--text-secondary)] leading-relaxed text-sm sm:text-base"
-                            data-translate-key="labsecDesc"
-                        >
-                            Conducted Master's research involving the proposal and security
-                            validation of a unified Identity Card based on the ICAO 9303 passport
-                            standard for academic federation environments. Contributed to various
-                            security projects during this period.
-                        </p>
-                        <div class="mt-3 text-xs text-[var(--text-secondary)]">
-                            <p class="font-semibold" data-translate-key="relatedPublicationLabel">
-                                Related Publication:
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <h3 class="text-base sm:text-lg font-semibold text-[var(--accent-color)]" data-translate-key="jobTitleBridgehead">Kitchen Specialist</h3>
+                            <p class="text-sm font-medium text-[var(--text-primary)]">Bridgehead Coffee</p>
+                            <p class="text-xs text-[var(--text-secondary)] mt-0.5"
+                                data-job-duration
+                                data-start-date="2016-07-01"
+                                data-end-date="2019-03-31"
+                                data-location-en="&middot; Ottawa, Canada Area"
+                                data-location-pt="&middot; Região de Ottawa, Canadá"
+                            ></p>
+                            <p class="mt-2 text-xs sm:text-sm text-[var(--text-secondary)]" data-translate-key="bridgeheadDesc">
+                                Gained valuable Canadian work experience as a Kitchen Specialist, enhancing communication, leadership, pressure handling, and pro-activity. Concurrently, self-taught and improved technical skills to stay current with technology.
                             </p>
-                            <p class="mt-1" data-translate-key="labsecPublicationText">
-                                F. C. Sasso, R. A. Reinaldo De Moraes and J. E. Martina, "A Proposal
-                                for a Unified Identity Card for Use in an Academic Federation
-                                Environment," 2014 Ninth International Conference on Availability,
-                                Reliability and Security, Fribourg, Suíça, 2014, pp. 265-272,
-                                <a
-                                    href="https://ieeexplore.ieee.org/document/6980291"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    class="link-highlight"
-                                    >doi: https://doi.org/10.1101/2021.03.30.434101</a
-                                >.
-                            </p>
+                            <div class="mt-2 text-xs text-[var(--text-secondary)]">
+                                <p class="font-semibold" data-translate-key="skillsAcquiredLabel">Skills Acquired/Enhanced:</p>
+                                <ul class="list-disc list-inside ml-4 mt-1 space-y-0.5">
+                                    <li data-translate-key="bridgeheadSkillPython">Python (requests, BeautifulSoup4, unittest, Django v2.1, virtualenv)</li>
+                                    <li data-translate-key="bridgeheadSkillFrontend">Front-end (HTML, CSS, Bootstrap, Bulma)</li>
+                                    <li data-translate-key="bridgeheadSkillTools">Tools (Git, GitHub, Heroku)</li>
+                                    <li data-translate-key="bridgeheadSkillProblemSolving">Problem-solving (HackerRank challenges)</li>
+                                </ul>
+                            </div>
                         </div>
+
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <h3 class="text-base sm:text-lg font-semibold text-[var(--accent-color)]" data-translate-key="jobTitleLabsec">Researcher/Developer</h3>
+                            <p class="text-sm font-medium text-[var(--text-primary)]">
+                                <a href="https://labsec.ufsc.br/" target="_blank" rel="noopener noreferrer" class="link-highlight" data-translate-key="companyLabsec">Laboratório de Segurança em Computação (LabSEC) - UFSC</a>
+                            </p>
+                            <p class="text-xs text-[var(--text-secondary)] mt-0.5"
+                                data-job-duration
+                                data-start-date="2014-01-01"
+                                data-end-date="2016-02-29"
+                                data-location-en="&middot; Florianópolis"
+                                data-location-pt="&middot; Florianópolis"
+                            ></p>
+                            <p class="mt-2 text-xs sm:text-sm text-[var(--text-secondary)]" data-translate-key="labsecDesc">
+                                Conducted Master's research involving the proposal and security validation of a unified Identity Card based on the ICAO 9303 passport standard for academic federation environments. Contributed to various security projects during this period.
+                            </p>
+                            <div class="mt-3 text-xs text-[var(--text-secondary)]">
+                                <p class="font-semibold" data-translate-key="relatedPublicationLabel">Related Publication:</p>
+                                <p class="mt-1" data-translate-key="labsecPublicationText">
+                                    F. C. Sasso, R. A. Reinaldo De Moraes and J. E. Martina, "A Proposal for a Unified Identity Card for Use in an Academic Federation Environment," 2014 Ninth International Conference on Availability, Reliability and Security, Fribourg, Suíça, 2014, pp. 265-272,
+                                    <a href="https://ieeexplore.ieee.org/document/6980291" target="_blank" rel="noopener noreferrer" class="link-highlight">doi: https://doi.org/10.1101/2021.03.30.434101</a>.
+                                </p>
+                            </div>
+                        </div>
+
                     </div>
+                    <!-- end #older-experience -->
+
                 </div>
+                <!-- end .timeline -->
+
+                <button id="toggle-older-exp" class="show-more-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4 toggle-icon-down">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4 toggle-icon-up hidden">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5" />
+                    </svg>
+                    <span id="toggle-older-text" data-translate-key="showOlderExperience">Show 2 earlier positions</span>
+                </button>
+
             </section>
 
-            <section
-                id="education"
-                class="bg-[var(--secondary-bg)] shadow-lg rounded-xl p-6 md:p-8 mb-8"
-            >
+            <!-- Education -->
+            <section id="education" class="bg-[var(--secondary-bg)] shadow-sm rounded-xl p-6 md:p-8 mb-6 scroll-mt-20">
                 <h2
-                    class="text-xl sm:text-2xl font-semibold text-[var(--accent-color)] mb-6"
+                    class="section-heading text-xl sm:text-2xl font-semibold text-[var(--accent-color)] mb-6"
                     data-translate-key="educationTitle"
-                >
-                    Education
-                </h2>
-                <div class="space-y-6">
-                    <div class="border-l-4 border-[var(--accent-color)] pl-4 sm:pl-6">
-                        <h3
-                            class="text-lg sm:text-xl font-semibold text-[var(--accent-color)]"
-                            data-translate-key="mastersDegree"
-                        >
-                            Master's degree, Computer Science
-                        </h3>
-                        <p class="text-sm sm:text-md font-medium text-[var(--text-primary)]">
-                            <a
-                                href="https://ufsc.br/"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                class="link-highlight"
-                                data-translate-key="universityUfsc"
-                                >Universidade Federal de Santa Catarina</a
-                            >
+                >Education</h2>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <h3 class="text-base sm:text-lg font-semibold text-[var(--accent-color)]" data-translate-key="mastersDegree">Master's degree, Computer Science</h3>
+                        <p class="text-sm font-medium text-[var(--text-primary)]">
+                            <a href="https://ufsc.br/" target="_blank" rel="noopener noreferrer" class="link-highlight" data-translate-key="universityUfsc">Universidade Federal de Santa Catarina</a>
                         </p>
-                        <p class="text-xs sm:text-sm text-[var(--text-secondary)]">2014 - 2016</p>
-                        <div class="mt-4 text-sm text-[var(--text-secondary)]">
-                            <p
-                                class="font-semibold text-[var(--text-primary)]"
-                                data-translate-key="dissertationLabel"
-                            ></p>
-                            <p class="italic mt-1" data-translate-key="dissertationTitle"></p>
-                            <p
-                                class="font-semibold mt-2 text-[var(--text-primary)]"
-                                data-translate-key="dissertationAbstractLabel"
-                            ></p>
-                            <p
-                                class="mt-1 text-xs leading-relaxed"
-                                data-translate-key="dissertationAbstract"
-                            ></p>
+                        <p class="text-xs text-[var(--text-secondary)] mt-0.5">2014 – 2016</p>
+                        <div class="mt-3 text-sm text-[var(--text-secondary)]">
+                            <p class="font-semibold text-[var(--text-primary)]" data-translate-key="dissertationLabel"></p>
+                            <p class="italic mt-1 text-xs" data-translate-key="dissertationTitle"></p>
+                            <p class="font-semibold mt-2 text-[var(--text-primary)]" data-translate-key="dissertationAbstractLabel"></p>
+                            <p class="mt-1 text-xs leading-relaxed" data-translate-key="dissertationAbstract"></p>
                             <p class="mt-2">
                                 <a
                                     href="https://repositorio.ufsc.br/xmlui/handle/123456789/168279"
@@ -764,24 +472,13 @@
                             </p>
                         </div>
                     </div>
-                    <div class="border-l-4 border-[var(--accent-color)] pl-4 sm:pl-6">
-                        <h3
-                            class="text-lg sm:text-xl font-semibold text-[var(--accent-color)]"
-                            data-translate-key="bachelorsDegree"
-                        >
-                            Bachelor's degree, Computer Science
-                        </h3>
-                        <p class="text-sm sm:text-md font-medium text-[var(--text-primary)]">
-                            <a
-                                href="https://www.unesc.net/"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                class="link-highlight"
-                                data-translate-key="universityUnesc"
-                                >Universidade do Extremo Sul Catarinense</a
-                            >
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <h3 class="text-base sm:text-lg font-semibold text-[var(--accent-color)]" data-translate-key="bachelorsDegree">Bachelor's degree, Computer Science</h3>
+                        <p class="text-sm font-medium text-[var(--text-primary)]">
+                            <a href="https://www.unesc.net/" target="_blank" rel="noopener noreferrer" class="link-highlight" data-translate-key="universityUnesc">Universidade do Extremo Sul Catarinense</a>
                         </p>
-                        <p class="text-xs sm:text-sm text-[var(--text-secondary)]">2008 - 2012</p>
+                        <p class="text-xs text-[var(--text-secondary)] mt-0.5">2008 – 2012</p>
                     </div>
                 </div>
             </section>
