@@ -277,12 +277,18 @@ body.colorblind-active {
 
 /* ── Mobile tweaks ── */
 @media (max-width: 639px) {
-    /* Smaller nav buttons so all 4 fit beside the name */
+    /* Compact nav buttons so all 4 fit beside the name */
     .lang-button {
-        padding: 0.375rem 0.5rem;
-        min-height: 2.5rem;
-        min-width: 2.5rem;
+        padding: 0.3rem 0.5rem;
+        min-height: unset;
+        min-width: unset;
         font-size: 0.8rem;
+    }
+
+    /* Larger body text in experience/education timeline */
+    .timeline-item p[data-translate-key],
+    .timeline-item ul {
+        font-size: 0.875rem; /* 14px instead of 12px */
     }
 
     /* Tighter timeline so dots don't clip against card edge */
