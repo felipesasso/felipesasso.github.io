@@ -108,13 +108,18 @@ body.colorblind-active {
 .lang-button {
     background-color: var(--lang-button-bg);
     color: var(--lang-button-text);
-    padding: 0.25rem 0.75rem;
+    padding: 0.5rem 0.75rem;
+    min-height: 2.75rem; /* 44px tap target */
+    min-width: 2.75rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     border-radius: 0.375rem;
     font-weight: 500;
     font-size: 0.875rem;
     cursor: pointer;
     border: 1px solid transparent;
-    transition: background-color 0.2s, color 0.2s, border-color 0.2s; /* Smooth transition */
+    transition: background-color 0.2s, color 0.2s, border-color 0.2s;
 }
 
 .lang-button.active {
@@ -181,13 +186,15 @@ body.colorblind-active {
     display: inline-flex;
     align-items: center;
     gap: 0.375rem;
-    padding: 0.375rem 0.75rem;
+    padding: 0.5rem 0.875rem;
+    min-height: 2.75rem; /* 44px tap target */
     border-radius: 9999px;
     background-color: var(--lang-button-bg);
     color: var(--text-secondary);
     font-size: 0.75rem;
     font-weight: 500;
     text-decoration: none;
+    overflow: hidden;
     transition: background-color 0.2s, color 0.2s;
 }
 
@@ -265,6 +272,21 @@ body.colorblind-active {
 
 .timeline-item.is-current .timeline-dot {
     background-color: var(--accent-color);
+}
+
+/* ── Mobile: ensure sections clear the sticky nav ── */
+@media (max-width: 639px) {
+    .timeline {
+        padding-left: 1.25rem;
+    }
+
+    .timeline::before {
+        left: 0.3125rem;
+    }
+
+    .timeline-dot {
+        left: -1.25rem;
+    }
 }
 
 /* ── Show more button ── */
