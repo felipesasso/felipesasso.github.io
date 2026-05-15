@@ -503,6 +503,31 @@ function populateSkills() {
 }
 
 /**
+ * Updates the theme toggle button icon to reflect current state.
+ */
+function updateThemeButton() {
+    const isDark = document.documentElement.classList.contains('dark');
+    const btn = document.getElementById('theme-toggle');
+    const moon = document.getElementById('icon-moon');
+    const sun = document.getElementById('icon-sun');
+    if (!btn) return;
+    btn.setAttribute('aria-pressed', isDark ? 'true' : 'false');
+    btn.setAttribute('aria-label', isDark ? 'Switch to light mode' : 'Switch to dark mode');
+    if (moon) moon.classList.toggle('hidden', isDark);
+    if (sun) sun.classList.toggle('hidden', !isDark);
+}
+
+/**
+ * Toggles between light and dark mode.
+ * Saves the preference to localStorage.
+ */
+function toggleTheme() {
+    const isDark = document.documentElement.classList.toggle('dark');
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    updateThemeButton();
+}
+
+/**
  * Toggles colorblind mode on and off.
  * Saves the preference to localStorage.
  */
@@ -588,8 +613,10 @@ document.addEventListener('DOMContentLoaded', function () {
     applySavedColorblindMode();
     switchLanguage(currentLanguage);
     setupExperienceCollapse();
+    updateThemeButton();
 
     document.getElementById('lang-en').addEventListener('click', () => switchLanguage('en'));
     document.getElementById('lang-pt').addEventListener('click', () => switchLanguage('pt'));
     document.getElementById('colorblind-toggle').addEventListener('click', toggleColorblindMode);
+    document.getElementById('theme-toggle').addEventListener('click', toggleTheme);
 });
