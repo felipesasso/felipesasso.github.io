@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Livros - Felipe Sasso</title>
+        <meta name="description" content="Lista de livros lidos por Felipe Coral Sasso." />
+        <meta name="author" content="Felipe Coral Sasso" />
+
+        <script>
+            (function () {
+                var stored = localStorage.getItem('theme');
+                var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+                if (stored === 'dark' || (stored !== 'light' && prefersDark)) {
+                    document.documentElement.classList.add('dark');
+                }
+            })();
+        </script>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <link rel="stylesheet" href="/style.css" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    </head>
+
+    <body class="bg-[var(--primary-bg)] text-[var(--text-primary)]">
+
+        <nav id="main-nav" class="sticky top-0 z-50 bg-[var(--secondary-bg)] border-b border-[var(--lang-button-bg)]">
+            <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 flex items-center justify-between h-14">
+                <a href="/" class="font-semibold text-sm text-[var(--accent-color)] shrink-0">Felipe Sasso</a>
+                <div class="hidden sm:flex items-center gap-6">
+                    <a href="/" class="nav-link">Home</a>
+                    <span class="text-sm font-medium text-[var(--accent-color)] border-b-2 border-[var(--accent-color)] pb-0.5">Livros</span>
+                </div>
+                <div class="flex items-center gap-1 sm:gap-2 shrink-0">
+                    <button id="theme-toggle" class="lang-button" aria-label="Toggle dark mode" aria-pressed="false">
+                        <svg id="icon-moon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z" />
+                        </svg>
+                        <svg id="icon-sun" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 hidden">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+            <section class="bg-[var(--secondary-bg)] shadow-sm rounded-xl p-6 md:p-8">
+                <h1 class="section-heading text-xl sm:text-2xl font-semibold text-[var(--accent-color)] mb-3">Livros</h1>
+                <p class="text-sm sm:text-base text-[var(--text-secondary)] leading-relaxed mb-2">
+                    Ler é uma das coisas que mais gosto de fazer. Ficção científica, terror, clássicos da literatura — pouco importa o gênero, desde que a história me prenda. Aqui estão todos os livros que já li, ordenados por ano de publicação.
+                </p>
+                <div class="flex items-center gap-3 mb-6">
+                    <a href="https://www.goodreads.com/felipecoralsasso" target="_blank" rel="noopener noreferrer" class="contact-chip" aria-label="Perfil no Goodreads">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-3.5 h-3.5 shrink-0">
+                            <path d="M11.43 23.995c-3.608-.208-6.274-2.077-6.448-5.648h2.972c.174 2.082 2.084 3.038 4.41 3.038 3.286 0 4.785-1.657 4.785-4.663v-1.34h-.065c-.87 1.606-2.547 2.624-4.763 2.624-4.194 0-7.07-3.27-7.07-7.603 0-4.441 2.787-7.9 7.09-7.9 2.215 0 3.89 1.018 4.783 2.624h.065V3.12h2.712v13.694c0 4.15-2.03 7.181-8.471 7.181zm.38-20.537c-2.842 0-4.478 2.255-4.478 5.402 0 3.017 1.548 5.403 4.478 5.403 2.97 0 4.763-2.386 4.763-5.403 0-3.147-1.79-5.402-4.763-5.402z"/>
+                        </svg>
+                        Goodreads
+                    </a>
+                    <span id="book-count" class="text-xs text-[var(--text-secondary)]"></span>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm">
+                        <thead>
+                            <tr class="border-b border-[var(--lang-button-bg)]">
+                                <th class="text-left py-2 pr-4 text-[var(--text-secondary)] text-xs uppercase tracking-wide font-semibold w-8 select-none">#</th>
+                                <th class="text-left py-2 pr-4 text-[var(--text-secondary)] text-xs uppercase tracking-wide font-semibold cursor-pointer select-none hover:text-[var(--accent-color)] transition-colors" data-col="title">Título <span class="sort-icon opacity-40">&#x21C5;</span></th>
+                                <th class="text-left py-2 pr-4 text-[var(--text-secondary)] text-xs uppercase tracking-wide font-semibold cursor-pointer select-none hover:text-[var(--accent-color)] transition-colors" data-col="author">Autor <span class="sort-icon opacity-40">&#x21C5;</span></th>
+                                <th class="text-left py-2 text-[var(--text-secondary)] text-xs uppercase tracking-wide font-semibold whitespace-nowrap cursor-pointer select-none hover:text-[var(--accent-color)] transition-colors" data-col="year">Ano <span class="sort-icon">&#x2193;</span></th>
+                            </tr>
+                        </thead>
+                        <tbody id="books-tbody"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <footer class="text-center py-8 text-xs sm:text-sm text-[var(--text-secondary)]">
+                <p>&copy; <span id="currentYear"></span> Felipe Coral Sasso. All rights reserved.</p>
+            </footer>
+        </div>
+
+        <script>
+            document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+            const themeToggle = document.getElementById('theme-toggle');
+            const iconMoon = document.getElementById('icon-moon');
+            const iconSun = document.getElementById('icon-sun');
+
+            function applyTheme(dark) {
+                document.documentElement.classList.toggle('dark', dark);
+                iconMoon.classList.toggle('hidden', dark);
+                iconSun.classList.toggle('hidden', !dark);
+                themeToggle.setAttribute('aria-pressed', String(dark));
+            }
+
+            applyTheme(document.documentElement.classList.contains('dark'));
+            themeToggle.addEventListener('click', () => {
+                const isDark = document.documentElement.classList.contains('dark');
+                localStorage.setItem('theme', isDark ? 'light' : 'dark');
+                applyTheme(!isDark);
+            });
+
+            window.addEventListener('scroll', () => {
+                document.getElementById('main-nav').classList.toggle('scrolled', window.scrollY > 10);
+            });
+
+            let books = [];
+            let sortCol = 'year';
+            let sortAsc = false;
+
+            const tbody = document.getElementById('books-tbody');
+            const headers = document.querySelectorAll('th[data-col]');
+
+            function renderTable() {
+                const sorted = [...books].sort((a, b) => {
+                    let av = a[sortCol], bv = b[sortCol];
+                    if (sortCol === 'year') {
+                        av = av ?? -Infinity;
+                        bv = bv ?? -Infinity;
+                    } else {
+                        av = (av ?? '').toLowerCase();
+                        bv = (bv ?? '').toLowerCase();
+                    }
+                    if (av < bv) return sortAsc ? -1 : 1;
+                    if (av > bv) return sortAsc ? 1 : -1;
+                    return 0;
+                });
+
+                tbody.innerHTML = sorted.map((book, i) => `
+                    <tr class="${i < sorted.length - 1 ? 'border-b border-[var(--lang-button-bg)]' : ''} hover:bg-[var(--primary-bg)] transition-colors">
+                        <td class="py-3 pr-4 text-[var(--text-secondary)] text-xs">${i + 1}</td>
+                        <td class="py-3 pr-4 text-[var(--text-primary)] font-medium">${book.title}</td>
+                        <td class="py-3 pr-4 text-[var(--text-secondary)]">${book.author}</td>
+                        <td class="py-3 text-[var(--text-secondary)]">${book.year ?? '&#x2014;'}</td>
+                    </tr>
+                `).join('');
+            }
+
+            function setSort(col) {
+                if (sortCol === col) {
+                    sortAsc = !sortAsc;
+                } else {
+                    sortCol = col;
+                    sortAsc = col !== 'year';
+                }
+                headers.forEach(th => {
+                    const icon = th.querySelector('.sort-icon');
+                    if (th.dataset.col === col) {
+                        icon.innerHTML = sortAsc ? '&#x2191;' : '&#x2193;';
+                        icon.classList.remove('opacity-40');
+                    } else {
+                        icon.innerHTML = '&#x21C5;';
+                        icon.classList.add('opacity-40');
+                    }
+                });
+                renderTable();
+            }
+
+            headers.forEach(th => th.addEventListener('click', () => setSort(th.dataset.col)));
+
+            fetch('books.json')
+                .then(r => r.json())
+                .then(data => {
+                    books = data;
+                    document.getElementById('book-count').textContent = books.length + ' livros lidos';
+                    renderTable();
+                });
+        </script>
+    </body>
+</html>
