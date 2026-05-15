@@ -92,6 +92,17 @@ const translations = {
             "Several efforts have been made recently to establish identity federations. Efforts towards availability of authentication data to be usable by all entities of the federation are the core of this model. However some issues are still open. The first issue is related to offline operation of the authentication process. Today's model of federation requires that systems work online and synchronously, which limits the use for some applications. The second is related to the fact that data federations are only to computer systems and not by human agents. Thus it is difficult for humans involved in the process to assess such credentials. Finally, federation has numerous technical and legal issues for the provision of private data, such as biometric parameters, and it would make a much stronger authentication process. The purpose of this thesis is to describe an identity card based on the ICAO 9303 standard to solve the problems present in Identity Federations. Besides the creation of the card we also performed an evaluation of the Security in various usage scenarios. It was possible to identify which security issues may arise during the use of the card and how to solve them.",
         dissertationLink: 'Access Thesis at UFSC Repository',
 
+        navSkills: 'Skills',
+        navExperience: 'Experience',
+        navEducation: 'Education',
+
+        skillCategoryFrontend: 'Frontend',
+        skillCategoryBackend: 'Backend',
+        skillCategoryTools: 'Tools & Practices',
+
+        showOlderExperience: 'Show 2 earlier positions',
+        hideOlderExperience: 'Hide earlier positions',
+
         apiDevelopment: 'REST API Development',
         python: 'Python',
         react: 'React',
@@ -210,6 +221,17 @@ const translations = {
         dissertationAbstract:
             'Vários esforços tem sido feitos recentemente no âmbito de federações de identidade. Os esforços para que dados de autenticação sejam disponíveis e utilizáveis por todas as entidades participantes da federação são o pilar deste modelo. No entanto alguns problemas se encontram em aberto. O primeiro deles é o funcionamento offline do processo de autenticação. Hoje o modelo da federação requer que os sistemas trabalhem online de forma síncrona, o que limita seu uso para algumas aplicações. Segundo, os dados da federação somente estão disponíveis para sistemas computacionais e não para as pessoas, tornando difícil a avaliação da avaliação de tais credenciais. Por fim, a federação tem inúmeros problemas técnicos e legais para a disponibilização de dados considerados de uso privados, tais como biométricos. Estes tornariam a autenticação muito mais forte. A proposta desta dissertação foi descrever um cartão de identificação baseado no padrão ICAO 9303 que soluciona os problemas presentes nas Federações de Identidade. Além da criação do cartão, também foi realizado uma avaliação da segurança deste em diversos cenários de uso. Com isso foi possível identificar quais problemas de segurança podem ocorrer durante a utilização do cartão e como resolvê-los.',
         dissertationLink: 'Acessar Dissertação no Repositório UFSC',
+
+        navSkills: 'Habilidades',
+        navExperience: 'Experiência',
+        navEducation: 'Formação',
+
+        skillCategoryFrontend: 'Frontend',
+        skillCategoryBackend: 'Backend',
+        skillCategoryTools: 'Ferramentas & Práticas',
+
+        showOlderExperience: 'Mostrar 2 posições anteriores',
+        hideOlderExperience: 'Ocultar posições anteriores',
 
         apiDevelopment: 'Desenvolvimento de APIs REST',
         python: 'Python',
@@ -416,9 +438,10 @@ function switchLanguage(lang) {
             element.title = translatedText;
         }
     });
-    // Update job durations and skills list based on the new language
+    // Update job durations, skills, and toggle button based on the new language
     updateJobDurations(lang);
     populateSkills();
+    updateToggleButton();
 
     // Update active state and aria-pressed of language buttons
     const btnEn = document.getElementById('lang-en');
@@ -430,26 +453,52 @@ function switchLanguage(lang) {
 }
 
 /**
- * Populates the skills section with translated skill names.
+ * Populates the skills section with categorised skill tags.
  */
 function populateSkills() {
-    const skillsContainer = document.getElementById('skills-list');
-    if (!skillsContainer) return; // Exit if the container doesn't exist
+    const container = document.getElementById('skills-categories');
+    if (!container) return;
 
-    // Define the keys for the top skills to be displayed
-    const topSkillKeys = ['python', 'apiDevelopment', 'react', 'typescript', 'unitTesting'];
+    const t = translations[currentLanguage];
 
-    skillsContainer.innerHTML = ''; // Clear any existing skills
+    const categories = [
+        {
+            label: t.skillCategoryFrontend,
+            skills: ['React', 'TypeScript', 'JavaScript', 'GraphQL', 'CSS'],
+        },
+        {
+            label: t.skillCategoryBackend,
+            skills: ['Python', 'Flask', 'Go', 'SQL / PostgreSQL', 'REST APIs'],
+        },
+        {
+            label: t.skillCategoryTools,
+            skills: ['Git / GitHub', 'Unit Testing', 'Agile / Scrum', 'CI/CD'],
+        },
+    ];
 
-    // Create and append skill elements
-    topSkillKeys.forEach((key) => {
-        const skillText = translations[currentLanguage][key] || translations.en[key]; // Get translated skill name
-        const skillElement = document.createElement('span');
-        // Apply Tailwind classes for styling, now using CSS variables
-        skillElement.className =
-            'bg-[var(--skill-bg)] text-[var(--skill-text)] px-3 py-1 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-medium';
-        skillElement.textContent = skillText;
-        skillsContainer.appendChild(skillElement);
+    container.innerHTML = '';
+
+    categories.forEach(({ label, skills }) => {
+        const categoryDiv = document.createElement('div');
+
+        const labelEl = document.createElement('p');
+        labelEl.className = 'skill-category-label';
+        labelEl.textContent = label;
+        categoryDiv.appendChild(labelEl);
+
+        const skillsWrap = document.createElement('div');
+        skillsWrap.className = 'flex flex-wrap gap-2';
+
+        skills.forEach((skill) => {
+            const span = document.createElement('span');
+            span.className =
+                'bg-[var(--skill-bg)] text-[var(--skill-text)] px-3 py-1 rounded-full text-xs font-medium';
+            span.textContent = skill;
+            skillsWrap.appendChild(span);
+        });
+
+        categoryDiv.appendChild(skillsWrap);
+        container.appendChild(categoryDiv);
     });
 }
 
@@ -491,14 +540,54 @@ function applySavedColorblindMode() {
     }
 }
 
+/**
+ * Updates the toggle button text/icons to reflect current collapsed state.
+ */
+function updateToggleButton() {
+    const olderSection = document.getElementById('older-experience');
+    const textSpan = document.getElementById('toggle-older-text');
+    const iconDown = document.querySelector('.toggle-icon-down');
+    const iconUp = document.querySelector('.toggle-icon-up');
+    if (!olderSection || !textSpan) return;
+
+    const isHidden = olderSection.classList.contains('hidden');
+    const t = translations[currentLanguage];
+    textSpan.textContent = isHidden ? t.showOlderExperience : t.hideOlderExperience;
+    if (iconDown) iconDown.classList.toggle('hidden', !isHidden);
+    if (iconUp) iconUp.classList.toggle('hidden', isHidden);
+}
+
+/**
+ * Sets up the expand/collapse toggle for older experience entries.
+ */
+function setupExperienceCollapse() {
+    const toggleBtn = document.getElementById('toggle-older-exp');
+    const olderSection = document.getElementById('older-experience');
+    if (!toggleBtn || !olderSection) return;
+
+    updateToggleButton();
+
+    toggleBtn.addEventListener('click', () => {
+        olderSection.classList.toggle('hidden');
+        updateToggleButton();
+    });
+}
+
 // Set the current year in the footer
 document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+// Add shadow to navbar on scroll
+window.addEventListener('scroll', () => {
+    const nav = document.getElementById('main-nav');
+    if (nav) nav.classList.toggle('scrolled', window.scrollY > 10);
+});
 
 // Initialize the page: set initial language and apply saved colorblind mode, then switch to it.
 document.addEventListener('DOMContentLoaded', function () {
     setInitialLanguage();
     applySavedColorblindMode();
     switchLanguage(currentLanguage);
+    setupExperienceCollapse();
 
     document.getElementById('lang-en').addEventListener('click', () => switchLanguage('en'));
     document.getElementById('lang-pt').addEventListener('click', () => switchLanguage('pt'));
