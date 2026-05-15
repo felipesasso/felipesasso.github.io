@@ -491,8 +491,7 @@ function populateSkills() {
 
         skills.forEach((skill) => {
             const span = document.createElement('span');
-            span.className =
-                'bg-[var(--skill-bg)] text-[var(--skill-text)] px-3 py-1 rounded-full text-xs font-medium';
+            span.className = 'skill-tag';
             span.textContent = skill;
             skillsWrap.appendChild(span);
         });
