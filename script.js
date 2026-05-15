@@ -266,20 +266,18 @@ const translations = {
 let currentLanguage = 'en'; // Default to English
 
 /**
- * Sets the initial language based on browser settings.
- * Defaults to 'en' if Portuguese is not detected or navigator.language is unavailable.
+ * Sets the initial language: saved preference first, then browser language, then English.
  */
 function setInitialLanguage() {
     try {
-        const browserLang = navigator.language || navigator.userLanguage;
-        if (browserLang && browserLang.toLowerCase().startsWith('pt')) {
-            currentLanguage = 'pt';
-        } else {
-            currentLanguage = 'en';
+        const saved = localStorage.getItem('language');
+        if (saved === 'pt' || saved === 'en') {
+            currentLanguage = saved;
+            return;
         }
+        const browserLang = navigator.language || navigator.userLanguage;
+        currentLanguage = (browserLang && browserLang.toLowerCase().startsWith('pt')) ? 'pt' : 'en';
     } catch (e) {
-        // Fallback to English if navigator.language is not accessible (e.g., in some test environments)
-        console.warn('Could not access browser language, defaulting to English.', e);
         currentLanguage = 'en';
     }
 }
@@ -379,9 +377,11 @@ function updateJobDurations(lang) {
 /**
  * Switches the language of the page content.
  * @param {string} lang - The language to switch to ('en' or 'pt').
+ * @param {boolean} persist - Whether to save the choice to localStorage.
  */
-function switchLanguage(lang) {
+function switchLanguage(lang, persist = false) {
     currentLanguage = lang;
+    if (persist) localStorage.setItem('language', lang);
     // Iterate over all elements with a 'data-translate-key' attribute
     document.querySelectorAll('[data-translate-key]').forEach((element) => {
         const key = element.dataset.translateKey;
@@ -615,8 +615,8 @@ document.addEventListener('DOMContentLoaded', function () {
     setupExperienceCollapse();
     updateThemeButton();
 
-    document.getElementById('lang-en').addEventListener('click', () => switchLanguage('en'));
-    document.getElementById('lang-pt').addEventListener('click', () => switchLanguage('pt'));
+    document.getElementById('lang-en').addEventListener('click', () => switchLanguage('en', true));
+    document.getElementById('lang-pt').addEventListener('click', () => switchLanguage('pt', true));
     document.getElementById('colorblind-toggle').addEventListener('click', toggleColorblindMode);
     document.getElementById('theme-toggle').addEventListener('click', toggleTheme);
 });
