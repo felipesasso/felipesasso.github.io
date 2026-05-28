@@ -9,6 +9,7 @@
 
         <script>
             (function () {
+                document.documentElement.classList.add('js');
                 var stored = localStorage.getItem('theme');
                 var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
                 if (stored === 'dark' || (stored !== 'light' && prefersDark)) {
@@ -16,18 +17,18 @@
                 }
             })();
         </script>
-        <script src="https://cdn.tailwindcss.com"></script>
+        <link rel="stylesheet" href="/tailwind.css" />
         <link rel="stylesheet" href="/style.css" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
     </head>
 
     <body class="bg-[var(--primary-bg)] text-[var(--text-primary)]">
 
         <nav id="main-nav" class="sticky top-0 z-50 bg-[var(--secondary-bg)] border-b border-[var(--lang-button-bg)]">
             <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 flex items-center justify-between h-14">
-                <a href="/" class="font-semibold text-sm text-[var(--accent-color)] shrink-0">Felipe Sasso</a>
+                <a href="/" class="nav-brand shrink-0">Felipe Sasso</a>
                 <div class="hidden sm:flex items-center gap-6">
                     <a href="/" class="nav-link">Home</a>
                     <span class="text-sm font-medium text-[var(--accent-color)] border-b-2 border-[var(--accent-color)] pb-0.5">Livros</span>
@@ -47,8 +48,8 @@
         </nav>
 
         <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
-            <section class="bg-[var(--secondary-bg)] shadow-sm rounded-xl p-6 md:p-8">
-                <h1 class="section-heading text-xl sm:text-2xl font-semibold text-[var(--accent-color)] mb-3">Livros</h1>
+            <section class="card p-6 md:p-8">
+                <h1 class="section-heading text-xl sm:text-2xl font-semibold text-[var(--text-primary)] mb-3">Livros</h1>
                 <p class="text-sm sm:text-base text-[var(--text-secondary)] leading-relaxed mb-2">
                     Ler é uma das coisas que mais gosto de fazer. Ficção científica, terror, clássicos da literatura — pouco importa o gênero, desde que a história me prenda. Aqui estão todos os livros que já li, ordenados por ano de publicação.
                 </p>

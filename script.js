@@ -7,6 +7,8 @@ const translations = {
         summaryTitle: 'Summary',
         summaryText:
             'Software Engineer with 5+ years of experience building robust, scalable back-end systems with Python and crafting dynamic, intuitive user interfaces using React.',
+        heroTagline:
+            'I build software that reaches millions — and read voraciously the rest of the time.',
         languagesTitle: 'Languages',
         langPortuguese: 'Portuguese (Native)',
         langEnglish: 'English (Professional Working)',
@@ -14,7 +16,7 @@ const translations = {
         experienceTitle: 'Experience',
         educationTitle: 'Education',
         footerRights: '&copy; {year} Felipe Coral Sasso. All rights reserved.',
-        footerBuiltWith: 'Built with Tailwind CSS.',
+        footerBuiltWith: 'Built with care — Fraunces, Inter & Tailwind CSS.',
         colorblindMode: 'Colorblind Mode', // New translation key
         englishLanguageTooltip: 'Switch to English', // New tooltip translation
         portugueseLanguageTooltip: 'Mudar para Português', // New tooltip translation for Portuguese
@@ -92,9 +94,32 @@ const translations = {
             "Several efforts have been made recently to establish identity federations. Efforts towards availability of authentication data to be usable by all entities of the federation are the core of this model. However some issues are still open. The first issue is related to offline operation of the authentication process. Today's model of federation requires that systems work online and synchronously, which limits the use for some applications. The second is related to the fact that data federations are only to computer systems and not by human agents. Thus it is difficult for humans involved in the process to assess such credentials. Finally, federation has numerous technical and legal issues for the provision of private data, such as biometric parameters, and it would make a much stronger authentication process. The purpose of this thesis is to describe an identity card based on the ICAO 9303 standard to solve the problems present in Identity Federations. Besides the creation of the card we also performed an evaluation of the Security in various usage scenarios. It was possible to identify which security issues may arise during the use of the card and how to solve them.",
         dissertationLink: 'Access Thesis at UFSC Repository',
 
+        navWork: 'Work',
         navSkills: 'Skills',
         navExperience: 'Experience',
         navEducation: 'Education',
+        navReading: 'Reading',
+
+        workEyebrow: 'Selected Work',
+        workTitle: 'Selected Work & Research',
+        workPinterestTitle: 'Front-end at scale',
+        workPinterestDesc:
+            'Building, testing, and shipping user-facing features for millions of Pinners — owning components from design review through to A/B testing in production.',
+        workFreeplayTitle: 'Tooling for LLMs',
+        workFreeplayDesc:
+            'Full-stack work on a platform that helps product teams build with large language models — Python back-ends, React front-ends, and SDKs in Python, Node, and Java.',
+        workCandigTitle: 'Federated genomics',
+        workCandigDesc:
+            "APIs and interactive dashboards for CanDIG, a distributed genomics platform, and CanCOGEN's COVID-19 data — backed by a peer-reviewed publication.",
+        workCiscoTitle: 'Network automation',
+        workCiscoDesc:
+            'Scalable features for the Genie and pyATS automation framework, including RegEx-based protocol parsers and automated device testing in Python.',
+
+        readingEyebrow: 'Off the clock',
+        readingTitle: 'Reading',
+        readingIntro:
+            'A lifelong reader — science fiction, horror, and the classics. Here are a few of my most recent reads.',
+        readingSeeAll: 'See all {count} books →',
 
         skillCategoryFrontend: 'Frontend',
         skillCategoryBackend: 'Backend',
@@ -137,6 +162,8 @@ const translations = {
         summaryTitle: 'Resumo',
         summaryText:
             'Engenheiro de Software com mais de 5 anos de experiência na construção de sistemas back-end robustos e escaláveis com Python e na criação de interfaces de usuário dinâmicas e intuitivas usando React.',
+        heroTagline:
+            'Construo software que alcança milhões — e leio vorazmente no resto do tempo.',
         languagesTitle: 'Idiomas',
         langPortuguese: 'Português (Nativo)',
         langEnglish: 'Inglês (Profissional)',
@@ -144,7 +171,7 @@ const translations = {
         experienceTitle: 'Experiência',
         educationTitle: 'Formação',
         footerRights: '&copy; {year} Felipe Coral Sasso. Todos os direitos reservados.',
-        footerBuiltWith: 'Construído com Tailwind CSS.',
+        footerBuiltWith: 'Construído com carinho — Fraunces, Inter e Tailwind CSS.',
         colorblindMode: 'Modo Daltônico', // New translation key
         englishLanguageTooltip: 'Mudar para Inglês', // New tooltip translation
         portugueseLanguageTooltip: 'Mudar para Português', // New tooltip translation for Portuguese
@@ -222,9 +249,32 @@ const translations = {
             'Vários esforços tem sido feitos recentemente no âmbito de federações de identidade. Os esforços para que dados de autenticação sejam disponíveis e utilizáveis por todas as entidades participantes da federação são o pilar deste modelo. No entanto alguns problemas se encontram em aberto. O primeiro deles é o funcionamento offline do processo de autenticação. Hoje o modelo da federação requer que os sistemas trabalhem online de forma síncrona, o que limita seu uso para algumas aplicações. Segundo, os dados da federação somente estão disponíveis para sistemas computacionais e não para as pessoas, tornando difícil a avaliação da avaliação de tais credenciais. Por fim, a federação tem inúmeros problemas técnicos e legais para a disponibilização de dados considerados de uso privados, tais como biométricos. Estes tornariam a autenticação muito mais forte. A proposta desta dissertação foi descrever um cartão de identificação baseado no padrão ICAO 9303 que soluciona os problemas presentes nas Federações de Identidade. Além da criação do cartão, também foi realizado uma avaliação da segurança deste em diversos cenários de uso. Com isso foi possível identificar quais problemas de segurança podem ocorrer durante a utilização do cartão e como resolvê-los.',
         dissertationLink: 'Acessar Dissertação no Repositório UFSC',
 
+        navWork: 'Trabalhos',
         navSkills: 'Habilidades',
         navExperience: 'Experiência',
         navEducation: 'Formação',
+        navReading: 'Leituras',
+
+        workEyebrow: 'Trabalhos Selecionados',
+        workTitle: 'Trabalhos & Pesquisa Selecionados',
+        workPinterestTitle: 'Front-end em escala',
+        workPinterestDesc:
+            'Desenvolvimento, teste e entrega de recursos para milhões de Pinners — cuidando de componentes desde a análise de design até testes A/B em produção.',
+        workFreeplayTitle: 'Ferramentas para LLMs',
+        workFreeplayDesc:
+            'Trabalho full-stack em uma plataforma que ajuda equipes a construir com grandes modelos de linguagem — back-ends Python, front-ends React e SDKs em Python, Node e Java.',
+        workCandigTitle: 'Genômica federada',
+        workCandigDesc:
+            'APIs e dashboards interativos para o CanDIG, uma plataforma distribuída de genômica, e os dados de COVID-19 do CanCOGEN — com publicação revisada por pares.',
+        workCiscoTitle: 'Automação de redes',
+        workCiscoDesc:
+            'Funcionalidades escaláveis para o framework de automação Genie e pyATS, incluindo parsers de protocolo baseados em RegEx e testes automatizados de dispositivos em Python.',
+
+        readingEyebrow: 'Nas horas vagas',
+        readingTitle: 'Leituras',
+        readingIntro:
+            'Leitor de longa data — ficção científica, terror e clássicos da literatura. Aqui estão algumas das minhas leituras mais recentes.',
+        readingSeeAll: 'Ver todos os {count} livros →',
 
         skillCategoryFrontend: 'Frontend',
         skillCategoryBackend: 'Backend',
@@ -264,6 +314,9 @@ const translations = {
 
 // Variable to store the current language
 let currentLanguage = 'en'; // Default to English
+
+// Number of books read (filled in once books.json loads); null until known.
+let readingBookCount = null;
 
 /**
  * Sets the initial language: saved preference first, then browser language, then English.
@@ -438,10 +491,11 @@ function switchLanguage(lang, persist = false) {
             element.title = translatedText;
         }
     });
-    // Update job durations, skills, and toggle button based on the new language
+    // Update job durations, skills, toggle button, and reading link based on the new language
     updateJobDurations(lang);
     populateSkills();
     updateToggleButton();
+    updateReadingSeeAll();
 
     // Update active state and aria-pressed of language buttons
     const btnEn = document.getElementById('lang-en');
@@ -527,41 +581,99 @@ function toggleTheme() {
 }
 
 /**
- * Toggles colorblind mode on and off.
- * Saves the preference to localStorage.
+ * Updates the "See all books" link text with the live book count, in the
+ * current language. Falls back to a count-less label until books.json loads.
  */
-function toggleColorblindMode() {
-    const body = document.body;
-    body.classList.toggle('colorblind-active');
-    const isColorblindActive = body.classList.contains('colorblind-active');
-    localStorage.setItem('colorblindMode', isColorblindActive ? 'active' : 'inactive');
-    updateColorblindButtonState(isColorblindActive);
+function updateReadingSeeAll() {
+    const el = document.querySelector('[data-translate-key="readingSeeAll"]');
+    if (!el) return;
+    const template =
+        (translations[currentLanguage] && translations[currentLanguage].readingSeeAll) ||
+        translations.en.readingSeeAll;
+    el.textContent =
+        readingBookCount != null
+            ? template.replace('{count}', readingBookCount)
+            : template.replace('{count} ', '').replace('{count}', '');
 }
 
 /**
- * Updates the visual state of the colorblind toggle button.
- * @param {boolean} isActive - True if colorblind mode is active, false otherwise.
+ * Loads the reading list from the books page data and renders the most recent
+ * reads as a small "shelf" on the home page. Hides the section if it fails.
  */
-function updateColorblindButtonState(isActive) {
-    const colorblindButton = document.getElementById('colorblind-toggle');
-    if (colorblindButton) {
-        colorblindButton.classList.toggle('active', isActive);
-        colorblindButton.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+async function renderReading() {
+    const shelf = document.getElementById('reading-shelf');
+    const section = document.getElementById('reading');
+    if (!shelf) return;
+
+    try {
+        const res = await fetch('/livros/books.json', { cache: 'no-cache' });
+        if (!res.ok) throw new Error('Failed to load books.json');
+        const books = await res.json();
+        readingBookCount = Array.isArray(books) ? books.length : 0;
+
+        // books.json is ordered most-recent first.
+        const recent = books.slice(0, 6);
+        shelf.innerHTML = '';
+
+        recent.forEach((book) => {
+            const card = document.createElement('div');
+            card.className = 'book-card';
+
+            const top = document.createElement('div');
+
+            const title = document.createElement('p');
+            title.className = 'title';
+            title.textContent = book.title;
+            top.appendChild(title);
+
+            const author = document.createElement('p');
+            author.className = 'author';
+            author.textContent = book.author;
+            top.appendChild(author);
+
+            const year = document.createElement('span');
+            year.className = 'year';
+            year.textContent = book.year != null ? book.year : '';
+
+            card.appendChild(top);
+            card.appendChild(year);
+            shelf.appendChild(card);
+        });
+
+        updateReadingSeeAll();
+    } catch (e) {
+        if (section) section.style.display = 'none';
     }
 }
 
 /**
- * Applies the saved colorblind mode preference on page load.
+ * Reveals elements with the `.reveal` class as they scroll into view.
+ * Respects reduced-motion preferences and degrades gracefully without
+ * IntersectionObserver support.
  */
-function applySavedColorblindMode() {
-    const savedMode = localStorage.getItem('colorblindMode');
-    if (savedMode === 'active') {
-        document.body.classList.add('colorblind-active');
-        updateColorblindButtonState(true);
-    } else {
-        document.body.classList.remove('colorblind-active');
-        updateColorblindButtonState(false);
+function setupRevealAnimations() {
+    const reveals = document.querySelectorAll('.reveal');
+    const reduceMotion =
+        window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (reduceMotion || !('IntersectionObserver' in window)) {
+        reveals.forEach((el) => el.classList.add('is-visible'));
+        return;
     }
+
+    const observer = new IntersectionObserver(
+        (entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        },
+        { threshold: 0.12, rootMargin: '0px 0px -40px 0px' }
+    );
+
+    reveals.forEach((el) => observer.observe(el));
 }
 
 /**
@@ -606,16 +718,16 @@ window.addEventListener('scroll', () => {
     if (nav) nav.classList.toggle('scrolled', window.scrollY > 10);
 });
 
-// Initialize the page: set initial language and apply saved colorblind mode, then switch to it.
+// Initialize the page: set the language, render dynamic content, and wire up controls.
 document.addEventListener('DOMContentLoaded', function () {
     setInitialLanguage();
-    applySavedColorblindMode();
     switchLanguage(currentLanguage);
     setupExperienceCollapse();
     updateThemeButton();
+    renderReading();
+    setupRevealAnimations();
 
     document.getElementById('lang-en').addEventListener('click', () => switchLanguage('en', true));
     document.getElementById('lang-pt').addEventListener('click', () => switchLanguage('pt', true));
-    document.getElementById('colorblind-toggle').addEventListener('click', toggleColorblindMode);
     document.getElementById('theme-toggle').addEventListener('click', toggleTheme);
 });

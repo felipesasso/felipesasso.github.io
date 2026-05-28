@@ -1,111 +1,192 @@
-/* General body styles */
+/* ===========================================================================
+   Felipe Coral Sasso — Warm & Literary portfolio
+   Palette: "Sage & Brass"  ·  Type: Fraunces (display) + Inter (body)
+   Fonts are loaded via <link> in each HTML page.
+   =========================================================================== */
+
+:root {
+    --font-display: 'Fraunces', 'Iowan Old Style', Georgia, 'Times New Roman', serif;
+    --font-body: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
+
+/* ── Light theme (default) ───────────────────────────────────────────────── */
 body {
-    font-family: 'Inter', sans-serif;
+    font-family: var(--font-body);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     overflow-x: hidden;
 
-    /* Warm off-white + Indigo */
-    --primary-bg: #F8F7F4;
+    /* Sage & Brass — light (warm linen) */
+    --primary-bg: #F7F4EC;
     --secondary-bg: #FFFFFF;
-    --text-primary: #1E293B;
-    --text-secondary: #64748B;
-    --accent-color: #4F46E5;
-    --link-color: #4F46E5;
-    --link-hover-color: #3730A3;
-    --skill-bg: #4F46E5;
-    --skill-text: #FFFFFF;
-    --lang-button-bg: #E0E7FF;
-    --lang-button-text: #4338CA;
-    --lang-button-active-bg: #4F46E5;
+    --text-primary: #26241E;
+    --text-secondary: #5F5C4E;
+    --accent-color: #4F6F52;        /* forest / olive */
+    --accent-soft: #E7EDE3;         /* olive tint */
+    --brass: #A9874E;               /* warm metallic highlight */
+    --brass-soft: #EFE6D3;
+    --border: #E9E2D2;              /* warm hairline */
+    --link-color: #4F6F52;
+    --link-hover-color: #3E5A41;
+    --skill-bg: #E7EDE3;
+    --skill-text: #3E5A41;
+    --lang-button-bg: #ECE8DB;
+    --lang-button-text: #4F6F52;
+    --lang-button-active-bg: #4F6F52;
     --lang-button-active-text: #FFFFFF;
-    --lang-button-hover-bg: #C7D2FE;
-    --profile-bg: #E0E7FF;
-    --profile-border: #4F46E5;
+    --lang-button-hover-bg: #E2DCCB;
+    --profile-bg: #E7EDE3;
+    --profile-border: #A9874E;      /* brass portrait frame */
+
+    --card-shadow: 0 1px 2px rgba(38, 36, 30, 0.04), 0 10px 30px -14px rgba(38, 36, 30, 0.16);
+    --card-shadow-hover: 0 2px 4px rgba(38, 36, 30, 0.05), 0 18px 40px -16px rgba(38, 36, 30, 0.22);
+
+    background-color: var(--primary-bg);
+    color: var(--text-primary);
 }
 
-/* Dark Mode Colors (manual toggle or system preference via JS-applied class) */
-html.dark body:not(.colorblind-active) {
-    --primary-bg: #0F172A;
-    --secondary-bg: #1E293B;
-    --text-primary: #E2E8F0;
-    --text-secondary: #94A3B8;
-    --accent-color: #818CF8;
-    --link-color: #818CF8;
-    --link-hover-color: #A5B4FC;
-    --skill-bg: #3730A3;
-    --skill-text: #E0E7FF;
-    --lang-button-bg: #293548;
-    --lang-button-text: #E2E8F0;
-    --lang-button-active-bg: #818CF8;
-    --lang-button-active-text: #0F172A;
-    --lang-button-hover-bg: #334155;
-    --profile-bg: #1E3A5F;
-    --profile-border: #818CF8;
+/* ── Dark theme (deep moss) ──────────────────────────────────────────────── */
+html.dark body {
+    --primary-bg: #16180F;
+    --secondary-bg: #20221A;
+    --text-primary: #E9E6D7;
+    --text-secondary: #A8A795;
+    --accent-color: #8FB58A;        /* sage */
+    --accent-soft: #2A3326;
+    --brass: #C9A96A;
+    --brass-soft: #2E2A1E;
+    --border: #2D3325;
+    --link-color: #8FB58A;
+    --link-hover-color: #A6C8A1;
+    --skill-bg: #2A3326;
+    --skill-text: #B8D2B2;
+    --lang-button-bg: #262A1E;
+    --lang-button-text: #C9D6C2;
+    --lang-button-active-bg: #8FB58A;
+    --lang-button-active-text: #16180F;
+    --lang-button-hover-bg: #2F3426;
+    --profile-bg: #262A1E;
+    --profile-border: #C9A96A;
+
+    --card-shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 12px 30px -16px rgba(0, 0, 0, 0.6);
+    --card-shadow-hover: 0 2px 4px rgba(0, 0, 0, 0.5), 0 18px 44px -18px rgba(0, 0, 0, 0.7);
 }
 
-/* Colorblind Mode Colors */
-body.colorblind-active {
-    --primary-bg: #F0F0F0; /* Very light grey */
-    --secondary-bg: #FFFFFF; /* White */
-    --text-primary: #212121; /* Very dark grey */
-    --text-secondary: #424242; /* Dark grey */
-    --accent-color: #007BFF; /* Strong blue */
-    --link-color: #FFA000; /* Amber/Orange */
-    --link-hover-color: #D88800; /* Darker amber */
-    --skill-bg: #007BFF; /* Skill tag background (same as accent) */
-    --skill-text: #FFFFFF; /* Skill tag text */
-    --lang-button-bg: #E0E0E0; /* Light grey */
-    --lang-button-text: #212121; /* Very dark grey */
-    --lang-button-active-bg: #007BFF; /* Active language button background */
-    --lang-button-active-text: #FFFFFF; /* Active language button text */
-    --lang-button-hover-bg: #BDBDBD; /* Medium grey */
-    --profile-bg: #E0E0E0; /* Profile image background */
-    --profile-border: #007BFF; /* Profile image border */
+/* Smooth palette transition when toggling theme */
+body,
+.card,
+.contact-chip,
+.lang-button,
+.skill-tag,
+.highlight-card,
+.book-card,
+.nav-link,
+.timeline-dot {
+    transition:
+        background-color 0.3s ease,
+        border-color 0.3s ease,
+        color 0.3s ease,
+        box-shadow 0.3s ease;
 }
 
+/* ── Subtle paper grain ──────────────────────────────────────────────────── */
+body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    opacity: 0.4;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+}
 
-/* Print-specific styles */
+/* ── Typography ──────────────────────────────────────────────────────────── */
+.font-display,
+.hero-name,
+.section-heading,
+.nav-brand,
+.highlight-card h3,
+.book-card .title {
+    font-family: var(--font-display);
+    font-optical-sizing: auto;
+    letter-spacing: -0.01em;
+}
+
+/* ── Print-specific styles ───────────────────────────────────────────────── */
 @media print {
     body {
         -webkit-print-color-adjust: exact;
         color-adjust: exact;
     }
-
+    body::before {
+        display: none;
+    }
     .no-print {
         display: none !important;
     }
-
     .page-break {
         page-break-after: always;
     }
-
-    .bg-white { /* This class is now overridden by variables, but keeping for safety if not all instances are changed */
-        background-color: #fff !important;
-    }
-
-    .shadow-lg {
+    .shadow-lg,
+    .card {
         box-shadow: none !important;
     }
 }
 
-/* Contact link icon alignment */
-.contact-link p svg {
-    vertical-align: middle;
-}
-
-/* Link highlight style */
+/* ── Links ───────────────────────────────────────────────────────────────── */
 .link-highlight {
     color: var(--link-color);
     text-decoration: underline;
+    text-decoration-color: color-mix(in srgb, var(--link-color) 45%, transparent);
+    text-underline-offset: 2px;
+    transition: color 0.2s, text-decoration-color 0.2s;
 }
 
 .link-highlight:hover {
     color: var(--link-hover-color);
-    text-decoration: underline;
+    text-decoration-color: var(--link-hover-color);
 }
 
-/* Language button styles */
+/* ── Navbar ──────────────────────────────────────────────────────────────── */
+#main-nav {
+    backdrop-filter: saturate(1.1) blur(8px);
+    background-color: color-mix(in srgb, var(--secondary-bg) 86%, transparent);
+    border-bottom: 1px solid var(--border);
+    transition: box-shadow 0.2s, background-color 0.3s;
+}
+
+#main-nav.scrolled {
+    box-shadow: 0 4px 18px -10px rgba(38, 36, 30, 0.3);
+}
+
+.nav-brand {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.nav-brand:hover {
+    color: var(--accent-color);
+}
+
+.nav-link {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    font-weight: 500;
+    padding-bottom: 2px;
+    border-bottom: 2px solid transparent;
+    transition: color 0.2s, border-color 0.2s;
+    text-decoration: none;
+}
+
+.nav-link:hover {
+    color: var(--accent-color);
+    border-color: var(--brass);
+}
+
+/* ── Language / theme buttons ────────────────────────────────────────────── */
 .lang-button {
     background-color: var(--lang-button-bg);
     color: var(--lang-button-text);
@@ -115,7 +196,7 @@ body.colorblind-active {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    border-radius: 0.375rem;
+    border-radius: 0.5rem;
     font-weight: 500;
     font-size: 0.875rem;
     cursor: pointer;
@@ -133,41 +214,43 @@ body.colorblind-active {
     background-color: var(--lang-button-hover-bg);
 }
 
-/* Skill tag styles - using CSS variables */
-.bg-\[\#2E4057\].text-\[\#ECEFF1\] { /* This specific class will be overridden */
-    background-color: var(--skill-bg);
-    color: var(--skill-text);
+/* ── Card surface ────────────────────────────────────────────────────────── */
+.card {
+    position: relative;
+    background-color: var(--secondary-bg);
+    border: 1px solid var(--border);
+    border-radius: 1rem;
+    box-shadow: var(--card-shadow);
 }
 
-/* ── Navbar ── */
-#main-nav {
-    transition: box-shadow 0.2s;
+/* thin brass rule along the top edge of each card */
+.card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 1.75rem;
+    right: 1.75rem;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--brass), transparent);
+    opacity: 0.55;
+    border-radius: 2px;
 }
 
-#main-nav.scrolled {
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+.card-hover {
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
-.nav-link {
-    color: var(--text-secondary);
-    font-size: 0.875rem;
-    font-weight: 500;
-    padding-bottom: 2px;
-    border-bottom: 2px solid transparent;
-    transition: color 0.2s, border-color 0.2s;
-    text-decoration: none;
+.card-hover:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--card-shadow-hover);
 }
 
-.nav-link:hover {
-    color: var(--accent-color);
-    border-color: var(--accent-color);
-}
-
-/* ── Hero name accent ── */
+/* ── Hero ────────────────────────────────────────────────────────────────── */
 .hero-name {
     display: inline-block;
     position: relative;
-    padding-bottom: 6px;
+    padding-bottom: 8px;
+    line-height: 1.05;
 }
 
 .hero-name::after {
@@ -175,39 +258,68 @@ body.colorblind-active {
     position: absolute;
     left: 0;
     bottom: 0;
-    width: 3rem;
+    width: 3.5rem;
     height: 3px;
-    background: var(--accent-color);
-    opacity: 0.5;
+    background: var(--brass);
     border-radius: 2px;
+    transform-origin: left center;
+    animation: underline-grow 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.25s both;
 }
 
-/* ── Contact chips ── */
+@keyframes underline-grow {
+    from {
+        transform: scaleX(0);
+        opacity: 0;
+    }
+    to {
+        transform: scaleX(1);
+        opacity: 1;
+    }
+}
+
+.hero-tagline {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 1.05rem;
+    line-height: 1.5;
+    color: var(--text-secondary);
+}
+
+.profile-frame {
+    background-color: var(--profile-bg);
+    border: 3px solid var(--profile-border);
+    box-shadow: 0 0 0 6px color-mix(in srgb, var(--brass) 14%, transparent);
+}
+
+/* ── Contact chips ───────────────────────────────────────────────────────── */
 .contact-chip {
     display: inline-flex;
     align-items: center;
-    gap: 0.375rem;
-    padding: 0.5rem 0.875rem;
+    gap: 0.4rem;
+    padding: 0.5rem 0.9rem;
     min-height: 2.75rem; /* 44px tap target */
     border-radius: 9999px;
-    background-color: var(--lang-button-bg);
+    background-color: transparent;
+    border: 1px solid var(--border);
     color: var(--text-secondary);
-    font-size: 0.75rem;
+    font-size: 0.78rem;
     font-weight: 500;
     text-decoration: none;
     overflow: hidden;
-    transition: background-color 0.2s, color 0.2s;
+    transition: background-color 0.2s, color 0.2s, border-color 0.2s;
 }
 
 .contact-chip:hover {
-    background-color: var(--lang-button-hover-bg);
-    color: var(--text-primary);
+    background-color: var(--accent-soft);
+    border-color: var(--accent-color);
+    color: var(--accent-color);
 }
 
-/* ── Section headings ── */
+/* ── Section headings ────────────────────────────────────────────────────── */
 .section-heading {
     position: relative;
-    padding-bottom: 0.625rem;
+    padding-bottom: 0.7rem;
+    letter-spacing: -0.015em;
 }
 
 .section-heading::after {
@@ -215,11 +327,27 @@ body.colorblind-active {
     position: absolute;
     left: 0;
     bottom: 0;
-    width: 2rem;
-    height: 2px;
-    background: var(--accent-color);
-    opacity: 0.4;
+    width: 2.25rem;
+    height: 3px;
+    background: var(--brass);
+    opacity: 0.85;
     border-radius: 2px;
+}
+
+/* eyebrow label above section titles */
+.eyebrow {
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--brass);
+}
+
+/* decorative brass divider */
+.brass-rule {
+    height: 1px;
+    border: 0;
+    background: linear-gradient(90deg, transparent, var(--border) 18%, var(--border) 82%, transparent);
 }
 
 /* ── Skill tags (generated by JS — must not rely on Tailwind CDN scanning) ── */
@@ -227,23 +355,141 @@ body.colorblind-active {
     display: inline-block;
     background-color: var(--skill-bg);
     color: var(--skill-text);
-    padding: 0.25rem 0.75rem;
+    padding: 0.3rem 0.8rem;
     border-radius: 9999px;
     font-size: 0.75rem;
     font-weight: 500;
+    border: 1px solid color-mix(in srgb, var(--accent-color) 22%, transparent);
 }
 
-/* ── Skill categories ── */
 .skill-category-label {
     font-size: 0.7rem;
     font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--text-secondary);
-    margin-bottom: 0.5rem;
+    letter-spacing: 0.1em;
+    color: var(--brass);
+    margin-bottom: 0.6rem;
 }
 
-/* ── Timeline ── */
+/* ── Selected Work grid ──────────────────────────────────────────────────── */
+.highlight-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+}
+
+@media (min-width: 640px) {
+    .highlight-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+.highlight-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 1.25rem 1.35rem;
+    border: 1px solid var(--border);
+    border-radius: 0.85rem;
+    background-color: color-mix(in srgb, var(--secondary-bg) 70%, var(--primary-bg));
+    text-decoration: none;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.highlight-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--card-shadow-hover);
+    border-color: color-mix(in srgb, var(--brass) 55%, var(--border));
+}
+
+.highlight-card .kicker {
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--brass);
+}
+
+.highlight-card h3 {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    line-height: 1.2;
+}
+
+.highlight-card p {
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: var(--text-secondary);
+}
+
+.highlight-card .stack {
+    margin-top: auto;
+    padding-top: 0.35rem;
+    font-size: 0.72rem;
+    font-weight: 500;
+    color: var(--accent-color);
+    letter-spacing: 0.01em;
+}
+
+/* ── Reading shelf ───────────────────────────────────────────────────────── */
+.shelf {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.85rem;
+}
+
+@media (min-width: 640px) {
+    .shelf {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+@media (min-width: 1024px) {
+    .shelf {
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+    }
+}
+
+.book-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 0.6rem;
+    min-height: 8.5rem;
+    padding: 0.85rem 0.85rem 0.9rem;
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--brass);
+    border-radius: 0.4rem 0.6rem 0.6rem 0.4rem;
+    background-color: color-mix(in srgb, var(--secondary-bg) 70%, var(--primary-bg));
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.book-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--card-shadow-hover);
+}
+
+.book-card .title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    line-height: 1.25;
+    color: var(--text-primary);
+}
+
+.book-card .author {
+    font-size: 0.74rem;
+    color: var(--text-secondary);
+}
+
+.book-card .year {
+    font-size: 0.7rem;
+    font-weight: 500;
+    color: var(--brass);
+    letter-spacing: 0.04em;
+}
+
+/* ── Timeline ────────────────────────────────────────────────────────────── */
 .timeline {
     position: relative;
     padding-left: 1.5rem;
@@ -256,8 +502,8 @@ body.colorblind-active {
     top: 0.5rem;
     bottom: 0;
     width: 2px;
-    background: var(--accent-color);
-    opacity: 0.2;
+    background: linear-gradient(var(--accent-color), color-mix(in srgb, var(--accent-color) 20%, transparent));
+    opacity: 0.35;
 }
 
 .timeline-item {
@@ -273,22 +519,57 @@ body.colorblind-active {
     position: absolute;
     left: -1.5rem;
     top: 0.3rem;
-    width: 0.75rem;
-    height: 0.75rem;
+    width: 0.8rem;
+    height: 0.8rem;
     border-radius: 50%;
     background-color: var(--secondary-bg);
     border: 2px solid var(--accent-color);
     box-shadow: 0 0 0 3px var(--primary-bg);
-    transition: background-color 0.2s;
 }
 
 .timeline-item.is-current .timeline-dot {
-    background-color: var(--accent-color);
+    background-color: var(--brass);
+    border-color: var(--brass);
+    box-shadow: 0 0 0 3px var(--primary-bg), 0 0 0 6px color-mix(in srgb, var(--brass) 22%, transparent);
 }
 
-/* ── Mobile tweaks ── */
+/* ── Show more button ────────────────────────────────────────────────────── */
+.show-more-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: var(--accent-color);
+    font-size: 0.8rem;
+    font-weight: 500;
+    background: transparent;
+    border: 1px solid var(--accent-color);
+    padding: 0.45rem 0.95rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    margin-top: 1.5rem;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.show-more-btn:hover {
+    background-color: var(--accent-color);
+    color: var(--secondary-bg);
+}
+
+/* ── Scroll-reveal animation (only hides when JS is available) ───────────── */
+html.js .reveal {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: opacity, transform;
+}
+
+html.js .reveal.is-visible {
+    opacity: 1;
+    transform: none;
+}
+
+/* ── Mobile tweaks ───────────────────────────────────────────────────────── */
 @media (max-width: 639px) {
-    /* Compact nav buttons so all 4 fit beside the name */
     .lang-button {
         padding: 0.3rem 0.5rem;
         min-height: unset;
@@ -296,13 +577,11 @@ body.colorblind-active {
         font-size: 0.8rem;
     }
 
-    /* Larger body text in experience/education timeline */
     .timeline-item p[data-translate-key],
     .timeline-item ul {
-        font-size: 0.875rem; /* 14px instead of 12px */
+        font-size: 0.875rem;
     }
 
-    /* Tighter timeline so dots don't clip against card edge */
     .timeline {
         padding-left: 1.25rem;
     }
@@ -314,28 +593,32 @@ body.colorblind-active {
     .timeline-dot {
         left: -1.25rem;
     }
+
+    .card::before {
+        left: 1.25rem;
+        right: 1.25rem;
+    }
 }
 
-/* ── Show more button ── */
-.show-more-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.375rem;
-    color: var(--accent-color);
-    font-size: 0.8rem;
-    font-weight: 500;
-    background: transparent;
-    border: 1px solid var(--accent-color);
-    padding: 0.4rem 0.875rem;
-    border-radius: 0.375rem;
-    cursor: pointer;
-    margin-top: 1.5rem;
-    transition: background-color 0.2s, color 0.2s;
-    opacity: 0.8;
-}
+/* ── Respect reduced-motion preferences ──────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+    html.js .reveal {
+        opacity: 1;
+        transform: none;
+        transition: none;
+    }
 
-.show-more-btn:hover {
-    opacity: 1;
-    background-color: var(--accent-color);
-    color: var(--secondary-bg);
+    .hero-name::after {
+        animation: none;
+    }
+
+    .card-hover:hover,
+    .highlight-card:hover,
+    .book-card:hover {
+        transform: none;
+    }
+
+    * {
+        scroll-behavior: auto !important;
+    }
 }
