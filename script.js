@@ -7,8 +7,6 @@ const translations = {
         summaryTitle: 'Summary',
         summaryText:
             'Software Engineer with 5+ years of experience building robust, scalable back-end systems with Python and crafting dynamic, intuitive user interfaces using React.',
-        heroTagline:
-            'I build software that reaches millions — and read voraciously the rest of the time.',
         languagesTitle: 'Languages',
         langPortuguese: 'Portuguese (Native)',
         langEnglish: 'English (Professional Working)',
@@ -119,7 +117,7 @@ const translations = {
         readingTitle: 'Reading',
         readingIntro:
             'A lifelong reader — science fiction, horror, and the classics. Here are a few of my most recent reads.',
-        readingSeeAll: 'See all {count} books →',
+        readingSeeAll: 'See {count} books →',
 
         skillCategoryFrontend: 'Frontend',
         skillCategoryBackend: 'Backend',
@@ -162,8 +160,6 @@ const translations = {
         summaryTitle: 'Resumo',
         summaryText:
             'Engenheiro de Software com mais de 5 anos de experiência na construção de sistemas back-end robustos e escaláveis com Python e na criação de interfaces de usuário dinâmicas e intuitivas usando React.',
-        heroTagline:
-            'Construo software que alcança milhões — e leio vorazmente no resto do tempo.',
         languagesTitle: 'Idiomas',
         langPortuguese: 'Português (Nativo)',
         langEnglish: 'Inglês (Profissional)',
@@ -274,7 +270,7 @@ const translations = {
         readingTitle: 'Leituras',
         readingIntro:
             'Leitor de longa data — ficção científica, terror e clássicos da literatura. Aqui estão algumas das minhas leituras mais recentes.',
-        readingSeeAll: 'Ver todos os {count} livros →',
+        readingSeeAll: 'Ver {count} livros →',
 
         skillCategoryFrontend: 'Frontend',
         skillCategoryBackend: 'Backend',
@@ -581,8 +577,8 @@ function toggleTheme() {
 }
 
 /**
- * Updates the "See all books" link text with the live book count, in the
- * current language. Falls back to a count-less label until books.json loads.
+ * Updates the reading link text with the live book count, in the current
+ * language. Falls back to a count-less label until books.json loads.
  */
 function updateReadingSeeAll() {
     const el = document.querySelector('[data-translate-key="readingSeeAll"]');

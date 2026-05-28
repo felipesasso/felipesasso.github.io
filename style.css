@@ -277,14 +277,6 @@ body::before {
     }
 }
 
-.hero-tagline {
-    font-family: var(--font-display);
-    font-style: italic;
-    font-size: 1.05rem;
-    line-height: 1.5;
-    color: var(--text-secondary);
-}
-
 .profile-frame {
     background-color: var(--profile-bg);
     border: 3px solid var(--profile-border);
