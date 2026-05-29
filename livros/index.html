@@ -173,12 +173,16 @@
 
             tbody.addEventListener('mouseover', function (e) {
                 var td = e.target.closest('.book-title-cell');
-                if (!td) { if (window.BookCover) BookCover.hide(); return; }
+                if (!td) return;
                 var tr = td.closest('tr');
                 if (window.BookCover) BookCover.show(td, tr.dataset.title, tr.dataset.author);
             });
-            tbody.addEventListener('mouseleave', function () {
-                if (window.BookCover) BookCover.hide();
+            tbody.addEventListener('mouseout', function (e) {
+                var td = e.target.closest('.book-title-cell');
+                if (!td) return;
+                if (!e.relatedTarget || !td.contains(e.relatedTarget)) {
+                    if (window.BookCover) BookCover.hide();
+                }
             });
 
             fetch('books.json')

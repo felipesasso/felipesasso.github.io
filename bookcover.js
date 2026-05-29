@@ -1,80 +1,81 @@
 (function () {
-    var cache = new Map();
-    var tooltip = null;
-    var timer = null;
-    var activeAnchor = null;
+    var cache = {};
+    var current = null;
+    var debounce = null;
 
     function getTooltip() {
-        if (!tooltip) {
-            tooltip = document.createElement('div');
-            tooltip.id = 'book-cover-tooltip';
-            document.body.appendChild(tooltip);
+        var el = document.getElementById('book-cover-tooltip');
+        if (!el) {
+            el = document.createElement('div');
+            el.id = 'book-cover-tooltip';
+            document.body.appendChild(el);
         }
-        return tooltip;
+        return el;
     }
 
-    function positionTooltip(anchor) {
-        var tt = getTooltip();
-        var rect = anchor.getBoundingClientRect();
+    function place(el, anchor) {
+        var r = anchor.getBoundingClientRect();
         var W = 110;
-        var left = rect.right + 12;
-        if (left + W > window.innerWidth - 8) {
-            left = rect.left - W - 12;
-        }
-        left = Math.max(8, left);
-        var top = rect.top + rect.height / 2 - 80;
-        top = Math.max(8, Math.min(top, window.innerHeight - 175));
-        tt.style.left = left + 'px';
-        tt.style.top = top + 'px';
+        var left = r.right + 12;
+        if (left + W > window.innerWidth - 8) left = r.left - W - 12;
+        el.style.left = Math.max(4, left) + 'px';
+        var top = r.top + r.height / 2 - 80;
+        el.style.top = Math.max(4, Math.min(top, window.innerHeight - 180)) + 'px';
     }
 
-    function fetchCoverUrl(title, author) {
-        var key = title + '||' + author;
-        if (cache.has(key)) return Promise.resolve(cache.get(key));
+    function loadCover(title, author, callback) {
+        var key = title + '|' + author;
+        if (key in cache) { callback(cache[key]); return; }
         var q = encodeURIComponent(title + ' ' + author);
-        return fetch('https://openlibrary.org/search.json?q=' + q + '&limit=1&fields=cover_i')
-            .then(function (res) { return res.json(); })
+        fetch('https://openlibrary.org/search.json?q=' + q + '&limit=1&fields=cover_i')
+            .then(function (r) { return r.json(); })
             .then(function (data) {
                 var id = data.docs && data.docs[0] && data.docs[0].cover_i;
                 var url = id ? 'https://covers.openlibrary.org/b/id/' + id + '-M.jpg' : null;
-                cache.set(key, url);
-                return url;
+                cache[key] = url;
+                callback(url);
             })
-            .catch(function () {
-                cache.set(key, null);
-                return null;
-            });
+            .catch(function () { cache[key] = null; callback(null); });
     }
 
     window.BookCover = {
         show: function (anchor, title, author) {
-            activeAnchor = anchor;
-            if (timer) clearTimeout(timer);
+            current = anchor;
+            if (debounce) clearTimeout(debounce);
             var tt = getTooltip();
             tt.classList.remove('visible');
 
-            timer = setTimeout(function () {
-                if (activeAnchor !== anchor) return;
-                fetchCoverUrl(title, author).then(function (url) {
-                    if (activeAnchor !== anchor || !url) return;
+            debounce = setTimeout(function () {
+                if (current !== anchor) return;
+
+                tt.innerHTML = '<div class="book-cover-loading"></div>';
+                place(tt, anchor);
+                tt.classList.add('visible');
+
+                loadCover(title, author, function (url) {
+                    if (current !== anchor) return;
+                    if (!url) { tt.classList.remove('visible'); return; }
                     var img = new Image();
                     img.onload = function () {
-                        if (activeAnchor !== anchor) return;
+                        if (current !== anchor) return;
                         tt.innerHTML = '';
                         tt.appendChild(img);
-                        positionTooltip(anchor);
-                        tt.classList.add('visible');
+                        place(tt, anchor);
+                    };
+                    img.onerror = function () {
+                        if (current !== anchor) return;
+                        tt.classList.remove('visible');
                     };
                     img.src = url;
                 });
-            }, 300);
+            }, 150);
         },
 
         hide: function () {
-            activeAnchor = null;
-            if (timer) clearTimeout(timer);
-            var tt = getTooltip();
-            tt.classList.remove('visible');
+            current = null;
+            if (debounce) clearTimeout(debounce);
+            var tt = document.getElementById('book-cover-tooltip');
+            if (tt) tt.classList.remove('visible');
         }
     };
 })();

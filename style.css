@@ -641,9 +641,30 @@ html.js .reveal.is-visible {
     height: auto;
 }
 
+.book-cover-loading {
+    width: 110px;
+    height: 165px;
+    background: linear-gradient(
+        90deg,
+        var(--border) 25%,
+        var(--secondary-bg) 50%,
+        var(--border) 75%
+    );
+    background-size: 200% 100%;
+    animation: book-cover-shimmer 1.5s infinite linear;
+}
+
+@keyframes book-cover-shimmer {
+    0%   { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
 @media (prefers-reduced-motion: reduce) {
     #book-cover-tooltip {
         transition: none;
         transform: none;
+    }
+    .book-cover-loading {
+        animation: none;
     }
 }
