@@ -462,18 +462,15 @@ body::before {
     box-shadow: var(--card-shadow-hover);
 }
 
+a.book-card {
+    text-decoration: none;
+}
+
 .book-card .title {
     font-size: 0.9rem;
     font-weight: 600;
     line-height: 1.25;
     color: var(--text-primary);
-    text-decoration: none;
-}
-
-.book-card .title:hover {
-    color: var(--accent-color);
-    text-decoration: underline;
-    text-underline-offset: 2px;
 }
 
 .book-title-link {

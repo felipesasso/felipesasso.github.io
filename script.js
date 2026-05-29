@@ -612,17 +612,17 @@ async function renderReading() {
         shelf.innerHTML = '';
 
         recent.forEach((book) => {
-            const card = document.createElement('div');
+            const card = document.createElement('a');
             card.className = 'book-card';
+            card.href = 'https://www.goodreads.com/search?q=' + encodeURIComponent(book.title + ' ' + book.author);
+            card.target = '_blank';
+            card.rel = 'noopener noreferrer';
 
             const top = document.createElement('div');
 
-            const title = document.createElement('a');
+            const title = document.createElement('p');
             title.className = 'title';
             title.textContent = book.title;
-            title.href = 'https://www.goodreads.com/search?q=' + encodeURIComponent(book.title + ' ' + book.author);
-            title.target = '_blank';
-            title.rel = 'noopener noreferrer';
             top.appendChild(title);
 
             const author = document.createElement('p');
