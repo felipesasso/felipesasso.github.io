@@ -614,7 +614,7 @@ async function renderReading() {
         recent.forEach((book) => {
             const card = document.createElement('a');
             card.className = 'book-card';
-            card.href = 'https://openlibrary.org/search?q=' + encodeURIComponent(book.title + ' ' + book.author);
+            card.href = 'https://www.goodreads.com/search?q=' + encodeURIComponent(book.title).replace(/%20/g, '+');
             card.target = '_blank';
             card.rel = 'noopener noreferrer';
 
