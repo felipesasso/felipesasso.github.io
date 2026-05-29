@@ -133,7 +133,7 @@
                 tbody.innerHTML = sorted.map((book, i) => `
                     <tr class="${i < sorted.length - 1 ? 'border-b border-[var(--lang-button-bg)]' : ''} hover:bg-[var(--primary-bg)] transition-colors">
                         <td class="py-3 pr-4 text-[var(--text-secondary)] text-xs">${i + 1}</td>
-                        <td class="py-3 pr-4 font-medium"><a href="https://www.goodreads.com/search?q=${encodeURIComponent(book.title + ' ' + book.author).replace(/%20/g, '+')}" target="_blank" rel="noopener noreferrer" class="book-title-link">${book.title}</a></td>
+                        <td class="py-3 pr-4 font-medium"><a href="https://www.goodreads.com/search?q=${encodeURIComponent(book.title + ' ' + book.author).replace(/%20/g, '+')}" target="_blank" rel="noopener noreferrer" class="book-title-link">${book.title}<svg class="book-link-icon" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><path d="M2.5 9.5 9.5 2.5M5 2.5h4.5v4.5"/></svg></a></td>
                         <td class="py-3 pr-4 text-[var(--text-secondary)]">${book.author}</td>
                         <td class="py-3 text-[var(--text-secondary)]">${book.year ?? '&#x2014;'}</td>
                     </tr>
