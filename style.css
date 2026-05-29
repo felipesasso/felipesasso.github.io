@@ -614,3 +614,36 @@ html.js .reveal.is-visible {
         scroll-behavior: auto !important;
     }
 }
+
+/* ── Book cover tooltip ──────────────────────────────────────────────────── */
+#book-cover-tooltip {
+    position: fixed;
+    z-index: 9999;
+    pointer-events: none;
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+    border: 1px solid var(--border);
+    width: 110px;
+    opacity: 0;
+    transform: scale(0.95);
+    transition: opacity 0.15s ease, transform 0.15s ease;
+}
+
+#book-cover-tooltip.visible {
+    opacity: 1;
+    transform: scale(1);
+}
+
+#book-cover-tooltip img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #book-cover-tooltip {
+        transition: none;
+        transform: none;
+    }
+}
