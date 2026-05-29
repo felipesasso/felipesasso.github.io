@@ -83,17 +83,8 @@
             </footer>
         </div>
 
-        <script src="/bookcover.js"></script>
         <script>
             document.getElementById('currentYear').textContent = new Date().getFullYear();
-
-            function htmlEscape(str) {
-                return String(str)
-                    .replace(/&/g, '&amp;')
-                    .replace(/"/g, '&quot;')
-                    .replace(/</g, '&lt;')
-                    .replace(/>/g, '&gt;');
-            }
 
             const themeToggle = document.getElementById('theme-toggle');
             const iconMoon = document.getElementById('icon-moon');
@@ -140,9 +131,9 @@
                 });
 
                 tbody.innerHTML = sorted.map((book, i) => `
-                    <tr data-title="${htmlEscape(book.title)}" data-author="${htmlEscape(book.author)}" class="${i < sorted.length - 1 ? 'border-b border-[var(--lang-button-bg)]' : ''} hover:bg-[var(--primary-bg)] transition-colors">
+                    <tr class="${i < sorted.length - 1 ? 'border-b border-[var(--lang-button-bg)]' : ''} hover:bg-[var(--primary-bg)] transition-colors">
                         <td class="py-3 pr-4 text-[var(--text-secondary)] text-xs">${i + 1}</td>
-                        <td class="py-3 pr-4 text-[var(--text-primary)] font-medium book-title-cell">${book.title}</td>
+                        <td class="py-3 pr-4 font-medium"><a href="https://www.goodreads.com/search?q=${encodeURIComponent(book.title + ' ' + book.author)}" target="_blank" rel="noopener noreferrer" class="book-title-link">${book.title}</a></td>
                         <td class="py-3 pr-4 text-[var(--text-secondary)]">${book.author}</td>
                         <td class="py-3 text-[var(--text-secondary)]">${book.year ?? '&#x2014;'}</td>
                     </tr>
@@ -170,20 +161,6 @@
             }
 
             headers.forEach(th => th.addEventListener('click', () => setSort(th.dataset.col)));
-
-            tbody.addEventListener('mouseover', function (e) {
-                var td = e.target.closest('.book-title-cell');
-                if (!td) return;
-                var tr = td.closest('tr');
-                if (window.BookCover) BookCover.show(td, tr.dataset.title, tr.dataset.author, e);
-            });
-            tbody.addEventListener('mouseout', function (e) {
-                var td = e.target.closest('.book-title-cell');
-                if (!td) return;
-                if (!e.relatedTarget || !td.contains(e.relatedTarget)) {
-                    if (window.BookCover) BookCover.hide();
-                }
-            });
 
             fetch('books.json')
                 .then(r => r.json())

@@ -617,9 +617,12 @@ async function renderReading() {
 
             const top = document.createElement('div');
 
-            const title = document.createElement('p');
+            const title = document.createElement('a');
             title.className = 'title';
             title.textContent = book.title;
+            title.href = 'https://www.goodreads.com/search?q=' + encodeURIComponent(book.title + ' ' + book.author);
+            title.target = '_blank';
+            title.rel = 'noopener noreferrer';
             top.appendChild(title);
 
             const author = document.createElement('p');
@@ -633,13 +636,6 @@ async function renderReading() {
 
             card.appendChild(top);
             card.appendChild(year);
-
-            card.addEventListener('mouseenter', function (e) {
-                if (window.BookCover) BookCover.show(card, book.title, book.author, e);
-            });
-            card.addEventListener('mouseleave', function () {
-                if (window.BookCover) BookCover.hide();
-            });
 
             shelf.appendChild(card);
         });
