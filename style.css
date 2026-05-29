@@ -462,11 +462,43 @@ body::before {
     box-shadow: var(--card-shadow-hover);
 }
 
+a.book-card {
+    text-decoration: none;
+}
+
 .book-card .title {
     font-size: 0.9rem;
     font-weight: 600;
     line-height: 1.25;
     color: var(--text-primary);
+}
+
+.book-title-link {
+    color: inherit;
+    text-decoration: none;
+}
+
+.book-title-link:hover {
+    color: var(--accent-color);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+.book-link-icon {
+    display: inline;
+    width: 0.65em;
+    height: 0.65em;
+    margin-left: 0.25em;
+    vertical-align: middle;
+    position: relative;
+    top: -0.06em;
+    opacity: 0.35;
+    flex-shrink: 0;
+    transition: opacity 0.15s;
+}
+
+a:hover .book-link-icon {
+    opacity: 0.7;
 }
 
 .book-card .author {
@@ -614,3 +646,4 @@ html.js .reveal.is-visible {
         scroll-behavior: auto !important;
     }
 }
+

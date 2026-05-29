@@ -612,14 +612,18 @@ async function renderReading() {
         shelf.innerHTML = '';
 
         recent.forEach((book) => {
-            const card = document.createElement('div');
+            const card = document.createElement('a');
             card.className = 'book-card';
+            card.href = 'https://www.goodreads.com/search?q=' + encodeURIComponent(book.title + ' ' + book.author).replace(/%20/g, '+');
+            card.target = '_blank';
+            card.rel = 'noopener noreferrer';
 
             const top = document.createElement('div');
 
             const title = document.createElement('p');
             title.className = 'title';
             title.textContent = book.title;
+            title.insertAdjacentHTML('beforeend', '<svg class="book-link-icon" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><path d="M2.5 9.5 9.5 2.5M5 2.5h4.5v4.5"/></svg>');
             top.appendChild(title);
 
             const author = document.createElement('p');
@@ -633,6 +637,7 @@ async function renderReading() {
 
             card.appendChild(top);
             card.appendChild(year);
+
             shelf.appendChild(card);
         });
 
