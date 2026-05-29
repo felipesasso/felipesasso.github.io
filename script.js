@@ -178,46 +178,46 @@ const translations = {
 
         jobTitlePinterest: 'Engenheiro de Software',
         pinterestDesc:
-            'Atuo como Engenheiro de Software no Pinterest, com foco em desenvolvimento front-end e experiência do usuário, criando soluções com React, TypeScript e frameworks modernos para entregar recursos essenciais para milhões de Pinners.',
+            'Engenheiro de Software no Pinterest com foco em desenvolvimento front-end e experiência do usuário, desenvolvendo soluções com React, TypeScript e frameworks modernos para entregar recursos essenciais para milhões de Pinners.',
         pinterestDetail1:
-            'Desenvolvo, testo e implanto recursos essenciais para milhões de Pinners (usuários do Pinterest).',
+            'Desenvolvimento, teste e implantação de recursos essenciais para milhões de Pinners (usuários do Pinterest).',
         pinterestDetail2:
-            'Gerencio o ciclo de vida completo de componentes e funcionalidades, desde a análise inicial do design até a implantação e os testes A/B em produção.',
+            'Gerenciamento do ciclo de vida completo de componentes e funcionalidades, desde a análise inicial do design até a implantação e os testes A/B em produção.',
         pinterestDetail3:
-            'Otimizo o desempenho da aplicação (tempo de carregamento, renderização, tamanho do bundle) para garantir uma experiência rápida e agradável em todas as plataformas.',
+            'Otimização do desempenho da aplicação (tempo de carregamento, renderização, tamanho do bundle) para garantir uma experiência rápida e agradável em todas as plataformas.',
         pinterestDetail4:
-            'Colaboro com as equipes de produto e design para transformar conceitos complexos em interfaces intuitivas e altamente escaláveis.',
+            'Colaboração com as equipes de produto e design para transformar conceitos complexos em interfaces intuitivas e altamente escaláveis.',
         jobTitleBairesDev: 'Engenheiro de Software',
         bairesdevDesc:
-            'Como uma empresa líder em Soluções de Tecnologia Nearshore, arquitetamos e projetamos soluções de software escaláveis e de alto desempenho para enfrentar os desafios de negócios de nossos clientes. Usando nossa expertise tecnológica e experiência intersetorial, evoluímos a transformação digital em aceleração digital.',
+            'Empresa líder em Soluções de Tecnologia Nearshore, dedicada à arquitetura e à engenharia de soluções de software escaláveis e de alto desempenho para enfrentar os desafios de negócios dos clientes, evoluindo a transformação digital em aceleração digital com expertise tecnológica e experiência intersetorial.',
         jobTitleFreeplay: 'Engenheiro de Software Full Stack',
         freeplayDesc:
-            'Contribuí para o Freeplay, uma plataforma projetada para ajudar equipes de produto a construir com grandes modelos de linguagem (LLMs). Minhas responsabilidades incluíram desenvolvimento full-stack, envolvendo back-ends Python, front-ends React e SDKs multi-linguagem (Python, Node, Java).',
-        freeplayDetail1: 'Projetei e implementei lógica de servidor e APIs com Python.',
+            'Desenvolvimento full-stack no Freeplay, uma plataforma projetada para ajudar equipes de produto a construir com grandes modelos de linguagem (LLMs), envolvendo back-ends Python, front-ends React e SDKs multi-linguagem (Python, Node, Java).',
+        freeplayDetail1: 'Projeto e implementação de lógica de servidor e APIs com Python.',
         freeplayDetail2:
-            'Desenvolvi interfaces de usuário e funcionalidades interativas usando React.js, JavaScript e TypeScript.',
-        freeplayDetail3: 'Projetei e mantive SDKs em Python, Node.js e Java.',
+            'Desenvolvimento de interfaces de usuário e funcionalidades interativas com React.js, JavaScript e TypeScript.',
+        freeplayDetail3: 'Projeto e manutenção de SDKs em Python, Node.js e Java.',
         jobTitleNextRoll: 'Engenheiro Full Stack',
         nextrollDesc:
-            'Contribuí para a RollWorks, uma plataforma líder de marketing B2B, desenvolvendo novas funcionalidades de produto e aprimorando as existentes. Atuei no desenvolvimento front-end (React) e back-end (Go, Python) para apoiar o marketing baseado em contas e a geração de demanda.',
+            'Contribuições para a RollWorks, uma plataforma líder de marketing B2B, com o desenvolvimento de novas funcionalidades de produto e o aprimoramento das existentes — no front-end (React) e no back-end (Go, Python) — para apoiar o marketing baseado em contas e a geração de demanda.',
         nextrollDetail1:
-            'Desenvolvi interfaces de usuário responsivas com React.js, JavaScript e TypeScript.',
-        nextrollDetail2: 'Construí e mantive lógica de servidor e APIs usando Go e Python.',
+            'Desenvolvimento de interfaces de usuário responsivas com React.js, JavaScript e TypeScript.',
+        nextrollDetail2: 'Construção e manutenção de lógica de servidor e APIs com Go e Python.',
         jobTitleSenseData: 'Desenvolvedor Back-end',
         sensedataDesc:
-            'Desenvolvi e testei APIs robustas usando Python e Flask para uma plataforma de relacionamento com o cliente. Criei dashboards interativos com JavaScript e React para aprimorar a visualização de dados e o engajamento do usuário.',
+            'Desenvolvimento e teste de APIs robustas com Python e Flask para uma plataforma de relacionamento com o cliente, além da criação de dashboards interativos com JavaScript e React para aprimorar a visualização de dados e o engajamento do usuário.',
         jobTitleMsgsc: 'Programador de Pesquisa',
         companyMsgsc: "Canada's Michael Smith Genome Sciences Centre",
         msgscDesc:
-            'Desenvolvi APIs (Python, Flask, OpenAPI) e dashboards interativos (JavaScript, React) para o CanDIG, uma plataforma distribuída de genômica, e o CanCOGEN, visualizando dados de COVID-19.',
+            'Desenvolvimento de APIs (Python, Flask, OpenAPI) e dashboards interativos (JavaScript, React) para o CanDIG, uma plataforma distribuída de genômica, e o CanCOGEN, com visualização de dados de COVID-19.',
         candigPublicationText:
             'L. Jonathan Dursi, Zoltan Bozoky, Richard de Borja, et al., "CanDIG: Secure Federated Genomic Queries e Analyses Across Jurisdictions," bioRxiv 2021.03.30.434101; <a href="https://doi.org/10.1101/2021.03.30.434101" target="_blank" rel="noopener noreferrer" class="link-highlight">doi: https://doi.org/10.1101/2021.03.30.434101</a>.',
         jobTitleCisco: 'Engenheiro de Software',
         ciscoDesc:
-            'Contribuí para a infraestrutura de automação Genie e pyATS da Cisco, projetando, desenvolvendo e testando funcionalidades escaláveis para automação de redes em Python. Desenvolvi parsers baseados em RegEx para vários protocolos de rede e criei scripts Python para testes automatizados de dispositivos.',
+            'Contribuições para a infraestrutura de automação Genie e pyATS da Cisco, com o projeto, desenvolvimento e teste de funcionalidades escaláveis para automação de redes em Python, incluindo parsers baseados em RegEx para diversos protocolos de rede e scripts Python para testes automatizados de dispositivos.',
         jobTitleBridgehead: 'Especialista de Cozinha',
         bridgeheadDesc:
-            'Adquiri valiosa experiência de trabalho canadense como Especialista de Cozinha, aprimorando habilidades de comunicação, liderança, gerenciamento de pressão e proatividade. Concomitantemente, de forma autodidata, aprimorei habilidades técnicas para me manter atualizado com a tecnologia.',
+            'Valiosa experiência de trabalho canadense como Especialista de Cozinha, com o aprimoramento de habilidades de comunicação, liderança, gerenciamento de pressão e proatividade. Paralelamente, aprimoramento autodidata de habilidades técnicas para acompanhar a evolução da tecnologia.',
         bridgeheadSkillPython:
             'Python (requests, BeautifulSoup4, unittest, Django v2.1, virtualenv)',
         bridgeheadSkillFrontend: 'Front-end (HTML, CSS, Bootstrap, Bulma)',
@@ -226,7 +226,7 @@ const translations = {
         jobTitleLabsec: 'Pesquisador/Desenvolvedor',
         companyLabsec: 'Laboratório de Segurança em Computação (LabSEC) - UFSC',
         labsecDesc:
-            'Conduzi pesquisa de mestrado envolvendo a proposta e validação de segurança de uma Carteira de Identidade unificada baseada no padrão de passaporte ICAO 9303 para ambientes de federação acadêmica. Contribuí para vários projetos de segurança durante este período.',
+            'Pesquisa de mestrado envolvendo a proposta e a validação de segurança de uma Carteira de Identidade unificada baseada no padrão de passaporte ICAO 9303 para ambientes de federação acadêmica, além de contribuições para diversos projetos de segurança no período.',
         labsecPublicationText:
             'F. C. Sasso, R. A. Reinaldo De Moraes e J. E. Martina, "A Proposal for a Unified Identity Card for Use in an Academic Federation Environment," 2014 Ninth International Conference on Availability, Reliability and Security, Fribourg, Suíça, 2014, pp. 265-272, <a href="https://ieeexplore.ieee.org/document/6980291" target="_blank" rel="noopener noreferrer" class="link-highlight">doi: 10.1109/ARES.2014.44</a>.',
 
@@ -258,7 +258,7 @@ const translations = {
             'Desenvolvimento, teste e entrega de recursos para milhões de Pinners — cuidando de componentes desde a análise de design até testes A/B em produção.',
         workFreeplayTitle: 'Ferramentas para LLMs',
         workFreeplayDesc:
-            'Trabalho full-stack em uma plataforma que ajuda equipes a construir com grandes modelos de linguagem — back-ends Python, front-ends React e SDKs em Python, Node e Java.',
+            'Desenvolvimento full-stack em uma plataforma que ajuda equipes a construir com grandes modelos de linguagem — back-ends Python, front-ends React e SDKs em Python, Node e Java.',
         workCandigTitle: 'Genômica federada',
         workCandigDesc:
             'APIs e dashboards interativos para o CanDIG, uma plataforma distribuída de genômica, e os dados de COVID-19 do CanCOGEN — com publicação revisada por pares.',
