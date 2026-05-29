@@ -175,7 +175,7 @@
                 var td = e.target.closest('.book-title-cell');
                 if (!td) return;
                 var tr = td.closest('tr');
-                if (window.BookCover) BookCover.show(td, tr.dataset.title, tr.dataset.author);
+                if (window.BookCover) BookCover.show(td, tr.dataset.title, tr.dataset.author, e);
             });
             tbody.addEventListener('mouseout', function (e) {
                 var td = e.target.closest('.book-title-cell');

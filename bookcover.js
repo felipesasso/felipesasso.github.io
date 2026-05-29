@@ -13,14 +13,14 @@
         return el;
     }
 
-    function place(el, anchor) {
-        var r = anchor.getBoundingClientRect();
+    function place(el, mx, my) {
         var W = 110;
-        var left = r.right + 12;
-        if (left + W > window.innerWidth - 8) left = r.left - W - 12;
+        var left = mx + 16;
+        if (left + W > window.innerWidth - 8) left = mx - W - 16;
         el.style.left = Math.max(4, left) + 'px';
-        var top = r.top + r.height / 2 - 80;
-        el.style.top = Math.max(4, Math.min(top, window.innerHeight - 180)) + 'px';
+        var top = my + 16;
+        if (top + 180 > window.innerHeight - 8) top = my - 196;
+        el.style.top = Math.max(4, top) + 'px';
     }
 
     function loadCover(title, author, callback) {
@@ -39,17 +39,20 @@
     }
 
     window.BookCover = {
-        show: function (anchor, title, author) {
+        show: function (anchor, title, author, evt) {
             current = anchor;
             if (debounce) clearTimeout(debounce);
             var tt = getTooltip();
             tt.classList.remove('visible');
 
+            var mx = evt ? evt.clientX : 0;
+            var my = evt ? evt.clientY : 0;
+
             debounce = setTimeout(function () {
                 if (current !== anchor) return;
 
                 tt.innerHTML = '<div class="book-cover-loading"></div>';
-                place(tt, anchor);
+                place(tt, mx, my);
                 tt.classList.add('visible');
 
                 loadCover(title, author, function (url) {
@@ -60,7 +63,7 @@
                         if (current !== anchor) return;
                         tt.innerHTML = '';
                         tt.appendChild(img);
-                        place(tt, anchor);
+                        place(tt, mx, my);
                     };
                     img.onerror = function () {
                         if (current !== anchor) return;

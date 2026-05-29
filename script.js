@@ -634,8 +634,8 @@ async function renderReading() {
             card.appendChild(top);
             card.appendChild(year);
 
-            card.addEventListener('mouseenter', function () {
-                if (window.BookCover) BookCover.show(card, book.title, book.author);
+            card.addEventListener('mouseenter', function (e) {
+                if (window.BookCover) BookCover.show(card, book.title, book.author, e);
             });
             card.addEventListener('mouseleave', function () {
                 if (window.BookCover) BookCover.hide();
