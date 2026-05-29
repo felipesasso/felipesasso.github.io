@@ -7,6 +7,8 @@
         <meta name="description" content="Felipe Coral Sasso — Software Engineer with 5+ years of experience in Python, React, and TypeScript. Currently at Pinterest, based in Florianópolis, Brazil." />
         <meta name="author" content="Felipe Coral Sasso" />
         <meta name="robots" content="index, follow" />
+        <meta name="theme-color" content="#F7F4EC" media="(prefers-color-scheme: light)" />
+        <meta name="theme-color" content="#16180F" media="(prefers-color-scheme: dark)" />
         <link rel="canonical" href="https://felipesasso.github.io/" />
 
         <!-- Open Graph -->
@@ -22,9 +24,10 @@
         <meta name="twitter:description" content="Software Engineer with 5+ years of experience building robust back-end systems with Python and intuitive user interfaces with React." />
         <meta name="twitter:image" content="https://avatars.githubusercontent.com/u/5435710" />
 
-        <!-- Apply theme before first paint to avoid flash -->
+        <!-- Apply theme + mark JS available before first paint to avoid flashes -->
         <script>
             (function () {
+                document.documentElement.classList.add('js');
                 var stored = localStorage.getItem('theme');
                 var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
                 if (stored === 'dark' || (stored !== 'light' && prefersDark)) {
@@ -32,12 +35,12 @@
                 }
             })();
         </script>
-        <script src="https://cdn.tailwindcss.com"></script>
+        <link rel="stylesheet" href="/tailwind.css" />
         <link rel="stylesheet" href="style.css" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
         <link
-            href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+            href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500&family=Inter:wght@300;400;500;600;700&display=swap"
             rel="stylesheet"
         />
     </head>
@@ -45,19 +48,19 @@
     <body class="bg-[var(--primary-bg)] text-[var(--text-primary)]">
 
         <!-- Sticky Navigation -->
-        <nav id="main-nav" class="no-print sticky top-0 z-50 bg-[var(--secondary-bg)] border-b border-[var(--lang-button-bg)]">
+        <nav id="main-nav" class="no-print sticky top-0 z-50">
             <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 flex items-center justify-between h-14">
-                <a href="#" class="font-semibold text-sm text-[var(--accent-color)] shrink-0">Felipe Sasso</a>
+                <a href="#" class="nav-brand shrink-0">Felipe Sasso</a>
 
-                <div class="hidden sm:flex items-center gap-6">
+                <div class="hidden md:flex items-center gap-6">
+                    <a href="#work" class="nav-link" data-translate-key="navWork">Work</a>
                     <a href="#skills" class="nav-link" data-translate-key="navSkills">Skills</a>
                     <a href="#experience" class="nav-link" data-translate-key="navExperience">Experience</a>
                     <a href="#education" class="nav-link" data-translate-key="navEducation">Education</a>
-                    <a href="/livros/" class="nav-link">Livros</a>
+                    <a href="#reading" class="nav-link" data-translate-key="navReading">Reading</a>
                 </div>
 
                 <div class="flex items-center gap-1 sm:gap-2 shrink-0">
-                    <a href="/livros/" class="sm:hidden nav-link text-sm">Livros</a>
                     <button
                         id="theme-toggle"
                         class="lang-button"
@@ -87,34 +90,23 @@
                         aria-pressed="false"
                         aria-label="Mudar para Português"
                     >PT</button>
-                    <button
-                        id="colorblind-toggle"
-                        class="lang-button"
-                        aria-label="Toggle Colorblind Mode"
-                        aria-pressed="false"
-                    >
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.969 7.124a1.012 1.012 0 0 1 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.969-7.124Z" />
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                        </svg>
-                    </button>
                 </div>
             </div>
         </nav>
 
-        <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+        <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-6 sm:py-10">
 
-            <!-- Hero -->
-            <header class="bg-[var(--secondary-bg)] shadow-sm rounded-xl p-6 md:p-8 mb-6">
-                <div class="flex flex-col sm:flex-row sm:items-center gap-6">
+            <!-- Hero / About -->
+            <header id="about" class="card card-hover reveal p-6 md:p-10 mb-6 scroll-mt-20">
+                <div class="flex flex-col sm:flex-row sm:items-center gap-7">
                     <!-- Photo -->
                     <div class="flex justify-center sm:justify-start flex-shrink-0">
-                        <div class="w-28 h-28 sm:w-32 sm:h-32 md:w-40 md:h-40 bg-[var(--profile-bg)] rounded-full border-4 border-[var(--profile-border)] shadow-md overflow-hidden">
+                        <div class="profile-frame w-28 h-28 sm:w-32 sm:h-32 md:w-40 md:h-40 rounded-full overflow-hidden">
                             <img
                                 src="https://avatars.githubusercontent.com/u/5435710"
                                 alt="Felipe Coral Sasso"
                                 class="rounded-full object-cover w-full h-full"
-                                onerror="this.src='https://placehold.co/300x300/CFD8DC/2E4057?text=Image+Not+Found';"
+                                onerror="this.src='https://placehold.co/300x300/E7EDE3/4F6F52?text=FCS';"
                             />
                         </div>
                     </div>
@@ -122,11 +114,11 @@
                     <!-- Name, title, contacts -->
                     <div class="flex-1 text-center sm:text-left">
                         <h1
-                            class="hero-name text-3xl sm:text-4xl md:text-5xl font-bold text-[var(--accent-color)]"
+                            class="hero-name text-4xl sm:text-5xl md:text-6xl font-bold text-[var(--text-primary)]"
                             data-translate-key="name"
                         >Felipe Coral Sasso</h1>
                         <p
-                            class="text-base sm:text-lg text-[var(--text-secondary)] mt-1 font-medium"
+                            class="text-base sm:text-lg text-[var(--text-secondary)] mt-3 font-medium"
                             data-translate-key="jobTitleFull"
                         >Software Engineer | Master's in Computer Science</p>
                         <p
@@ -135,15 +127,13 @@
                         >Florianópolis, Santa Catarina, Brazil</p>
 
                         <!-- Contact chips -->
-                        <div class="mt-4 flex flex-wrap gap-2 justify-center sm:justify-start">
-                            <!-- Email: icon-only on mobile, full on sm+ -->
+                        <div class="mt-5 flex flex-wrap gap-2 justify-center sm:justify-start">
                             <a href="mailto:felipecsasso@gmail.com" class="contact-chip" data-translate-key="emailTooltip" aria-label="felipecsasso@gmail.com">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-3.5 h-3.5 shrink-0">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
                                 </svg>
                                 <span class="hidden sm:inline">felipecsasso@gmail.com</span>
                             </a>
-                            <!-- Phone: icon-only on mobile, full on sm+ -->
                             <a href="tel:+5548998272716" class="contact-chip" data-translate-key="phoneTooltip" aria-label="+55 48 99827-2716">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-3.5 h-3.5 shrink-0">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.362-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 6.75z" />
@@ -167,7 +157,8 @@
                 </div>
 
                 <!-- Summary -->
-                <div class="mt-6 pt-6 border-t border-[var(--lang-button-bg)]">
+                <hr class="brass-rule my-7" />
+                <div>
                     <h2
                         class="text-lg sm:text-xl font-semibold text-[var(--accent-color)] mb-2"
                         data-translate-key="summaryTitle"
@@ -189,19 +180,54 @@
                 </div>
             </header>
 
-            <!-- Skills -->
-            <section id="skills" class="bg-[var(--secondary-bg)] shadow-sm rounded-xl p-6 md:p-8 mb-6 scroll-mt-20">
+            <!-- Selected Work -->
+            <section id="work" class="card card-hover reveal p-6 md:p-8 mb-6 scroll-mt-20">
+                <p class="eyebrow mb-2" data-translate-key="workEyebrow">Selected Work</p>
                 <h2
-                    class="section-heading text-xl sm:text-2xl font-semibold text-[var(--accent-color)] mb-5"
+                    class="section-heading text-xl sm:text-2xl font-semibold text-[var(--text-primary)] mb-6"
+                    data-translate-key="workTitle"
+                >Selected Work &amp; Research</h2>
+                <div class="highlight-grid">
+                    <a href="https://newsroom.pinterest.com/en-ca/company/" target="_blank" rel="noopener noreferrer" class="highlight-card">
+                        <span class="kicker">Pinterest</span>
+                        <h3 data-translate-key="workPinterestTitle">Front-end at scale</h3>
+                        <p data-translate-key="workPinterestDesc">Building, testing, and shipping user-facing features for millions of Pinners — owning components from design review through to A/B testing in production.</p>
+                        <span class="stack">React · TypeScript · GraphQL</span>
+                    </a>
+                    <a href="https://freeplay.ai/" target="_blank" rel="noopener noreferrer" class="highlight-card">
+                        <span class="kicker">Freeplay</span>
+                        <h3 data-translate-key="workFreeplayTitle">Tooling for LLMs</h3>
+                        <p data-translate-key="workFreeplayDesc">Full-stack work on a platform that helps product teams build with large language models — Python back-ends, React front-ends, and SDKs in Python, Node, and Java.</p>
+                        <span class="stack">Python · React · SDKs</span>
+                    </a>
+                    <a href="https://doi.org/10.1101/2021.03.30.434101" target="_blank" rel="noopener noreferrer" class="highlight-card">
+                        <span class="kicker">Genome Sciences Centre</span>
+                        <h3 data-translate-key="workCandigTitle">Federated genomics</h3>
+                        <p data-translate-key="workCandigDesc">APIs and interactive dashboards for CanDIG, a distributed genomics platform, and CanCOGEN's COVID-19 data — backed by a peer-reviewed publication.</p>
+                        <span class="stack">Python · Flask · React</span>
+                    </a>
+                    <a href="https://developer.cisco.com/docs/pyats/" target="_blank" rel="noopener noreferrer" class="highlight-card">
+                        <span class="kicker">Cisco</span>
+                        <h3 data-translate-key="workCiscoTitle">Network automation</h3>
+                        <p data-translate-key="workCiscoDesc">Scalable features for the Genie and pyATS automation framework, including RegEx-based protocol parsers and automated device testing in Python.</p>
+                        <span class="stack">Python · RegEx · pyATS</span>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Skills -->
+            <section id="skills" class="card card-hover reveal p-6 md:p-8 mb-6 scroll-mt-20">
+                <h2
+                    class="section-heading text-xl sm:text-2xl font-semibold text-[var(--text-primary)] mb-5"
                     data-translate-key="topSkillsTitle"
                 >Top Skills</h2>
                 <div id="skills-categories" class="grid grid-cols-1 sm:grid-cols-3 gap-5"></div>
             </section>
 
             <!-- Experience -->
-            <section id="experience" class="bg-[var(--secondary-bg)] shadow-sm rounded-xl p-6 md:p-8 mb-6 scroll-mt-20">
+            <section id="experience" class="card card-hover reveal p-6 md:p-8 mb-6 scroll-mt-20">
                 <h2
-                    class="section-heading text-xl sm:text-2xl font-semibold text-[var(--accent-color)] mb-6"
+                    class="section-heading text-xl sm:text-2xl font-semibold text-[var(--text-primary)] mb-6"
                     data-translate-key="experienceTitle"
                 >Experience</h2>
 
@@ -445,9 +471,9 @@
             </section>
 
             <!-- Education -->
-            <section id="education" class="bg-[var(--secondary-bg)] shadow-sm rounded-xl p-6 md:p-8 mb-6 scroll-mt-20">
+            <section id="education" class="card card-hover reveal p-6 md:p-8 mb-6 scroll-mt-20">
                 <h2
-                    class="section-heading text-xl sm:text-2xl font-semibold text-[var(--accent-color)] mb-6"
+                    class="section-heading text-xl sm:text-2xl font-semibold text-[var(--text-primary)] mb-6"
                     data-translate-key="educationTitle"
                 >Education</h2>
                 <div class="timeline">
@@ -485,11 +511,28 @@
                 </div>
             </section>
 
+            <!-- Reading -->
+            <section id="reading" class="card card-hover reveal p-6 md:p-8 mb-6 scroll-mt-20">
+                <p class="eyebrow mb-2" data-translate-key="readingEyebrow">Off the clock</p>
+                <h2
+                    class="section-heading text-xl sm:text-2xl font-semibold text-[var(--text-primary)] mb-3"
+                    data-translate-key="readingTitle"
+                >Reading</h2>
+                <p
+                    class="text-sm sm:text-base text-[var(--text-secondary)] leading-relaxed mb-6 max-w-2xl"
+                    data-translate-key="readingIntro"
+                >A lifelong reader — science fiction, horror, and the classics. Here are a few of my most recent reads.</p>
+                <div id="reading-shelf" class="shelf"></div>
+                <div class="mt-6">
+                    <a href="/livros/" class="show-more-btn" data-translate-key="readingSeeAll">See books →</a>
+                </div>
+            </section>
+
             <footer class="text-center py-8 text-xs sm:text-sm text-[var(--text-secondary)]">
                 <p id="footer-rights" data-translate-key="footerRights">
                     &copy; <span id="currentYear"></span> Felipe Coral Sasso. All rights reserved.
                 </p>
-                <p data-translate-key="footerBuiltWith">Built with Tailwind CSS.</p>
+                <p class="mt-1" data-translate-key="footerBuiltWith">Built with care — Fraunces, Inter &amp; Tailwind CSS.</p>
             </footer>
         </div>
 
