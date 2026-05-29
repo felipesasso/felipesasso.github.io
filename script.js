@@ -626,6 +626,13 @@ async function renderReading() {
             title.insertAdjacentHTML('beforeend', '<svg class="book-link-icon" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><path d="M2.5 9.5 9.5 2.5M5 2.5h4.5v4.5"/></svg>');
             top.appendChild(title);
 
+            if (book.titleEn && book.titleEn !== book.title) {
+                const titleEn = document.createElement('p');
+                titleEn.className = 'title-en';
+                titleEn.textContent = book.titleEn;
+                top.appendChild(titleEn);
+            }
+
             const author = document.createElement('p');
             author.className = 'author';
             author.textContent = book.author;
