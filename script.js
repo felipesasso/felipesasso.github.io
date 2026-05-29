@@ -178,46 +178,46 @@ const translations = {
 
         jobTitlePinterest: 'Engenheiro de Software',
         pinterestDesc:
-            'Engenheiro de Software no Pinterest com foco em desenvolvimento front-end e experiência do usuário. Desenvolvimento de soluções com React, TypeScript e frameworks modernos para entregar recursos essenciais para milhões de Pinners.',
+            'Atuo como Engenheiro de Software no Pinterest, com foco em desenvolvimento front-end e experiência do usuário, criando soluções com React, TypeScript e frameworks modernos para entregar recursos essenciais para milhões de Pinners.',
         pinterestDetail1:
-            'Desenvolvimento, teste e implantação de recursos essenciais para milhões de Pinners (usuários do Pinterest).',
+            'Desenvolvo, testo e implanto recursos essenciais para milhões de Pinners (usuários do Pinterest).',
         pinterestDetail2:
-            'Gerenciamento do ciclo de vida completo de componentes e funcionalidades, desde a análise inicial do design até implantação e testes A/B em produção.',
+            'Gerencio o ciclo de vida completo de componentes e funcionalidades, desde a análise inicial do design até a implantação e os testes A/B em produção.',
         pinterestDetail3:
-            'Otimização do desempenho da aplicação (tempo de carregamento, renderização, tamanho do bundle) para garantir uma experiência rápida e agradável em todas as plataformas.',
+            'Otimizo o desempenho da aplicação (tempo de carregamento, renderização, tamanho do bundle) para garantir uma experiência rápida e agradável em todas as plataformas.',
         pinterestDetail4:
-            'Colaboração com as equipes de produto e design para transformar conceitos complexos em interfaces intuitivas e altamente escaláveis.',
+            'Colaboro com as equipes de produto e design para transformar conceitos complexos em interfaces intuitivas e altamente escaláveis.',
         jobTitleBairesDev: 'Engenheiro de Software',
         bairesdevDesc:
             'Como uma empresa líder em Soluções de Tecnologia Nearshore, arquitetamos e projetamos soluções de software escaláveis e de alto desempenho para enfrentar os desafios de negócios de nossos clientes. Usando nossa expertise tecnológica e experiência intersetorial, evoluímos a transformação digital em aceleração digital.',
         jobTitleFreeplay: 'Engenheiro de Software Full Stack',
         freeplayDesc:
-            'Contribuiu para o Freeplay, uma plataforma projetada para ajudar equipes de produto a construir com Modelos de Linguagem Grandes (LLMs). As responsabilidades incluíram desenvolvimento full-stack, envolvendo back-ends Python, front-ends React e SDKs multi-linguagem (Python, Node, Java).',
-        freeplayDetail1: 'Projetou e implementou lógica de servidor e APIs com Python.',
+            'Contribuí para o Freeplay, uma plataforma projetada para ajudar equipes de produto a construir com grandes modelos de linguagem (LLMs). Minhas responsabilidades incluíram desenvolvimento full-stack, envolvendo back-ends Python, front-ends React e SDKs multi-linguagem (Python, Node, Java).',
+        freeplayDetail1: 'Projetei e implementei lógica de servidor e APIs com Python.',
         freeplayDetail2:
-            'Desenvolveu interfaces de usuário e funcionalidades interativas usando React.js, JavaScript e TypeScript.',
-        freeplayDetail3: 'Projetou e manteve SDKs em Python, Node.js e Java.',
+            'Desenvolvi interfaces de usuário e funcionalidades interativas usando React.js, JavaScript e TypeScript.',
+        freeplayDetail3: 'Projetei e mantive SDKs em Python, Node.js e Java.',
         jobTitleNextRoll: 'Engenheiro Full Stack',
         nextrollDesc:
-            'Contribuiu para a RollWorks, uma plataforma líder de marketing B2B, desenvolvendo novas funcionalidades de produto e aprimorando as existentes. Envolvido no desenvolvimento front-end (React) e back-end (Go, Python) para apoiar o marketing baseado em contas e a geração de demanda.',
+            'Contribuí para a RollWorks, uma plataforma líder de marketing B2B, desenvolvendo novas funcionalidades de produto e aprimorando as existentes. Atuei no desenvolvimento front-end (React) e back-end (Go, Python) para apoiar o marketing baseado em contas e a geração de demanda.',
         nextrollDetail1:
-            'Desenvolveu interfaces de usuário responsivas com React.js, JavaScript, e TypeScript.',
-        nextrollDetail2: 'Construiu e manteve lógica de servidor e APIs usando Go e Python.',
+            'Desenvolvi interfaces de usuário responsivas com React.js, JavaScript e TypeScript.',
+        nextrollDetail2: 'Construí e mantive lógica de servidor e APIs usando Go e Python.',
         jobTitleSenseData: 'Desenvolvedor Back-end',
         sensedataDesc:
-            'Desenvolveu e testou APIs robustas usando Python e Flask para uma plataforma de relacionamento com o cliente. Criou dashboards interativos com JavaScript e React para aprimorar a visualização de dados e o engajamento do usuário.',
+            'Desenvolvi e testei APIs robustas usando Python e Flask para uma plataforma de relacionamento com o cliente. Criei dashboards interativos com JavaScript e React para aprimorar a visualização de dados e o engajamento do usuário.',
         jobTitleMsgsc: 'Programador de Pesquisa',
         companyMsgsc: "Canada's Michael Smith Genome Sciences Centre",
         msgscDesc:
-            'Desenvolveu APIs (Python, Flask, OpenAPI) e dashboards interativos (JavaScript, React) para CanDIG, uma plataforma distribuída de genômica, e CanCOGEN, visualizando dados de COVID-19.',
+            'Desenvolvi APIs (Python, Flask, OpenAPI) e dashboards interativos (JavaScript, React) para o CanDIG, uma plataforma distribuída de genômica, e o CanCOGEN, visualizando dados de COVID-19.',
         candigPublicationText:
             'L. Jonathan Dursi, Zoltan Bozoky, Richard de Borja, et al., "CanDIG: Secure Federated Genomic Queries e Analyses Across Jurisdictions," bioRxiv 2021.03.30.434101; <a href="https://doi.org/10.1101/2021.03.30.434101" target="_blank" rel="noopener noreferrer" class="link-highlight">doi: https://doi.org/10.1101/2021.03.30.434101</a>.',
         jobTitleCisco: 'Engenheiro de Software',
         ciscoDesc:
-            'Contribuiu para a infraestrutura de automação Genie e pyATS da Cisco, projetando, desenvolvendo e testando funcionalidades escaláveis para automação de redes em Python. Desenvolveu parsers baseados em RegEx para vários protocolos de rede e criou scripts Python para testes automatizados de dispositivos.',
+            'Contribuí para a infraestrutura de automação Genie e pyATS da Cisco, projetando, desenvolvendo e testando funcionalidades escaláveis para automação de redes em Python. Desenvolvi parsers baseados em RegEx para vários protocolos de rede e criei scripts Python para testes automatizados de dispositivos.',
         jobTitleBridgehead: 'Especialista de Cozinha',
         bridgeheadDesc:
-            'Adquiriu valiosa experiência de trabalho canadense como Especialista de Cozinha, aprimorando habilidades de comunicação, liderança, gerenciamento de pressão e proatividade. Concomitantemente, autodidata e aprimorou habilidades técnicas para se manter atualizado com a tecnologia.',
+            'Adquiri valiosa experiência de trabalho canadense como Especialista de Cozinha, aprimorando habilidades de comunicação, liderança, gerenciamento de pressão e proatividade. Concomitantemente, de forma autodidata, aprimorei habilidades técnicas para me manter atualizado com a tecnologia.',
         bridgeheadSkillPython:
             'Python (requests, BeautifulSoup4, unittest, Django v2.1, virtualenv)',
         bridgeheadSkillFrontend: 'Front-end (HTML, CSS, Bootstrap, Bulma)',
@@ -226,7 +226,7 @@ const translations = {
         jobTitleLabsec: 'Pesquisador/Desenvolvedor',
         companyLabsec: 'Laboratório de Segurança em Computação (LabSEC) - UFSC',
         labsecDesc:
-            'Conduziu pesquisa de mestrado envolvendo a proposta e validação de segurança de uma Carteira de Identidade unificada baseada no padrão de passaporte ICAO 9303 para ambientes de federação acadêmica. Contribuiu para vários projetos de segurança durante este período.',
+            'Conduzi pesquisa de mestrado envolvendo a proposta e validação de segurança de uma Carteira de Identidade unificada baseada no padrão de passaporte ICAO 9303 para ambientes de federação acadêmica. Contribuí para vários projetos de segurança durante este período.',
         labsecPublicationText:
             'F. C. Sasso, R. A. Reinaldo De Moraes e J. E. Martina, "A Proposal for a Unified Identity Card for Use in an Academic Federation Environment," 2014 Ninth International Conference on Availability, Reliability and Security, Fribourg, Suíça, 2014, pp. 265-272, <a href="https://ieeexplore.ieee.org/document/6980291" target="_blank" rel="noopener noreferrer" class="link-highlight">doi: 10.1109/ARES.2014.44</a>.',
 
@@ -242,7 +242,7 @@ const translations = {
         dissertationTitle: 'Cartão de identificação humana para autenticação e autorização segura',
         dissertationAbstractLabel: 'Resumo:',
         dissertationAbstract:
-            'Vários esforços tem sido feitos recentemente no âmbito de federações de identidade. Os esforços para que dados de autenticação sejam disponíveis e utilizáveis por todas as entidades participantes da federação são o pilar deste modelo. No entanto alguns problemas se encontram em aberto. O primeiro deles é o funcionamento offline do processo de autenticação. Hoje o modelo da federação requer que os sistemas trabalhem online de forma síncrona, o que limita seu uso para algumas aplicações. Segundo, os dados da federação somente estão disponíveis para sistemas computacionais e não para as pessoas, tornando difícil a avaliação da avaliação de tais credenciais. Por fim, a federação tem inúmeros problemas técnicos e legais para a disponibilização de dados considerados de uso privados, tais como biométricos. Estes tornariam a autenticação muito mais forte. A proposta desta dissertação foi descrever um cartão de identificação baseado no padrão ICAO 9303 que soluciona os problemas presentes nas Federações de Identidade. Além da criação do cartão, também foi realizado uma avaliação da segurança deste em diversos cenários de uso. Com isso foi possível identificar quais problemas de segurança podem ocorrer durante a utilização do cartão e como resolvê-los.',
+            'Vários esforços têm sido feitos recentemente no âmbito de federações de identidade. Os esforços para que dados de autenticação sejam disponíveis e utilizáveis por todas as entidades participantes da federação são o pilar deste modelo. No entanto alguns problemas se encontram em aberto. O primeiro deles é o funcionamento offline do processo de autenticação. Hoje o modelo da federação requer que os sistemas trabalhem online de forma síncrona, o que limita seu uso para algumas aplicações. Segundo, os dados da federação somente estão disponíveis para sistemas computacionais e não para as pessoas, tornando difícil a avaliação de tais credenciais. Por fim, a federação tem inúmeros problemas técnicos e legais para a disponibilização de dados considerados de uso privado, tais como biométricos. Estes tornariam a autenticação muito mais forte. A proposta desta dissertação foi descrever um cartão de identificação baseado no padrão ICAO 9303 que soluciona os problemas presentes nas Federações de Identidade. Além da criação do cartão, também foi realizada uma avaliação da segurança deste em diversos cenários de uso. Com isso foi possível identificar quais problemas de segurança podem ocorrer durante a utilização do cartão e como resolvê-los.',
         dissertationLink: 'Acessar Dissertação no Repositório UFSC',
 
         navWork: 'Trabalhos',
@@ -252,7 +252,7 @@ const translations = {
         navReading: 'Leituras',
 
         workEyebrow: 'Trabalhos Selecionados',
-        workTitle: 'Trabalhos & Pesquisa Selecionados',
+        workTitle: 'Trabalhos e Pesquisas Selecionados',
         workPinterestTitle: 'Front-end em escala',
         workPinterestDesc:
             'Desenvolvimento, teste e entrega de recursos para milhões de Pinners — cuidando de componentes desde a análise de design até testes A/B em produção.',
