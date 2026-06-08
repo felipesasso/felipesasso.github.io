@@ -5,5 +5,12 @@
     "url": "/tools/design-pattern-decision-tree/",
     "kind": "built",
     "tags": ["Design Patterns", "Software Architecture"]
+  },
+  {
+    "name": "CSS Unit Converter & Visualizer",
+    "description": "Convert between px, rem, em, vw and vh in real time against an adjustable base font size and viewport — with a live preview that resizes so you can feel the responsiveness before pasting into your code.",
+    "url": "/tools/css-unit-converter/",
+    "kind": "built",
+    "tags": ["CSS", "Responsive Design", "Front-end"]
   }
 ]

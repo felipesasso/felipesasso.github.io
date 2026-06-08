@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>CSS Unit Converter &amp; Visualizer - Felipe Sasso</title>
+        <meta name="description" content="Convert between px, rem, em, vw and vh in real time against an adjustable base font size and viewport — with a live preview that resizes so you can feel the responsiveness before pasting into your code." />
+        <meta name="author" content="Felipe Coral Sasso" />
+
+        <script>
+            (function () {
+                document.documentElement.classList.add('js');
+                var stored = localStorage.getItem('theme');
+                var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+                if (stored === 'dark' || (stored !== 'light' && prefersDark)) {
+                    document.documentElement.classList.add('dark');
+                }
+            })();
+        </script>
+        <link rel="stylesheet" href="/tailwind.css" />
+        <link rel="stylesheet" href="/style.css" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+        <style>
+            .cuc-layout {
+                display: grid;
+                grid-template-columns: 1fr;
+                gap: 2rem;
+                margin-top: 1rem;
+            }
+            @media (min-width: 1024px) {
+                .cuc-layout {
+                    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+                }
+            }
+            .cuc-field-group {
+                margin-bottom: 1.4rem;
+            }
+            .cuc-field-group:last-child {
+                margin-bottom: 0;
+            }
+            .cuc-label {
+                display: block;
+                font-size: 0.78rem;
+                font-weight: 600;
+                color: var(--text-primary);
+                margin-bottom: 0.45rem;
+            }
+            .cuc-field-row {
+                display: flex;
+                gap: 1rem;
+                flex-wrap: wrap;
+            }
+            .cuc-field-row > div {
+                flex: 1;
+                min-width: 130px;
+            }
+            .cuc-input-wrap {
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+            }
+            .cuc-input,
+            .cuc-select {
+                font-family: var(--font-body);
+                font-size: 0.9rem;
+                color: var(--text-primary);
+                background-color: color-mix(in srgb, var(--secondary-bg) 70%, var(--primary-bg));
+                border: 1px solid var(--border);
+                border-radius: 0.55rem;
+                padding: 0.55rem 0.7rem;
+                width: 100%;
+                transition: border-color 0.2s ease, box-shadow 0.2s ease;
+            }
+            .cuc-input:focus,
+            .cuc-select:focus {
+                outline: none;
+                border-color: var(--accent-color);
+                box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent-color) 18%, transparent);
+            }
+            .cuc-unit-suffix {
+                font-size: 0.8rem;
+                color: var(--text-secondary);
+                white-space: nowrap;
+            }
+            .cuc-hint {
+                font-size: 0.75rem;
+                color: var(--text-secondary);
+                margin-top: 0.45rem;
+                line-height: 1.55;
+            }
+            .cuc-link-btn {
+                display: inline-flex;
+                align-items: center;
+                gap: 0.35rem;
+                font-size: 0.78rem;
+                font-weight: 500;
+                color: var(--accent-color);
+                background: none;
+                border: none;
+                padding: 0;
+                margin-top: 0.5rem;
+                cursor: pointer;
+            }
+            .cuc-link-btn:hover {
+                color: var(--link-hover-color);
+                text-decoration: underline;
+            }
+            .cuc-value-row {
+                display: flex;
+                gap: 0.6rem;
+            }
+            .cuc-value-row .cuc-input {
+                flex: 1.3;
+            }
+            .cuc-value-row .cuc-select {
+                flex: 1;
+            }
+            .cuc-results {
+                display: flex;
+                flex-direction: column;
+                gap: 0.5rem;
+                margin-top: 1.6rem;
+                padding-top: 1.4rem;
+                border-top: 1px solid var(--border);
+            }
+            .cuc-results h2 {
+                font-size: 0.7rem;
+                font-weight: 600;
+                text-transform: uppercase;
+                letter-spacing: 0.1em;
+                color: var(--accent-color);
+                margin-bottom: 0.3rem;
+            }
+            .cuc-result-row {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 0.75rem;
+                padding: 0.6rem 0.85rem;
+                border: 1px solid var(--border);
+                border-radius: 0.6rem;
+                background-color: color-mix(in srgb, var(--secondary-bg) 70%, var(--primary-bg));
+            }
+            .cuc-result-row.is-source {
+                border-color: color-mix(in srgb, var(--brass) 55%, var(--border));
+                background-color: var(--brass-soft);
+            }
+            .cuc-result-unit {
+                display: flex;
+                align-items: baseline;
+                gap: 0.5rem;
+                font-size: 0.85rem;
+                color: var(--text-secondary);
+            }
+            .cuc-result-unit strong {
+                font-family: var(--font-display);
+                font-size: 1rem;
+                font-weight: 600;
+                color: var(--text-primary);
+            }
+            .cuc-source-tag {
+                font-size: 0.62rem;
+                font-weight: 600;
+                text-transform: uppercase;
+                letter-spacing: 0.08em;
+                color: var(--brass);
+            }
+            .cuc-copy-btn {
+                display: inline-flex;
+                align-items: center;
+                gap: 0.35rem;
+                font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+                font-size: 0.82rem;
+                font-weight: 500;
+                color: var(--text-primary);
+                background-color: var(--skill-bg);
+                border: none;
+                border-radius: 0.45rem;
+                padding: 0.4rem 0.65rem;
+                cursor: pointer;
+                transition: color 0.2s ease, transform 0.15s ease;
+            }
+            .cuc-copy-btn:hover {
+                color: var(--accent-color);
+            }
+            .cuc-copy-btn.copied {
+                color: var(--accent-color);
+            }
+            .cuc-preview-tabs {
+                display: inline-flex;
+                gap: 0.3rem;
+                background-color: var(--lang-button-bg);
+                border: 1px solid var(--border);
+                border-radius: 0.6rem;
+                padding: 0.2rem;
+                margin-bottom: 1.1rem;
+            }
+            .cuc-preview-tab {
+                font-size: 0.78rem;
+                font-weight: 600;
+                color: var(--text-secondary);
+                background: none;
+                border: none;
+                border-radius: 0.45rem;
+                padding: 0.4rem 0.9rem;
+                cursor: pointer;
+                transition: background-color 0.2s ease, color 0.2s ease;
+            }
+            .cuc-preview-tab.active {
+                background-color: var(--accent-color);
+                color: var(--lang-button-active-text);
+            }
+            .cuc-preview-tab:hover:not(.active) {
+                color: var(--accent-color);
+            }
+            .cuc-stage {
+                position: relative;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                min-height: 17rem;
+                padding: 1.5rem;
+                overflow: auto;
+                border: 1px dashed var(--border);
+                border-radius: 0.85rem;
+                background-image:
+                    linear-gradient(color-mix(in srgb, var(--border) 65%, transparent) 1px, transparent 1px),
+                    linear-gradient(90deg, color-mix(in srgb, var(--border) 65%, transparent) 1px, transparent 1px);
+                background-size: 24px 24px;
+                background-position: center;
+            }
+            .cuc-stage-text {
+                font-family: var(--font-display);
+                font-weight: 600;
+                color: var(--text-primary);
+                line-height: 1.3;
+                text-align: center;
+                max-width: 100%;
+                transition: font-size 0.12s ease;
+                word-break: break-word;
+            }
+            .cuc-stage-box {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                gap: 0.4rem;
+                max-width: 100%;
+                min-width: 1.5rem;
+                height: 5.5rem;
+                padding: 0 1rem;
+                border-radius: 0.6rem;
+                background-color: var(--accent-soft);
+                border: 1px solid color-mix(in srgb, var(--accent-color) 35%, var(--border));
+                transition: width 0.12s ease;
+                overflow: hidden;
+            }
+            .cuc-stage-box .cuc-stage-box-title {
+                font-family: var(--font-display);
+                font-weight: 600;
+                font-size: 0.95rem;
+                color: var(--text-primary);
+                white-space: nowrap;
+            }
+            .cuc-stage-box .cuc-stage-box-line {
+                height: 0.5rem;
+                border-radius: 9999px;
+                background-color: color-mix(in srgb, var(--accent-color) 30%, transparent);
+            }
+            .cuc-stage-box .cuc-stage-box-line.short {
+                width: 60%;
+            }
+            .cuc-stage-caption {
+                font-size: 0.78rem;
+                color: var(--text-secondary);
+                text-align: center;
+                margin-top: 0.9rem;
+                line-height: 1.6;
+            }
+            .cuc-stage-caption strong {
+                color: var(--text-primary);
+                font-weight: 600;
+            }
+            .cuc-clamp-note {
+                display: inline-block;
+                margin-top: 0.3rem;
+                font-size: 0.72rem;
+                color: var(--brass);
+            }
+        </style>
+    </head>
+
+    <body class="bg-[var(--primary-bg)] text-[var(--text-primary)]">
+
+        <nav id="main-nav" class="sticky top-0 z-50 bg-[var(--secondary-bg)] border-b border-[var(--lang-button-bg)]">
+            <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 flex items-center justify-between h-14">
+                <a href="/" class="nav-brand shrink-0">Felipe Sasso</a>
+                <div class="hidden sm:flex items-center gap-6">
+                    <a href="/" class="nav-link">Home</a>
+                    <a href="/tools/" class="nav-link">Tools</a>
+                    <span class="text-sm font-medium text-[var(--accent-color)] border-b-2 border-[var(--accent-color)] pb-0.5">Unit Converter</span>
+                </div>
+                <div class="flex items-center gap-1 sm:gap-2 shrink-0">
+                    <a href="/tools/" class="sm:hidden nav-link text-sm">Tools</a>
+                    <button id="theme-toggle" class="lang-button" aria-label="Toggle dark mode" aria-pressed="false">
+                        <svg id="icon-moon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z" />
+                        </svg>
+                        <svg id="icon-sun" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 hidden">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+            <section class="card p-6 md:p-10">
+                <p class="eyebrow mb-2">Tools · Built by me</p>
+                <h1 class="section-heading text-xl sm:text-2xl font-semibold text-[var(--text-primary)] mb-3">CSS Unit Converter &amp; Visualizer</h1>
+                <p class="text-sm sm:text-base text-[var(--text-secondary)] leading-relaxed mb-2 max-w-2xl">
+                    Translate values between <code>px</code>, <code>rem</code>, <code>em</code>, <code>vw</code> and <code>vh</code> in real time, against a base font size and viewport you control. The live preview resizes as you type, so you can feel how a value behaves before copying it into your stylesheet.
+                </p>
+
+                <div class="cuc-layout">
+                    <div>
+                        <div class="cuc-field-group">
+                            <label class="cuc-label" for="cuc-base">Base font size (root)</label>
+                            <div class="cuc-input-wrap">
+                                <input id="cuc-base" class="cuc-input" type="number" min="1" step="1" value="16" />
+                                <span class="cuc-unit-suffix">px</span>
+                            </div>
+                            <p class="cuc-hint">Used to convert <code>rem</code> and <code>em</code> to and from pixels — browsers default this to 16px.</p>
+                        </div>
+
+                        <div class="cuc-field-group">
+                            <span class="cuc-label">Reference viewport</span>
+                            <div class="cuc-field-row">
+                                <div>
+                                    <div class="cuc-input-wrap">
+                                        <input id="cuc-vw" class="cuc-input" type="number" min="1" step="1" value="1280" aria-label="Viewport width in pixels" />
+                                        <span class="cuc-unit-suffix">w (px)</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="cuc-input-wrap">
+                                        <input id="cuc-vh" class="cuc-input" type="number" min="1" step="1" value="720" aria-label="Viewport height in pixels" />
+                                        <span class="cuc-unit-suffix">h (px)</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <button id="cuc-use-viewport" type="button" class="cuc-link-btn">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-3.5 h-3.5">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12c2.25 4.5 6.75 7.5 9.75 7.5s7.5-3 9.75-7.5c-2.25-4.5-6.75-7.5-9.75-7.5S4.5 7.5 2.25 12Z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                                </svg>
+                                Use my current viewport (<span id="cuc-current-viewport"></span>)
+                            </button>
+                            <p class="cuc-hint">Used to convert <code>vw</code> / <code>vh</code> to and from pixels — pick a typical screen size for the layout you're building.</p>
+                        </div>
+
+                        <div class="cuc-field-group">
+                            <label class="cuc-label" for="cuc-value">Value to convert</label>
+                            <div class="cuc-value-row">
+                                <input id="cuc-value" class="cuc-input" type="number" step="any" value="16" aria-label="Value to convert" />
+                                <select id="cuc-unit" class="cuc-select" aria-label="Unit of the value to convert">
+                                    <option value="px">px</option>
+                                    <option value="rem">rem</option>
+                                    <option value="em">em</option>
+                                    <option value="vw">vw</option>
+                                    <option value="vh">vh</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="cuc-results">
+                            <h2>Equivalent values</h2>
+                            <div id="cuc-results-list"></div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <span class="cuc-label">Live preview</span>
+                        <div class="cuc-preview-tabs" role="tablist">
+                            <button class="cuc-preview-tab active" type="button" data-mode="font" role="tab" aria-selected="true">Text size</button>
+                            <button class="cuc-preview-tab" type="button" data-mode="width" role="tab" aria-selected="false">Box width</button>
+                        </div>
+                        <div id="cuc-stage" class="cuc-stage">
+                            <p id="cuc-stage-text" class="cuc-stage-text">The quick brown fox jumps</p>
+                            <div id="cuc-stage-box" class="cuc-stage-box hidden">
+                                <span class="cuc-stage-box-title">Card title</span>
+                                <span class="cuc-stage-box-line"></span>
+                                <span class="cuc-stage-box-line short"></span>
+                            </div>
+                        </div>
+                        <p id="cuc-stage-caption" class="cuc-stage-caption"></p>
+                    </div>
+                </div>
+            </section>
+
+            <footer class="text-center py-8 text-xs sm:text-sm text-[var(--text-secondary)]">
+                <p>&copy; <span id="currentYear"></span> Felipe Coral Sasso. All rights reserved.</p>
+            </footer>
+        </div>
+
+        <script>
+            document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+            const themeToggle = document.getElementById('theme-toggle');
+            const iconMoon = document.getElementById('icon-moon');
+            const iconSun = document.getElementById('icon-sun');
+
+            function applyTheme(dark) {
+                document.documentElement.classList.toggle('dark', dark);
+                iconMoon.classList.toggle('hidden', dark);
+                iconSun.classList.toggle('hidden', !dark);
+                themeToggle.setAttribute('aria-pressed', String(dark));
+            }
+
+            applyTheme(document.documentElement.classList.contains('dark'));
+            themeToggle.addEventListener('click', () => {
+                const isDark = document.documentElement.classList.contains('dark');
+                localStorage.setItem('theme', isDark ? 'light' : 'dark');
+                applyTheme(!isDark);
+            });
+
+            window.addEventListener('scroll', () => {
+                document.getElementById('main-nav').classList.toggle('scrolled', window.scrollY > 10);
+            });
+        </script>
+
+        <script>
+            (function () {
+                const UNITS = ['px', 'rem', 'em', 'vw', 'vh'];
+                const UNIT_LABELS = {
+                    px: 'Pixels',
+                    rem: 'Root em',
+                    em: 'Em',
+                    vw: 'Viewport width',
+                    vh: 'Viewport height',
+                };
+
+                const baseInput = document.getElementById('cuc-base');
+                const vwInput = document.getElementById('cuc-vw');
+                const vhInput = document.getElementById('cuc-vh');
+                const valueInput = document.getElementById('cuc-value');
+                const unitSelect = document.getElementById('cuc-unit');
+                const useViewportBtn = document.getElementById('cuc-use-viewport');
+                const currentViewportLabel = document.getElementById('cuc-current-viewport');
+                const resultsList = document.getElementById('cuc-results-list');
+                const stage = document.getElementById('cuc-stage');
+                const stageText = document.getElementById('cuc-stage-text');
+                const stageBox = document.getElementById('cuc-stage-box');
+                const stageCaption = document.getElementById('cuc-stage-caption');
+                const previewTabs = Array.from(document.querySelectorAll('.cuc-preview-tab'));
+
+                let previewMode = 'font';
+                let copyResetTimer = null;
+
+                function currentViewportText() {
+                    return Math.round(window.innerWidth) + ' × ' + Math.round(window.innerHeight) + 'px';
+                }
+                currentViewportLabel.textContent = currentViewportText();
+                window.addEventListener('resize', () => {
+                    currentViewportLabel.textContent = currentViewportText();
+                });
+
+                useViewportBtn.addEventListener('click', () => {
+                    vwInput.value = Math.round(window.innerWidth);
+                    vhInput.value = Math.round(window.innerHeight);
+                    render();
+                });
+
+                function getSettings() {
+                    const base = Math.max(parseFloat(baseInput.value) || 16, 1);
+                    const vw = Math.max(parseFloat(vwInput.value) || 1280, 1);
+                    const vh = Math.max(parseFloat(vhInput.value) || 720, 1);
+                    const value = parseFloat(valueInput.value);
+                    const unit = unitSelect.value;
+                    return { base, vw, vh, value: isFinite(value) ? value : 0, unit };
+                }
+
+                function toPx(value, unit, settings) {
+                    switch (unit) {
+                        case 'px': return value;
+                        case 'rem':
+                        case 'em': return value * settings.base;
+                        case 'vw': return (value / 100) * settings.vw;
+                        case 'vh': return (value / 100) * settings.vh;
+                        default: return value;
+                    }
+                }
+
+                function fromPx(px, unit, settings) {
+                    switch (unit) {
+                        case 'px': return px;
+                        case 'rem':
+                        case 'em': return px / settings.base;
+                        case 'vw': return (px / settings.vw) * 100;
+                        case 'vh': return (px / settings.vh) * 100;
+                        default: return px;
+                    }
+                }
+
+                function formatNumber(n) {
+                    if (!isFinite(n)) return '0';
+                    const rounded = Math.round(n * 10000) / 10000;
+                    return rounded.toString();
+                }
+
+                function copyToClipboard(text, btn) {
+                    if (navigator.clipboard && navigator.clipboard.writeText) {
+                        navigator.clipboard.writeText(text).catch(() => {});
+                    }
+                    if (copyResetTimer) clearTimeout(copyResetTimer);
+                    document.querySelectorAll('.cuc-copy-btn.copied').forEach((b) => b.classList.remove('copied'));
+                    btn.classList.add('copied');
+                    const original = btn.dataset.label;
+                    btn.querySelector('.cuc-copy-text').textContent = 'Copied!';
+                    copyResetTimer = setTimeout(() => {
+                        btn.querySelector('.cuc-copy-text').textContent = original;
+                        btn.classList.remove('copied');
+                    }, 1200);
+                }
+
+                function renderResults(settings, px) {
+                    resultsList.innerHTML = '';
+                    UNITS.forEach((unit) => {
+                        const value = fromPx(px, unit, settings);
+                        const formatted = formatNumber(value);
+                        const display = formatted + unit;
+                        const isSource = unit === settings.unit;
+
+                        const row = document.createElement('div');
+                        row.className = 'cuc-result-row' + (isSource ? ' is-source' : '');
+
+                        const label = document.createElement('span');
+                        label.className = 'cuc-result-unit';
+                        label.innerHTML = '<strong>' + unit + '</strong>' + UNIT_LABELS[unit] +
+                            (isSource ? '<span class="cuc-source-tag">your input</span>' : '');
+
+                        const btn = document.createElement('button');
+                        btn.type = 'button';
+                        btn.className = 'cuc-copy-btn';
+                        btn.dataset.label = display;
+                        btn.innerHTML = '<span class="cuc-copy-text">' + display + '</span>' +
+                            '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-3.5 h-3.5">' +
+                            '<path stroke-linecap="round" stroke-linejoin="round" d="M15.666 3.888A2.25 2.25 0 0 0 13.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 0 1-.75.75H9a.75.75 0 0 1-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 0 1-2.25 2.25H6.75A2.25 2.25 0 0 1 4.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 0 1 1.927-.184" />' +
+                            '</svg>';
+                        btn.addEventListener('click', () => copyToClipboard(display, btn));
+
+                        row.appendChild(label);
+                        row.appendChild(btn);
+                        resultsList.appendChild(row);
+                    });
+                }
+
+                const FONT_MIN = 10;
+                const FONT_MAX = 180;
+                const BOX_MIN = 24;
+
+                function renderPreview(settings, px) {
+                    const stageRect = stage.getBoundingClientRect();
+
+                    if (previewMode === 'font') {
+                        stageBox.classList.add('hidden');
+                        stageText.classList.remove('hidden');
+
+                        const maxByStage = Math.max(stageRect.height - 64, FONT_MIN);
+                        const visualPx = Math.min(Math.max(px, FONT_MIN), Math.min(FONT_MAX, maxByStage));
+                        stageText.style.fontSize = visualPx + 'px';
+
+                        const clamped = px > visualPx + 0.5;
+                        stageCaption.innerHTML = 'Rendered at <strong>' + formatNumber(px) + 'px</strong> font size' +
+                            (clamped ? ' <span class="cuc-clamp-note">(scaled down to fit this preview — the computed value above is accurate)</span>' : '');
+                    } else {
+                        stageText.classList.add('hidden');
+                        stageBox.classList.remove('hidden');
+
+                        const maxByStage = Math.max(stageRect.width - 64, BOX_MIN);
+                        const visualPx = Math.min(Math.max(px, BOX_MIN), maxByStage);
+                        stageBox.style.width = visualPx + 'px';
+
+                        const clamped = px > visualPx + 0.5;
+                        stageCaption.innerHTML = 'Rendered at <strong>' + formatNumber(px) + 'px</strong> wide' +
+                            (clamped ? ' <span class="cuc-clamp-note">(scaled down to fit this preview — the computed value above is accurate)</span>' : '');
+                    }
+                }
+
+                function render() {
+                    const settings = getSettings();
+                    const px = toPx(settings.value, settings.unit, settings);
+                    renderResults(settings, px);
+                    renderPreview(settings, px);
+                }
+
+                [baseInput, vwInput, vhInput, valueInput].forEach((input) => {
+                    input.addEventListener('input', render);
+                });
+                unitSelect.addEventListener('change', render);
+
+                previewTabs.forEach((tab) => {
+                    tab.addEventListener('click', () => {
+                        previewMode = tab.dataset.mode;
+                        previewTabs.forEach((t) => {
+                            t.classList.toggle('active', t === tab);
+                            t.setAttribute('aria-selected', String(t === tab));
+                        });
+                        render();
+                    });
+                });
+
+                window.addEventListener('resize', render);
+
+                render();
+            })();
+        </script>
+    </body>
+</html>
