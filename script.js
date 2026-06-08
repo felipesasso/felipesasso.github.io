@@ -97,6 +97,7 @@ const translations = {
         navExperience: 'Experience',
         navEducation: 'Education',
         navReading: 'Reading',
+        navTools: 'Tools',
 
         workEyebrow: 'Selected Work',
         workTitle: 'Selected Work & Research',
@@ -118,6 +119,12 @@ const translations = {
         readingIntro:
             'A lifelong reader — science fiction, horror, and the classics. Here are a few of my most recent reads.',
         readingSeeAll: 'See {count} books →',
+
+        toolsEyebrow: 'Side projects',
+        toolsTitle: 'Tools',
+        toolsIntro:
+            "A growing shelf of tools — some I've built myself, others I've found and genuinely love.",
+        toolsSeeAll: 'See all tools →',
 
         skillCategoryFrontend: 'Frontend',
         skillCategoryBackend: 'Backend',
@@ -250,6 +257,7 @@ const translations = {
         navExperience: 'Experiência',
         navEducation: 'Formação',
         navReading: 'Leituras',
+        navTools: 'Ferramentas',
 
         workEyebrow: 'Trabalhos Selecionados',
         workTitle: 'Trabalhos e Pesquisas Selecionados',
@@ -271,6 +279,12 @@ const translations = {
         readingIntro:
             'Leitor de longa data — ficção científica, terror e clássicos da literatura. Aqui estão algumas das minhas leituras mais recentes.',
         readingSeeAll: 'Ver {count} livros →',
+
+        toolsEyebrow: 'Projetos pessoais',
+        toolsTitle: 'Ferramentas',
+        toolsIntro:
+            'Uma prateleira em crescimento de ferramentas — algumas que eu mesmo construí, outras que encontrei e realmente gosto.',
+        toolsSeeAll: 'Ver todas as ferramentas →',
 
         skillCategoryFrontend: 'Frontend',
         skillCategoryBackend: 'Backend',
@@ -313,6 +327,9 @@ let currentLanguage = 'en'; // Default to English
 
 // Number of books read (filled in once books.json loads); null until known.
 let readingBookCount = null;
+
+// Tools list (filled in once tools.json loads); null until known.
+let toolsList = null;
 
 /**
  * Sets the initial language: saved preference first, then browser language, then English.
@@ -492,6 +509,7 @@ function switchLanguage(lang, persist = false) {
     populateSkills();
     updateToggleButton();
     updateReadingSeeAll();
+    renderToolCards();
 
     // Update active state and aria-pressed of language buttons
     const btnEn = document.getElementById('lang-en');
@@ -655,6 +673,47 @@ async function renderReading() {
 }
 
 /**
+ * Renders the tools teaser cards on the home page from the cached tools list.
+ */
+function renderToolCards() {
+    const grid = document.getElementById('tools-grid');
+    if (!grid || !Array.isArray(toolsList)) return;
+
+    grid.innerHTML = toolsList.slice(0, 6).map((tool) => {
+        const isExternal = /^https?:\/\//.test(tool.url);
+        return `
+            <a href="${tool.url}" ${isExternal ? 'target="_blank" rel="noopener noreferrer"' : ''} class="highlight-card">
+                <h3>${tool.name}</h3>
+                <p>${tool.description}</p>
+                ${Array.isArray(tool.tags) && tool.tags.length ? `<span class="stack">${tool.tags.join(' · ')}</span>` : ''}
+            </a>
+        `;
+    }).join('');
+}
+
+/**
+ * Loads the tools list and renders teaser cards on the home page. Hides the
+ * section if the data can't be loaded.
+ */
+async function renderTools() {
+    const grid = document.getElementById('tools-grid');
+    const section = document.getElementById('tools');
+    if (!grid) return;
+
+    try {
+        const res = await fetch('/tools/tools.json', { cache: 'no-cache' });
+        if (!res.ok) throw new Error('Failed to load tools.json');
+        const tools = await res.json();
+        if (!Array.isArray(tools) || tools.length === 0) throw new Error('No tools yet');
+
+        toolsList = tools;
+        renderToolCards();
+    } catch (e) {
+        if (section) section.style.display = 'none';
+    }
+}
+
+/**
  * Reveals elements with the `.reveal` class as they scroll into view.
  * Respects reduced-motion preferences and degrades gracefully without
  * IntersectionObserver support.
@@ -733,6 +792,7 @@ document.addEventListener('DOMContentLoaded', function () {
     setupExperienceCollapse();
     updateThemeButton();
     renderReading();
+    renderTools();
     setupRevealAnimations();
 
     document.getElementById('lang-en').addEventListener('click', () => switchLanguage('en', true));
