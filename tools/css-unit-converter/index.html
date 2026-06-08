@@ -219,8 +219,6 @@
             .cuc-stage {
                 position: relative;
                 display: flex;
-                align-items: center;
-                justify-content: center;
                 min-height: 17rem;
                 padding: 1.5rem;
                 overflow: auto;
@@ -239,22 +237,22 @@
                 line-height: 1.3;
                 text-align: center;
                 max-width: 100%;
-                transition: font-size 0.12s ease;
+                margin: auto;
                 word-break: break-word;
             }
             .cuc-stage-box {
                 display: flex;
                 flex-direction: column;
                 justify-content: center;
+                flex-shrink: 0;
+                margin: auto;
                 gap: 0.4rem;
-                max-width: 100%;
                 min-width: 1.5rem;
                 height: 5.5rem;
                 padding: 0 1rem;
                 border-radius: 0.6rem;
                 background-color: var(--accent-soft);
                 border: 1px solid color-mix(in srgb, var(--accent-color) 35%, var(--border));
-                transition: width 0.12s ease;
                 overflow: hidden;
             }
             .cuc-stage-box .cuc-stage-box-title {
@@ -557,35 +555,31 @@
                     });
                 }
 
-                const FONT_MIN = 10;
-                const FONT_MAX = 180;
-                const BOX_MIN = 24;
+                const FONT_MIN = 8;
+                const BOX_MIN = 12;
+                const SCROLL_NOTE = ' <span class="cuc-clamp-note">(bigger than the preview area — scroll inside it to see the full size)</span>';
 
                 function renderPreview(settings, px) {
-                    const stageRect = stage.getBoundingClientRect();
-
                     if (previewMode === 'font') {
                         stageBox.classList.add('hidden');
                         stageText.classList.remove('hidden');
 
-                        const maxByStage = Math.max(stageRect.height - 64, FONT_MIN);
-                        const visualPx = Math.min(Math.max(px, FONT_MIN), Math.min(FONT_MAX, maxByStage));
+                        const visualPx = Math.max(px, FONT_MIN);
                         stageText.style.fontSize = visualPx + 'px';
 
-                        const clamped = px > visualPx + 0.5;
+                        const overflowing = stage.scrollHeight > stage.clientHeight + 1;
                         stageCaption.innerHTML = 'Rendered at <strong>' + formatNumber(px) + 'px</strong> font size' +
-                            (clamped ? ' <span class="cuc-clamp-note">(scaled down to fit this preview — the computed value above is accurate)</span>' : '');
+                            (overflowing ? SCROLL_NOTE : '');
                     } else {
                         stageText.classList.add('hidden');
                         stageBox.classList.remove('hidden');
 
-                        const maxByStage = Math.max(stageRect.width - 64, BOX_MIN);
-                        const visualPx = Math.min(Math.max(px, BOX_MIN), maxByStage);
+                        const visualPx = Math.max(px, BOX_MIN);
                         stageBox.style.width = visualPx + 'px';
 
-                        const clamped = px > visualPx + 0.5;
+                        const overflowing = stage.scrollWidth > stage.clientWidth + 1;
                         stageCaption.innerHTML = 'Rendered at <strong>' + formatNumber(px) + 'px</strong> wide' +
-                            (clamped ? ' <span class="cuc-clamp-note">(scaled down to fit this preview — the computed value above is accurate)</span>' : '');
+                            (overflowing ? SCROLL_NOTE : '');
                     }
                 }
 
