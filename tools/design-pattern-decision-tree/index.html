@@ -268,15 +268,9 @@
                 color: var(--accent-color);
             }
             .dpdt-code-compare {
-                display: grid;
-                grid-template-columns: 1fr;
-                align-items: start;
+                display: flex;
+                flex-direction: column;
                 gap: 1rem;
-            }
-            @media (min-width: 900px) {
-                .dpdt-code-compare {
-                    grid-template-columns: 1fr 1fr;
-                }
             }
             .dpdt-code-pane {
                 min-width: 0;
