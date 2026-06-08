@@ -89,11 +89,6 @@
                 document.getElementById('main-nav').classList.toggle('scrolled', window.scrollY > 10);
             });
 
-            const KIND_LABELS = {
-                built: 'Built by me',
-                found: 'Found & loved',
-            };
-
             const grid = document.getElementById('tools-grid');
             const empty = document.getElementById('tools-empty');
 
@@ -107,7 +102,6 @@
 
                     grid.innerHTML = tools.map((tool) => `
                         <a href="${tool.url}" ${/^https?:\/\//.test(tool.url) ? 'target="_blank" rel="noopener noreferrer"' : ''} class="highlight-card">
-                            <span class="kicker">${KIND_LABELS[tool.kind] || ''}</span>
                             <h3>${tool.name}</h3>
                             <p>${tool.description}</p>
                             ${Array.isArray(tool.tags) && tool.tags.length ? `<span class="stack">${tool.tags.join(' · ')}</span>` : ''}
