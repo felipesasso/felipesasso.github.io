@@ -7,6 +7,13 @@
     "tags": ["Design Patterns", "Software Architecture"]
   },
   {
+    "name": "C4 Text-to-Diagram",
+    "description": "Write your architecture as plain text — people, systems, containers and their relationships — and watch a C4 model diagram render live, with no dragging shapes around.",
+    "url": "/tools/c4-text-to-diagram/",
+    "kind": "built",
+    "tags": ["Software Architecture", "Diagramming", "C4 Model"]
+  },
+  {
     "name": "Event-Driven Architecture Simulator",
     "description": "Drag producers, topics/queues and consumers onto a canvas, wire them together, and watch messages flow under load — tune throughput and latency, or simulate a consumer crash, and see backlogs and failures play out live.",
     "url": "/tools/eda-simulator/",
