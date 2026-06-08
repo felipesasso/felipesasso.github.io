@@ -125,8 +125,6 @@ const translations = {
         toolsIntro:
             "A growing shelf of tools — some I've built myself, others I've found and genuinely love.",
         toolsSeeAll: 'See all tools →',
-        toolKindBuilt: 'Built by me',
-        toolKindFound: 'Found & loved',
 
         skillCategoryFrontend: 'Frontend',
         skillCategoryBackend: 'Backend',
@@ -287,8 +285,6 @@ const translations = {
         toolsIntro:
             'Uma prateleira em crescimento de ferramentas — algumas que eu mesmo construí, outras que encontrei e realmente gosto.',
         toolsSeeAll: 'Ver todas as ferramentas →',
-        toolKindBuilt: 'Construído por mim',
-        toolKindFound: 'Encontrado e admirado',
 
         skillCategoryFrontend: 'Frontend',
         skillCategoryBackend: 'Backend',
@@ -677,21 +673,16 @@ async function renderReading() {
 }
 
 /**
- * Renders the tools teaser cards on the home page from the cached tools list,
- * using the kind labels (Built by me / Found & loved) in the current language.
+ * Renders the tools teaser cards on the home page from the cached tools list.
  */
 function renderToolCards() {
     const grid = document.getElementById('tools-grid');
     if (!grid || !Array.isArray(toolsList)) return;
 
-    const t = translations[currentLanguage] || translations.en;
-    const kindLabels = { built: t.toolKindBuilt, found: t.toolKindFound };
-
     grid.innerHTML = toolsList.slice(0, 6).map((tool) => {
         const isExternal = /^https?:\/\//.test(tool.url);
         return `
             <a href="${tool.url}" ${isExternal ? 'target="_blank" rel="noopener noreferrer"' : ''} class="highlight-card">
-                <span class="kicker">${kindLabels[tool.kind] || ''}</span>
                 <h3>${tool.name}</h3>
                 <p>${tool.description}</p>
                 ${Array.isArray(tool.tags) && tool.tags.length ? `<span class="stack">${tool.tags.join(' · ')}</span>` : ''}
