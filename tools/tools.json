@@ -4,6 +4,6 @@
     "description": "Answer a few questions about the problem you're facing and walk away with a recommended Gang of Four design pattern — plus a plain-English explanation of why it fits.",
     "url": "/tools/design-pattern-decision-tree/",
     "kind": "built",
-    "tags": ["Design Patterns", "JavaScript", "Software Architecture"]
+    "tags": ["Design Patterns", "Software Architecture"]
   }
 ]
