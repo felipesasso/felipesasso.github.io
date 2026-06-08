@@ -173,6 +173,45 @@ const DPDT_PATTERNS = {
         ],
         example: 'An application-wide configuration object that loads settings once on startup and is reused everywhere, instead of every module re-reading the config file from disk.',
         watch: "It's easy to overuse — singletons can hide dependencies and make unit testing harder. Often, passing a single shared instance via dependency injection gets you the same benefit with far less coupling.",
+        code: {
+            python: `class Config:
+    _instance = None
+
+    def __new__(cls):
+        if cls._instance is None:
+            cls._instance = super().__new__(cls)
+            cls._instance.settings = cls._load_settings()
+        return cls._instance
+
+    @staticmethod
+    def _load_settings():
+        return {"env": "production"}
+
+# Config() always returns the very same shared instance
+a, b = Config(), Config()
+assert a is b`,
+            go: `package config
+
+import "sync"
+
+type Config struct {
+    Env string
+}
+
+var (
+    instance *Config
+    once     sync.Once
+)
+
+func Get() *Config {
+    once.Do(func() {
+        instance = &Config{Env: "production"}
+    })
+    return instance
+}
+
+// config.Get() always returns the very same shared instance`,
+        },
     },
     builder: {
         name: 'Builder',
@@ -184,6 +223,63 @@ const DPDT_PATTERNS = {
         ],
         example: "Constructing an HTTP request through chained calls — `request.setHeader(...).setQuery(...).setTimeout(...).build()` — instead of one constructor with a dozen optional arguments.",
         watch: "Adds a layer of indirection (and an extra class) — for objects with one or two simple fields, a plain constructor or factory function is usually enough.",
+        code: {
+            python: `class Request:
+    def __init__(self, url):
+        self.url = url
+        self.headers = {}
+        self.timeout = 30
+
+class RequestBuilder:
+    def __init__(self, url):
+        self._request = Request(url)
+
+    def header(self, key, value):
+        self._request.headers[key] = value
+        return self
+
+    def timeout(self, seconds):
+        self._request.timeout = seconds
+        return self
+
+    def build(self):
+        return self._request
+
+req = (RequestBuilder("/users")
+       .header("Authorization", "Bearer …")
+       .timeout(5)
+       .build())`,
+            go: `type Request struct {
+    URL     string
+    Headers map[string]string
+    Timeout time.Duration
+}
+
+type RequestBuilder struct{ request Request }
+
+func NewRequestBuilder(url string) *RequestBuilder {
+    return &RequestBuilder{request: Request{
+        URL: url, Headers: map[string]string{}, Timeout: 30 * time.Second,
+    }}
+}
+
+func (b *RequestBuilder) Header(key, value string) *RequestBuilder {
+    b.request.Headers[key] = value
+    return b
+}
+
+func (b *RequestBuilder) Timeout(d time.Duration) *RequestBuilder {
+    b.request.Timeout = d
+    return b
+}
+
+func (b *RequestBuilder) Build() Request { return b.request }
+
+// req := NewRequestBuilder("/users").
+//     Header("Authorization", "Bearer …").
+//     Timeout(5 * time.Second).
+//     Build()`,
+        },
     },
     'abstract-factory': {
         name: 'Abstract Factory',
@@ -195,6 +291,46 @@ const DPDT_PATTERNS = {
         ],
         example: 'A UI toolkit that produces matching buttons, checkboxes, and menus for a "light" theme or a "dark" theme — swap the factory, and every widget changes consistently.',
         watch: 'Adding a new kind of product means touching every concrete factory — the family of interfaces can become rigid if the product set keeps growing.',
+        code: {
+            python: `class UIFactory:
+    def create_button(self): raise NotImplementedError
+    def create_checkbox(self): raise NotImplementedError
+
+class LightThemeFactory(UIFactory):
+    def create_button(self): return LightButton()
+    def create_checkbox(self): return LightCheckbox()
+
+class DarkThemeFactory(UIFactory):
+    def create_button(self): return DarkButton()
+    def create_checkbox(self): return DarkCheckbox()
+
+def render_form(factory: UIFactory):
+    button = factory.create_button()
+    checkbox = factory.create_checkbox()
+    return button.render(), checkbox.render()
+
+# render_form(DarkThemeFactory())  # whole family swapped together`,
+            go: `type UIFactory interface {
+    CreateButton() Button
+    CreateCheckbox() Checkbox
+}
+
+type DarkThemeFactory struct{}
+
+func (DarkThemeFactory) CreateButton() Button     { return DarkButton{} }
+func (DarkThemeFactory) CreateCheckbox() Checkbox { return DarkCheckbox{} }
+
+type LightThemeFactory struct{}
+
+func (LightThemeFactory) CreateButton() Button     { return LightButton{} }
+func (LightThemeFactory) CreateCheckbox() Checkbox { return LightCheckbox{} }
+
+func RenderForm(factory UIFactory) (string, string) {
+    return factory.CreateButton().Render(), factory.CreateCheckbox().Render()
+}
+
+// RenderForm(DarkThemeFactory{}) // whole family of widgets swapped together`,
+        },
     },
     'factory-method': {
         name: 'Factory Method',
@@ -206,6 +342,41 @@ const DPDT_PATTERNS = {
         ],
         example: 'A `DocumentCreator` base class exposes `createDocument()`; `PDFCreator` and `SpreadsheetCreator` subclasses override it to produce the right kind of document.',
         watch: 'Introduces a parallel hierarchy of creators alongside your products — for a single, simple type, a plain factory function is often lighter-weight.',
+        code: {
+            python: `class DocumentCreator:
+    def create_document(self):
+        raise NotImplementedError
+
+    def open_document(self):
+        return self.create_document().open()
+
+class PDFCreator(DocumentCreator):
+    def create_document(self): return PDFDocument()
+
+class SpreadsheetCreator(DocumentCreator):
+    def create_document(self): return SpreadsheetDocument()
+
+# PDFCreator().open_document()
+# SpreadsheetCreator().open_document()  # subclass picks the concrete class`,
+            go: `type DocumentCreator interface {
+    CreateDocument() Document
+}
+
+type PDFCreator struct{}
+
+func (PDFCreator) CreateDocument() Document { return PDFDocument{} }
+
+type SpreadsheetCreator struct{}
+
+func (SpreadsheetCreator) CreateDocument() Document { return SpreadsheetDocument{} }
+
+func OpenWith(creator DocumentCreator) string {
+    return creator.CreateDocument().Open()
+}
+
+// OpenWith(PDFCreator{})         // the creator decides the concrete class
+// OpenWith(SpreadsheetCreator{})`,
+        },
     },
     prototype: {
         name: 'Prototype',
@@ -217,6 +388,39 @@ const DPDT_PATTERNS = {
         ],
         example: 'Cloning a fully-configured "template" enemy character to spawn dozens of similar foes in a game level, tweaking only what differs.',
         watch: 'Cloning objects with circular references or deeply nested structures can get tricky — you need to be deliberate about deep vs. shallow copies.',
+        code: {
+            python: `import copy
+
+class Enemy:
+    def __init__(self, kind, health, gear):
+        self.kind, self.health, self.gear = kind, health, gear
+
+    def clone(self):
+        return copy.deepcopy(self)
+
+template = Enemy("goblin", health=30, gear=["dagger", "shield"])
+pack = [template.clone() for _ in range(20)]
+pack[0].health = 45  # tweak one without touching the template or the rest`,
+            go: `type Enemy struct {
+    Kind   string
+    Health int
+    Gear   []string
+}
+
+func (e Enemy) Clone() Enemy {
+    gear := make([]string, len(e.Gear))
+    copy(gear, e.Gear)
+    e.Gear = gear
+    return e
+}
+
+template := Enemy{Kind: "goblin", Health: 30, Gear: []string{"dagger", "shield"}}
+pack := make([]Enemy, 20)
+for i := range pack {
+    pack[i] = template.Clone()
+}
+pack[0].Health = 45 // tweak one without touching the template or the rest`,
+        },
     },
     adapter: {
         name: 'Adapter',
@@ -228,6 +432,46 @@ const DPDT_PATTERNS = {
         ],
         example: 'Wrapping an old XML-based payment library behind a small adapter class that exposes the clean, JSON-friendly interface the rest of your app expects.',
         watch: "It's a translation layer, not a redesign — if you find yourself adapting the same thing in many places, it may be worth introducing a proper internal abstraction instead.",
+        code: {
+            python: `class LegacyXMLGateway:
+    def send_xml_payment(self, xml: str) -> str:
+        return f"<response>processed {xml}</response>"
+
+class PaymentGateway:
+    def pay(self, amount, currency): raise NotImplementedError
+
+class LegacyGatewayAdapter(PaymentGateway):
+    def __init__(self, legacy: LegacyXMLGateway):
+        self._legacy = legacy
+
+    def pay(self, amount, currency):
+        xml = f"<payment amount='{amount}' currency='{currency}'/>"
+        self._legacy.send_xml_payment(xml)
+        return {"amount": amount, "currency": currency, "status": "ok"}
+
+gateway: PaymentGateway = LegacyGatewayAdapter(LegacyXMLGateway())
+gateway.pay(42.50, "BRL")  # rest of the app only ever sees PaymentGateway`,
+            go: `type LegacyXMLGateway struct{}
+
+func (LegacyXMLGateway) SendXMLPayment(payload string) string {
+    return "<response>processed " + payload + "</response>"
+}
+
+type PaymentGateway interface {
+    Pay(amount float64, currency string) error
+}
+
+type LegacyGatewayAdapter struct{ legacy LegacyXMLGateway }
+
+func (a LegacyGatewayAdapter) Pay(amount float64, currency string) error {
+    xml := fmt.Sprintf("<payment amount='%.2f' currency='%s'/>", amount, currency)
+    a.legacy.SendXMLPayment(xml)
+    return nil
+}
+
+// var gateway PaymentGateway = LegacyGatewayAdapter{}
+// gateway.Pay(42.50, "BRL") // rest of the app only ever sees PaymentGateway`,
+        },
     },
     decorator: {
         name: 'Decorator',
@@ -239,6 +483,47 @@ const DPDT_PATTERNS = {
         ],
         example: 'Wrapping a base `Coffee` object with `MilkDecorator`, `SugarDecorator`, and `WhipDecorator` to compose an order — each layer adds its own cost and description.',
         watch: 'Stacking many small decorators can make the resulting object graph harder to read and debug — keep each layer focused and well-named.',
+        code: {
+            python: `class Coffee:
+    def cost(self): return 4.0
+    def description(self): return "Coffee"
+
+class MilkDecorator:
+    def __init__(self, drink): self._drink = drink
+    def cost(self): return self._drink.cost() + 0.5
+    def description(self): return self._drink.description() + " + milk"
+
+class SugarDecorator:
+    def __init__(self, drink): self._drink = drink
+    def cost(self): return self._drink.cost() + 0.2
+    def description(self): return self._drink.description() + " + sugar"
+
+order = SugarDecorator(MilkDecorator(Coffee()))
+order.description()  # "Coffee + milk + sugar"
+order.cost()         # 4.7`,
+            go: `type Drink interface {
+    Cost() float64
+    Description() string
+}
+
+type Coffee struct{}
+
+func (Coffee) Cost() float64       { return 4.0 }
+func (Coffee) Description() string { return "Coffee" }
+
+type MilkDecorator struct{ Drink Drink }
+
+func (m MilkDecorator) Cost() float64       { return m.Drink.Cost() + 0.5 }
+func (m MilkDecorator) Description() string { return m.Drink.Description() + " + milk" }
+
+type SugarDecorator struct{ Drink Drink }
+
+func (s SugarDecorator) Cost() float64       { return s.Drink.Cost() + 0.2 }
+func (s SugarDecorator) Description() string { return s.Drink.Description() + " + sugar" }
+
+// order := SugarDecorator{Drink: MilkDecorator{Drink: Coffee{}}}
+// order.Description() // "Coffee + milk + sugar"`,
+        },
     },
     facade: {
         name: 'Facade',
@@ -250,6 +535,56 @@ const DPDT_PATTERNS = {
         ],
         example: 'A `VideoConverter.convert(file, format)` method that quietly handles codec selection, buffering, and encoding — so callers never touch those details directly.',
         watch: "A facade shouldn't become a god object — it's meant to simplify common cases, not to wrap every possible operation the subsystem offers.",
+        code: {
+            python: `class CodecLibrary:
+    def select_codec(self, fmt): return f"codec:{fmt}"
+
+class BufferPool:
+    def acquire(self): return "buffer"
+
+class Encoder:
+    def encode(self, data, codec, buffer): return f"encoded({data}) via {codec}"
+
+class VideoConverter:
+    def __init__(self):
+        self._codecs = CodecLibrary()
+        self._buffers = BufferPool()
+        self._encoder = Encoder()
+
+    def convert(self, file, fmt):
+        codec = self._codecs.select_codec(fmt)
+        buffer = self._buffers.acquire()
+        return self._encoder.encode(file, codec, buffer)
+
+VideoConverter().convert("clip.mov", "mp4")  # one call hides the whole subsystem`,
+            go: `type codecLibrary struct{}
+
+func (codecLibrary) SelectCodec(format string) string { return "codec:" + format }
+
+type bufferPool struct{}
+
+func (bufferPool) Acquire() string { return "buffer" }
+
+type encoder struct{}
+
+func (encoder) Encode(data, codec, buffer string) string {
+    return "encoded(" + data + ") via " + codec
+}
+
+type VideoConverter struct {
+    codecs  codecLibrary
+    buffers bufferPool
+    encoder encoder
+}
+
+func (v VideoConverter) Convert(file, format string) string {
+    codec := v.codecs.SelectCodec(format)
+    buffer := v.buffers.Acquire()
+    return v.encoder.Encode(file, codec, buffer)
+}
+
+// VideoConverter{}.Convert("clip.mov", "mp4") // one call hides the whole subsystem`,
+        },
     },
     composite: {
         name: 'Composite',
@@ -261,6 +596,55 @@ const DPDT_PATTERNS = {
         ],
         example: 'A file-system model where both `File` and `Folder` implement `getSize()` — folders simply sum the sizes of whatever they contain, leaves or other folders.',
         watch: 'Making the shared interface too generic can leak operations onto leaves that make no sense for them (e.g. `addChild()` on a `File`).',
+        code: {
+            python: `class Node:
+    def size(self): raise NotImplementedError
+
+class File(Node):
+    def __init__(self, name, num_bytes):
+        self.name, self.bytes = name, num_bytes
+    def size(self): return self.bytes
+
+class Folder(Node):
+    def __init__(self, name):
+        self.name, self.children = name, []
+    def add(self, node):
+        self.children.append(node)
+        return self
+    def size(self):
+        return sum(child.size() for child in self.children)
+
+root = (Folder("project")
+        .add(File("readme.md", 1200))
+        .add(Folder("src").add(File("main.py", 3400))))
+root.size()  # files and folders are summed through the very same interface`,
+            go: `type Node interface{ Size() int }
+
+type File struct {
+    Name  string
+    Bytes int
+}
+
+func (f File) Size() int { return f.Bytes }
+
+type Folder struct {
+    Name     string
+    Children []Node
+}
+
+func (f *Folder) Add(n Node) *Folder { f.Children = append(f.Children, n); return f }
+
+func (f Folder) Size() int {
+    total := 0
+    for _, child := range f.Children {
+        total += child.Size()
+    }
+    return total
+}
+
+// root := (&Folder{Name: "project"}).Add(File{Name: "readme.md", Bytes: 1200})
+// root.Size() // files and folders are summed through the very same interface`,
+        },
     },
     proxy: {
         name: 'Proxy',
@@ -272,6 +656,54 @@ const DPDT_PATTERNS = {
         ],
         example: 'An `ImageProxy` that defers loading a large image from disk until the moment it actually needs to be displayed on screen.',
         watch: "It looks a lot like Decorator and Adapter on the surface — the distinguishing factor is intent: Proxy controls access to the *same* interface, rather than adding behavior or translating it.",
+        code: {
+            python: `class Image:
+    def display(self): raise NotImplementedError
+
+class RealImage(Image):
+    def __init__(self, path):
+        self.path = path
+        print(f"Loading {path} from disk…")
+
+    def display(self):
+        return f"Displaying {self.path}"
+
+class ImageProxy(Image):
+    def __init__(self, path):
+        self.path, self._real = path, None
+
+    def display(self):
+        if self._real is None:
+            self._real = RealImage(self.path)  # loaded only when actually needed
+        return self._real.display()
+
+gallery = [ImageProxy(f"photo_{i}.jpg") for i in range(100)]
+gallery[3].display()  # only photo_3.jpg ever gets read from disk`,
+            go: `type Image interface{ Display() string }
+
+type RealImage struct{ path string }
+
+func NewRealImage(path string) *RealImage {
+    fmt.Println("Loading", path, "from disk…")
+    return &RealImage{path: path}
+}
+
+func (r *RealImage) Display() string { return "Displaying " + r.path }
+
+type ImageProxy struct {
+    path string
+    real *RealImage
+}
+
+func (p *ImageProxy) Display() string {
+    if p.real == nil {
+        p.real = NewRealImage(p.path) // loaded only when actually needed
+    }
+    return p.real.Display()
+}
+
+// gallery[3].Display() // only that one image ever gets read from disk`,
+        },
     },
     bridge: {
         name: 'Bridge',
@@ -283,6 +715,51 @@ const DPDT_PATTERNS = {
         ],
         example: 'Separating `Shape` (Circle, Square) from `Renderer` (VectorRenderer, RasterRenderer), so any shape can be drawn by any renderer without a class for every combination.',
         watch: "It adds an extra layer of indirection up front — worth it once you genuinely have two independent dimensions of variation, overkill if you only ever have one.",
+        code: {
+            python: `class Renderer:
+    def render_circle(self, radius): raise NotImplementedError
+
+class VectorRenderer(Renderer):
+    def render_circle(self, radius):
+        return f"Drawing a vector circle of radius {radius}"
+
+class RasterRenderer(Renderer):
+    def render_circle(self, radius):
+        return f"Drawing {radius * radius} pixels for a circle"
+
+class Circle:
+    def __init__(self, renderer: Renderer, radius):
+        self.renderer, self.radius = renderer, radius
+
+    def draw(self):
+        return self.renderer.render_circle(self.radius)
+
+Circle(VectorRenderer(), 5).draw()
+Circle(RasterRenderer(), 5).draw()  # same shape, independent rendering strategy`,
+            go: `type Renderer interface{ RenderCircle(radius int) string }
+
+type VectorRenderer struct{}
+
+func (VectorRenderer) RenderCircle(r int) string {
+    return fmt.Sprintf("Drawing a vector circle of radius %d", r)
+}
+
+type RasterRenderer struct{}
+
+func (RasterRenderer) RenderCircle(r int) string {
+    return fmt.Sprintf("Drawing %d pixels for a circle", r*r)
+}
+
+type Circle struct {
+    Renderer Renderer
+    Radius   int
+}
+
+func (c Circle) Draw() string { return c.Renderer.RenderCircle(c.Radius) }
+
+// Circle{Renderer: VectorRenderer{}, Radius: 5}.Draw()
+// Circle{Renderer: RasterRenderer{}, Radius: 5}.Draw() // same shape, different renderer`,
+        },
     },
     flyweight: {
         name: 'Flyweight',
@@ -294,6 +771,54 @@ const DPDT_PATTERNS = {
         ],
         example: 'Rendering a forest of a million trees by sharing one `TreeType` (mesh + texture) across all of them, and storing only each tree\'s position and scale individually.',
         watch: 'Splitting state into "shared" and "unique" parts adds real complexity — reach for it only once profiling shows memory is genuinely the bottleneck.',
+        code: {
+            python: `class TreeType:
+    """Heavy, shared, immutable data — created once per (mesh, texture) pair."""
+    _cache = {}
+
+    def __new__(cls, mesh, texture):
+        key = (mesh, texture)
+        if key not in cls._cache:
+            inst = super().__new__(cls)
+            inst.mesh, inst.texture = mesh, texture
+            cls._cache[key] = inst
+        return cls._cache[key]
+
+class Tree:
+    def __init__(self, x, y, tree_type):
+        self.x, self.y, self.type = x, y, tree_type
+
+oak = TreeType("oak.mesh", "oak.png")  # created once, shared by every instance
+forest = [Tree(i, i * 2, oak) for i in range(1_000_000)]`,
+            go: `// TreeType holds the heavy, shared data — one instance per combination.
+type TreeType struct {
+    Mesh    string
+    Texture string
+}
+
+var treeTypes = map[string]*TreeType{}
+
+func GetTreeType(mesh, texture string) *TreeType {
+    key := mesh + "|" + texture
+    if t, ok := treeTypes[key]; ok {
+        return t
+    }
+    t := &TreeType{Mesh: mesh, Texture: texture}
+    treeTypes[key] = t
+    return t
+}
+
+type Tree struct {
+    X, Y int
+    Type *TreeType // shared pointer, never copied per instance
+}
+
+// oak := GetTreeType("oak.mesh", "oak.png")
+// forest := make([]Tree, 1_000_000)
+// for i := range forest {
+//     forest[i] = Tree{X: i, Y: i * 2, Type: oak}
+// }`,
+        },
     },
     observer: {
         name: 'Observer',
@@ -305,6 +830,43 @@ const DPDT_PATTERNS = {
         ],
         example: 'A stock-price object that notifies a chart, a ticker widget, and a price-alert service the moment its value updates — none of which the price object needs to know about directly.',
         watch: 'Long observer chains and update cascades can be tricky to trace — and forgetting to unsubscribe is a classic source of memory leaks.',
+        code: {
+            python: `class StockPrice:
+    def __init__(self, symbol):
+        self.symbol, self._observers = symbol, []
+
+    def subscribe(self, observer):
+        self._observers.append(observer)
+
+    def set_price(self, price):
+        for observer in self._observers:
+            observer(self.symbol, price)
+
+ticker = StockPrice("PINS")
+ticker.subscribe(lambda sym, price: print(f"chart: {sym} -> {price}"))
+ticker.subscribe(lambda sym, price: print(f"alert: {sym} crossed 35!") if price > 35 else None)
+ticker.set_price(36.40)  # every subscriber fires automatically, in one shot`,
+            go: `type Observer func(symbol string, price float64)
+
+type StockPrice struct {
+    Symbol    string
+    observers []Observer
+}
+
+func (s *StockPrice) Subscribe(o Observer) {
+    s.observers = append(s.observers, o)
+}
+
+func (s *StockPrice) SetPrice(price float64) {
+    for _, o := range s.observers {
+        o(s.Symbol, price)
+    }
+}
+
+// ticker := &StockPrice{Symbol: "PINS"}
+// ticker.Subscribe(func(sym string, price float64) { fmt.Println("chart:", sym, price) })
+// ticker.SetPrice(36.40) // every subscriber fires automatically, in one shot`,
+        },
     },
     mediator: {
         name: 'Mediator',
@@ -316,6 +878,62 @@ const DPDT_PATTERNS = {
         ],
         example: "An air-traffic control tower that coordinates planes so they never need to talk to each other directly — every plane just talks to the tower.",
         watch: 'Done poorly, the mediator itself can balloon into a tangled "god object" that knows far too much about everyone — keep its responsibilities focused on coordination.',
+        code: {
+            python: `class ControlTower:
+    def __init__(self):
+        self._planes = []
+
+    def register(self, plane):
+        plane.tower = self
+        self._planes.append(plane)
+
+    def request_landing(self, plane):
+        if any(p.status == "landing" for p in self._planes if p is not plane):
+            return f"{plane.name}: hold — runway busy"
+        plane.status = "landing"
+        return f"{plane.name}: cleared to land"
+
+class Plane:
+    def __init__(self, name):
+        self.name, self.status, self.tower = name, "flying", None
+
+    def land(self):
+        return self.tower.request_landing(self)
+
+tower = ControlTower()
+a, b = Plane("TAM3210"), Plane("GOL1456")
+tower.register(a); tower.register(b)
+a.land()  # planes never address each other directly — only the tower`,
+            go: `type Plane struct {
+    Name   string
+    Status string
+    tower  *ControlTower
+}
+
+func (p *Plane) Land() string { return p.tower.RequestLanding(p) }
+
+type ControlTower struct{ planes []*Plane }
+
+func (t *ControlTower) Register(p *Plane) {
+    p.tower = t
+    t.planes = append(t.planes, p)
+}
+
+func (t *ControlTower) RequestLanding(p *Plane) string {
+    for _, other := range t.planes {
+        if other != p && other.Status == "landing" {
+            return p.Name + ": hold — runway busy"
+        }
+    }
+    p.Status = "landing"
+    return p.Name + ": cleared to land"
+}
+
+// tower := &ControlTower{}
+// a, b := &Plane{Name: "TAM3210"}, &Plane{Name: "GOL1456"}
+// tower.Register(a); tower.Register(b)
+// a.Land() // planes never address each other directly — only the tower`,
+        },
     },
     'chain-of-responsibility': {
         name: 'Chain of Responsibility',
@@ -327,6 +945,67 @@ const DPDT_PATTERNS = {
         ],
         example: 'An HTTP middleware pipeline where authentication, logging, and validation handlers each get a chance to inspect, handle, or pass along the incoming request.',
         watch: 'If nothing in the chain handles a request, it can silently fall through — make sure there is always a sensible default or fallback handler at the end.',
+        code: {
+            python: `class Handler:
+    def __init__(self):
+        self._next = None
+
+    def then(self, handler):
+        self._next = handler
+        return handler
+
+    def handle(self, request):
+        return self._next.handle(request) if self._next else None
+
+class AuthHandler(Handler):
+    def handle(self, request):
+        if not request.get("token"):
+            return "401 Unauthorized"
+        return super().handle(request)
+
+class ValidationHandler(Handler):
+    def handle(self, request):
+        if not request.get("body"):
+            return "400 Bad Request"
+        return super().handle(request)
+
+chain = AuthHandler()
+chain.then(ValidationHandler())
+chain.handle({"token": "abc", "body": {"item": 1}})  # passed along until handled`,
+            go: `type Request struct {
+    Token string
+    Body  map[string]any
+}
+
+type Handler interface {
+    Handle(r Request) string
+    SetNext(h Handler)
+}
+
+type baseHandler struct{ next Handler }
+
+func (b *baseHandler) SetNext(h Handler) { b.next = h }
+
+func (b *baseHandler) pass(r Request) string {
+    if b.next != nil {
+        return b.next.Handle(r)
+    }
+    return ""
+}
+
+type AuthHandler struct{ baseHandler }
+
+func (h *AuthHandler) Handle(r Request) string {
+    if r.Token == "" {
+        return "401 Unauthorized"
+    }
+    return h.pass(r)
+}
+
+// auth, validate := &AuthHandler{}, &ValidationHandler{}
+// auth.SetNext(validate)
+// auth.Handle(Request{Token: "abc", Body: map[string]any{"item": 1}})`,
+        },
     },
     strategy: {
         name: 'Strategy',
@@ -338,6 +1017,48 @@ const DPDT_PATTERNS = {
         ],
         example: 'A checkout flow that swaps between `CreditCardPayment`, `PixPayment`, and `PayPalPayment` strategies depending on what the customer picks — all behind one `pay()` interface.',
         watch: 'For just two simple, stable variants, a plain conditional can be perfectly fine — Strategy earns its keep once the variants multiply or carry real complexity.',
+        code: {
+            python: `class PaymentStrategy:
+    def pay(self, amount): raise NotImplementedError
+
+class CreditCardPayment(PaymentStrategy):
+    def pay(self, amount): return f"Charged R$ {amount:.2f} to credit card"
+
+class PixPayment(PaymentStrategy):
+    def pay(self, amount): return f"Generated Pix QR code for R$ {amount:.2f}"
+
+class Checkout:
+    def __init__(self, strategy: PaymentStrategy):
+        self.strategy = strategy
+
+    def complete(self, amount):
+        return self.strategy.pay(amount)
+
+Checkout(PixPayment()).complete(89.90)
+Checkout(CreditCardPayment()).complete(89.90)  # same checkout, swapped algorithm`,
+            go: `type PaymentStrategy interface {
+    Pay(amount float64) string
+}
+
+type CreditCardPayment struct{}
+
+func (CreditCardPayment) Pay(amount float64) string {
+    return fmt.Sprintf("Charged R$ %.2f to credit card", amount)
+}
+
+type PixPayment struct{}
+
+func (PixPayment) Pay(amount float64) string {
+    return fmt.Sprintf("Generated Pix QR code for R$ %.2f", amount)
+}
+
+type Checkout struct{ Strategy PaymentStrategy }
+
+func (c Checkout) Complete(amount float64) string { return c.Strategy.Pay(amount) }
+
+// Checkout{Strategy: PixPayment{}}.Complete(89.90)
+// Checkout{Strategy: CreditCardPayment{}}.Complete(89.90) // same checkout, swapped algorithm`,
+        },
     },
     command: {
         name: 'Command',
@@ -349,6 +1070,68 @@ const DPDT_PATTERNS = {
         ],
         example: 'Each editor menu action — `Cut`, `Copy`, `Paste` — is its own command object, which makes building an undo/redo stack straightforward.',
         watch: "It can mean a lot of small classes for simple actions — in languages with first-class functions, a plain function or closure often serves the same purpose with less ceremony.",
+        code: {
+            python: `class Command:
+    def execute(self): raise NotImplementedError
+    def undo(self): raise NotImplementedError
+
+class InsertTextCommand(Command):
+    def __init__(self, document, text):
+        self.document, self.text = document, text
+
+    def execute(self):
+        self.document.content += self.text
+
+    def undo(self):
+        self.document.content = self.document.content[:-len(self.text)]
+
+class CommandStack:
+    def __init__(self):
+        self._history = []
+
+    def run(self, command):
+        command.execute()
+        self._history.append(command)
+
+    def undo_last(self):
+        if self._history:
+            self._history.pop().undo()
+
+stack = CommandStack()
+stack.run(InsertTextCommand(doc, "Hello"))
+stack.undo_last()  # cleanly reverses the last action, whatever it was`,
+            go: `type Command interface {
+    Execute()
+    Undo()
+}
+
+type InsertTextCommand struct {
+    Doc  *Document
+    Text string
+}
+
+func (c *InsertTextCommand) Execute() { c.Doc.Content += c.Text }
+func (c *InsertTextCommand) Undo() {
+    c.Doc.Content = c.Doc.Content[:len(c.Doc.Content)-len(c.Text)]
+}
+
+type CommandStack struct{ history []Command }
+
+func (s *CommandStack) Run(c Command) {
+    c.Execute()
+    s.history = append(s.history, c)
+}
+
+func (s *CommandStack) UndoLast() {
+    if n := len(s.history); n > 0 {
+        s.history[n-1].Undo()
+        s.history = s.history[:n-1]
+    }
+}
+
+// stack.Run(&InsertTextCommand{Doc: doc, Text: "Hello"})
+// stack.UndoLast() // cleanly reverses the last action, whatever it was`,
+        },
     },
     'template-method': {
         name: 'Template Method',
@@ -360,6 +1143,59 @@ const DPDT_PATTERNS = {
         ],
         example: "A `DataExporter` base class defines `export()` as fetch → transform → write; `CsvExporter` and `JsonExporter` subclasses only override `transform()`.",
         watch: "Relies on inheritance, which can be more rigid than composition — if you need to mix and match steps freely at runtime, Strategy may fit better.",
+        code: {
+            python: `class DataExporter:
+    def export(self):
+        rows = self._fetch()
+        transformed = self._transform(rows)
+        return self._write(transformed)
+
+    def _fetch(self):
+        return [{"id": 1, "name": "Felipe"}]
+
+    def _transform(self, rows):
+        raise NotImplementedError
+
+    def _write(self, data):
+        return data
+
+class CsvExporter(DataExporter):
+    def _transform(self, rows):
+        return "\\n".join(f"{r['id']},{r['name']}" for r in rows)
+
+# CsvExporter().export()  # same fetch -> transform -> write skeleton
+# only "_transform" changes between CsvExporter and a future JsonExporter`,
+            go: `type Row struct {
+    ID   int
+    Name string
+}
+
+// Exporter supplies the one step that varies; baseExporter owns the skeleton.
+type Exporter interface {
+    Transform(rows []Row) string
+}
+
+type baseExporter struct{ Exporter }
+
+func (b baseExporter) Export() string {
+    rows := []Row{{ID: 1, Name: "Felipe"}} // fetch — shared by every exporter
+    return b.Transform(rows)               // the one step subclasses customize
+}
+
+type CsvExporter struct{ baseExporter }
+
+func (CsvExporter) Transform(rows []Row) string {
+    out := ""
+    for _, r := range rows {
+        out += fmt.Sprintf("%d,%s\\n", r.ID, r.Name)
+    }
+    return out
+}
+
+// exporter := CsvExporter{}
+// exporter.baseExporter.Exporter = exporter
+// exporter.Export() // same skeleton, only Transform varies`,
+        },
     },
     state: {
         name: 'State',
@@ -371,6 +1207,60 @@ const DPDT_PATTERNS = {
         ],
         example: 'A `MediaPlayer` that behaves differently in `Playing`, `Paused`, and `Stopped` states — pressing "play" does something different in each, without one giant conditional.',
         watch: 'Introduces a class per state, which is more ceremony than a single `enum` plus `switch` for very simple, stable state machines.',
+        code: {
+            python: `class PlayerState:
+    def play(self, player): raise NotImplementedError
+    def pause(self, player): raise NotImplementedError
+
+class PlayingState(PlayerState):
+    def play(self, player): return "Already playing"
+    def pause(self, player):
+        player.state = PausedState()
+        return "Paused"
+
+class PausedState(PlayerState):
+    def play(self, player):
+        player.state = PlayingState()
+        return "Resumed"
+    def pause(self, player): return "Already paused"
+
+class MediaPlayer:
+    def __init__(self): self.state = PausedState()
+    def play(self): return self.state.play(self)
+    def pause(self): return self.state.pause(self)
+
+player = MediaPlayer()
+player.play()  # "Resumed" — behavior depends entirely on the current state
+player.play()  # "Already playing" — no giant if/else needed anywhere`,
+            go: `type PlayerState interface {
+    Play(p *MediaPlayer) string
+    Pause(p *MediaPlayer) string
+}
+
+type PlayingState struct{}
+
+func (PlayingState) Play(p *MediaPlayer) string { return "Already playing" }
+func (PlayingState) Pause(p *MediaPlayer) string {
+    p.State = PausedState{}
+    return "Paused"
+}
+
+type PausedState struct{}
+
+func (PausedState) Play(p *MediaPlayer) string {
+    p.State = PlayingState{}
+    return "Resumed"
+}
+func (PausedState) Pause(p *MediaPlayer) string { return "Already paused" }
+
+type MediaPlayer struct{ State PlayerState }
+
+func (p *MediaPlayer) Play() string  { return p.State.Play(p) }
+func (p *MediaPlayer) Pause() string { return p.State.Pause(p) }
+
+// player := &MediaPlayer{State: PausedState{}}
+// player.Play() // "Resumed" — behavior depends entirely on the current state`,
+        },
     },
     iterator: {
         name: 'Iterator',
@@ -382,6 +1272,46 @@ const DPDT_PATTERNS = {
         ],
         example: "Iterating over a custom `LinkedList`, `Tree`, or `Graph` with the very same `for...of` syntax you'd use on a plain array.",
         watch: 'Most modern languages bake this pattern into the language itself (iterables, generators) — you rarely need to hand-roll it from scratch anymore.',
+        code: {
+            python: `class Playlist:
+    def __init__(self):
+        self._songs = []
+
+    def add(self, song):
+        self._songs.append(song)
+        return self
+
+    def __iter__(self):
+        return iter(self._songs)  # delegates to Python's own iterator protocol
+
+for song in Playlist().add("A").add("B"):
+    print(song)  # the same "for ... in" syntax works for any iterable`,
+            go: `type Playlist struct{ songs []string }
+
+func (p *Playlist) Add(song string) *Playlist {
+    p.songs = append(p.songs, song)
+    return p
+}
+
+type SongIterator struct {
+    songs []string
+    pos   int
+}
+
+func (p *Playlist) Iterator() *SongIterator { return &SongIterator{songs: p.songs} }
+
+func (it *SongIterator) HasNext() bool { return it.pos < len(it.songs) }
+func (it *SongIterator) Next() string {
+    song := it.songs[it.pos]
+    it.pos++
+    return song
+}
+
+// it := playlist.Iterator()
+// for it.HasNext() {
+//     fmt.Println(it.Next()) // same shape, regardless of how songs are stored
+// }`,
+        },
     },
     memento: {
         name: 'Memento',
@@ -393,6 +1323,46 @@ const DPDT_PATTERNS = {
         ],
         example: 'A text editor that snapshots the document\'s state before every edit, so the user can hit "undo" and step back through their history.',
         watch: 'Storing full snapshots can get memory-hungry for large objects or long histories — consider storing diffs, or capping how far back you keep state.',
+        code: {
+            python: `class EditorMemento:
+    def __init__(self, content):
+        self._content = content  # "private" — Editor is the only one that reads it
+
+    def content(self):
+        return self._content
+
+class Editor:
+    def __init__(self):
+        self.content = ""
+
+    def type(self, text):
+        self.content += text
+
+    def save(self):
+        return EditorMemento(self.content)
+
+    def restore(self, memento):
+        self.content = memento.content()
+
+editor = Editor()
+editor.type("Hello")
+checkpoint = editor.save()       # snapshot, without exposing internals
+editor.type(" world — oops")
+editor.restore(checkpoint)       # back to "Hello"`,
+            go: `type EditorMemento struct{ content string } // unexported — internals stay hidden
+
+type Editor struct{ Content string }
+
+func (e *Editor) Type(text string)       { e.Content += text }
+func (e *Editor) Save() EditorMemento     { return EditorMemento{content: e.Content} }
+func (e *Editor) Restore(m EditorMemento) { e.Content = m.content }
+
+// editor := &Editor{}
+// editor.Type("Hello")
+// checkpoint := editor.Save()    // snapshot, without exposing internals
+// editor.Type(" world — oops")
+// editor.Restore(checkpoint)     // back to "Hello"`,
+        },
     },
     visitor: {
         name: 'Visitor',
@@ -404,6 +1374,52 @@ const DPDT_PATTERNS = {
         ],
         example: 'Adding `exportToPdf`, `prettyPrint`, and `validate` operations over a fixed set of AST node types, each as its own visitor — without touching the node classes.',
         watch: "Adding a brand-new *element* type means updating every visitor — Visitor trades off easy-to-add operations for harder-to-add element types.",
+        code: {
+            python: `class NumberNode:
+    def __init__(self, value): self.value = value
+    def accept(self, visitor): return visitor.visit_number(self)
+
+class AddNode:
+    def __init__(self, left, right): self.left, self.right = left, right
+    def accept(self, visitor): return visitor.visit_add(self)
+
+class PrettyPrintVisitor:
+    def visit_number(self, node): return str(node.value)
+    def visit_add(self, node):
+        return f"({node.left.accept(self)} + {node.right.accept(self)})"
+
+class EvalVisitor:
+    def visit_number(self, node): return node.value
+    def visit_add(self, node): return node.left.accept(self) + node.right.accept(self)
+
+tree = AddNode(NumberNode(2), AddNode(NumberNode(3), NumberNode(4)))
+tree.accept(PrettyPrintVisitor())  # "(2 + (3 + 4))"
+tree.accept(EvalVisitor())         # 9 — new operations, the node classes never change`,
+            go: `type Node interface{ Accept(v Visitor) string }
+
+type NumberNode struct{ Value int }
+
+func (n NumberNode) Accept(v Visitor) string { return v.VisitNumber(n) }
+
+type AddNode struct{ Left, Right Node }
+
+func (n AddNode) Accept(v Visitor) string { return v.VisitAdd(n) }
+
+type Visitor interface {
+    VisitNumber(n NumberNode) string
+    VisitAdd(n AddNode) string
+}
+
+type PrettyPrintVisitor struct{}
+
+func (p PrettyPrintVisitor) VisitNumber(n NumberNode) string { return fmt.Sprint(n.Value) }
+func (p PrettyPrintVisitor) VisitAdd(n AddNode) string {
+    return "(" + n.Left.Accept(p) + " + " + n.Right.Accept(p) + ")"
+}
+
+// tree := AddNode{NumberNode{2}, AddNode{NumberNode{3}, NumberNode{4}}}
+// tree.Accept(PrettyPrintVisitor{}) // "(2 + (3 + 4))" — new ops, same node types`,
+        },
     },
     interpreter: {
         name: 'Interpreter',
@@ -415,5 +1431,51 @@ const DPDT_PATTERNS = {
         ],
         example: 'Evaluating simple filter expressions users type in, like `(status = "open") AND (priority > 2)`, by parsing them into a small tree of expression objects.',
         watch: "Hand-rolling a grammar this way only scales to genuinely small languages — for anything richer, an existing parser generator or expression library is usually a better investment.",
+        code: {
+            python: `class Equals:
+    def __init__(self, field, value): self.field, self.value = field, value
+    def interpret(self, ctx): return ctx.get(self.field) == self.value
+
+class GreaterThan:
+    def __init__(self, field, value): self.field, self.value = field, value
+    def interpret(self, ctx): return ctx.get(self.field, 0) > self.value
+
+class And:
+    def __init__(self, left, right): self.left, self.right = left, right
+    def interpret(self, ctx):
+        return self.left.interpret(ctx) and self.right.interpret(ctx)
+
+rule = And(Equals("status", "open"), GreaterThan("priority", 2))
+rule.interpret({"status": "open", "priority": 3})  # True`,
+            go: `type Context map[string]any
+
+type Expression interface{ Interpret(ctx Context) bool }
+
+type Equals struct {
+    Field string
+    Value any
+}
+
+func (e Equals) Interpret(ctx Context) bool { return ctx[e.Field] == e.Value }
+
+type GreaterThan struct {
+    Field string
+    Value int
+}
+
+func (g GreaterThan) Interpret(ctx Context) bool {
+    v, _ := ctx[g.Field].(int)
+    return v > g.Value
+}
+
+type And struct{ Left, Right Expression }
+
+func (a And) Interpret(ctx Context) bool {
+    return a.Left.Interpret(ctx) && a.Right.Interpret(ctx)
+}
+
+// rule := And{Equals{"status", "open"}, GreaterThan{"priority", 2}}
+// rule.Interpret(Context{"status": "open", "priority": 3}) // true`,
+        },
     },
 };

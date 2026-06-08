@@ -10,6 +10,7 @@
     // Each entry: { nodeId, question, choiceLabel }
     let path = [];
     let current = null; // { type: 'question', nodeId } | { type: 'result', patternId }
+    let codeLang = 'python'; // shared across pattern views: 'python' | 'go'
 
     function start() {
         path = [];
@@ -113,6 +114,17 @@
                     <p>${pattern.watch}</p>
                 </div>
 
+                <div class="dpdt-result-block">
+                    <div class="dpdt-code-header">
+                        <h3 style="margin-bottom: 0;">Code example</h3>
+                        <div class="dpdt-code-tabs" role="group" aria-label="Choose a language">
+                            <button type="button" class="dpdt-code-tab" data-lang="python">Python</button>
+                            <button type="button" class="dpdt-code-tab" data-lang="go">Go</button>
+                        </div>
+                    </div>
+                    <pre class="dpdt-code-block"><code id="dpdt-code-output"></code></pre>
+                </div>
+
                 <div class="dpdt-controls" style="border-top: none; padding-top: 0; margin-top: 0.5rem;">
                     <button type="button" class="dpdt-text-btn" id="dpdt-back">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.75" stroke="currentColor" class="w-3.5 h-3.5">
@@ -132,6 +144,25 @@
 
         document.getElementById('dpdt-back').addEventListener('click', goBack);
         document.getElementById('dpdt-restart').addEventListener('click', start);
+
+        const codeOutput = stage.querySelector('#dpdt-code-output');
+        const codeTabs = stage.querySelectorAll('.dpdt-code-tab');
+
+        function renderCode() {
+            codeOutput.textContent = pattern.code[codeLang];
+            codeTabs.forEach((tab) => {
+                tab.classList.toggle('active', tab.dataset.lang === codeLang);
+            });
+        }
+
+        codeTabs.forEach((tab) => {
+            tab.addEventListener('click', () => {
+                codeLang = tab.dataset.lang;
+                renderCode();
+            });
+        });
+
+        renderCode();
 
         stage.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
