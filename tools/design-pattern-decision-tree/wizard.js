@@ -122,7 +122,16 @@
                             <button type="button" class="dpdt-code-tab" data-lang="go">Go</button>
                         </div>
                     </div>
-                    <pre class="dpdt-code-block"><code id="dpdt-code-output"></code></pre>
+                    <div class="dpdt-code-compare">
+                        <div class="dpdt-code-pane">
+                            <p class="dpdt-code-pane-label is-naive">Without the pattern</p>
+                            <pre class="dpdt-code-block"><code id="dpdt-code-naive"></code></pre>
+                        </div>
+                        <div class="dpdt-code-pane">
+                            <p class="dpdt-code-pane-label is-pattern">With ${pattern.name}</p>
+                            <pre class="dpdt-code-block"><code id="dpdt-code-output"></code></pre>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="dpdt-controls" style="border-top: none; padding-top: 0; margin-top: 0.5rem;">
@@ -146,10 +155,12 @@
         document.getElementById('dpdt-restart').addEventListener('click', start);
 
         const codeOutput = stage.querySelector('#dpdt-code-output');
+        const codeNaive = stage.querySelector('#dpdt-code-naive');
         const codeTabs = stage.querySelectorAll('.dpdt-code-tab');
 
         function renderCode() {
             codeOutput.textContent = pattern.code[codeLang];
+            codeNaive.textContent = pattern.naiveCode[codeLang];
             codeTabs.forEach((tab) => {
                 tab.classList.toggle('active', tab.dataset.lang === codeLang);
             });

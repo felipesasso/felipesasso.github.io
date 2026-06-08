@@ -212,6 +212,29 @@ func Get() *Config {
 
 // config.Get() always returns the very same shared instance`,
         },
+        naiveCode: {
+            python: `class Config:
+    def __init__(self):
+        self.settings = self._load_settings()  # re-reads/recomputes on every call
+
+    def _load_settings(self):
+        return {"env": "production"}
+
+a = Config()
+b = Config()
+assert a is not b  # two separate instances, settings loaded twice — and nothing stops a third`,
+            go: `type Config struct {
+    Env string
+}
+
+func NewConfig() *Config {
+    return &Config{Env: "production"} // recomputed on every call, by every caller
+}
+
+a := NewConfig()
+b := NewConfig()
+// a != b — every part of the app can end up with its own, possibly-stale copy`,
+        },
     },
     builder: {
         name: 'Builder',
@@ -280,6 +303,35 @@ func (b *RequestBuilder) Build() Request { return b.request }
 //     Timeout(5 * time.Second).
 //     Build()`,
         },
+        naiveCode: {
+            python: `class Request:
+    def __init__(self, url, headers=None, timeout=30, retries=0, verify_ssl=True):
+        self.url = url
+        self.headers = headers or {}
+        self.timeout = timeout
+        self.retries = retries
+        self.verify_ssl = verify_ssl
+
+# every caller has to remember the full parameter list, and its order
+req = Request("/users", {"Authorization": "Bearer …"}, 5, 0, True)
+# add one more option later and every call site needs revisiting`,
+            go: `type Request struct {
+    URL       string
+    Headers   map[string]string
+    Timeout   int
+    Retries   int
+    VerifySSL bool
+}
+
+// every caller fills in the whole struct, in the right shape, every time
+req := Request{
+    URL:       "/users",
+    Headers:   map[string]string{"Authorization": "Bearer …"},
+    Timeout:   5,
+    Retries:   0,
+    VerifySSL: true,
+}`,
+        },
     },
     'abstract-factory': {
         name: 'Abstract Factory',
@@ -331,6 +383,34 @@ func RenderForm(factory UIFactory) (string, string) {
 
 // RenderForm(DarkThemeFactory{}) // whole family of widgets swapped together`,
         },
+        naiveCode: {
+            python: `def render_form(theme):
+    if theme == "light":
+        button = LightButton()
+        checkbox = LightCheckbox()
+    elif theme == "dark":
+        button = DarkButton()
+        checkbox = DarkCheckbox()
+    else:
+        raise ValueError(f"unknown theme {theme}")
+    return button.render(), checkbox.render()
+
+# every place that builds UI pieces repeats this same theme check —
+# and it's easy for one widget to end up "light" while its neighbor is "dark"`,
+            go: `func RenderForm(theme string) (string, string) {
+    var button, checkbox string
+    switch theme {
+    case "light":
+        button, checkbox = "LightButton", "LightCheckbox"
+    case "dark":
+        button, checkbox = "DarkButton", "DarkCheckbox"
+    default:
+        panic("unknown theme")
+    }
+    return button, checkbox
+    // this same switch gets copy-pasted everywhere a widget is created
+}`,
+        },
     },
     'factory-method': {
         name: 'Factory Method',
@@ -377,6 +457,29 @@ func OpenWith(creator DocumentCreator) string {
 // OpenWith(PDFCreator{})         // the creator decides the concrete class
 // OpenWith(SpreadsheetCreator{})`,
         },
+        naiveCode: {
+            python: `def open_document(kind, path):
+    if kind == "pdf":
+        doc = PDFDocument(path)
+    elif kind == "spreadsheet":
+        doc = SpreadsheetDocument(path)
+    else:
+        raise ValueError(f"unsupported kind {kind}")
+    return doc.open()
+
+# adding a new document type means hunting down every place this branch is duplicated`,
+            go: `func OpenDocument(kind, path string) string {
+    switch kind {
+    case "pdf":
+        return NewPDFDocument(path).Open()
+    case "spreadsheet":
+        return NewSpreadsheetDocument(path).Open()
+    default:
+        panic("unsupported kind")
+    }
+    // each new format means another case here — and everywhere else this logic lives
+}`,
+        },
     },
     prototype: {
         name: 'Prototype',
@@ -420,6 +523,28 @@ for i := range pack {
     pack[i] = template.Clone()
 }
 pack[0].Health = 45 // tweak one without touching the template or the rest`,
+        },
+        naiveCode: {
+            python: `class Enemy:
+    def __init__(self, kind, health, gear):
+        self.kind, self.health, self.gear = kind, health, gear
+
+def spawn_goblin():
+    # every spawn point has to know — and keep in sync — every single field
+    return Enemy("goblin", health=30, gear=["dagger", "shield"])
+
+pack = [spawn_goblin() for _ in range(20)]
+# add a field to Enemy and every spawn function silently goes stale`,
+            go: `type Enemy struct {
+    Kind   string
+    Health int
+    Gear   []string
+}
+
+func SpawnGoblin() Enemy {
+    // restates every field — a new Enemy field means hunting down every spawn site
+    return Enemy{Kind: "goblin", Health: 30, Gear: []string{"dagger", "shield"}}
+}`,
         },
     },
     adapter: {
@@ -472,6 +597,30 @@ func (a LegacyGatewayAdapter) Pay(amount float64, currency string) error {
 // var gateway PaymentGateway = LegacyGatewayAdapter{}
 // gateway.Pay(42.50, "BRL") // rest of the app only ever sees PaymentGateway`,
         },
+        naiveCode: {
+            python: `class LegacyXMLGateway:
+    def send_xml_payment(self, xml: str) -> str:
+        return f"<response>processed {xml}</response>"
+
+def checkout(amount, currency):
+    legacy = LegacyXMLGateway()
+    xml = f"<payment amount='{amount}' currency='{currency}'/>"
+    legacy.send_xml_payment(xml)
+    # every call site has to know how to build XML for this one legacy gateway —
+    # and rewrite all of it the day a modern gateway replaces it`,
+            go: `type LegacyXMLGateway struct{}
+
+func (g LegacyXMLGateway) SendXMLPayment(xml string) string {
+    return "<response>processed " + xml + "</response>"
+}
+
+func Checkout(amount float64, currency string) {
+    legacy := LegacyXMLGateway{}
+    xml := fmt.Sprintf("<payment amount='%.2f' currency='%s'/>", amount, currency)
+    legacy.SendXMLPayment(xml)
+    // every caller is welded directly to this one gateway's XML shape
+}`,
+        },
     },
     decorator: {
         name: 'Decorator',
@@ -523,6 +672,37 @@ func (s SugarDecorator) Description() string { return s.Drink.Description() + " 
 
 // order := SugarDecorator{Drink: MilkDecorator{Drink: Coffee{}}}
 // order.Description() // "Coffee + milk + sugar"`,
+        },
+        naiveCode: {
+            python: `class Coffee:
+    def cost(self): return 4.0
+    def description(self): return "Coffee"
+
+class CoffeeWithMilk(Coffee):
+    def cost(self): return super().cost() + 0.5
+    def description(self): return super().description() + " + milk"
+
+class CoffeeWithMilkAndSugar(CoffeeWithMilk):
+    def cost(self): return super().cost() + 0.2
+    def description(self): return super().description() + " + sugar"
+
+# one subclass per combination — milk, sugar, milk+sugar, milk+sugar+cream…
+order = CoffeeWithMilkAndSugar()`,
+            go: `type Coffee struct{}
+
+func (Coffee) Cost() float64       { return 4.0 }
+func (Coffee) Description() string { return "Coffee" }
+
+type CoffeeWithMilk struct{ Coffee }
+
+func (c CoffeeWithMilk) Cost() float64       { return c.Coffee.Cost() + 0.5 }
+func (c CoffeeWithMilk) Description() string { return c.Coffee.Description() + " + milk" }
+
+type CoffeeWithMilkAndSugar struct{ CoffeeWithMilk }
+
+func (c CoffeeWithMilkAndSugar) Cost() float64 { return c.CoffeeWithMilk.Cost() + 0.2 }
+
+// a new type for every combination of add-ons — the hierarchy keeps exploding`,
         },
     },
     facade: {
@@ -585,6 +765,29 @@ func (v VideoConverter) Convert(file, format string) string {
 
 // VideoConverter{}.Convert("clip.mov", "mp4") // one call hides the whole subsystem`,
         },
+        naiveCode: {
+            python: `def convert_clip(file, fmt):
+    codecs = CodecLibrary()
+    buffers = BufferPool()
+    encoder = Encoder()
+
+    codec = codecs.select_codec(fmt)
+    buffer = buffers.acquire()
+    return encoder.encode(file, codec, buffer)
+
+# every place that converts a video has to know this exact sequence,
+# in this exact order, across three different subsystem classes`,
+            go: `func ConvertClip(file, format string) string {
+    codecs := CodecLibrary{}
+    buffers := BufferPool{}
+    encoder := Encoder{}
+
+    codec := codecs.SelectCodec(format)
+    buffer := buffers.Acquire()
+    return encoder.Encode(file, codec, buffer)
+    // callers must learn — and keep in sync with — the whole subsystem's wiring
+}`,
+        },
     },
     composite: {
         name: 'Composite',
@@ -645,6 +848,33 @@ func (f Folder) Size() int {
 // root := (&Folder{Name: "project"}).Add(File{Name: "readme.md", Bytes: 1200})
 // root.Size() // files and folders are summed through the very same interface`,
         },
+        naiveCode: {
+            python: `def total_size(item):
+    if isinstance(item, File):
+        return item.bytes
+    elif isinstance(item, Folder):
+        total = 0
+        for child in item.children:
+            total += total_size(child)  # recurse and re-check types by hand
+        return total
+    raise TypeError("unknown item type")
+
+# every operation on the tree repeats this same File/Folder type-check`,
+            go: `func TotalSize(item interface{}) int {
+    switch v := item.(type) {
+    case File:
+        return v.Bytes
+    case Folder:
+        total := 0
+        for _, child := range v.Children {
+            total += TotalSize(child) // recurse and re-switch by hand, every time
+        }
+        return total
+    default:
+        panic("unknown item type")
+    }
+}`,
+        },
     },
     proxy: {
         name: 'Proxy',
@@ -704,6 +934,31 @@ func (p *ImageProxy) Display() string {
 
 // gallery[3].Display() // only that one image ever gets read from disk`,
         },
+        naiveCode: {
+            python: `class RealImage:
+    def __init__(self, path):
+        self.path = path
+        print(f"Loading {path} from disk…")  # happens immediately, for every image
+
+    def display(self):
+        return f"Displaying {self.path}"
+
+gallery = [RealImage(f"photo_{i}.jpg") for i in range(100)]
+# all 100 images are read from disk up front, even if only one is ever shown
+gallery[3].display()`,
+            go: `type RealImage struct{ Path string }
+
+func NewRealImage(path string) *RealImage {
+    fmt.Println("Loading", path, "from disk…") // runs immediately, for every image
+    return &RealImage{Path: path}
+}
+
+gallery := make([]*RealImage, 100)
+for i := range gallery {
+    gallery[i] = NewRealImage(fmt.Sprintf("photo_%d.jpg", i))
+}
+// 100 disk reads up front, whether or not any image is ever displayed`,
+        },
     },
     bridge: {
         name: 'Bridge',
@@ -759,6 +1014,31 @@ func (c Circle) Draw() string { return c.Renderer.RenderCircle(c.Radius) }
 
 // Circle{Renderer: VectorRenderer{}, Radius: 5}.Draw()
 // Circle{Renderer: RasterRenderer{}, Radius: 5}.Draw() // same shape, different renderer`,
+        },
+        naiveCode: {
+            python: `class VectorCircle:
+    def __init__(self, radius): self.radius = radius
+    def draw(self): return f"Drawing a vector circle of radius {self.radius}"
+
+class RasterCircle:
+    def __init__(self, radius): self.radius = radius
+    def draw(self): return f"Drawing {self.radius * self.radius} pixels for a circle"
+
+class VectorSquare: ...
+class RasterSquare: ...
+# every new shape needs both a vector AND a raster version — combinations multiply`,
+            go: `type VectorCircle struct{ Radius int }
+
+func (c VectorCircle) Draw() string { return fmt.Sprintf("vector circle r=%d", c.Radius) }
+
+type RasterCircle struct{ Radius int }
+
+func (c RasterCircle) Draw() string {
+    return fmt.Sprintf("%d pixels for a circle", c.Radius*c.Radius)
+}
+
+// type VectorSquare, RasterSquare, VectorTriangle, RasterTriangle ...
+// shapes × render styles = a brand new type for every combination`,
         },
     },
     flyweight: {
@@ -819,6 +1099,25 @@ type Tree struct {
 //     forest[i] = Tree{X: i, Y: i * 2, Type: oak}
 // }`,
         },
+        naiveCode: {
+            python: `class Tree:
+    def __init__(self, x, y, mesh, texture):
+        self.x, self.y = x, y
+        self.mesh, self.texture = mesh, texture  # duplicated in every single tree
+
+forest = [Tree(i, i * 2, "oak.mesh", "oak.png") for i in range(1_000_000)]
+# a million copies of the exact same mesh and texture data, sitting in memory`,
+            go: `type Tree struct {
+    X, Y          int
+    Mesh, Texture string // duplicated per instance — never shared
+}
+
+forest := make([]Tree, 1_000_000)
+for i := range forest {
+    forest[i] = Tree{X: i, Y: i * 2, Mesh: "oak.mesh", Texture: "oak.png"}
+}
+// a million copies of identical mesh/texture strings, multiplying memory use`,
+        },
     },
     observer: {
         name: 'Observer',
@@ -866,6 +1165,28 @@ func (s *StockPrice) SetPrice(price float64) {
 // ticker := &StockPrice{Symbol: "PINS"}
 // ticker.Subscribe(func(sym string, price float64) { fmt.Println("chart:", sym, price) })
 // ticker.SetPrice(36.40) // every subscriber fires automatically, in one shot`,
+        },
+        naiveCode: {
+            python: `class StockPrice:
+    def __init__(self, symbol):
+        self.symbol = symbol
+
+    def set_price(self, price):
+        self.price = price
+        # every interested party has to be wired in here, by hand
+        chart.update(self.symbol, price)
+        if price > 35:
+            alerts.notify(f"{self.symbol} crossed 35!")
+        # add a new dependent? edit this method and hope you don't break the others`,
+            go: `type StockPrice struct{ Symbol string }
+
+func (s *StockPrice) SetPrice(price float64) {
+    chart.Update(s.Symbol, price) // hard-wired dependents...
+    if price > 35 {
+        alerts.Notify(s.Symbol + " crossed 35!")
+    }
+    // ...edited directly here, every single time something new needs to react
+}`,
         },
     },
     mediator: {
@@ -933,6 +1254,37 @@ func (t *ControlTower) RequestLanding(p *Plane) string {
 // a, b := &Plane{Name: "TAM3210"}, &Plane{Name: "GOL1456"}
 // tower.Register(a); tower.Register(b)
 // a.Land() // planes never address each other directly — only the tower`,
+        },
+        naiveCode: {
+            python: `class Plane:
+    def __init__(self, name):
+        self.name, self.status = name, "flying"
+        self.peers = []  # every plane has to know about every other plane
+
+    def land(self):
+        for p in self.peers:
+            if p.status == "landing":
+                return f"{self.name}: hold — runway busy"
+        self.status = "landing"
+        return f"{self.name}: cleared to land"
+
+a, b = Plane("TAM3210"), Plane("GOL1456")
+a.peers, b.peers = [b], [a]  # wiring grows as O(n²) with the number of planes`,
+            go: `type Plane struct {
+    Name, Status string
+    Peers        []*Plane // every plane must track every other plane directly
+}
+
+func (p *Plane) Land() string {
+    for _, other := range p.Peers {
+        if other.Status == "landing" {
+            return p.Name + ": hold — runway busy"
+        }
+    }
+    p.Status = "landing"
+    return p.Name + ": cleared to land"
+}
+// connecting N planes means O(N²) direct references to keep in sync`,
         },
     },
     'chain-of-responsibility': {
@@ -1006,6 +1358,27 @@ func (h *AuthHandler) Handle(r Request) string {
 // auth.SetNext(validate)
 // auth.Handle(Request{Token: "abc", Body: map[string]any{"item": 1}})`,
         },
+        naiveCode: {
+            python: `def handle(request):
+    if not request.get("token"):
+        return "401 Unauthorized"
+    if not request.get("body"):
+        return "400 Bad Request"
+    # every new check means another nested branch in this same function
+    return process(request)
+
+handle({"token": "abc", "body": {"item": 1}})`,
+            go: `func Handle(request map[string]any) string {
+    if request["token"] == nil {
+        return "401 Unauthorized"
+    }
+    if request["body"] == nil {
+        return "400 Bad Request"
+    }
+    // each new validation step nests one level deeper into this one function
+    return Process(request)
+}`,
+        },
     },
     strategy: {
         name: 'Strategy',
@@ -1058,6 +1431,30 @@ func (c Checkout) Complete(amount float64) string { return c.Strategy.Pay(amount
 
 // Checkout{Strategy: PixPayment{}}.Complete(89.90)
 // Checkout{Strategy: CreditCardPayment{}}.Complete(89.90) // same checkout, swapped algorithm`,
+        },
+        naiveCode: {
+            python: `class Checkout:
+    def complete(self, amount, method):
+        if method == "credit_card":
+            return f"Charged R$ {amount:.2f} to credit card"
+        elif method == "pix":
+            return f"Generated Pix QR code for R$ {amount:.2f}"
+        else:
+            raise ValueError(f"unknown method {method}")
+        # Checkout has to know about every payment algorithm that will ever exist
+
+Checkout().complete(89.90, "pix")`,
+            go: `func Complete(amount float64, method string) string {
+    switch method {
+    case "credit_card":
+        return fmt.Sprintf("Charged R$ %.2f to credit card", amount)
+    case "pix":
+        return fmt.Sprintf("Generated Pix QR code for R$ %.2f", amount)
+    default:
+        panic("unknown method")
+    }
+    // Complete must be edited — and retested — every time a new method appears
+}`,
         },
     },
     command: {
@@ -1132,6 +1529,51 @@ func (s *CommandStack) UndoLast() {
 // stack.Run(&InsertTextCommand{Doc: doc, Text: "Hello"})
 // stack.UndoLast() // cleanly reverses the last action, whatever it was`,
         },
+        naiveCode: {
+            python: `class Editor:
+    def __init__(self):
+        self.content = ""
+        self._history = []
+
+    def insert(self, text):
+        self.content += text
+        self._history.append(("insert", text))
+
+    def undo(self):
+        if not self._history:
+            return
+        kind, text = self._history.pop()
+        if kind == "insert":
+            self.content = self.content[:-len(text)]
+        # every new kind of action means another branch here, forever
+
+editor = Editor()
+editor.insert("Hello")
+editor.undo()`,
+            go: `type action struct{ kind, text string }
+
+type Editor struct {
+    Content string
+    history []action
+}
+
+func (e *Editor) Insert(text string) {
+    e.Content += text
+    e.history = append(e.history, action{"insert", text})
+}
+
+func (e *Editor) Undo() {
+    if len(e.history) == 0 {
+        return
+    }
+    last := e.history[len(e.history)-1]
+    e.history = e.history[:len(e.history)-1]
+    if last.kind == "insert" {
+        e.Content = e.Content[:len(e.Content)-len(last.text)]
+    }
+    // a switch that grows with every new editing operation ever added
+}`,
+        },
     },
     'template-method': {
         name: 'Template Method',
@@ -1195,6 +1637,34 @@ func (CsvExporter) Transform(rows []Row) string {
 // exporter := CsvExporter{}
 // exporter.baseExporter.Exporter = exporter
 // exporter.Export() // same skeleton, only Transform varies`,
+        },
+        naiveCode: {
+            python: `class CsvExporter:
+    def export(self):
+        rows = [{"id": 1, "name": "Felipe"}]            # duplicated...
+        return "\\n".join(f"{r['id']},{r['name']}" for r in rows)
+
+class JsonExporter:
+    def export(self):
+        rows = [{"id": 1, "name": "Felipe"}]            # ...fetch step,
+        import json
+        return json.dumps(rows)                          # copy-pasted yet again
+
+# fix a bug in "fetch" and you must remember to fix it in every exporter`,
+            go: `type CsvExporter struct{}
+
+func (CsvExporter) Export() string {
+    rows := fetchRows() // duplicated fetch step...
+    return rowsToCSV(rows)
+}
+
+type JSONExporter struct{}
+
+func (JSONExporter) Export() string {
+    rows := fetchRows() // ...copy-pasted into every single exporter
+    return rowsToJSON(rows)
+}
+// the shared "fetch -> transform -> write" skeleton lives nowhere — it's re-typed each time`,
         },
     },
     state: {
@@ -1261,6 +1731,39 @@ func (p *MediaPlayer) Pause() string { return p.State.Pause(p) }
 // player := &MediaPlayer{State: PausedState{}}
 // player.Play() // "Resumed" — behavior depends entirely on the current state`,
         },
+        naiveCode: {
+            python: `class MediaPlayer:
+    def __init__(self):
+        self.status = "paused"
+
+    def play(self):
+        if self.status == "paused":
+            self.status = "playing"
+            return "Resumed"
+        elif self.status == "playing":
+            return "Already playing"
+        # every method needs its own copy of this same status check
+
+    def pause(self):
+        if self.status == "playing":
+            self.status = "paused"
+            return "Paused"
+        elif self.status == "paused":
+            return "Already paused"`,
+            go: `type MediaPlayer struct{ Status string } // "playing" | "paused"
+
+func (p *MediaPlayer) Play() string {
+    switch p.Status {
+    case "paused":
+        p.Status = "playing"
+        return "Resumed"
+    case "playing":
+        return "Already playing"
+    }
+    return ""
+    // Pause() needs the mirror image of this same switch — and so does every new method
+}`,
+        },
     },
     iterator: {
         name: 'Iterator',
@@ -1312,6 +1815,29 @@ func (it *SongIterator) Next() string {
 //     fmt.Println(it.Next()) // same shape, regardless of how songs are stored
 // }`,
         },
+        naiveCode: {
+            python: `class Playlist:
+    def __init__(self):
+        self.songs = []  # internal list is public — every caller pokes at it directly
+
+    def add(self, song):
+        self.songs.append(song)
+        return self
+
+playlist = Playlist().add("A").add("B")
+for i in range(len(playlist.songs)):     # every consumer re-derives its own traversal
+    print(playlist.songs[i])
+# switch the storage to a dict or a tree later, and every one of these loops breaks`,
+            go: `type Playlist struct {
+    Songs []string // exported slice — anyone can index, mutate, or run out of bounds
+}
+
+p := Playlist{Songs: []string{"A", "B"}}
+for i := 0; i < len(p.Songs); i++ {     // every consumer rewrites this same loop
+    fmt.Println(p.Songs[i])
+}
+// changing the backing storage means hunting down and rewriting every loop like this`,
+        },
     },
     memento: {
         name: 'Memento',
@@ -1362,6 +1888,27 @@ func (e *Editor) Restore(m EditorMemento) { e.Content = m.content }
 // checkpoint := editor.Save()    // snapshot, without exposing internals
 // editor.Type(" world — oops")
 // editor.Restore(checkpoint)     // back to "Hello"`,
+        },
+        naiveCode: {
+            python: `class Editor:
+    def __init__(self):
+        self.content = ""
+
+    def type(self, text):
+        self.content += text
+
+editor = Editor()
+editor.type("Hello")
+checkpoint = editor.content       # external code reaches straight into the internals
+editor.type(" world — oops")
+editor.content = checkpoint       # ...and writes them back directly, bypassing any rules`,
+            go: `type Editor struct{ Content string } // exported field — nothing protects its invariants
+
+e := &Editor{}
+e.Content += "Hello"
+checkpoint := e.Content              // outside code freely reads internal state...
+e.Content += " world — oops"
+e.Content = checkpoint               // ...and rewrites it directly, however it pleases`,
         },
     },
     visitor: {
@@ -1420,6 +1967,33 @@ func (p PrettyPrintVisitor) VisitAdd(n AddNode) string {
 // tree := AddNode{NumberNode{2}, AddNode{NumberNode{3}, NumberNode{4}}}
 // tree.Accept(PrettyPrintVisitor{}) // "(2 + (3 + 4))" — new ops, same node types`,
         },
+        naiveCode: {
+            python: `class NumberNode:
+    def __init__(self, value): self.value = value
+    def pretty_print(self): return str(self.value)
+    def evaluate(self): return self.value
+    # every new operation means touching NumberNode again...
+
+class AddNode:
+    def __init__(self, left, right): self.left, self.right = left, right
+    def pretty_print(self):
+        return f"({self.left.pretty_print()} + {self.right.pretty_print()})"
+    def evaluate(self): return self.left.evaluate() + self.right.evaluate()
+    # ...and AddNode, and every node type that will ever be added`,
+            go: `type NumberNode struct{ Value int }
+
+func (n NumberNode) PrettyPrint() string { return fmt.Sprint(n.Value) }
+func (n NumberNode) Evaluate() int       { return n.Value }
+
+type AddNode struct{ Left, Right Node }
+
+func (n AddNode) PrettyPrint() string {
+    return "(" + n.Left.PrettyPrint() + " + " + n.Right.PrettyPrint() + ")"
+}
+func (n AddNode) Evaluate() int { return n.Left.Evaluate() + n.Right.Evaluate() }
+
+// a new operation means adding a method to every node type that exists — and ever will`,
+        },
     },
     interpreter: {
         name: 'Interpreter',
@@ -1476,6 +2050,44 @@ func (a And) Interpret(ctx Context) bool {
 
 // rule := And{Equals{"status", "open"}, GreaterThan{"priority", 2}}
 // rule.Interpret(Context{"status": "open", "priority": 3}) // true`,
+        },
+        naiveCode: {
+            python: `def matches(rule_str, ctx):
+    # rules look like "status=open AND priority>2" — parsed by hand, every time
+    for part in rule_str.split(" AND "):
+        if "=" in part:
+            field, value = part.split("=")
+            if str(ctx.get(field)) != value:
+                return False
+        elif ">" in part:
+            field, value = part.split(">")
+            if ctx.get(field, 0) <= int(value):
+                return False
+    return True
+    # every new operator (OR, NOT, ranges…) means patching this one fragile parser
+
+matches("status=open AND priority>2", {"status": "open", "priority": 3})`,
+            go: `func Matches(rule string, ctx map[string]any) bool {
+    // ad-hoc string splitting stands in for a real grammar
+    for _, part := range strings.Split(rule, " AND ") {
+        switch {
+        case strings.Contains(part, "="):
+            kv := strings.SplitN(part, "=", 2)
+            if fmt.Sprint(ctx[kv[0]]) != kv[1] {
+                return false
+            }
+        case strings.Contains(part, ">"):
+            kv := strings.SplitN(part, ">", 2)
+            n, _ := strconv.Atoi(kv[1])
+            v, _ := ctx[kv[0]].(int)
+            if v <= n {
+                return false
+            }
+        }
+    }
+    return true
+    // every new operator means another fragile branch in this one parsing function
+}`,
         },
     },
 };

@@ -267,8 +267,48 @@
             .dpdt-code-tab:hover:not(.active) {
                 color: var(--accent-color);
             }
+            .dpdt-code-compare {
+                display: grid;
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            @media (min-width: 900px) {
+                .dpdt-code-compare {
+                    grid-template-columns: 1fr 1fr;
+                }
+            }
+            .dpdt-code-pane-label {
+                display: inline-flex;
+                align-items: center;
+                gap: 0.4rem;
+                font-size: 0.7rem;
+                font-weight: 600;
+                text-transform: uppercase;
+                letter-spacing: 0.08em;
+                margin-bottom: 0.5rem;
+            }
+            .dpdt-code-pane-label::before {
+                content: '';
+                display: inline-block;
+                width: 0.5rem;
+                height: 0.5rem;
+                border-radius: 9999px;
+            }
+            .dpdt-code-pane-label.is-naive {
+                color: var(--text-secondary);
+            }
+            .dpdt-code-pane-label.is-naive::before {
+                background-color: color-mix(in srgb, var(--text-secondary) 60%, transparent);
+            }
+            .dpdt-code-pane-label.is-pattern {
+                color: var(--accent-color);
+            }
+            .dpdt-code-pane-label.is-pattern::before {
+                background-color: var(--accent-color);
+            }
             .dpdt-code-block {
                 margin: 0;
+                height: 100%;
                 overflow-x: auto;
                 background-color: color-mix(in srgb, var(--secondary-bg) 70%, var(--primary-bg));
                 border: 1px solid var(--border);
