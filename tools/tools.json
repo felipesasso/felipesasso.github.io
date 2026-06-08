@@ -5,5 +5,12 @@
     "url": "/tools/design-pattern-decision-tree/",
     "kind": "built",
     "tags": ["Design Patterns", "Software Architecture"]
+  },
+  {
+    "name": "Event-Driven Architecture Simulator",
+    "description": "Drag producers, topics/queues and consumers onto a canvas, wire them together, and watch messages flow under load — tune throughput and latency, or simulate a consumer crash, and see backlogs and failures play out live.",
+    "url": "/tools/eda-simulator/",
+    "kind": "built",
+    "tags": ["Software Architecture", "Distributed Systems"]
   }
 ]
