@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Event-Driven Architecture Simulator - Felipe Sasso</title>
+        <meta name="description" content="Drag producers, queues/topics and consumers onto a canvas, wire them together, and watch messages flow under load — including backlogs and consumer crashes." />
+        <meta name="author" content="Felipe Coral Sasso" />
+
+        <script>
+            (function () {
+                document.documentElement.classList.add('js');
+                var stored = localStorage.getItem('theme');
+                var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+                if (stored === 'dark' || (stored !== 'light' && prefersDark)) {
+                    document.documentElement.classList.add('dark');
+                }
+            })();
+        </script>
+        <link rel="stylesheet" href="/tailwind.css" />
+        <link rel="stylesheet" href="/style.css" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+        <style>
+            .eda-toolbar {
+                display: flex;
+                flex-wrap: wrap;
+                align-items: center;
+                justify-content: space-between;
+                gap: 0.75rem;
+                margin-bottom: 1rem;
+            }
+            .eda-btn-group {
+                display: inline-flex;
+                flex-wrap: wrap;
+                gap: 0.4rem;
+            }
+            .eda-btn {
+                display: inline-flex;
+                align-items: center;
+                gap: 0.4rem;
+                font-size: 0.78rem;
+                font-weight: 600;
+                color: var(--text-secondary);
+                background-color: var(--lang-button-bg);
+                border: 1px solid var(--border);
+                border-radius: 0.6rem;
+                padding: 0.45rem 0.85rem;
+                cursor: pointer;
+                transition: color 0.2s ease, border-color 0.2s ease, background-color 0.2s ease, transform 0.2s ease;
+            }
+            .eda-btn:hover:not(:disabled) {
+                color: var(--accent-color);
+                border-color: color-mix(in srgb, var(--brass) 55%, var(--border));
+                transform: translateY(-1px);
+            }
+            .eda-btn:disabled {
+                opacity: 0.4;
+                cursor: default;
+            }
+            .eda-btn-primary {
+                background-color: var(--accent-color);
+                color: var(--lang-button-active-text);
+                border-color: var(--accent-color);
+            }
+            .eda-btn-primary:hover:not(:disabled) {
+                color: var(--lang-button-active-text);
+                opacity: 0.9;
+                transform: translateY(-1px);
+            }
+            .eda-speed-select {
+                font-size: 0.78rem;
+                font-weight: 600;
+                color: var(--text-secondary);
+                background-color: var(--lang-button-bg);
+                border: 1px solid var(--border);
+                border-radius: 0.6rem;
+                padding: 0.45rem 0.6rem;
+                cursor: pointer;
+            }
+            .eda-stats-bar {
+                display: grid;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 0.5rem;
+                margin-bottom: 1rem;
+            }
+            @media (min-width: 640px) {
+                .eda-stats-bar {
+                    grid-template-columns: repeat(4, minmax(0, 1fr));
+                }
+            }
+            .eda-stat {
+                border: 1px solid var(--border);
+                border-radius: 0.7rem;
+                padding: 0.6rem 0.85rem;
+                background-color: color-mix(in srgb, var(--secondary-bg) 70%, var(--primary-bg));
+            }
+            .eda-stat-label {
+                font-size: 0.65rem;
+                font-weight: 600;
+                text-transform: uppercase;
+                letter-spacing: 0.1em;
+                color: var(--text-secondary);
+                margin-bottom: 0.2rem;
+            }
+            .eda-stat-value {
+                font-family: var(--font-display);
+                font-size: 1.35rem;
+                font-weight: 600;
+                color: var(--text-primary);
+            }
+            .eda-stat-value.is-warn {
+                color: var(--brass);
+            }
+            .eda-canvas-wrap {
+                position: relative;
+                border: 1px solid var(--border);
+                border-radius: 0.85rem;
+                background-color: color-mix(in srgb, var(--secondary-bg) 55%, var(--primary-bg));
+                height: 460px;
+                overflow: auto;
+            }
+            .eda-canvas, .eda-edges {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 780px;
+                height: 460px;
+            }
+            .eda-canvas {
+                background-image:
+                    linear-gradient(color-mix(in srgb, var(--border) 55%, transparent) 1px, transparent 1px),
+                    linear-gradient(90deg, color-mix(in srgb, var(--border) 55%, transparent) 1px, transparent 1px);
+                background-size: 28px 28px;
+            }
+            .eda-edges {
+                pointer-events: none;
+            }
+            .eda-edge-path {
+                fill: none;
+                stroke: color-mix(in srgb, var(--text-secondary) 45%, transparent);
+                stroke-width: 1.6;
+            }
+            .eda-pending-path {
+                fill: none;
+                stroke: var(--accent-color);
+                stroke-width: 1.6;
+                stroke-dasharray: 5 4;
+            }
+            .eda-msg-dot {
+                fill: var(--brass);
+                filter: drop-shadow(0 0 3px color-mix(in srgb, var(--brass) 70%, transparent));
+            }
+            .eda-msg-dot.is-failed {
+                fill: #C0604F;
+                filter: drop-shadow(0 0 3px rgba(192, 96, 79, 0.6));
+            }
+            .eda-msg-dot.is-dropped {
+                fill: var(--text-secondary);
+                opacity: 0.6;
+            }
+            .eda-node {
+                position: absolute;
+                width: 168px;
+                border: 1.5px solid var(--border);
+                border-radius: 0.75rem;
+                background-color: var(--secondary-bg);
+                box-shadow: var(--card-shadow);
+                cursor: grab;
+                user-select: none;
+                transition: box-shadow 0.15s ease, border-color 0.15s ease;
+            }
+            .eda-node:active {
+                cursor: grabbing;
+            }
+            .eda-node.is-selected {
+                border-color: var(--accent-color);
+                box-shadow: var(--card-shadow-hover);
+            }
+            .eda-node.is-connect-target:hover {
+                border-color: var(--brass);
+            }
+            .eda-node-head {
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                padding: 0.55rem 0.7rem 0.4rem;
+                border-bottom: 1px solid var(--border);
+            }
+            .eda-node-icon {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                width: 1.6rem;
+                height: 1.6rem;
+                border-radius: 0.5rem;
+                flex-shrink: 0;
+            }
+            .eda-node.producer .eda-node-icon { background-color: var(--accent-soft); color: var(--accent-color); }
+            .eda-node.queue .eda-node-icon { background-color: var(--brass-soft); color: var(--brass); }
+            .eda-node.consumer .eda-node-icon { background-color: var(--skill-bg); color: var(--skill-text); }
+            .eda-node-title {
+                font-size: 0.78rem;
+                font-weight: 600;
+                color: var(--text-primary);
+                line-height: 1.2;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+            .eda-node-kind {
+                font-size: 0.62rem;
+                font-weight: 500;
+                text-transform: uppercase;
+                letter-spacing: 0.08em;
+                color: var(--text-secondary);
+            }
+            .eda-node-body {
+                padding: 0.5rem 0.7rem 0.65rem;
+                display: flex;
+                flex-direction: column;
+                gap: 0.3rem;
+            }
+            .eda-node-row {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                font-size: 0.68rem;
+                color: var(--text-secondary);
+            }
+            .eda-node-row strong {
+                color: var(--text-primary);
+                font-weight: 600;
+            }
+            .eda-node-bar-track {
+                width: 100%;
+                height: 0.4rem;
+                border-radius: 9999px;
+                background-color: var(--lang-button-bg);
+                overflow: hidden;
+            }
+            .eda-node-bar-fill {
+                height: 100%;
+                border-radius: 9999px;
+                background-color: var(--brass);
+                transition: width 0.15s ease, background-color 0.2s ease;
+                width: 0%;
+            }
+            .eda-node-bar-fill.is-hot {
+                background-color: #C0604F;
+            }
+            .eda-node-status {
+                display: inline-flex;
+                align-items: center;
+                gap: 0.3rem;
+                font-size: 0.65rem;
+                font-weight: 600;
+            }
+            .eda-status-dot {
+                width: 0.45rem;
+                height: 0.45rem;
+                border-radius: 9999px;
+                background-color: var(--accent-color);
+            }
+            .eda-node.is-down .eda-status-dot { background-color: #C0604F; }
+            .eda-node.is-down { opacity: 0.65; }
+            .eda-node.is-busy .eda-status-dot { background-color: var(--brass); }
+            .eda-port {
+                position: absolute;
+                top: 50%;
+                width: 0.7rem;
+                height: 0.7rem;
+                border-radius: 9999px;
+                background-color: var(--secondary-bg);
+                border: 1.5px solid var(--text-secondary);
+                transform: translateY(-50%);
+                cursor: crosshair;
+                transition: border-color 0.15s ease, background-color 0.15s ease, transform 0.15s ease;
+            }
+            .eda-port:hover, .eda-port.is-active {
+                border-color: var(--accent-color);
+                background-color: var(--accent-color);
+                transform: translateY(-50%) scale(1.25);
+            }
+            .eda-port.out { right: -0.4rem; }
+            .eda-port.in { left: -0.4rem; }
+            .eda-node.is-dropping {
+                border-color: #C0604F;
+                box-shadow: 0 0 0 3px rgba(192, 96, 79, 0.18);
+            }
+            .eda-canvas-hint {
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%, -50%);
+                font-size: 0.8rem;
+                color: var(--text-secondary);
+                text-align: center;
+                max-width: 22rem;
+                pointer-events: none;
+            }
+            .eda-help {
+                font-size: 0.75rem;
+                line-height: 1.6;
+                color: var(--text-secondary);
+                margin-top: 0.75rem;
+            }
+            .eda-inspector {
+                margin-top: 1rem;
+                border: 1px solid var(--border);
+                border-radius: 0.85rem;
+                padding: 1rem 1.1rem 1.15rem;
+                background-color: color-mix(in srgb, var(--secondary-bg) 70%, var(--primary-bg));
+            }
+            .eda-inspector.is-hidden {
+                display: none;
+            }
+            .eda-inspector-head {
+                display: flex;
+                align-items: flex-start;
+                justify-content: space-between;
+                gap: 0.75rem;
+                margin-bottom: 0.85rem;
+            }
+            .eda-inspector-name {
+                font-family: var(--font-display);
+                font-size: 1.1rem;
+                font-weight: 600;
+                color: var(--text-primary);
+            }
+            .eda-inspector-kind {
+                font-size: 0.68rem;
+                font-weight: 600;
+                text-transform: uppercase;
+                letter-spacing: 0.1em;
+                color: var(--brass);
+            }
+            .eda-field-grid {
+                display: grid;
+                grid-template-columns: 1fr;
+                gap: 0.85rem;
+            }
+            @media (min-width: 640px) {
+                .eda-field-grid {
+                    grid-template-columns: repeat(2, minmax(0, 1fr));
+                }
+            }
+            .eda-field label {
+                display: block;
+                font-size: 0.7rem;
+                font-weight: 600;
+                text-transform: uppercase;
+                letter-spacing: 0.08em;
+                color: var(--text-secondary);
+                margin-bottom: 0.35rem;
+            }
+            .eda-field-value {
+                font-weight: 700;
+                color: var(--accent-color);
+                text-transform: none;
+                letter-spacing: normal;
+            }
+            .eda-field input[type="text"] {
+                width: 100%;
+                font-size: 0.85rem;
+                color: var(--text-primary);
+                background-color: var(--secondary-bg);
+                border: 1px solid var(--border);
+                border-radius: 0.5rem;
+                padding: 0.45rem 0.65rem;
+            }
+            .eda-field input[type="range"] {
+                width: 100%;
+                accent-color: var(--accent-color);
+            }
+            .eda-toggle {
+                display: inline-flex;
+                align-items: center;
+                gap: 0.5rem;
+                cursor: pointer;
+            }
+            .eda-toggle input {
+                accent-color: #C0604F;
+                width: 1.05rem;
+                height: 1.05rem;
+            }
+            .eda-toggle span {
+                font-size: 0.8rem;
+                font-weight: 500;
+                color: var(--text-primary);
+                text-transform: none;
+                letter-spacing: normal;
+            }
+            .eda-inspector-actions {
+                display: flex;
+                justify-content: flex-end;
+                margin-top: 1rem;
+                padding-top: 0.85rem;
+                border-top: 1px solid var(--border);
+            }
+            .eda-danger-btn {
+                font-size: 0.78rem;
+                font-weight: 600;
+                color: #C0604F;
+                background: none;
+                border: 1px solid color-mix(in srgb, #C0604F 45%, var(--border));
+                border-radius: 0.6rem;
+                padding: 0.4rem 0.8rem;
+                cursor: pointer;
+                transition: background-color 0.2s ease;
+            }
+            .eda-danger-btn:hover {
+                background-color: color-mix(in srgb, #C0604F 12%, transparent);
+            }
+        </style>
+    </head>
+
+    <body class="bg-[var(--primary-bg)] text-[var(--text-primary)]">
+
+        <nav id="main-nav" class="sticky top-0 z-50 bg-[var(--secondary-bg)] border-b border-[var(--lang-button-bg)]">
+            <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 flex items-center justify-between h-14">
+                <a href="/" class="nav-brand shrink-0">Felipe Sasso</a>
+                <div class="hidden sm:flex items-center gap-6">
+                    <a href="/" class="nav-link">Home</a>
+                    <a href="/tools/" class="nav-link">Tools</a>
+                    <span class="text-sm font-medium text-[var(--accent-color)] border-b-2 border-[var(--accent-color)] pb-0.5">EDA Simulator</span>
+                </div>
+                <div class="flex items-center gap-1 sm:gap-2 shrink-0">
+                    <a href="/tools/" class="sm:hidden nav-link text-sm">Tools</a>
+                    <button id="theme-toggle" class="lang-button" aria-label="Toggle dark mode" aria-pressed="false">
+                        <svg id="icon-moon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z" />
+                        </svg>
+                        <svg id="icon-sun" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 hidden">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+            <section class="card p-6 md:p-10">
+                <p class="eyebrow mb-2">Tools · Built by me</p>
+                <h1 class="section-heading text-xl sm:text-2xl font-semibold text-[var(--text-primary)] mb-3">Event-Driven Architecture Simulator</h1>
+                <p class="text-sm sm:text-base text-[var(--text-secondary)] leading-relaxed mb-6 max-w-2xl">
+                    Build a small event-driven system out of producers, topics/queues and consumers, wire them together, then press play. Tune throughput, processing latency and failure rates — or simulate a consumer crash — and watch backlogs, drops and failures play out in real time.
+                </p>
+
+                <div class="eda-toolbar">
+                    <div class="eda-btn-group">
+                        <button class="eda-btn" data-add="producer" type="button">+ Producer</button>
+                        <button class="eda-btn" data-add="queue" type="button">+ Topic / Queue</button>
+                        <button class="eda-btn" data-add="consumer" type="button">+ Consumer</button>
+                    </div>
+                    <div class="eda-btn-group">
+                        <button id="eda-play" class="eda-btn eda-btn-primary" type="button">Play</button>
+                        <button id="eda-reset" class="eda-btn" type="button">Reset</button>
+                        <select id="eda-speed" class="eda-speed-select" aria-label="Simulation speed">
+                            <option value="0.5">0.5×</option>
+                            <option value="1" selected>1×</option>
+                            <option value="2">2×</option>
+                            <option value="5">5×</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="eda-stats-bar">
+                    <div class="eda-stat">
+                        <p class="eda-stat-label">Produced</p>
+                        <p id="stat-produced" class="eda-stat-value">0</p>
+                    </div>
+                    <div class="eda-stat">
+                        <p class="eda-stat-label">Delivered</p>
+                        <p id="stat-delivered" class="eda-stat-value">0</p>
+                    </div>
+                    <div class="eda-stat">
+                        <p class="eda-stat-label">Failed</p>
+                        <p id="stat-failed" class="eda-stat-value">0</p>
+                    </div>
+                    <div class="eda-stat">
+                        <p class="eda-stat-label">Dropped (backlog full)</p>
+                        <p id="stat-dropped" class="eda-stat-value">0</p>
+                    </div>
+                </div>
+
+                <div class="eda-canvas-wrap">
+                    <svg id="eda-edges" class="eda-edges"></svg>
+                    <div id="eda-canvas" class="eda-canvas"></div>
+                    <p id="eda-canvas-hint" class="eda-canvas-hint">Add a producer, a queue and a consumer, then drag from a node's right-edge dot to another node to connect them.</p>
+                </div>
+
+                <p class="eda-help">
+                    <strong class="text-[var(--text-primary)]">How to use it —</strong>
+                    drag nodes to rearrange the canvas. Drag from the small dot on a node's right edge onto another node to wire them up (producers → queues, queues → consumers). Click any node to open its settings: message rate, processing latency, failure chance, queue capacity, or a "simulate crash" switch for consumers. Press play and watch the queue fill bars, the in-flight message dots and the live counters react as you change the dials.
+                </p>
+
+                <div id="eda-inspector" class="eda-inspector is-hidden"></div>
+            </section>
+
+            <footer class="text-center py-8 text-xs sm:text-sm text-[var(--text-secondary)]">
+                <p>&copy; <span id="currentYear"></span> Felipe Coral Sasso. All rights reserved.</p>
+            </footer>
+        </div>
+
+        <script>
+            document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+            const themeToggle = document.getElementById('theme-toggle');
+            const iconMoon = document.getElementById('icon-moon');
+            const iconSun = document.getElementById('icon-sun');
+
+            function applyTheme(dark) {
+                document.documentElement.classList.toggle('dark', dark);
+                iconMoon.classList.toggle('hidden', dark);
+                iconSun.classList.toggle('hidden', !dark);
+                themeToggle.setAttribute('aria-pressed', String(dark));
+            }
+
+            applyTheme(document.documentElement.classList.contains('dark'));
+            themeToggle.addEventListener('click', () => {
+                const isDark = document.documentElement.classList.contains('dark');
+                localStorage.setItem('theme', isDark ? 'light' : 'dark');
+                applyTheme(!isDark);
+            });
+
+            window.addEventListener('scroll', () => {
+                document.getElementById('main-nav').classList.toggle('scrolled', window.scrollY > 10);
+            });
+        </script>
+
+        <script src="simulator.js"></script>
+    </body>
+</html>
