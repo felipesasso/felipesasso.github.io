@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>C4 Text-to-Diagram - Felipe Sasso</title>
+        <meta name="description" content="Write your architecture as plain text — people, systems, containers and their relationships — and watch a C4 model diagram render live." />
+        <meta name="author" content="Felipe Coral Sasso" />
+
+        <script>
+            (function () {
+                document.documentElement.classList.add('js');
+                var stored = localStorage.getItem('theme');
+                var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+                if (stored === 'dark' || (stored !== 'light' && prefersDark)) {
+                    document.documentElement.classList.add('dark');
+                }
+            })();
+        </script>
+        <link rel="stylesheet" href="/tailwind.css" />
+        <link rel="stylesheet" href="/style.css" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+        <style>
+            .c4t-layout {
+                display: grid;
+                grid-template-columns: 1fr;
+                gap: 1.25rem;
+            }
+            @media (min-width: 1024px) {
+                .c4t-layout {
+                    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+                    align-items: start;
+                }
+            }
+            .c4t-examples {
+                display: inline-flex;
+                flex-wrap: wrap;
+                gap: 0.35rem;
+                background-color: var(--lang-button-bg);
+                border: 1px solid var(--border);
+                border-radius: 0.6rem;
+                padding: 0.25rem;
+                margin-bottom: 0.75rem;
+            }
+            .c4t-example-btn {
+                font-size: 0.75rem;
+                font-weight: 600;
+                color: var(--text-secondary);
+                background: none;
+                border: none;
+                border-radius: 0.4rem;
+                padding: 0.35rem 0.75rem;
+                cursor: pointer;
+                transition: background-color 0.2s ease, color 0.2s ease;
+            }
+            .c4t-example-btn:hover:not(.active) {
+                color: var(--accent-color);
+            }
+            .c4t-example-btn.active {
+                background-color: var(--accent-color);
+                color: var(--lang-button-active-text);
+            }
+            .c4t-source {
+                width: 100%;
+                min-height: 360px;
+                resize: vertical;
+                font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+                font-size: 0.8rem;
+                line-height: 1.6;
+                color: var(--text-primary);
+                background-color: color-mix(in srgb, var(--secondary-bg) 70%, var(--primary-bg));
+                border: 1px solid var(--border);
+                border-radius: 0.7rem;
+                padding: 1rem 1.1rem;
+                tab-size: 2;
+            }
+            .c4t-source:focus {
+                outline: none;
+                border-color: color-mix(in srgb, var(--accent-color) 55%, var(--border));
+                box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent-color) 16%, transparent);
+            }
+            .c4t-errors {
+                margin-top: 0.85rem;
+                font-size: 0.8rem;
+                line-height: 1.6;
+                color: var(--text-secondary);
+                background-color: color-mix(in srgb, #B5483F 12%, var(--secondary-bg));
+                border: 1px solid color-mix(in srgb, #B5483F 35%, var(--border));
+                border-radius: 0.6rem;
+                padding: 0.75rem 1rem;
+            }
+            .c4t-errors-title {
+                font-weight: 600;
+                color: var(--text-primary);
+                margin-bottom: 0.3rem;
+            }
+            .c4t-errors ul {
+                list-style: disc;
+                list-style-position: inside;
+                display: flex;
+                flex-direction: column;
+                gap: 0.15rem;
+            }
+            .c4t-cheatsheet {
+                margin-top: 1.25rem;
+            }
+            .c4t-cheatsheet summary {
+                font-size: 0.8rem;
+                font-weight: 600;
+                color: var(--accent-color);
+                cursor: pointer;
+                user-select: none;
+            }
+            .c4t-cheatsheet summary:hover {
+                color: var(--link-hover-color);
+            }
+            .c4t-cheatsheet-body {
+                margin-top: 0.85rem;
+                font-size: 0.8rem;
+                line-height: 1.7;
+                color: var(--text-secondary);
+            }
+            .c4t-cheatsheet-body code {
+                font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+                font-size: 0.78rem;
+                background-color: var(--skill-bg);
+                color: var(--skill-text);
+                border-radius: 0.3rem;
+                padding: 0.1rem 0.35rem;
+            }
+            .c4t-cheatsheet-body pre {
+                font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+                font-size: 0.76rem;
+                line-height: 1.6;
+                color: var(--text-primary);
+                background-color: color-mix(in srgb, var(--secondary-bg) 70%, var(--primary-bg));
+                border: 1px solid var(--border);
+                border-radius: 0.6rem;
+                padding: 0.85rem 1rem;
+                overflow-x: auto;
+                margin-top: 0.5rem;
+            }
+            .c4t-preview {
+                position: sticky;
+                top: 4.5rem;
+            }
+            .c4t-preview-header {
+                display: flex;
+                align-items: baseline;
+                justify-content: space-between;
+                gap: 0.75rem;
+                flex-wrap: wrap;
+                margin-bottom: 0.6rem;
+            }
+            .c4t-diagram-title {
+                font-family: var(--font-display);
+                font-size: 1rem;
+                font-weight: 600;
+                color: var(--text-primary);
+            }
+            .c4t-canvas {
+                overflow: auto;
+                background-color: color-mix(in srgb, var(--secondary-bg) 70%, var(--primary-bg));
+                border: 1px solid var(--border);
+                border-radius: 0.7rem;
+                padding: 1rem;
+                min-height: 320px;
+                display: flex;
+            }
+            .c4t-canvas svg {
+                width: 100%;
+                height: auto;
+                margin: auto;
+            }
+            .c4t-canvas-empty {
+                margin: auto;
+                font-size: 0.85rem;
+                color: var(--text-secondary);
+                text-align: center;
+                max-width: 22rem;
+            }
+            .c4t-legend {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 0.6rem 1.1rem;
+                margin-top: 0.85rem;
+            }
+            .c4t-legend-item {
+                display: inline-flex;
+                align-items: center;
+                gap: 0.4rem;
+                font-size: 0.75rem;
+                color: var(--text-secondary);
+            }
+            .c4t-legend-swatch {
+                display: inline-block;
+                width: 0.85rem;
+                height: 0.85rem;
+                border-radius: 0.25rem;
+            }
+
+            /* --- SVG diagram styling (mirrors the site's theme via CSS vars) --- */
+            .c4-box.kind-person { fill: var(--brass); stroke: color-mix(in srgb, var(--brass) 65%, black); }
+            .c4-box.kind-internal { fill: var(--accent-color); stroke: color-mix(in srgb, var(--accent-color) 65%, black); }
+            .c4-box.kind-external { fill: var(--text-secondary); stroke: color-mix(in srgb, var(--text-secondary) 65%, black); }
+            .c4-box { stroke-width: 1.25; }
+            .c4-person-glyph { fill: rgba(255, 255, 255, 0.92); }
+            .c4-box-name {
+                font-family: 'Inter', sans-serif;
+                font-size: 13px;
+                font-weight: 700;
+                fill: #ffffff;
+            }
+            .c4-box-meta {
+                font-family: 'Inter', sans-serif;
+                font-size: 10px;
+                letter-spacing: 0.03em;
+                fill: rgba(255, 255, 255, 0.82);
+            }
+            .c4-box-desc {
+                font-family: 'Inter', sans-serif;
+                font-size: 10.5px;
+                fill: rgba(255, 255, 255, 0.88);
+            }
+            .c4-boundary-box {
+                fill: none;
+                stroke: var(--text-secondary);
+                stroke-width: 1.25;
+                stroke-dasharray: 7 5;
+            }
+            .c4-boundary-label {
+                font-family: 'Inter', sans-serif;
+                font-size: 10.5px;
+                font-weight: 700;
+                letter-spacing: 0.08em;
+                fill: var(--text-secondary);
+            }
+            .c4-rel-line {
+                stroke: var(--text-secondary);
+                stroke-width: 1.5;
+            }
+            .c4-arrowhead {
+                fill: var(--text-secondary);
+            }
+            .c4-rel-label-bg {
+                fill: var(--primary-bg);
+                stroke: var(--border);
+                stroke-width: 1;
+            }
+            .c4-rel-label {
+                font-family: 'Inter', sans-serif;
+                font-size: 10.5px;
+                fill: var(--text-primary);
+            }
+        </style>
+    </head>
+
+    <body class="bg-[var(--primary-bg)] text-[var(--text-primary)]">
+
+        <nav id="main-nav" class="sticky top-0 z-50 bg-[var(--secondary-bg)] border-b border-[var(--lang-button-bg)]">
+            <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 flex items-center justify-between h-14">
+                <a href="/" class="nav-brand shrink-0">Felipe Sasso</a>
+                <div class="hidden sm:flex items-center gap-6">
+                    <a href="/" class="nav-link">Home</a>
+                    <a href="/tools/" class="nav-link">Tools</a>
+                    <span class="text-sm font-medium text-[var(--accent-color)] border-b-2 border-[var(--accent-color)] pb-0.5">C4 Diagram</span>
+                </div>
+                <div class="flex items-center gap-1 sm:gap-2 shrink-0">
+                    <a href="/tools/" class="sm:hidden nav-link text-sm">Tools</a>
+                    <button id="theme-toggle" class="lang-button" aria-label="Toggle dark mode" aria-pressed="false">
+                        <svg id="icon-moon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z" />
+                        </svg>
+                        <svg id="icon-sun" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 hidden">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+            <section class="card p-6 md:p-10">
+                <p class="eyebrow mb-2">Tools · Built by me</p>
+                <h1 class="section-heading text-xl sm:text-2xl font-semibold text-[var(--text-primary)] mb-3">C4 Text-to-Diagram</h1>
+                <p class="text-sm sm:text-base text-[var(--text-secondary)] leading-relaxed mb-6 max-w-2xl">
+                    Describe a system the way the <a href="https://c4model.com/" target="_blank" rel="noopener noreferrer">C4 model</a> sees it — people, software systems, containers, components and the relationships between them — in a small text format, and watch the diagram render as you type. No drag-and-drop, no hunting for the right shape: just write, and the layout takes care of itself.
+                </p>
+
+                <div class="c4t-layout">
+                    <div>
+                        <div id="c4t-examples" class="c4t-examples"></div>
+                        <textarea id="c4t-source" class="c4t-source" spellcheck="false" aria-label="C4 diagram source"></textarea>
+                        <div id="c4t-errors" class="c4t-errors hidden"></div>
+
+                        <details class="c4t-cheatsheet">
+                            <summary>Syntax cheat sheet</summary>
+                            <div class="c4t-cheatsheet-body">
+                                <p>Each line declares an element or a relationship. Names, technologies and descriptions go in quotes; ids are bare words used to wire relationships together.</p>
+                                <pre><code>title "Some System — System Context"
+
+person User "User" "Description"
+person_ext  &lt;id&gt; "Name" "Description"   (person outside your organization)
+system &lt;id&gt; "Name" "Description"        (a software system you're modelling)
+system_ext &lt;id&gt; "Name" "Description"    (a system outside your organization)
+
+container &lt;id&gt; "Name" "Technology" "Description"
+component &lt;id&gt; "Name" "Technology" "Description"
+   — add _ext to either for things you don't own (e.g. container_ext)
+
+boundary "Name" {
+  ...elements grouped inside this system/container...
+}
+
+&lt;idA&gt; -&gt; &lt;idB&gt; "Label" "Technology"     (technology is optional)
+
+# and // start a comment</code></pre>
+                                <p class="mt-3">Switch levels by changing what you declare: people and systems make a <strong>System Context</strong> diagram; wrap containers in a <code>boundary</code> for a <strong>Container</strong> diagram; nest <code>component</code> elements inside a container's boundary for a <strong>Component</strong> diagram.</p>
+                            </div>
+                        </details>
+                    </div>
+
+                    <div class="c4t-preview">
+                        <div class="c4t-preview-header">
+                            <span class="kicker">Live preview</span>
+                            <span id="c4t-diagram-title" class="c4t-diagram-title"></span>
+                        </div>
+                        <div id="c4t-canvas" class="c4t-canvas"></div>
+                        <div id="c4t-legend" class="c4t-legend"></div>
+                    </div>
+                </div>
+            </section>
+
+            <footer class="text-center py-8 text-xs sm:text-sm text-[var(--text-secondary)]">
+                <p>&copy; <span id="currentYear"></span> Felipe Coral Sasso. All rights reserved.</p>
+            </footer>
+        </div>
+
+        <script>
+            document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+            const themeToggle = document.getElementById('theme-toggle');
+            const iconMoon = document.getElementById('icon-moon');
+            const iconSun = document.getElementById('icon-sun');
+
+            function applyTheme(dark) {
+                document.documentElement.classList.toggle('dark', dark);
+                iconMoon.classList.toggle('hidden', dark);
+                iconSun.classList.toggle('hidden', !dark);
+                themeToggle.setAttribute('aria-pressed', String(dark));
+            }
+
+            applyTheme(document.documentElement.classList.contains('dark'));
+            themeToggle.addEventListener('click', () => {
+                const isDark = document.documentElement.classList.contains('dark');
+                localStorage.setItem('theme', isDark ? 'light' : 'dark');
+                applyTheme(!isDark);
+            });
+
+            window.addEventListener('scroll', () => {
+                document.getElementById('main-nav').classList.toggle('scrolled', window.scrollY > 10);
+            });
+        </script>
+
+        <script src="engine.js"></script>
+        <script src="examples.js"></script>
+        <script src="app.js"></script>
+    </body>
+</html>
