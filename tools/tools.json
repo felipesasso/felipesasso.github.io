@@ -19,5 +19,12 @@
     "url": "/tools/eda-simulator/",
     "kind": "built",
     "tags": ["Software Architecture", "Distributed Systems"]
+  },
+  {
+    "name": "Relational DB Designer",
+    "description": "Design database schemas visually — drag tables around a canvas, define columns with types and constraints, wire up foreign-key relationships, and export a ready-to-run SQL DDL script or save as JSON.",
+    "url": "/tools/relational-db-designer/",
+    "kind": "built",
+    "tags": ["Databases", "SQL", "Data Modeling"]
   }
 ]
