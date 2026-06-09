@@ -35,6 +35,13 @@
     "tags": ["React", "Design Patterns", "Frontend"]
   },
   {
+    "name": "OAuth 2.0 Flow Simulator",
+    "description": "A visual state machine of the Authorization Code, Implicit and Client Credentials flows — click through each step to see exactly what the redirect URIs, authorization codes and tokens look like on the wire.",
+    "url": "/tools/oauth-flow-simulator/",
+    "kind": "built",
+    "tags": ["OAuth 2.0", "Security", "Authentication"]
+  },
+  {
     "name": "RESTful API Designer",
     "description": "Design REST APIs endpoint by endpoint — define resources, HTTP methods, path and query parameters, request bodies and response shapes, then export a complete OpenAPI 3.0 specification as YAML or JSON.",
     "url": "/tools/restful-api-designer/",
