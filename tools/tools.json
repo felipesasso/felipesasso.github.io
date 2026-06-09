@@ -35,6 +35,13 @@
     "tags": ["React", "Design Patterns", "Frontend"]
   },
   {
+    "name": "OAuth 2.0 Flow Simulator",
+    "description": "A visual state machine of the Authorization Code, Implicit and Client Credentials flows — click through each step to see exactly what the redirect URIs, authorization codes and tokens look like on the wire.",
+    "url": "/tools/oauth-flow-simulator/",
+    "kind": "built",
+    "tags": ["OAuth 2.0", "Security", "Authentication"]
+  },
+  {
     "name": "Go Concurrency",
     "description": "A quick-reference for Go's concurrency toolbox — goroutines, channels, select, WaitGroups, worker pools, pipelines and context — each explained in plain English with runnable code samples and live animations showing how values actually flow.",
     "url": "/tools/go-concurrency/",
