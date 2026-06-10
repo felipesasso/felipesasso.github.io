@@ -679,13 +679,18 @@ function renderToolCards() {
     const grid = document.getElementById('tools-grid');
     if (!grid || !Array.isArray(toolsList)) return;
 
+    const isPt = currentLanguage === 'pt';
+
     grid.innerHTML = toolsList.slice(0, 6).map((tool) => {
         const isExternal = /^https?:\/\//.test(tool.url);
+        const name = (isPt && tool.name_pt) || tool.name;
+        const description = (isPt && tool.description_pt) || tool.description;
+        const tags = (isPt && tool.tags_pt) || tool.tags;
         return `
             <a href="${tool.url}" ${isExternal ? 'target="_blank" rel="noopener noreferrer"' : ''} class="highlight-card">
-                <h3>${tool.name}</h3>
-                <p>${tool.description}</p>
-                ${Array.isArray(tool.tags) && tool.tags.length ? `<span class="stack">${tool.tags.join(' · ')}</span>` : ''}
+                <h3>${name}</h3>
+                <p>${description}</p>
+                ${Array.isArray(tags) && tags.length ? `<span class="stack">${tags.join(' · ')}</span>` : ''}
             </a>
         `;
     }).join('');
