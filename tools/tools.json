@@ -42,6 +42,20 @@
     "tags": ["JavaScript", "npm", "Performance"]
   },
   {
+    "name": "OAuth 2.0 Flow Simulator",
+    "description": "A visual state machine of the Authorization Code, Implicit and Client Credentials flows — click through each step to see exactly what the redirect URIs, authorization codes and tokens look like on the wire.",
+    "url": "/tools/oauth-flow-simulator/",
+    "kind": "built",
+    "tags": ["OAuth 2.0", "Security", "Authentication"]
+  },
+  {
+    "name": "Go Concurrency",
+    "description": "A quick-reference for Go's concurrency toolbox — goroutines, channels, select, WaitGroups, worker pools, pipelines and context — each explained in plain English with runnable code samples and live animations showing how values actually flow.",
+    "url": "/tools/go-concurrency/",
+    "kind": "built",
+    "tags": ["Go", "Concurrency", "Channels"]
+  },
+  {
     "name": "RESTful API Designer",
     "description": "Design REST APIs endpoint by endpoint — define resources, HTTP methods, path and query parameters, request bodies and response shapes, then export a complete OpenAPI 3.0 specification as YAML or JSON.",
     "url": "/tools/restful-api-designer/",

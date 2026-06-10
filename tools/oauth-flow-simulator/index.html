@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>OAuth 2.0 Flow Simulator - Felipe Sasso</title>
+        <meta name="description" content="A visual state machine of the OAuth 2.0 Authorization Code, Implicit and Client Credentials flows — click through each step to see what the redirect URIs and tokens look like." />
+        <meta name="author" content="Felipe Coral Sasso" />
+
+        <script>
+            (function () {
+                document.documentElement.classList.add('js');
+                var stored = localStorage.getItem('theme');
+                var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+                if (stored === 'dark' || (stored !== 'light' && prefersDark)) {
+                    document.documentElement.classList.add('dark');
+                }
+            })();
+        </script>
+        <link rel="stylesheet" href="/tailwind.css" />
+        <link rel="stylesheet" href="/style.css" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+        <style>
+            .ofs-tabs {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 0.4rem;
+                margin-bottom: 1.25rem;
+            }
+            .ofs-tab {
+                display: inline-flex;
+                align-items: center;
+                gap: 0.45rem;
+                font-size: 0.78rem;
+                font-weight: 600;
+                color: var(--text-secondary);
+                background-color: var(--lang-button-bg);
+                border: 1px solid var(--border);
+                border-radius: 0.6rem;
+                padding: 0.45rem 0.85rem;
+                cursor: pointer;
+                transition: color 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
+            }
+            .ofs-tab:hover {
+                color: var(--accent-color);
+                border-color: color-mix(in srgb, var(--brass) 55%, var(--border));
+            }
+            .ofs-tab.is-active {
+                background-color: var(--accent-color);
+                color: var(--lang-button-active-text);
+                border-color: var(--accent-color);
+            }
+            .ofs-tab-badge {
+                font-size: 0.58rem;
+                font-weight: 700;
+                text-transform: uppercase;
+                letter-spacing: 0.08em;
+                border-radius: 9999px;
+                padding: 0.1rem 0.45rem;
+                background-color: var(--brass-soft);
+                color: var(--brass);
+            }
+            .ofs-tab.is-active .ofs-tab-badge {
+                background-color: color-mix(in srgb, var(--lang-button-active-text) 22%, transparent);
+                color: var(--lang-button-active-text);
+            }
+            .ofs-tab-badge.is-warn {
+                background-color: color-mix(in srgb, #C0604F 16%, transparent);
+                color: #C0604F;
+            }
+            .ofs-summary {
+                font-size: 0.88rem;
+                line-height: 1.65;
+                color: var(--text-secondary);
+                max-width: 46rem;
+                margin-bottom: 0.75rem;
+            }
+            .ofs-flow-note {
+                display: flex;
+                gap: 0.55rem;
+                align-items: flex-start;
+                font-size: 0.78rem;
+                line-height: 1.6;
+                border: 1px solid var(--border);
+                border-left: 3px solid var(--brass);
+                border-radius: 0.6rem;
+                padding: 0.6rem 0.85rem;
+                color: var(--text-secondary);
+                background-color: color-mix(in srgb, var(--brass-soft) 45%, transparent);
+                max-width: 46rem;
+                margin-bottom: 1.25rem;
+            }
+            .ofs-flow-note.is-warn {
+                border-left-color: #C0604F;
+                background-color: color-mix(in srgb, #C0604F 8%, transparent);
+            }
+            .ofs-flow-note strong {
+                color: var(--text-primary);
+            }
+            .ofs-layout {
+                display: grid;
+                grid-template-columns: 1fr;
+                gap: 1.25rem;
+                align-items: start;
+            }
+            @media (min-width: 1024px) {
+                .ofs-layout {
+                    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+                }
+            }
+            .ofs-controls {
+                display: flex;
+                flex-wrap: wrap;
+                align-items: center;
+                gap: 0.5rem;
+                margin-bottom: 0.85rem;
+            }
+            .ofs-btn {
+                display: inline-flex;
+                align-items: center;
+                gap: 0.4rem;
+                font-size: 0.78rem;
+                font-weight: 600;
+                color: var(--text-secondary);
+                background-color: var(--lang-button-bg);
+                border: 1px solid var(--border);
+                border-radius: 0.6rem;
+                padding: 0.45rem 0.85rem;
+                cursor: pointer;
+                transition: color 0.2s ease, border-color 0.2s ease, opacity 0.2s ease, transform 0.2s ease;
+            }
+            .ofs-btn:hover:not(:disabled) {
+                color: var(--accent-color);
+                border-color: color-mix(in srgb, var(--brass) 55%, var(--border));
+                transform: translateY(-1px);
+            }
+            .ofs-btn:disabled {
+                opacity: 0.4;
+                cursor: default;
+            }
+            .ofs-btn-primary {
+                background-color: var(--accent-color);
+                color: var(--lang-button-active-text);
+                border-color: var(--accent-color);
+            }
+            .ofs-btn-primary:hover:not(:disabled) {
+                color: var(--lang-button-active-text);
+                opacity: 0.9;
+            }
+            .ofs-counter {
+                margin-left: auto;
+                font-size: 0.72rem;
+                font-weight: 600;
+                text-transform: uppercase;
+                letter-spacing: 0.08em;
+                color: var(--text-secondary);
+            }
+            .ofs-diagram-wrap {
+                border: 1px solid var(--border);
+                border-radius: 0.85rem;
+                background-color: color-mix(in srgb, var(--secondary-bg) 55%, var(--primary-bg));
+                overflow-x: auto;
+            }
+            .ofs-diagram {
+                min-width: 560px;
+                padding: 1rem 0.75rem 1.1rem;
+            }
+            .ofs-actors {
+                display: flex;
+                margin-bottom: 0.4rem;
+            }
+            .ofs-actor {
+                flex: 1 1 0;
+                min-width: 0;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 0.15rem;
+                text-align: center;
+                padding: 0 0.35rem;
+            }
+            .ofs-actor-chip {
+                display: inline-flex;
+                align-items: center;
+                gap: 0.4rem;
+                font-size: 0.72rem;
+                font-weight: 600;
+                color: var(--text-primary);
+                background-color: var(--secondary-bg);
+                border: 1.5px solid var(--border);
+                border-radius: 0.6rem;
+                padding: 0.4rem 0.7rem;
+                box-shadow: var(--card-shadow);
+                white-space: nowrap;
+            }
+            .ofs-actor-chip svg {
+                width: 0.95rem;
+                height: 0.95rem;
+                color: var(--accent-color);
+                flex-shrink: 0;
+            }
+            .ofs-actor-sub {
+                font-size: 0.6rem;
+                font-weight: 500;
+                text-transform: uppercase;
+                letter-spacing: 0.07em;
+                color: var(--text-secondary);
+            }
+            .ofs-steps {
+                position: relative;
+                padding: 0.5rem 0 0.25rem;
+            }
+            .ofs-lifeline {
+                position: absolute;
+                top: 0;
+                bottom: 0;
+                width: 0;
+                border-left: 1.5px dashed color-mix(in srgb, var(--text-secondary) 32%, transparent);
+                pointer-events: none;
+            }
+            .ofs-step-row {
+                position: relative;
+                height: 3.4rem;
+                cursor: pointer;
+            }
+            .ofs-arrow {
+                position: absolute;
+                top: 58%;
+                height: 0;
+                border-top: 2px solid color-mix(in srgb, var(--text-secondary) 55%, transparent);
+            }
+            .ofs-arrow-head {
+                position: absolute;
+                top: -5px;
+                width: 0;
+                height: 0;
+                border-top: 4.5px solid transparent;
+                border-bottom: 4.5px solid transparent;
+            }
+            .ofs-arrow-head.to-right {
+                right: -1px;
+                border-left: 7px solid color-mix(in srgb, var(--text-secondary) 55%, transparent);
+            }
+            .ofs-arrow-head.to-left {
+                left: -1px;
+                border-right: 7px solid color-mix(in srgb, var(--text-secondary) 55%, transparent);
+            }
+            .ofs-step-label {
+                position: absolute;
+                top: 0.35rem;
+                left: 50%;
+                transform: translateX(-50%);
+                display: inline-flex;
+                align-items: center;
+                gap: 0.35rem;
+                max-width: 96%;
+                font-size: 0.7rem;
+                font-weight: 600;
+                color: var(--text-secondary);
+                background-color: color-mix(in srgb, var(--secondary-bg) 88%, var(--primary-bg));
+                border: 1px solid transparent;
+                border-radius: 9999px;
+                padding: 0.18rem 0.6rem;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                transition: color 0.15s ease, border-color 0.15s ease;
+            }
+            .ofs-step-num {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                width: 1.05rem;
+                height: 1.05rem;
+                flex-shrink: 0;
+                border-radius: 9999px;
+                font-size: 0.6rem;
+                font-weight: 700;
+                background-color: var(--lang-button-bg);
+                color: var(--text-secondary);
+            }
+            .ofs-self-pill {
+                position: absolute;
+                top: 58%;
+                transform: translate(-50%, -50%);
+                width: 0.75rem;
+                height: 0.75rem;
+                border-radius: 9999px;
+                border: 2px solid color-mix(in srgb, var(--text-secondary) 55%, transparent);
+                background-color: var(--secondary-bg);
+            }
+            .ofs-step-row.is-future {
+                opacity: 0.42;
+            }
+            .ofs-step-row.is-future .ofs-arrow {
+                border-top-style: dashed;
+            }
+            .ofs-step-row:hover .ofs-step-label {
+                color: var(--accent-color);
+                border-color: color-mix(in srgb, var(--brass) 55%, var(--border));
+            }
+            .ofs-step-row.is-active .ofs-arrow {
+                border-top-color: var(--accent-color);
+            }
+            .ofs-step-row.is-active .ofs-arrow-head.to-right {
+                border-left-color: var(--accent-color);
+            }
+            .ofs-step-row.is-active .ofs-arrow-head.to-left {
+                border-right-color: var(--accent-color);
+            }
+            .ofs-step-row.is-active .ofs-self-pill {
+                border-color: var(--accent-color);
+                background-color: var(--accent-soft);
+            }
+            .ofs-step-row.is-active .ofs-step-label {
+                color: var(--accent-color);
+                border-color: var(--accent-color);
+                box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent-color) 14%, transparent);
+            }
+            .ofs-step-row.is-active .ofs-step-num {
+                background-color: var(--accent-color);
+                color: var(--lang-button-active-text);
+            }
+            .ofs-detail {
+                border: 1px solid var(--border);
+                border-radius: 0.85rem;
+                background-color: color-mix(in srgb, var(--secondary-bg) 70%, var(--primary-bg));
+                padding: 1.1rem 1.2rem 1.25rem;
+            }
+            @media (min-width: 1024px) {
+                .ofs-detail {
+                    position: sticky;
+                    top: 4.5rem;
+                }
+            }
+            .ofs-detail-meta {
+                display: flex;
+                flex-wrap: wrap;
+                align-items: center;
+                gap: 0.45rem;
+                margin-bottom: 0.6rem;
+            }
+            .ofs-detail-step {
+                font-size: 0.65rem;
+                font-weight: 700;
+                text-transform: uppercase;
+                letter-spacing: 0.1em;
+                color: var(--brass);
+            }
+            .ofs-channel {
+                font-size: 0.62rem;
+                font-weight: 700;
+                text-transform: uppercase;
+                letter-spacing: 0.07em;
+                border-radius: 9999px;
+                padding: 0.18rem 0.55rem;
+            }
+            .ofs-channel.is-front {
+                background-color: var(--brass-soft);
+                color: var(--brass);
+            }
+            .ofs-channel.is-back {
+                background-color: var(--accent-soft);
+                color: var(--accent-color);
+            }
+            .ofs-channel.is-device {
+                background-color: var(--lang-button-bg);
+                color: var(--text-secondary);
+            }
+            .ofs-detail-title {
+                font-family: var(--font-display);
+                font-size: 1.15rem;
+                font-weight: 600;
+                color: var(--text-primary);
+                margin-bottom: 0.45rem;
+            }
+            .ofs-detail-desc {
+                font-size: 0.82rem;
+                line-height: 1.65;
+                color: var(--text-secondary);
+            }
+            .ofs-wire-label {
+                font-size: 0.65rem;
+                font-weight: 700;
+                text-transform: uppercase;
+                letter-spacing: 0.1em;
+                color: var(--text-secondary);
+                margin: 0.95rem 0 0.4rem;
+            }
+            .ofs-code {
+                font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+                font-size: 0.72rem;
+                line-height: 1.55;
+                color: var(--text-primary);
+                background-color: color-mix(in srgb, var(--primary-bg) 65%, var(--secondary-bg));
+                border: 1px solid var(--border);
+                border-radius: 0.6rem;
+                padding: 0.7rem 0.85rem;
+                overflow-x: auto;
+                white-space: pre;
+            }
+            .ofs-params {
+                margin-top: 0.35rem;
+            }
+            .ofs-param {
+                padding: 0.55rem 0;
+                border-bottom: 1px solid color-mix(in srgb, var(--border) 70%, transparent);
+            }
+            .ofs-param:last-child {
+                border-bottom: none;
+                padding-bottom: 0;
+            }
+            .ofs-param-name {
+                font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+                font-size: 0.72rem;
+                font-weight: 600;
+                color: var(--accent-color);
+                word-break: break-all;
+            }
+            .ofs-param-note {
+                font-size: 0.75rem;
+                line-height: 1.55;
+                color: var(--text-secondary);
+                margin-top: 0.15rem;
+            }
+            .ofs-step-note {
+                display: flex;
+                gap: 0.5rem;
+                font-size: 0.75rem;
+                line-height: 1.6;
+                color: var(--text-secondary);
+                border: 1px solid var(--border);
+                border-left: 3px solid var(--accent-color);
+                border-radius: 0.55rem;
+                padding: 0.55rem 0.75rem;
+                margin-top: 0.95rem;
+                background-color: color-mix(in srgb, var(--accent-soft) 45%, transparent);
+            }
+            .ofs-step-note.is-warn {
+                border-left-color: #C0604F;
+                background-color: color-mix(in srgb, #C0604F 8%, transparent);
+            }
+            .ofs-step-note strong {
+                color: var(--text-primary);
+            }
+            .ofs-help {
+                font-size: 0.75rem;
+                line-height: 1.6;
+                color: var(--text-secondary);
+                margin-top: 1rem;
+            }
+        </style>
+    </head>
+
+    <body class="bg-[var(--primary-bg)] text-[var(--text-primary)]">
+
+        <nav id="main-nav" class="sticky top-0 z-50 bg-[var(--secondary-bg)] border-b border-[var(--lang-button-bg)]">
+            <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 flex items-center justify-between h-14">
+                <a href="/" class="nav-brand shrink-0">Felipe Sasso</a>
+                <div class="hidden sm:flex items-center gap-6">
+                    <a href="/" class="nav-link">Home</a>
+                    <a href="/tools/" class="nav-link">Tools</a>
+                    <span class="text-sm font-medium text-[var(--accent-color)] border-b-2 border-[var(--accent-color)] pb-0.5">OAuth Simulator</span>
+                </div>
+                <div class="flex items-center gap-1 sm:gap-2 shrink-0">
+                    <a href="/tools/" class="sm:hidden nav-link text-sm">Tools</a>
+                    <button id="theme-toggle" class="lang-button" aria-label="Toggle dark mode" aria-pressed="false">
+                        <svg id="icon-moon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z" />
+                        </svg>
+                        <svg id="icon-sun" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 hidden">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+            <section class="card p-6 md:p-10">
+                <p class="eyebrow mb-2">Tools · Built by me</p>
+                <h1 class="section-heading text-xl sm:text-2xl font-semibold text-[var(--text-primary)] mb-3">OAuth 2.0 Flow Simulator</h1>
+                <p class="text-sm sm:text-base text-[var(--text-secondary)] leading-relaxed mb-6 max-w-2xl">
+                    A visual state machine for the three classic OAuth 2.0 flows — Authorization Code, Implicit and Client Credentials. Click through the steps (or click any arrow in the diagram) to see exactly what travels over the wire: the redirect URIs, the authorization codes and the tokens themselves.
+                </p>
+
+                <div id="ofs-tabs" class="ofs-tabs" role="tablist" aria-label="OAuth 2.0 flow"></div>
+
+                <p id="ofs-summary" class="ofs-summary"></p>
+                <div id="ofs-flow-note" class="ofs-flow-note"></div>
+
+                <div class="ofs-layout">
+                    <div>
+                        <div class="ofs-controls">
+                            <button id="ofs-back" class="ofs-btn" type="button">← Back</button>
+                            <button id="ofs-next" class="ofs-btn ofs-btn-primary" type="button">Next step →</button>
+                            <button id="ofs-restart" class="ofs-btn" type="button">Restart</button>
+                            <span id="ofs-counter" class="ofs-counter"></span>
+                        </div>
+
+                        <div class="ofs-diagram-wrap">
+                            <div class="ofs-diagram">
+                                <div id="ofs-actors" class="ofs-actors"></div>
+                                <div id="ofs-steps" class="ofs-steps"></div>
+                            </div>
+                        </div>
+
+                        <p class="ofs-help">
+                            <strong class="text-[var(--text-primary)]">How to read it —</strong>
+                            each column is a participant, each arrow is one hop in the flow. Solid arrows have already happened, the highlighted one is where you are now, and dashed arrows are still to come. Use the buttons, the arrow keys, or click any step directly.
+                        </p>
+                    </div>
+
+                    <div id="ofs-detail" class="ofs-detail"></div>
+                </div>
+            </section>
+
+            <footer class="text-center py-8 text-xs sm:text-sm text-[var(--text-secondary)]">
+                <p>&copy; <span id="currentYear"></span> Felipe Coral Sasso. All rights reserved.</p>
+            </footer>
+        </div>
+
+        <script>
+            document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+            const themeToggle = document.getElementById('theme-toggle');
+            const iconMoon = document.getElementById('icon-moon');
+            const iconSun = document.getElementById('icon-sun');
+
+            function applyTheme(dark) {
+                document.documentElement.classList.toggle('dark', dark);
+                iconMoon.classList.toggle('hidden', dark);
+                iconSun.classList.toggle('hidden', !dark);
+                themeToggle.setAttribute('aria-pressed', String(dark));
+            }
+
+            applyTheme(document.documentElement.classList.contains('dark'));
+            themeToggle.addEventListener('click', () => {
+                const isDark = document.documentElement.classList.contains('dark');
+                localStorage.setItem('theme', isDark ? 'light' : 'dark');
+                applyTheme(!isDark);
+            });
+
+            window.addEventListener('scroll', () => {
+                document.getElementById('main-nav').classList.toggle('scrolled', window.scrollY > 10);
+            });
+        </script>
+
+        <script src="flows-data.js"></script>
+        <script src="app.js"></script>
+    </body>
+</html>
