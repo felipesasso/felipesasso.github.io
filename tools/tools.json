@@ -56,6 +56,13 @@
     "tags": ["Go", "Concurrency", "Channels"]
   },
   {
+    "name": "Git Workflow Map",
+    "description": "A visual reference for Git — see how code moves from your working directory to the staging area, your local repository, and a remote like GitHub, with a glossary and command cheatsheet built for beginners.",
+    "url": "/tools/git-workflow/",
+    "kind": "built",
+    "tags": ["Git", "GitHub", "Version Control"]
+  },
+  {
     "name": "Regex Playground with Security Rules",
     "description": "Build an allow-list or deny-list regex for input validation and test it against a library of known SQL injection, XSS, command injection, path traversal and other payloads — see exactly which ones would slip through.",
     "url": "/tools/regex-playground/",
