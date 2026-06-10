@@ -56,6 +56,13 @@
     "tags": ["Go", "Concurrency", "Channels"]
   },
   {
+    "name": "Regex Playground with Security Rules",
+    "description": "Build an allow-list or deny-list regex for input validation and test it against a library of known SQL injection, XSS, command injection, path traversal and other payloads — see exactly which ones would slip through.",
+    "url": "/tools/regex-playground/",
+    "kind": "built",
+    "tags": ["Security", "Regex", "Input Validation"]
+  },
+  {
     "name": "RESTful API Designer",
     "description": "Design REST APIs endpoint by endpoint — define resources, HTTP methods, path and query parameters, request bodies and response shapes, then export a complete OpenAPI 3.0 specification as YAML or JSON.",
     "url": "/tools/restful-api-designer/",
