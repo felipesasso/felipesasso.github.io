@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Dockerfile Visualizer - Felipe Sasso</title>
+        <meta name="description" content="Paste a Dockerfile and see it as a live build-pipeline graph — stages, layers, COPY --from dependencies, a layer-cache heatmap and inline lint warnings." />
+        <meta name="author" content="Felipe Coral Sasso" />
+
+        <script>
+            (function () {
+                document.documentElement.classList.add('js');
+                var stored = localStorage.getItem('theme');
+                var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+                if (stored === 'dark' || (stored !== 'light' && prefersDark)) {
+                    document.documentElement.classList.add('dark');
+                }
+            })();
+        </script>
+        <link rel="stylesheet" href="/tailwind.css" />
+        <link rel="stylesheet" href="/style.css" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+        <style>
+            .dfv-layout {
+                display: grid;
+                grid-template-columns: 1fr;
+                gap: 1.25rem;
+            }
+            @media (min-width: 1024px) {
+                .dfv-layout {
+                    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+                    align-items: start;
+                }
+            }
+            .dfv-examples {
+                display: inline-flex;
+                flex-wrap: wrap;
+                gap: 0.35rem;
+                background-color: var(--lang-button-bg);
+                border: 1px solid var(--border);
+                border-radius: 0.6rem;
+                padding: 0.25rem;
+                margin-bottom: 0.75rem;
+            }
+            .dfv-example-btn {
+                font-size: 0.75rem;
+                font-weight: 600;
+                color: var(--text-secondary);
+                background: none;
+                border: none;
+                border-radius: 0.4rem;
+                padding: 0.35rem 0.75rem;
+                cursor: pointer;
+                transition: background-color 0.2s ease, color 0.2s ease;
+            }
+            .dfv-example-btn:hover:not(.active) {
+                color: var(--accent-color);
+            }
+            .dfv-example-btn.active {
+                background-color: var(--accent-color);
+                color: var(--lang-button-active-text);
+            }
+            .dfv-source {
+                width: 100%;
+                min-height: 360px;
+                resize: vertical;
+                font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+                font-size: 0.8rem;
+                line-height: 1.6;
+                color: var(--text-primary);
+                background-color: color-mix(in srgb, var(--secondary-bg) 70%, var(--primary-bg));
+                border: 1px solid var(--border);
+                border-radius: 0.7rem;
+                padding: 1rem 1.1rem;
+                tab-size: 4;
+            }
+            .dfv-source:focus {
+                outline: none;
+                border-color: color-mix(in srgb, var(--accent-color) 55%, var(--border));
+                box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent-color) 16%, transparent);
+            }
+            .dfv-panel-title {
+                font-weight: 600;
+                color: var(--text-primary);
+                margin-bottom: 0.3rem;
+            }
+            .dfv-errors {
+                margin-top: 0.85rem;
+                font-size: 0.8rem;
+                line-height: 1.6;
+                color: var(--text-secondary);
+                background-color: color-mix(in srgb, #B5483F 12%, var(--secondary-bg));
+                border: 1px solid color-mix(in srgb, #B5483F 35%, var(--border));
+                border-radius: 0.6rem;
+                padding: 0.75rem 1rem;
+            }
+            .dfv-errors ul,
+            .dfv-findings-box ul {
+                list-style: disc;
+                list-style-position: outside;
+                padding-left: 1.1rem;
+                display: flex;
+                flex-direction: column;
+                gap: 0.25rem;
+            }
+            .dfv-findings {
+                display: flex;
+                flex-direction: column;
+                gap: 0.85rem;
+                margin-top: 0.85rem;
+            }
+            .dfv-findings-box {
+                font-size: 0.8rem;
+                line-height: 1.6;
+                color: var(--text-secondary);
+                border-radius: 0.6rem;
+                padding: 0.75rem 1rem;
+                border: 1px solid var(--border);
+                background-color: color-mix(in srgb, var(--secondary-bg) 70%, var(--primary-bg));
+            }
+            .dfv-findings-box.warn {
+                background-color: color-mix(in srgb, #B98A2F 10%, var(--secondary-bg));
+                border-color: color-mix(in srgb, #B98A2F 38%, var(--border));
+            }
+            .dfv-findings-box.clean {
+                background-color: color-mix(in srgb, #3E7C4F 10%, var(--secondary-bg));
+                border-color: color-mix(in srgb, #3E7C4F 35%, var(--border));
+            }
+            .dfv-line-ref {
+                display: inline-block;
+                font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+                font-size: 0.7rem;
+                font-weight: 600;
+                color: var(--text-primary);
+                background-color: var(--skill-bg);
+                border-radius: 0.3rem;
+                padding: 0.05rem 0.35rem;
+                margin-right: 0.25rem;
+            }
+            .dfv-help {
+                margin-top: 1.25rem;
+            }
+            .dfv-help summary {
+                font-size: 0.8rem;
+                font-weight: 600;
+                color: var(--accent-color);
+                cursor: pointer;
+                user-select: none;
+            }
+            .dfv-help summary:hover {
+                color: var(--link-hover-color);
+            }
+            .dfv-help-body {
+                margin-top: 0.85rem;
+                font-size: 0.8rem;
+                line-height: 1.7;
+                color: var(--text-secondary);
+            }
+            .dfv-help-body code {
+                font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+                font-size: 0.78rem;
+                background-color: var(--skill-bg);
+                color: var(--skill-text);
+                border-radius: 0.3rem;
+                padding: 0.1rem 0.35rem;
+            }
+            .dfv-help-body ul {
+                list-style: disc;
+                list-style-position: outside;
+                padding-left: 1.1rem;
+                display: flex;
+                flex-direction: column;
+                gap: 0.25rem;
+                margin-top: 0.4rem;
+            }
+            .dfv-preview {
+                position: sticky;
+                top: 4.5rem;
+            }
+            .dfv-preview-header {
+                display: flex;
+                align-items: baseline;
+                justify-content: space-between;
+                gap: 0.75rem;
+                flex-wrap: wrap;
+                margin-bottom: 0.6rem;
+            }
+            .dfv-stats {
+                font-family: var(--font-display);
+                font-size: 1rem;
+                font-weight: 600;
+                color: var(--text-primary);
+            }
+            .dfv-canvas {
+                overflow: auto;
+                background-color: color-mix(in srgb, var(--secondary-bg) 70%, var(--primary-bg));
+                border: 1px solid var(--border);
+                border-radius: 0.7rem;
+                padding: 1rem;
+                min-height: 320px;
+                display: flex;
+            }
+            .dfv-canvas svg {
+                display: block;
+                margin: auto;
+            }
+            .dfv-canvas-empty {
+                margin: auto;
+                font-size: 0.85rem;
+                color: var(--text-secondary);
+                text-align: center;
+                max-width: 22rem;
+            }
+            .dfv-legend {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 0.6rem 1.1rem;
+                margin-top: 0.85rem;
+            }
+            .dfv-legend-item {
+                display: inline-flex;
+                align-items: center;
+                gap: 0.4rem;
+                font-size: 0.75rem;
+                color: var(--text-secondary);
+            }
+            .dfv-legend-swatch {
+                display: inline-block;
+                width: 0.85rem;
+                height: 0.85rem;
+                border-radius: 0.25rem;
+                border: 1.5px solid transparent;
+            }
+            .dfv-legend-swatch.cache-0 { background-color: color-mix(in srgb, #3E7C4F 22%, var(--secondary-bg)); border-color: #3E7C4F; }
+            .dfv-legend-swatch.cache-1 { background-color: color-mix(in srgb, #B98A2F 22%, var(--secondary-bg)); border-color: #B98A2F; }
+            .dfv-legend-swatch.cache-2 { background-color: color-mix(in srgb, #B5483F 22%, var(--secondary-bg)); border-color: #B5483F; }
+            .dfv-legend-swatch.edge {
+                background: none;
+                border: none;
+                border-top: 2px solid var(--text-secondary);
+                height: 0;
+                border-radius: 0;
+                margin-top: 0.1rem;
+            }
+            .dfv-legend-swatch.merge {
+                background: none;
+                border: 1.5px dashed #B98A2F;
+            }
+
+            /* --- SVG graph styling (mirrors the site's theme via CSS vars) --- */
+            .dfv-stage-box {
+                fill: none;
+                stroke: var(--text-secondary);
+                stroke-width: 1.25;
+                stroke-dasharray: 7 5;
+                opacity: 0.7;
+            }
+            .dfv-stage-label {
+                font-family: 'Inter', sans-serif;
+                font-size: 10.5px;
+                font-weight: 700;
+                letter-spacing: 0.08em;
+                fill: var(--text-secondary);
+            }
+            .dfv-node { stroke-width: 1.25; }
+            .dfv-node.cache-0 { fill: color-mix(in srgb, #3E7C4F 18%, var(--secondary-bg)); stroke: #3E7C4F; }
+            .dfv-node.cache-1 { fill: color-mix(in srgb, #B98A2F 18%, var(--secondary-bg)); stroke: #B98A2F; }
+            .dfv-node.cache-2 { fill: color-mix(in srgb, #B5483F 18%, var(--secondary-bg)); stroke: #B5483F; }
+            .dfv-node.kind-from { stroke: var(--accent-color); stroke-width: 2; }
+            .dfv-node-kw {
+                font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+                font-size: 11px;
+                font-weight: 700;
+                fill: var(--text-primary);
+            }
+            .dfv-node-args {
+                font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+                font-size: 9.5px;
+                fill: var(--text-secondary);
+            }
+            .dfv-edge {
+                fill: none;
+                stroke: var(--text-secondary);
+                stroke-width: 1.5;
+            }
+            .dfv-edge.kind-base { stroke-dasharray: 5 4; }
+            .dfv-arrowhead { fill: var(--text-secondary); }
+            .dfv-edge-label {
+                font-family: 'Inter', sans-serif;
+                font-size: 9.5px;
+                font-weight: 600;
+                fill: var(--text-secondary);
+                paint-order: stroke;
+                stroke: var(--primary-bg);
+                stroke-width: 3px;
+                stroke-linejoin: round;
+            }
+            .dfv-merge-rect {
+                fill: none;
+                stroke: #B98A2F;
+                stroke-width: 1.25;
+                stroke-dasharray: 4 3;
+            }
+            .dfv-badge.warn { fill: #B5483F; }
+            .dfv-badge.info { fill: #B98A2F; }
+            .dfv-badge-text {
+                font-family: 'Inter', sans-serif;
+                font-size: 11px;
+                font-weight: 700;
+                fill: #ffffff;
+            }
+        </style>
+    </head>
+
+    <body class="bg-[var(--primary-bg)] text-[var(--text-primary)]">
+
+        <nav id="main-nav" class="sticky top-0 z-50 bg-[var(--secondary-bg)] border-b border-[var(--lang-button-bg)]">
+            <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 flex items-center justify-between h-14">
+                <a href="/" class="nav-brand shrink-0">Felipe Sasso</a>
+                <div class="hidden sm:flex items-center gap-6">
+                    <a href="/" class="nav-link">Home</a>
+                    <a href="/tools/" class="nav-link">Tools</a>
+                    <span class="text-sm font-medium text-[var(--accent-color)] border-b-2 border-[var(--accent-color)] pb-0.5">Dockerfile Visualizer</span>
+                </div>
+                <div class="flex items-center gap-1 sm:gap-2 shrink-0">
+                    <a href="/tools/" class="sm:hidden nav-link text-sm">Tools</a>
+                    <button id="theme-toggle" class="lang-button" aria-label="Toggle dark mode" aria-pressed="false">
+                        <svg id="icon-moon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z" />
+                        </svg>
+                        <svg id="icon-sun" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 hidden">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+            <section class="card p-6 md:p-10">
+                <p class="eyebrow mb-2">Tools</p>
+                <h1 class="section-heading text-xl sm:text-2xl font-semibold text-[var(--text-primary)] mb-3">Dockerfile Visualizer</h1>
+                <p class="text-sm sm:text-base text-[var(--text-secondary)] leading-relaxed mb-6 max-w-2xl">
+                    Paste a Dockerfile and watch it become a build-pipeline graph: each stage is a column, each instruction a node, and <code class="text-[0.85em] bg-[var(--skill-bg)] text-[var(--skill-text)] rounded px-1.5 py-0.5">COPY --from</code> dependencies are drawn as edges between stages. Nodes are heat-mapped by layer-cache volatility — green layers survive a typical code change, red layers rebuild on almost every one — and the linter flags unpinned base images, root containers, cache breakers and mergeable RUN layers as you type.
+                </p>
+
+                <div class="dfv-layout">
+                    <div>
+                        <div id="dfv-examples" class="dfv-examples"></div>
+                        <textarea id="dfv-source" class="dfv-source" spellcheck="false" aria-label="Dockerfile source"></textarea>
+                        <div id="dfv-errors" class="dfv-errors hidden"></div>
+                        <div id="dfv-findings" class="dfv-findings"></div>
+
+                        <details class="dfv-help">
+                            <summary>How to read the graph</summary>
+                            <div class="dfv-help-body">
+                                <p>Each dashed box is a build stage (one per <code>FROM</code>); the nodes inside are its instructions, top to bottom in build order. Hover any node for the full instruction and its findings.</p>
+                                <ul>
+                                    <li><strong>Cache heatmap</strong> — Docker caches layers sequentially, so once one layer changes, everything below it rebuilds. Green nodes sit above the first volatile layer and stay cached; red nodes rebuild on almost every source change. A classic fix: copy dependency manifests (<code>package.json</code>, <code>go.mod</code>…) and install <em>before</em> the broad <code>COPY . .</code>.</li>
+                                    <li><strong>Edges</strong> — solid arrows are artifacts flowing between stages (<code>COPY --from</code>, <code>RUN --mount=from=…</code>); dashed arrows mean a stage builds on another stage as its base image.</li>
+                                    <li><strong>Badges</strong> — a red <strong>!</strong> marks a warning (unpinned <code>:latest</code>, running as root, cache breakers, secrets in <code>ENV</code>/<code>ARG</code>); an amber one marks a suggestion.</li>
+                                    <li><strong>Dashed amber groups</strong> — adjacent <code>RUN</code> instructions that each create a layer; merge them with <code>&amp;&amp;</code> to ship one smaller layer.</li>
+                                </ul>
+                                <p class="mt-3">Everything runs locally in your browser — your Dockerfile never leaves the page.</p>
+                            </div>
+                        </details>
+                    </div>
+
+                    <div class="dfv-preview">
+                        <div class="dfv-preview-header">
+                            <span class="kicker">Build pipeline</span>
+                            <span id="dfv-stats" class="dfv-stats"></span>
+                        </div>
+                        <div id="dfv-canvas" class="dfv-canvas"></div>
+                        <div class="dfv-legend">
+                            <span class="dfv-legend-item"><span class="dfv-legend-swatch cache-0"></span>Stable cache</span>
+                            <span class="dfv-legend-item"><span class="dfv-legend-swatch cache-1"></span>Changes occasionally</span>
+                            <span class="dfv-legend-item"><span class="dfv-legend-swatch cache-2"></span>Highly volatile</span>
+                            <span class="dfv-legend-item"><span class="dfv-legend-swatch edge"></span>Artifact between stages</span>
+                            <span class="dfv-legend-item"><span class="dfv-legend-swatch merge"></span>Mergeable RUN layers</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <footer class="text-center py-8 text-xs sm:text-sm text-[var(--text-secondary)]">
+                <p>&copy; <span id="currentYear"></span> Felipe Coral Sasso. All rights reserved.</p>
+            </footer>
+        </div>
+
+        <script>
+            document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+            const themeToggle = document.getElementById('theme-toggle');
+            const iconMoon = document.getElementById('icon-moon');
+            const iconSun = document.getElementById('icon-sun');
+
+            function applyTheme(dark) {
+                document.documentElement.classList.toggle('dark', dark);
+                iconMoon.classList.toggle('hidden', dark);
+                iconSun.classList.toggle('hidden', !dark);
+                themeToggle.setAttribute('aria-pressed', String(dark));
+            }
+
+            applyTheme(document.documentElement.classList.contains('dark'));
+            themeToggle.addEventListener('click', () => {
+                const isDark = document.documentElement.classList.contains('dark');
+                localStorage.setItem('theme', isDark ? 'light' : 'dark');
+                applyTheme(!isDark);
+            });
+
+            window.addEventListener('scroll', () => {
+                document.getElementById('main-nav').classList.toggle('scrolled', window.scrollY > 10);
+            });
+        </script>
+
+        <script src="engine.js"></script>
+        <script src="examples.js"></script>
+        <script src="app.js"></script>
+    </body>
+</html>

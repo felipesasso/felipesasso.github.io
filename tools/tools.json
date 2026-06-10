@@ -61,5 +61,12 @@
     "url": "/tools/restful-api-designer/",
     "kind": "built",
     "tags": ["REST", "API Design", "OpenAPI"]
+  },
+  {
+    "name": "Dockerfile Visualizer",
+    "description": "Paste a Dockerfile and see it as a live build-pipeline graph — stages and layers mapped out, COPY --from dependencies drawn between stages, a cache heatmap that exposes layer-cache breakers, plus lint warnings and layer-merge suggestions as you type.",
+    "url": "/tools/dockerfile-visualizer/",
+    "kind": "built",
+    "tags": ["Docker", "DevOps", "Containers"]
   }
 ]
