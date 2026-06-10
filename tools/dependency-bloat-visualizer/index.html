@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Dependency Bloat Visualizer - Felipe Sasso</title>
+        <meta name="description" content="Drop a package-lock.json, yarn.lock or bundler stats file and explore an interactive, zoomable treemap of your dependency tree — with duplicate-package detection." />
+        <meta name="author" content="Felipe Coral Sasso" />
+
+        <script>
+            (function () {
+                document.documentElement.classList.add('js');
+                var stored = localStorage.getItem('theme');
+                var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+                if (stored === 'dark' || (stored !== 'light' && prefersDark)) {
+                    document.documentElement.classList.add('dark');
+                }
+            })();
+        </script>
+        <link rel="stylesheet" href="/tailwind.css" />
+        <link rel="stylesheet" href="/style.css" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+        <style>
+            .is-hidden { display: none !important; }
+            .bloat-dropzone {
+                border: 2px dashed color-mix(in srgb, var(--accent-color) 45%, var(--border));
+                border-radius: 0.85rem;
+                background-color: color-mix(in srgb, var(--secondary-bg) 60%, var(--primary-bg));
+                padding: 2.2rem 1.5rem;
+                text-align: center;
+                cursor: pointer;
+                transition: border-color 0.2s ease, background-color 0.2s ease;
+            }
+            .bloat-dropzone:hover, .bloat-dropzone.is-over {
+                border-color: var(--accent-color);
+                background-color: color-mix(in srgb, var(--accent-color) 7%, var(--secondary-bg));
+            }
+            .bloat-dropzone-title {
+                font-family: var(--font-display);
+                font-size: 1.1rem;
+                font-weight: 600;
+                color: var(--text-primary);
+                margin-bottom: 0.35rem;
+            }
+            .bloat-dropzone-sub {
+                font-size: 0.82rem;
+                color: var(--text-secondary);
+                max-width: 34rem;
+                margin: 0 auto 1rem;
+                line-height: 1.5;
+            }
+            .bloat-btn {
+                display: inline-flex;
+                align-items: center;
+                gap: 0.4rem;
+                font-size: 0.78rem;
+                font-weight: 600;
+                color: var(--text-secondary);
+                background-color: var(--lang-button-bg);
+                border: 1px solid var(--border);
+                border-radius: 0.6rem;
+                padding: 0.45rem 0.85rem;
+                cursor: pointer;
+                transition: color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+            }
+            .bloat-btn:hover:not(:disabled) {
+                color: var(--accent-color);
+                border-color: color-mix(in srgb, var(--brass) 55%, var(--border));
+                transform: translateY(-1px);
+            }
+            .bloat-btn:disabled { opacity: 0.4; cursor: default; }
+            .bloat-btn-primary {
+                background-color: var(--accent-color);
+                color: var(--lang-button-active-text);
+                border-color: var(--accent-color);
+            }
+            .bloat-btn-primary:hover:not(:disabled) { color: var(--lang-button-active-text); opacity: 0.9; }
+            .bloat-privacy {
+                font-size: 0.72rem;
+                color: var(--text-secondary);
+                margin-top: 0.9rem;
+            }
+            .bloat-error {
+                margin-top: 1rem;
+                font-size: 0.82rem;
+                color: #C0604F;
+                border: 1px solid color-mix(in srgb, #C0604F 45%, var(--border));
+                background-color: color-mix(in srgb, #C0604F 8%, transparent);
+                border-radius: 0.7rem;
+                padding: 0.7rem 1rem;
+            }
+            .bloat-stats {
+                display: grid;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 0.5rem;
+                margin-bottom: 0.75rem;
+            }
+            @media (min-width: 640px) { .bloat-stats { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+            .bloat-stat {
+                border: 1px solid var(--border);
+                border-radius: 0.7rem;
+                padding: 0.6rem 0.85rem;
+                background-color: color-mix(in srgb, var(--secondary-bg) 70%, var(--primary-bg));
+            }
+            .bloat-stat-label {
+                font-size: 0.65rem;
+                font-weight: 600;
+                text-transform: uppercase;
+                letter-spacing: 0.1em;
+                color: var(--text-secondary);
+                margin-bottom: 0.2rem;
+            }
+            .bloat-stat-value {
+                font-family: var(--font-display);
+                font-size: 1.35rem;
+                font-weight: 600;
+                color: var(--text-primary);
+            }
+            .bloat-stat-value.is-warn { color: #C0604F; }
+            .bloat-source {
+                font-size: 0.75rem;
+                color: var(--text-secondary);
+                margin-bottom: 1rem;
+            }
+            .bloat-toolbar {
+                display: flex;
+                flex-wrap: wrap;
+                align-items: center;
+                gap: 0.6rem;
+                margin-bottom: 0.6rem;
+            }
+            .bloat-breadcrumb {
+                flex: 1 1 auto;
+                display: flex;
+                flex-wrap: wrap;
+                align-items: center;
+                gap: 0.15rem;
+                font-size: 0.8rem;
+                min-width: 0;
+            }
+            .bloat-crumb {
+                background: none;
+                border: none;
+                padding: 0.15rem 0.3rem;
+                font-size: 0.8rem;
+                font-weight: 600;
+                color: var(--accent-color);
+                cursor: pointer;
+                border-radius: 0.35rem;
+            }
+            .bloat-crumb:hover { background-color: var(--lang-button-bg); }
+            .bloat-crumb.is-current { color: var(--text-primary); cursor: default; }
+            .bloat-crumb-ver { font-weight: 400; color: var(--text-secondary); }
+            .bloat-crumb-sep { color: var(--text-secondary); }
+            .bloat-treemap-wrap {
+                position: relative;
+                border: 1px solid var(--border);
+                border-radius: 0.85rem;
+                overflow: hidden;
+                background-color: color-mix(in srgb, var(--secondary-bg) 55%, var(--primary-bg));
+            }
+            #bloat-svg { display: block; width: 100%; }
+            .tm-rect {
+                stroke: var(--primary-bg);
+                stroke-width: 1;
+                cursor: pointer;
+                transition: filter 0.15s ease;
+            }
+            .tm-group:hover > .tm-rect:first-of-type { filter: brightness(1.07); }
+            .tm-rect.tm-hl { stroke: #C0604F; stroke-width: 2; }
+            .tm-rect.tm-dim { opacity: 0.45; }
+            .tm-label {
+                font-family: 'Inter', sans-serif;
+                font-size: 11px;
+                font-weight: 600;
+                fill: var(--text-primary);
+                pointer-events: none;
+            }
+            .tm-sublabel { font-size: 10px; font-weight: 500; opacity: 0.85; }
+            .bloat-hint {
+                font-size: 0.72rem;
+                color: var(--text-secondary);
+                margin-top: 0.5rem;
+            }
+            .bloat-tooltip {
+                position: fixed;
+                z-index: 60;
+                max-width: 22rem;
+                pointer-events: none;
+                background-color: var(--secondary-bg);
+                border: 1px solid var(--border);
+                border-radius: 0.6rem;
+                box-shadow: 0 6px 24px rgba(0, 0, 0, 0.18);
+                padding: 0.55rem 0.75rem;
+                font-size: 0.74rem;
+                line-height: 1.45;
+                color: var(--text-secondary);
+            }
+            .bloat-tooltip strong { color: var(--text-primary); }
+            .bloat-tip-path { opacity: 0.75; word-break: break-word; }
+            .bloat-panels {
+                display: grid;
+                grid-template-columns: 1fr;
+                gap: 1rem;
+                margin-top: 1.25rem;
+            }
+            @media (min-width: 768px) { .bloat-panels { grid-template-columns: 3fr 2fr; } }
+            .bloat-panel {
+                border: 1px solid var(--border);
+                border-radius: 0.85rem;
+                padding: 1rem 1.1rem;
+                background-color: color-mix(in srgb, var(--secondary-bg) 70%, var(--primary-bg));
+            }
+            .bloat-panel h2 {
+                font-family: var(--font-display);
+                font-size: 1rem;
+                font-weight: 600;
+                color: var(--text-primary);
+                margin-bottom: 0.2rem;
+            }
+            .bloat-panel-sub {
+                font-size: 0.74rem;
+                color: var(--text-secondary);
+                margin-bottom: 0.8rem;
+            }
+            .bloat-dups { display: flex; flex-direction: column; gap: 0.45rem; }
+            .bloat-dup {
+                display: block;
+                width: 100%;
+                text-align: left;
+                border: 1px solid var(--border);
+                border-radius: 0.6rem;
+                background-color: var(--lang-button-bg);
+                padding: 0.55rem 0.75rem;
+                cursor: pointer;
+                transition: border-color 0.2s ease;
+            }
+            .bloat-dup:hover { border-color: color-mix(in srgb, #C0604F 50%, var(--border)); }
+            .bloat-dup.is-active { border-color: #C0604F; box-shadow: 0 0 0 1px #C0604F inset; }
+            .bloat-dup-head {
+                display: flex;
+                justify-content: space-between;
+                align-items: baseline;
+                gap: 0.5rem;
+                font-size: 0.82rem;
+                color: var(--text-primary);
+            }
+            .bloat-dup-waste {
+                font-size: 0.7rem;
+                font-weight: 600;
+                color: #C0604F;
+                white-space: nowrap;
+            }
+            .bloat-dup-vers {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 0.3rem;
+                margin-top: 0.35rem;
+            }
+            .bloat-dup-ver {
+                font-size: 0.7rem;
+                color: var(--text-secondary);
+                border: 1px solid var(--border);
+                border-radius: 999px;
+                padding: 0.1rem 0.55rem;
+                background-color: var(--secondary-bg);
+            }
+            .bloat-dup-ver em { font-style: normal; opacity: 0.75; }
+            .bloat-heaviest { display: flex; flex-direction: column; gap: 0.4rem; font-size: 0.8rem; }
+            .bloat-heaviest li {
+                display: flex;
+                justify-content: space-between;
+                gap: 0.75rem;
+                align-items: baseline;
+                border-bottom: 1px dashed var(--border);
+                padding-bottom: 0.35rem;
+            }
+            .bloat-heaviest li:last-child { border-bottom: none; }
+            .bloat-heavy-name { color: var(--text-primary); font-weight: 500; word-break: break-word; }
+            .bloat-heavy-name em { font-style: normal; font-weight: 400; color: var(--text-secondary); font-size: 0.72rem; }
+            .bloat-heavy-size { color: var(--text-secondary); font-size: 0.74rem; white-space: nowrap; }
+            .bloat-badge {
+                display: inline-block;
+                font-size: 0.62rem;
+                font-weight: 600;
+                text-transform: uppercase;
+                letter-spacing: 0.06em;
+                color: var(--text-secondary);
+                border: 1px solid var(--border);
+                border-radius: 999px;
+                padding: 0 0.4rem;
+                vertical-align: middle;
+            }
+            .bloat-details {
+                margin-top: 1rem;
+                border: 1px solid var(--border);
+                border-radius: 0.85rem;
+                padding: 1rem 1.1rem;
+                background-color: color-mix(in srgb, var(--secondary-bg) 70%, var(--primary-bg));
+                font-size: 0.8rem;
+                color: var(--text-secondary);
+            }
+            .bloat-details h3 {
+                font-family: var(--font-display);
+                font-size: 0.95rem;
+                font-weight: 600;
+                color: var(--text-primary);
+                margin-bottom: 0.2rem;
+            }
+            .bloat-details h3 em { font-style: normal; font-weight: 400; color: var(--text-secondary); font-size: 0.78rem; }
+            .bloat-details ul { margin-top: 0.6rem; display: flex; flex-direction: column; gap: 0.25rem; }
+            .bloat-details li em { font-style: normal; opacity: 0.75; }
+            .bloat-muted { font-size: 0.78rem; color: var(--text-secondary); }
+            .bloat-fetch-status { font-size: 0.74rem; color: var(--text-secondary); }
+        </style>
+    </head>
+
+    <body class="bg-[var(--primary-bg)] text-[var(--text-primary)]">
+
+        <nav id="main-nav" class="sticky top-0 z-50 bg-[var(--secondary-bg)] border-b border-[var(--lang-button-bg)]">
+            <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 flex items-center justify-between h-14">
+                <a href="/" class="nav-brand shrink-0">Felipe Sasso</a>
+                <div class="hidden sm:flex items-center gap-6">
+                    <a href="/" class="nav-link">Home</a>
+                    <a href="/tools/" class="nav-link">Tools</a>
+                    <span class="text-sm font-medium text-[var(--accent-color)] border-b-2 border-[var(--accent-color)] pb-0.5">Bloat Visualizer</span>
+                </div>
+                <div class="flex items-center gap-1 sm:gap-2 shrink-0">
+                    <a href="/tools/" class="sm:hidden nav-link text-sm">Tools</a>
+                    <button id="theme-toggle" class="lang-button" aria-label="Toggle dark mode" aria-pressed="false">
+                        <svg id="icon-moon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z" />
+                        </svg>
+                        <svg id="icon-sun" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 hidden">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+            <section class="card p-6 md:p-10">
+                <p class="eyebrow mb-2">Tools · Built by me</p>
+                <h1 class="section-heading text-xl sm:text-2xl font-semibold text-[var(--text-primary)] mb-3">Dependency Bloat Visualizer</h1>
+                <p class="text-sm sm:text-base text-[var(--text-secondary)] leading-relaxed mb-6 max-w-2xl">
+                    "Why is my app 5&nbsp;MB?" The answer usually hides deep in nested dependencies. Drop a lockfile or bundler stats file below and explore your whole dependency tree as a zoomable treemap — and let the anomaly detector flag libraries that got bundled more than once.
+                </p>
+
+                <div id="bloat-dropzone" class="bloat-dropzone" role="button" tabindex="0" aria-label="Drop a lockfile or stats file, or click to browse">
+                    <p class="bloat-dropzone-title">Drag &amp; drop a file here</p>
+                    <p class="bloat-dropzone-sub">
+                        <strong>package-lock.json</strong> · <strong>yarn.lock</strong> (classic or Berry) · webpack <strong>stats.json</strong> · esbuild <strong>metafile</strong> · rollup/vite <strong>visualizer JSON</strong>
+                    </p>
+                    <span class="bloat-btn bloat-btn-primary">Browse files</span>
+                    <button id="bloat-sample" class="bloat-btn" type="button" style="margin-left: 0.5rem;">Try a sample lockfile</button>
+                    <p class="bloat-privacy">Everything is parsed locally in your browser — your file never leaves your machine.</p>
+                </div>
+                <input id="bloat-file" type="file" accept=".json,.lock,.txt,application/json,text/plain" class="is-hidden" />
+                <div id="bloat-error" class="bloat-error is-hidden"></div>
+
+                <div id="bloat-results" class="is-hidden" style="margin-top: 1.5rem;">
+                    <div class="bloat-stats">
+                        <div class="bloat-stat">
+                            <p class="bloat-stat-label">Packages</p>
+                            <p id="stat-total" class="bloat-stat-value">0</p>
+                        </div>
+                        <div class="bloat-stat">
+                            <p class="bloat-stat-label">Unique names</p>
+                            <p id="stat-unique" class="bloat-stat-value">0</p>
+                        </div>
+                        <div class="bloat-stat">
+                            <p class="bloat-stat-label">Duplicated libraries</p>
+                            <p id="stat-dups" class="bloat-stat-value">0</p>
+                        </div>
+                        <div class="bloat-stat">
+                            <p id="stat-weight-label" class="bloat-stat-label">Total size</p>
+                            <p id="stat-weight" class="bloat-stat-value">—</p>
+                        </div>
+                    </div>
+                    <p id="bloat-source" class="bloat-source"></p>
+
+                    <div class="bloat-toolbar">
+                        <div id="bloat-breadcrumb" class="bloat-breadcrumb"></div>
+                        <button id="bloat-up" class="bloat-btn" type="button" disabled>↑ Up one level</button>
+                        <button id="bloat-fetch-sizes" class="bloat-btn is-hidden" type="button" title="Looks up each package's unpacked size on the npm registry">Fetch real sizes from npm</button>
+                        <span id="bloat-fetch-status" class="bloat-fetch-status"></span>
+                    </div>
+
+                    <div id="bloat-treemap-wrap" class="bloat-treemap-wrap">
+                        <svg id="bloat-svg" data-height="520" role="img" aria-label="Dependency treemap"></svg>
+                    </div>
+                    <p class="bloat-hint">
+                        Click a square to zoom into that package's sub-dependencies · double-click (or press Esc) to zoom back out · hover for details. Dev dependencies are drawn desaturated; a "shared" package is one that's installed once and reused elsewhere in the tree.
+                    </p>
+
+                    <div id="bloat-details" class="bloat-details is-hidden"></div>
+
+                    <div class="bloat-panels">
+                        <div class="bloat-panel">
+                            <h2>Anomaly detector — duplicated libraries</h2>
+                            <p class="bloat-panel-sub">The same library bundled more than once (different versions or nested copies). Click one to highlight every copy in the treemap.</p>
+                            <div id="bloat-dups" class="bloat-dups"></div>
+                        </div>
+                        <div class="bloat-panel">
+                            <h2>Heaviest packages</h2>
+                            <p class="bloat-panel-sub">Direct and transitive footprint — each package together with everything it alone pulls in.</p>
+                            <ol id="bloat-heaviest" class="bloat-heaviest"></ol>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <footer class="text-center py-8 text-xs sm:text-sm text-[var(--text-secondary)]">
+                <p>&copy; <span id="currentYear"></span> Felipe Coral Sasso. All rights reserved.</p>
+            </footer>
+        </div>
+
+        <div id="bloat-tooltip" class="bloat-tooltip is-hidden"></div>
+
+        <script>
+            document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+            const themeToggle = document.getElementById('theme-toggle');
+            const iconMoon = document.getElementById('icon-moon');
+            const iconSun = document.getElementById('icon-sun');
+
+            function applyTheme(dark) {
+                document.documentElement.classList.toggle('dark', dark);
+                iconMoon.classList.toggle('hidden', dark);
+                iconSun.classList.toggle('hidden', !dark);
+                themeToggle.setAttribute('aria-pressed', String(dark));
+            }
+
+            applyTheme(document.documentElement.classList.contains('dark'));
+            themeToggle.addEventListener('click', () => {
+                const isDark = document.documentElement.classList.contains('dark');
+                localStorage.setItem('theme', isDark ? 'light' : 'dark');
+                applyTheme(!isDark);
+            });
+
+            window.addEventListener('scroll', () => {
+                document.getElementById('main-nav').classList.toggle('scrolled', window.scrollY > 10);
+            });
+        </script>
+
+        <script src="parsers.js"></script>
+        <script src="treemap.js"></script>
+        <script src="sample-data.js"></script>
+        <script src="app.js"></script>
+    </body>
+</html>
