@@ -56,6 +56,13 @@
     "tags": ["Go", "Concurrency", "Channels"]
   },
   {
+    "name": "Git Workflow Map",
+    "description": "A visual reference for Git — see how code moves from your working directory to the staging area, your local repository, and a remote like GitHub, with a glossary and command cheatsheet built for beginners.",
+    "url": "/tools/git-workflow/",
+    "kind": "built",
+    "tags": ["Git", "GitHub", "Version Control"]
+  },
+  {
     "name": "RESTful API Designer",
     "description": "Design REST APIs endpoint by endpoint — define resources, HTTP methods, path and query parameters, request bodies and response shapes, then export a complete OpenAPI 3.0 specification as YAML or JSON.",
     "url": "/tools/restful-api-designer/",
