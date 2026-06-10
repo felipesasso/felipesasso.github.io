@@ -1,79 +1,112 @@
 [
   {
     "name": "Design Pattern Decision Tree",
+    "name_pt": "Árvore de Decisão de Padrões de Projeto",
     "description": "Answer a few questions about the problem you're facing and walk away with a recommended Gang of Four design pattern — plus a plain-English explanation of why it fits.",
+    "description_pt": "Responda a algumas perguntas sobre o problema que você está enfrentando e receba uma recomendação de padrão de projeto Gang of Four — com uma explicação em linguagem simples do porquê ele se encaixa.",
     "url": "/tools/design-pattern-decision-tree/",
     "kind": "built",
-    "tags": ["Design Patterns", "Software Architecture"]
+    "tags": ["Design Patterns", "Software Architecture"],
+    "tags_pt": ["Padrões de Projeto", "Arquitetura de Software"]
   },
   {
     "name": "C4 Text-to-Diagram",
+    "name_pt": "C4 Texto-para-Diagrama",
     "description": "Write your architecture as plain text — people, systems, containers and their relationships — and watch a C4 model diagram render live, with no dragging shapes around.",
+    "description_pt": "Escreva sua arquitetura como texto simples — pessoas, sistemas, contêineres e seus relacionamentos — e veja um diagrama do modelo C4 ser renderizado ao vivo, sem precisar arrastar formas.",
     "url": "/tools/c4-text-to-diagram/",
     "kind": "built",
-    "tags": ["Software Architecture", "Diagramming", "C4 Model"]
+    "tags": ["Software Architecture", "Diagramming", "C4 Model"],
+    "tags_pt": ["Arquitetura de Software", "Diagramação", "Modelo C4"]
   },
   {
     "name": "Event-Driven Architecture Simulator",
+    "name_pt": "Simulador de Arquitetura Orientada a Eventos",
     "description": "Drag producers, topics/queues and consumers onto a canvas, wire them together, and watch messages flow under load — tune throughput and latency, or simulate a consumer crash, and see backlogs and failures play out live.",
+    "description_pt": "Arraste produtores, tópicos/filas e consumidores para um canvas, conecte-os e veja as mensagens fluírem sob carga — ajuste throughput e latência, ou simule a queda de um consumidor, e acompanhe filas e falhas em tempo real.",
     "url": "/tools/eda-simulator/",
     "kind": "built",
-    "tags": ["Software Architecture", "Distributed Systems"]
+    "tags": ["Software Architecture", "Distributed Systems"],
+    "tags_pt": ["Arquitetura de Software", "Sistemas Distribuídos"]
   },
   {
     "name": "Relational DB Designer",
+    "name_pt": "Designer de Banco de Dados Relacional",
     "description": "Design database schemas visually — drag tables around a canvas, define columns with types and constraints, wire up foreign-key relationships, and export a ready-to-run SQL DDL script or save as JSON.",
+    "description_pt": "Projete esquemas de banco de dados visualmente — arraste tabelas pelo canvas, defina colunas com tipos e restrições, conecte relacionamentos de chave estrangeira e exporte um script SQL DDL pronto para uso ou salve como JSON.",
     "url": "/tools/relational-db-designer/",
     "kind": "built",
-    "tags": ["Databases", "SQL", "Data Modeling"]
+    "tags": ["Databases", "SQL", "Data Modeling"],
+    "tags_pt": ["Bancos de Dados", "SQL", "Modelagem de Dados"]
   },
   {
     "name": "React Design Patterns",
+    "name_pt": "Padrões de Projeto em React",
     "description": "A quick-reference guide to the React patterns worth knowing — custom hooks, compound components, state reducer, provider, server components and more — each with a plain-English explanation, a working code sample and the pitfalls to watch out for.",
+    "description_pt": "Um guia de referência rápida para os padrões de React que vale a pena conhecer — custom hooks, compound components, state reducer, provider, server components e mais — cada um com explicação em linguagem simples, um exemplo de código funcional e as armadilhas a evitar.",
     "url": "/tools/react-design-patterns/",
     "kind": "built",
-    "tags": ["React", "Design Patterns", "Frontend"]
+    "tags": ["React", "Design Patterns", "Frontend"],
+    "tags_pt": ["React", "Padrões de Projeto", "Frontend"]
   },
   {
     "name": "Dependency Bloat Visualizer",
+    "name_pt": "Visualizador de Inchaço de Dependências",
     "description": "Drop a package-lock.json, yarn.lock or bundler stats file and explore your whole dependency tree as a zoomable, interactive treemap — with an anomaly detector that flags duplicated libraries and an optional lookup of real package sizes from the npm registry.",
+    "description_pt": "Solte um package-lock.json, yarn.lock ou arquivo de stats do bundler e explore toda a sua árvore de dependências como um treemap interativo com zoom — com um detector de anomalias que aponta bibliotecas duplicadas e uma busca opcional dos tamanhos reais dos pacotes no registro do npm.",
     "url": "/tools/dependency-bloat-visualizer/",
     "kind": "built",
-    "tags": ["JavaScript", "npm", "Performance"]
+    "tags": ["JavaScript", "npm", "Performance"],
+    "tags_pt": ["JavaScript", "npm", "Desempenho"]
   },
   {
     "name": "OAuth 2.0 Flow Simulator",
+    "name_pt": "Simulador de Fluxos OAuth 2.0",
     "description": "A visual state machine of the Authorization Code, Implicit and Client Credentials flows — click through each step to see exactly what the redirect URIs, authorization codes and tokens look like on the wire.",
+    "description_pt": "Uma máquina de estados visual dos fluxos Authorization Code, Implicit e Client Credentials — clique em cada etapa para ver exatamente como ficam os redirect URIs, códigos de autorização e tokens.",
     "url": "/tools/oauth-flow-simulator/",
     "kind": "built",
-    "tags": ["OAuth 2.0", "Security", "Authentication"]
+    "tags": ["OAuth 2.0", "Security", "Authentication"],
+    "tags_pt": ["OAuth 2.0", "Segurança", "Autenticação"]
   },
   {
     "name": "Go Concurrency",
+    "name_pt": "Concorrência em Go",
     "description": "A quick-reference for Go's concurrency toolbox — goroutines, channels, select, WaitGroups, worker pools, pipelines and context — each explained in plain English with runnable code samples and live animations showing how values actually flow.",
+    "description_pt": "Uma referência rápida para o conjunto de ferramentas de concorrência do Go — goroutines, channels, select, WaitGroups, worker pools, pipelines e context — cada um explicado em linguagem simples, com exemplos de código executáveis e animações ao vivo mostrando como os valores realmente fluem.",
     "url": "/tools/go-concurrency/",
     "kind": "built",
-    "tags": ["Go", "Concurrency", "Channels"]
+    "tags": ["Go", "Concurrency", "Channels"],
+    "tags_pt": ["Go", "Concorrência", "Channels"]
   },
   {
     "name": "Git Workflow Map",
+    "name_pt": "Mapa do Fluxo de Trabalho do Git",
     "description": "A visual reference for Git — see how code moves from your working directory to the staging area, your local repository, and a remote like GitHub, with a glossary and command cheatsheet built for beginners.",
+    "description_pt": "Uma referência visual para o Git — veja como o código se move do diretório de trabalho para a área de staging, o repositório local e um remoto como o GitHub, com um glossário e um cheatsheet de comandos pensados para iniciantes.",
     "url": "/tools/git-workflow/",
     "kind": "built",
-    "tags": ["Git", "GitHub", "Version Control"]
+    "tags": ["Git", "GitHub", "Version Control"],
+    "tags_pt": ["Git", "GitHub", "Controle de Versão"]
   },
   {
     "name": "Regex Playground with Security Rules",
+    "name_pt": "Playground de Regex com Regras de Segurança",
     "description": "Build an allow-list or deny-list regex for input validation and test it against a library of known SQL injection, XSS, command injection, path traversal and other payloads — see exactly which ones would slip through.",
+    "description_pt": "Construa uma regex de allow-list ou deny-list para validação de entrada e teste-a contra uma biblioteca de payloads conhecidos de SQL injection, XSS, command injection, path traversal e outros — veja exatamente quais passariam despercebidos.",
     "url": "/tools/regex-playground/",
     "kind": "built",
-    "tags": ["Security", "Regex", "Input Validation"]
+    "tags": ["Security", "Regex", "Input Validation"],
+    "tags_pt": ["Segurança", "Regex", "Validação de Entrada"]
   },
   {
     "name": "RESTful API Designer",
+    "name_pt": "Designer de API RESTful",
     "description": "Design REST APIs endpoint by endpoint — define resources, HTTP methods, path and query parameters, request bodies and response shapes, then export a complete OpenAPI 3.0 specification as YAML or JSON.",
+    "description_pt": "Projete APIs REST endpoint por endpoint — defina recursos, métodos HTTP, parâmetros de path e query, corpos de requisição e formatos de resposta, e exporte uma especificação OpenAPI 3.0 completa em YAML ou JSON.",
     "url": "/tools/restful-api-designer/",
     "kind": "built",
-    "tags": ["REST", "API Design", "OpenAPI"]
+    "tags": ["REST", "API Design", "OpenAPI"],
+    "tags_pt": ["REST", "Design de API", "OpenAPI"]
   }
 ]

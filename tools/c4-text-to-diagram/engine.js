@@ -46,6 +46,29 @@
 
     const HAS_TECHNOLOGY = { container: true, container_ext: true, component: true, component_ext: true };
 
+    const MESSAGES = {
+        en: {
+            unexpectedClose: (lineNo) => `Line ${lineNo}: unexpected "}" — no boundary is open.`,
+            duplicateId: (lineNo, id) => `Line ${lineNo}: "${id}" is declared more than once.`,
+            unrecognizedLine: (lineNo, raw) => `Line ${lineNo}: couldn't make sense of "${raw}".`,
+            unclosedBoundary: () => 'A "boundary { ... }" block is missing its closing "}".',
+            undeclaredFrom: (lineNo, id) => `Line ${lineNo}: "${id}" was never declared.`,
+            undeclaredTo: (lineNo, id) => `Line ${lineNo}: "${id}" was never declared.`,
+        },
+        pt: {
+            unexpectedClose: (lineNo) => `Linha ${lineNo}: "}" inesperado — nenhum boundary está aberto.`,
+            duplicateId: (lineNo, id) => `Linha ${lineNo}: "${id}" foi declarado mais de uma vez.`,
+            unrecognizedLine: (lineNo, raw) => `Linha ${lineNo}: não foi possível interpretar "${raw}".`,
+            unclosedBoundary: () => 'Um bloco "boundary { ... }" está sem o "}" de fechamento.',
+            undeclaredFrom: (lineNo, id) => `Linha ${lineNo}: "${id}" nunca foi declarado.`,
+            undeclaredTo: (lineNo, id) => `Linha ${lineNo}: "${id}" nunca foi declarado.`,
+        },
+    };
+
+    function getMessages(lang) {
+        return MESSAGES[lang] || MESSAGES.en;
+    }
+
     // --- Parsing -----------------------------------------------------------
 
     function extractQuoted(str) {
@@ -72,7 +95,8 @@
         return line;
     }
 
-    function parse(source) {
+    function parse(source, lang) {
+        const messages = getMessages(lang);
         const lines = (source || '').split(/\r?\n/);
         const root = { type: 'boundary', name: null, children: [] };
         const stack = [root];
@@ -90,7 +114,7 @@
                 if (stack.length > 1) {
                     stack.pop();
                 } else {
-                    errors.push(`Line ${lineNo}: unexpected "}" — no boundary is open.`);
+                    errors.push(messages.unexpectedClose(lineNo));
                 }
                 return;
             }
@@ -124,7 +148,7 @@
                     description: withTech ? (parts[2] || '') : (parts[1] || ''),
                 };
                 if (nodesById[id]) {
-                    errors.push(`Line ${lineNo}: "${id}" is declared more than once.`);
+                    errors.push(messages.duplicateId(lineNo, id));
                 } else {
                     nodesById[id] = node;
                 }
@@ -144,16 +168,16 @@
                 return;
             }
 
-            errors.push(`Line ${lineNo}: couldn't make sense of "${raw.trim()}".`);
+            errors.push(messages.unrecognizedLine(lineNo, raw.trim()));
         });
 
         if (stack.length > 1) {
-            errors.push('A "boundary { ... }" block is missing its closing "}".');
+            errors.push(messages.unclosedBoundary());
         }
 
         relationships.forEach((rel) => {
-            if (!nodesById[rel.from]) errors.push(`Line ${rel.lineNo}: "${rel.from}" was never declared.`);
-            if (!nodesById[rel.to]) errors.push(`Line ${rel.lineNo}: "${rel.to}" was never declared.`);
+            if (!nodesById[rel.from]) errors.push(messages.undeclaredFrom(rel.lineNo, rel.from));
+            if (!nodesById[rel.to]) errors.push(messages.undeclaredTo(rel.lineNo, rel.to));
         });
 
         return { title, root, nodesById, relationships, errors };
@@ -405,8 +429,8 @@
         `;
     }
 
-    function render(source) {
-        const parsed = parse(source);
+    function render(source, lang) {
+        const parsed = parse(source, lang);
         const dims = layout(parsed);
         const svg = renderSvg(parsed, dims);
         const kindsUsed = new Set();
