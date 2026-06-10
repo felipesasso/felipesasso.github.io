@@ -35,6 +35,13 @@
     "tags": ["React", "Design Patterns", "Frontend"]
   },
   {
+    "name": "Dependency Bloat Visualizer",
+    "description": "Drop a package-lock.json, yarn.lock or bundler stats file and explore your whole dependency tree as a zoomable, interactive treemap — with an anomaly detector that flags duplicated libraries and an optional lookup of real package sizes from the npm registry.",
+    "url": "/tools/dependency-bloat-visualizer/",
+    "kind": "built",
+    "tags": ["JavaScript", "npm", "Performance"]
+  },
+  {
     "name": "OAuth 2.0 Flow Simulator",
     "description": "A visual state machine of the Authorization Code, Implicit and Client Credentials flows — click through each step to see exactly what the redirect URIs, authorization codes and tokens look like on the wire.",
     "url": "/tools/oauth-flow-simulator/",
