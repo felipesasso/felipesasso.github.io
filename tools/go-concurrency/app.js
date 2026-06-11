@@ -2,7 +2,17 @@
    Renders the quick-access index table and one detail card per topic, with
    category filtering, copy-to-clipboard on code blocks, and a live canvas
    animation per topic. Depends on GO_TOPICS / GO_CATEGORIES (data.js),
-   GO_ANIMATIONS (animations.js) and GoAnimEngine (engine.js). */
+   GO_ANIMATIONS (animations.js) and GoAnimEngine (engine.js).
+
+   Translation: APP_TRANSLATIONS holds every hardcoded UI string (en/pt);
+   t(key) looks one up for the current language with an English fallback.
+   pick(item, field) returns item[field + '_pt'] when the current language
+   is Portuguese and that field exists, else item[field] — used for every
+   GO_TOPICS / GO_CATEGORIES field that has a `_pt` sibling in data.js.
+   window.GC_I18N exposes the current language to engine.js / animations.js
+   so the live canvas animations can render translated captions and labels.
+   window.gcSetLanguage(lang), called from index.html's language toggle,
+   switches the language and re-renders in place. */
 
 (function () {
     const indexBody = document.getElementById('goc-index-body');
@@ -10,7 +20,70 @@
     const filters = document.getElementById('goc-filters');
 
     let activeCategory = 'All';
+    let currentLanguage = 'en';
     const scenes = new Map(); // topic id → GoAnimEngine.Scene
+
+    const APP_TRANSLATIONS = {
+        en: {
+            allLabel: 'All',
+            whenToUseLabel: 'When to use',
+            howItWorks: 'How it works',
+            watchOutFor: 'Watch out for',
+            watchItRun: 'Watch it run',
+            copy: 'Copy',
+            copied: 'Copied!',
+            copyAriaLabel: 'Copy code sample',
+            backToIndex: '↑ Back to index',
+            jumpTo: (name) => `Jump to ${name}`,
+            animAriaLabel: (name) => `Animated diagram: ${name}`,
+            pauseResumeAriaLabel: 'Pause or resume animation',
+            restartAriaLabel: 'Restart animation',
+            speedAriaLabel: 'Change animation speed',
+            pause: 'Pause',
+            play: 'Play',
+            restart: 'Restart',
+            complexityTitle: (level) => `${level} complexity`,
+            complexityLow: 'Low',
+            complexityMedium: 'Medium',
+            complexityHigh: 'High',
+        },
+        pt: {
+            allLabel: 'Todos',
+            whenToUseLabel: 'Quando usar',
+            howItWorks: 'Como funciona',
+            watchOutFor: 'Cuidados',
+            watchItRun: 'Veja funcionando',
+            copy: 'Copiar',
+            copied: 'Copiado!',
+            copyAriaLabel: 'Copiar exemplo de código',
+            backToIndex: '↑ Voltar ao índice',
+            jumpTo: (name) => `Ir para ${name}`,
+            animAriaLabel: (name) => `Diagrama animado: ${name}`,
+            pauseResumeAriaLabel: 'Pausar ou retomar a animação',
+            restartAriaLabel: 'Reiniciar animação',
+            speedAriaLabel: 'Mudar a velocidade da animação',
+            pause: 'Pausar',
+            play: 'Reproduzir',
+            restart: 'Reiniciar',
+            complexityTitle: (level) => `Complexidade ${level}`,
+            complexityLow: 'Baixa',
+            complexityMedium: 'Média',
+            complexityHigh: 'Alta',
+        },
+    };
+
+    function t(key) {
+        return (APP_TRANSLATIONS[currentLanguage] && APP_TRANSLATIONS[currentLanguage][key] !== undefined)
+            ? APP_TRANSLATIONS[currentLanguage][key]
+            : APP_TRANSLATIONS.en[key];
+    }
+
+    function pick(item, field) {
+        if (currentLanguage === 'pt' && item[`${field}_pt`] !== undefined) {
+            return item[`${field}_pt`];
+        }
+        return item[field];
+    }
 
     function escapeHtml(str) {
         return str
@@ -20,8 +93,20 @@
             .replace(/"/g, '&quot;');
     }
 
+    function categoryLabel(category) {
+        if (currentLanguage === 'pt' && typeof GO_CATEGORIES_PT !== 'undefined' && GO_CATEGORIES_PT[category] !== undefined) {
+            return GO_CATEGORIES_PT[category];
+        }
+        return category;
+    }
+
     function badge(category) {
-        return `<span class="goc-badge goc-badge--${GO_CATEGORIES[category]}">${category}</span>`;
+        return `<span class="goc-badge goc-badge--${GO_CATEGORIES[category]}">${escapeHtml(categoryLabel(category))}</span>`;
+    }
+
+    function complexityLabel(level) {
+        const key = { Low: 'complexityLow', Medium: 'complexityMedium', High: 'complexityHigh' }[level];
+        return key ? t(key) : level;
     }
 
     function complexityDots(level) {
@@ -30,7 +115,8 @@
         for (let i = 1; i <= 3; i++) {
             dots += `<span class="goc-dot ${i <= filled ? 'is-filled' : ''}"></span>`;
         }
-        return `<span class="goc-complexity" title="${level} complexity"><span class="goc-dots">${dots}</span>${level}</span>`;
+        const label = complexityLabel(level);
+        return `<span class="goc-complexity" title="${escapeHtml(t('complexityTitle')(label))}"><span class="goc-dots">${dots}</span>${escapeHtml(label)}</span>`;
     }
 
     function visibleTopics() {
@@ -45,7 +131,7 @@
             .map(
                 (cat) => `
                     <button class="goc-filter ${cat === activeCategory ? 'active' : ''}" data-category="${cat}">
-                        ${cat}${cat === 'All' ? ` (${GO_TOPICS.length})` : ''}
+                        ${escapeHtml(cat === 'All' ? t('allLabel') : categoryLabel(cat))}${cat === 'All' ? ` (${GO_TOPICS.length})` : ''}
                     </button>`
             )
             .join('');
@@ -55,10 +141,10 @@
         indexBody.innerHTML = visibleTopics()
             .map(
                 (t) => `
-                    <tr class="goc-row" data-target="${t.id}" tabindex="0" role="link" aria-label="Jump to ${t.name}">
-                        <td class="goc-cell-name">${t.name}</td>
+                    <tr class="goc-row" data-target="${t.id}" tabindex="0" role="link" aria-label="${escapeHtml(APP_TRANSLATIONS[currentLanguage].jumpTo(pick(t, 'name')))}">
+                        <td class="goc-cell-name">${escapeHtml(pick(t, 'name'))}</td>
                         <td>${badge(t.category)}</td>
-                        <td class="goc-cell-when">${t.whenToUse}</td>
+                        <td class="goc-cell-when">${pick(t, 'whenToUse')}</td>
                         <td>${complexityDots(t.complexity)}</td>
                     </tr>`
             )
@@ -69,14 +155,14 @@
         if (!GO_ANIMATIONS[topic.id]) return '';
         return `
             <div class="goc-block">
-                <h3>Watch it run</h3>
+                <h3>${escapeHtml(t('watchItRun'))}</h3>
                 <div class="goc-anim" data-anim="${topic.id}">
-                    <div class="goc-anim-canvas"><canvas role="img" aria-label="Animated diagram: ${topic.name}"></canvas></div>
+                    <div class="goc-anim-canvas"><canvas role="img" aria-label="${escapeHtml(t('animAriaLabel')(pick(topic, 'name')))}"></canvas></div>
                     <p class="goc-anim-caption" aria-live="polite"></p>
                     <div class="goc-anim-bar">
-                        <button class="goc-anim-btn" data-action="toggle" aria-label="Pause or resume animation">Pause</button>
-                        <button class="goc-anim-btn" data-action="restart" aria-label="Restart animation">Restart</button>
-                        <button class="goc-anim-btn" data-action="speed" aria-label="Change animation speed">1&times;</button>
+                        <button class="goc-anim-btn" data-action="toggle" aria-label="${escapeHtml(t('pauseResumeAriaLabel'))}">${escapeHtml(t('pause'))}</button>
+                        <button class="goc-anim-btn" data-action="restart" aria-label="${escapeHtml(t('restartAriaLabel'))}">${escapeHtml(t('restart'))}</button>
+                        <button class="goc-anim-btn" data-action="speed" aria-label="${escapeHtml(t('speedAriaLabel'))}">1&times;</button>
                     </div>
                 </div>
             </div>`;
@@ -92,17 +178,17 @@
                                 ${badge(t.category)}
                                 ${complexityDots(t.complexity)}
                             </div>
-                            <h2 class="goc-topic-name">${t.name}</h2>
-                            <p class="goc-topic-when"><strong>When to use:</strong> ${t.whenToUse.toLowerCase()}.</p>
+                            <h2 class="goc-topic-name">${escapeHtml(pick(t, 'name'))}</h2>
+                            <p class="goc-topic-when"><strong>${escapeHtml(APP_TRANSLATIONS[currentLanguage].whenToUseLabel)}:</strong> ${pick(t, 'whenToUse').toLowerCase()}.</p>
                         </header>
 
-                        <p class="goc-topic-summary">${t.summary}</p>
+                        <p class="goc-topic-summary">${pick(t, 'summary')}</p>
 
                         ${animBlock(t)}
 
                         <div class="goc-block">
-                            <h3>How it works</h3>
-                            <ul>${t.howItWorks.map((item) => `<li>${item}</li>`).join('')}</ul>
+                            <h3>${escapeHtml(APP_TRANSLATIONS[currentLanguage].howItWorks)}</h3>
+                            <ul>${pick(t, 'howItWorks').map((item) => `<li>${item}</li>`).join('')}</ul>
                         </div>
 
                         ${t.samples
@@ -110,12 +196,12 @@
                                 (sample, i) => `
                                     <div class="goc-block">
                                         <div class="goc-code-header">
-                                            <h3>${escapeHtml(sample.label)}</h3>
-                                            <button class="goc-copy-btn" data-topic="${t.id}" data-sample="${i}" aria-label="Copy code sample">
+                                            <h3>${escapeHtml(pick(sample, 'label'))}</h3>
+                                            <button class="goc-copy-btn" data-topic="${t.id}" data-sample="${i}" aria-label="${escapeHtml(APP_TRANSLATIONS[currentLanguage].copyAriaLabel)}">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="goc-copy-icon">
                                                     <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 0 1 1.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 0 0-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 0 1-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 0 0-3.375-3.375h-1.5a1.125 1.125 0 0 1-1.125-1.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H9.75" />
                                                 </svg>
-                                                <span>Copy</span>
+                                                <span>${escapeHtml(APP_TRANSLATIONS[currentLanguage].copy)}</span>
                                             </button>
                                         </div>
                                         <pre class="goc-code-block"><code>${escapeHtml(sample.code)}</code></pre>
@@ -124,11 +210,11 @@
                             .join('')}
 
                         <div class="goc-block goc-watch-out">
-                            <h3>Watch out for</h3>
-                            <ul>${t.watchOut.map((item) => `<li>${item}</li>`).join('')}</ul>
+                            <h3>${escapeHtml(APP_TRANSLATIONS[currentLanguage].watchOutFor)}</h3>
+                            <ul>${pick(t, 'watchOut').map((item) => `<li>${item}</li>`).join('')}</ul>
                         </div>
 
-                        <a href="#goc-index" class="goc-back-to-top">↑ Back to index</a>
+                        <a href="#goc-index" class="goc-back-to-top">${escapeHtml(APP_TRANSLATIONS[currentLanguage].backToIndex)}</a>
                     </article>`
             )
             .join('');
@@ -197,11 +283,11 @@
             const action = animBtn.dataset.action;
             if (action === 'toggle') {
                 scene.playing = !scene.playing;
-                animBtn.textContent = scene.playing ? 'Pause' : 'Play';
+                animBtn.textContent = scene.playing ? t('pause') : t('play');
             } else if (action === 'restart') {
                 scene.restart();
                 scene.playing = true;
-                animBtn.closest('.goc-anim').querySelector('[data-action="toggle"]').textContent = 'Pause';
+                animBtn.closest('.goc-anim').querySelector('[data-action="toggle"]').textContent = t('pause');
             } else if (action === 'speed') {
                 scene.speed = scene.speed === 1 ? 2 : scene.speed === 2 ? 0.5 : 1;
                 animBtn.innerHTML = String(scene.speed).replace('0.5', '½') + '&times;';
@@ -217,14 +303,22 @@
 
         navigator.clipboard.writeText(sample.code).then(() => {
             const label = btn.querySelector('span');
-            label.textContent = 'Copied!';
+            label.textContent = t('copied');
             btn.classList.add('copied');
             setTimeout(() => {
-                label.textContent = 'Copy';
+                label.textContent = t('copy');
                 btn.classList.remove('copied');
             }, 1600);
         });
     });
+
+    // Exposes the current language to engine.js / animations.js so the
+    // live canvas animations can pick translated captions and labels.
+    window.GC_I18N = {
+        get currentLanguage() {
+            return currentLanguage;
+        },
+    };
 
     renderAll();
 
@@ -233,4 +327,9 @@
         const target = document.getElementById(location.hash.slice(1));
         if (target) target.scrollIntoView({ block: 'start' });
     }
+
+    window.gcSetLanguage = function (lang) {
+        currentLanguage = lang === 'pt' ? 'pt' : 'en';
+        renderAll();
+    };
 })();
