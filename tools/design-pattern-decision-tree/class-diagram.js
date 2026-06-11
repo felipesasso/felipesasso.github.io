@@ -75,16 +75,40 @@
         return Object.assign({}, cls, { lines, members, width, headerH, height: headerH + bodyH });
     }
 
+    function selfLoopGeometry(svg, box, rel) {
+        const x = box.x + box.width;
+        let loopX = x + 48;
+        if (rel.label) {
+            const labelW = textWidth(svg, rel.label, { size: 10.5 }) + 10;
+            loopX = Math.max(loopX, x + labelW / 2 + 2);
+        }
+        return { x, loopX, labelX: loopX + 4 };
+    }
+
     function layoutDiagram(svg, diagram) {
         const boxes = {};
         diagram.classes.forEach((c) => { boxes[c.id] = buildBox(svg, c); });
 
+        const relations = diagram.relations || [];
+        function adjacentLabelGap(idA, idB) {
+            let gap = COL_GAP;
+            relations.forEach((rel) => {
+                if (rel.from === rel.to || !rel.label) return;
+                const connects = (rel.from === idA && rel.to === idB) || (rel.from === idB && rel.to === idA);
+                if (!connects) return;
+                const labelW = textWidth(svg, rel.label, { size: 10.5 }) + 10;
+                gap = Math.max(gap, labelW + 16);
+            });
+            return gap;
+        }
+
         const rows = diagram.layout || [diagram.classes.map((c) => c.id)];
-        const rowWidths = rows.map((row) => {
+        const rowGaps = rows.map((row) => row.slice(1).map((id, i) => adjacentLabelGap(row[i], id)));
+        const rowWidths = rows.map((row, ri) => {
             let w = 0;
             row.forEach((id, i) => {
                 w += boxes[id].width;
-                if (i > 0) w += COL_GAP;
+                if (i > 0) w += rowGaps[ri][i - 1];
             });
             return w;
         });
@@ -94,11 +118,11 @@
         rows.forEach((row, rowIdx) => {
             const rowMaxH = Math.max(...row.map((id) => boxes[id].height));
             let x = PADDING + (maxRowWidth - rowWidths[rowIdx]) / 2;
-            row.forEach((id) => {
+            row.forEach((id, i) => {
                 const b = boxes[id];
                 b.x = x;
                 b.y = y + (rowMaxH - b.height) / 2;
-                x += b.width + COL_GAP;
+                x += b.width + (rowGaps[rowIdx][i] || 0);
             });
             y += rowMaxH + ROW_GAP;
         });
@@ -107,7 +131,8 @@
         (diagram.relations || []).forEach((rel) => {
             if (rel.from !== rel.to) return;
             const box = boxes[rel.from];
-            let extent = box.x + box.width + 48 + 4; // right edge of the self-loop curve + label gap
+            const { labelX } = selfLoopGeometry(svg, box, rel);
+            let extent = labelX;
             if (rel.label) {
                 extent += (textWidth(svg, rel.label, { size: 10.5 }) + 10) / 2;
             }
@@ -183,12 +208,11 @@
         let d, labelX, labelY;
 
         if (rel.from === rel.to) {
-            const x = fromBox.x + fromBox.width;
+            const { x, loopX, labelX: lx } = selfLoopGeometry(svg, fromBox, rel);
             const y1 = fromBox.y + fromBox.height * 0.32;
             const y2 = fromBox.y + fromBox.height * 0.68;
-            const loopX = x + 48;
             d = `M ${x} ${y1} C ${loopX} ${y1}, ${loopX} ${y2}, ${x} ${y2}`;
-            labelX = loopX + 4;
+            labelX = lx;
             labelY = (y1 + y2) / 2;
         } else {
             const fromCenter = { x: fromBox.x + fromBox.width / 2, y: fromBox.y + fromBox.height / 2 };
