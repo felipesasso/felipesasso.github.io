@@ -423,12 +423,12 @@
             <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 flex items-center justify-between h-14">
                 <a href="/" class="nav-brand shrink-0">Felipe Sasso</a>
                 <div class="hidden sm:flex items-center gap-6">
-                    <a href="/" class="nav-link">Home</a>
-                    <a href="/tools/" class="nav-link">Tools</a>
-                    <span class="text-sm font-medium text-[var(--accent-color)] border-b-2 border-[var(--accent-color)] pb-0.5">EDA Simulator</span>
+                    <a href="/" class="nav-link" data-translate-key="navHome">Home</a>
+                    <a href="/tools/" class="nav-link" data-translate-key="navTools">Tools</a>
+                    <span class="text-sm font-medium text-[var(--accent-color)] border-b-2 border-[var(--accent-color)] pb-0.5" data-translate-key="toolTitle">EDA Simulator</span>
                 </div>
                 <div class="flex items-center gap-1 sm:gap-2 shrink-0">
-                    <a href="/tools/" class="sm:hidden nav-link text-sm">Tools</a>
+                    <a href="/tools/" class="sm:hidden nav-link text-sm" data-translate-key="navTools">Tools</a>
                     <button id="theme-toggle" class="lang-button" aria-label="Toggle dark mode" aria-pressed="false">
                         <svg id="icon-moon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z" />
@@ -437,28 +437,42 @@
                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" />
                         </svg>
                     </button>
+                    <button
+                        id="lang-en"
+                        class="lang-button active"
+                        data-translate-key="englishLanguageTooltip"
+                        aria-pressed="true"
+                        aria-label="Switch to English"
+                    >EN</button>
+                    <button
+                        id="lang-pt"
+                        class="lang-button"
+                        data-translate-key="portugueseLanguageTooltip"
+                        aria-pressed="false"
+                        aria-label="Mudar para Português"
+                    >PT</button>
                 </div>
             </div>
         </nav>
 
         <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
             <section class="card p-6 md:p-10">
-                <p class="eyebrow mb-2">Tools · Built by me</p>
-                <h1 class="section-heading text-xl sm:text-2xl font-semibold text-[var(--text-primary)] mb-3">Event-Driven Architecture Simulator</h1>
-                <p class="text-sm sm:text-base text-[var(--text-secondary)] leading-relaxed mb-6 max-w-2xl">
+                <p class="eyebrow mb-2" data-translate-key="eyebrow">Tools · Built by me</p>
+                <h1 class="section-heading text-xl sm:text-2xl font-semibold text-[var(--text-primary)] mb-3" data-translate-key="pageTitle">Event-Driven Architecture Simulator</h1>
+                <p class="text-sm sm:text-base text-[var(--text-secondary)] leading-relaxed mb-6 max-w-2xl" data-translate-key="pageIntro">
                     Build a small event-driven system out of producers, topics/queues and consumers, wire them together, then press play. Tune throughput, processing latency and failure rates — or simulate a consumer crash — and watch backlogs, drops and failures play out in real time.
                 </p>
 
                 <div class="eda-toolbar">
                     <div class="eda-btn-group">
-                        <button class="eda-btn" data-add="producer" type="button">+ Producer</button>
-                        <button class="eda-btn" data-add="queue" type="button">+ Topic / Queue</button>
-                        <button class="eda-btn" data-add="consumer" type="button">+ Consumer</button>
+                        <button class="eda-btn" data-add="producer" type="button" data-translate-key="addProducer">+ Producer</button>
+                        <button class="eda-btn" data-add="queue" type="button" data-translate-key="addQueue">+ Topic / Queue</button>
+                        <button class="eda-btn" data-add="consumer" type="button" data-translate-key="addConsumer">+ Consumer</button>
                     </div>
                     <div class="eda-btn-group">
-                        <button id="eda-play" class="eda-btn eda-btn-primary" type="button">Play</button>
-                        <button id="eda-reset" class="eda-btn" type="button">Reset</button>
-                        <select id="eda-speed" class="eda-speed-select" aria-label="Simulation speed">
+                        <button id="eda-play" class="eda-btn eda-btn-primary" type="button" data-translate-key="playButton">Play</button>
+                        <button id="eda-reset" class="eda-btn" type="button" data-translate-key="resetButton">Reset</button>
+                        <select id="eda-speed" class="eda-speed-select" aria-label="Simulation speed" data-translate-key="speedSelectAriaLabel">
                             <option value="0.5">0.5×</option>
                             <option value="1" selected>1×</option>
                             <option value="2">2×</option>
@@ -469,19 +483,19 @@
 
                 <div class="eda-stats-bar">
                     <div class="eda-stat">
-                        <p class="eda-stat-label">Produced</p>
+                        <p class="eda-stat-label" data-translate-key="statProduced">Produced</p>
                         <p id="stat-produced" class="eda-stat-value">0</p>
                     </div>
                     <div class="eda-stat">
-                        <p class="eda-stat-label">Delivered</p>
+                        <p class="eda-stat-label" data-translate-key="statDelivered">Delivered</p>
                         <p id="stat-delivered" class="eda-stat-value">0</p>
                     </div>
                     <div class="eda-stat">
-                        <p class="eda-stat-label">Failed</p>
+                        <p class="eda-stat-label" data-translate-key="statFailed">Failed</p>
                         <p id="stat-failed" class="eda-stat-value">0</p>
                     </div>
                     <div class="eda-stat">
-                        <p class="eda-stat-label">Dropped (backlog full)</p>
+                        <p class="eda-stat-label" data-translate-key="statDropped">Dropped (backlog full)</p>
                         <p id="stat-dropped" class="eda-stat-value">0</p>
                     </div>
                 </div>
@@ -489,10 +503,10 @@
                 <div class="eda-canvas-wrap">
                     <svg id="eda-edges" class="eda-edges"></svg>
                     <div id="eda-canvas" class="eda-canvas"></div>
-                    <p id="eda-canvas-hint" class="eda-canvas-hint">Add a producer, a queue and a consumer, then drag from a node's right-edge dot to another node to connect them.</p>
+                    <p id="eda-canvas-hint" class="eda-canvas-hint" data-translate-key="canvasHint">Add a producer, a queue and a consumer, then drag from a node's right-edge dot to another node to connect them.</p>
                 </div>
 
-                <p class="eda-help">
+                <p class="eda-help" data-translate-key="helpText">
                     <strong class="text-[var(--text-primary)]">How to use it —</strong>
                     drag nodes to rearrange the canvas. Drag from the small dot on a node's right edge onto another node to wire them up (producers → queues, queues → consumers). Click any node to open its settings: message rate, processing latency, failure chance, queue capacity, or a "simulate crash" switch for consumers. Press play and watch the queue fill bars, the in-flight message dots and the live counters react as you change the dials.
                 </p>
@@ -532,5 +546,139 @@
         </script>
 
         <script src="simulator.js"></script>
+
+        <script>
+            // Page-chrome translations (kept in sync with the pattern used on
+            // the home page and the tools listing page).
+            const translations = {
+                en: {
+                    navHome: 'Home',
+                    navTools: 'Tools',
+                    toolTitle: 'EDA Simulator',
+                    englishLanguageTooltip: 'Switch to English',
+                    portugueseLanguageTooltip: 'Mudar para Português',
+
+                    eyebrow: 'Tools · Built by me',
+                    pageTitle: 'Event-Driven Architecture Simulator',
+                    pageIntro:
+                        'Build a small event-driven system out of producers, topics/queues and consumers, wire them together, then press play. Tune throughput, processing latency and failure rates — or simulate a consumer crash — and watch backlogs, drops and failures play out in real time.',
+
+                    addProducer: '+ Producer',
+                    addQueue: '+ Topic / Queue',
+                    addConsumer: '+ Consumer',
+                    playButton: 'Play',
+                    pauseButton: 'Pause',
+                    resetButton: 'Reset',
+                    speedSelectAriaLabel: 'Simulation speed',
+
+                    statProduced: 'Produced',
+                    statDelivered: 'Delivered',
+                    statFailed: 'Failed',
+                    statDropped: 'Dropped (backlog full)',
+
+                    canvasHint: "Add a producer, a queue and a consumer, then drag from a node's right-edge dot to another node to connect them.",
+
+                    helpText:
+                        '<strong class="text-[var(--text-primary)]">How to use it —</strong> drag nodes to rearrange the canvas. Drag from the small dot on a node\'s right edge onto another node to wire them up (producers → queues, queues → consumers). Click any node to open its settings: message rate, processing latency, failure chance, queue capacity, or a "simulate crash" switch for consumers. Press play and watch the queue fill bars, the in-flight message dots and the live counters react as you change the dials.',
+                },
+                pt: {
+                    navHome: 'Início',
+                    navTools: 'Ferramentas',
+                    toolTitle: 'Simulador EDA',
+                    englishLanguageTooltip: 'Mudar para Inglês',
+                    portugueseLanguageTooltip: 'Mudar para Português',
+
+                    eyebrow: 'Ferramentas · Feito por mim',
+                    pageTitle: 'Simulador de Arquitetura Orientada a Eventos',
+                    pageIntro:
+                        'Monte um pequeno sistema orientado a eventos com produtores, tópicos/filas e consumidores, conecte-os e aperte o play. Ajuste throughput, latência de processamento e taxas de falha — ou simule a queda de um consumidor — e acompanhe filas, descartes e falhas em tempo real.',
+
+                    addProducer: '+ Produtor',
+                    addQueue: '+ Tópico / Fila',
+                    addConsumer: '+ Consumidor',
+                    playButton: 'Play',
+                    pauseButton: 'Pausar',
+                    resetButton: 'Reiniciar',
+                    speedSelectAriaLabel: 'Velocidade da simulação',
+
+                    statProduced: 'Produzidas',
+                    statDelivered: 'Entregues',
+                    statFailed: 'Falhas',
+                    statDropped: 'Descartadas (fila cheia)',
+
+                    canvasHint: 'Adicione um produtor, uma fila e um consumidor, depois arraste a partir do ponto na borda direita de um nó até outro nó para conectá-los.',
+
+                    helpText:
+                        '<strong class="text-[var(--text-primary)]">Como usar —</strong> arraste os nós para reorganizar o canvas. Arraste a partir do pequeno ponto na borda direita de um nó até outro nó para conectá-los (produtores → filas, filas → consumidores). Clique em qualquer nó para abrir suas configurações: taxa de mensagens, latência de processamento, chance de falha, capacidade da fila, ou um interruptor de "simular queda" para consumidores. Aperte o play e veja as barras de ocupação das filas, os pontos de mensagens em trânsito e os contadores ao vivo reagirem conforme você muda os controles.',
+                },
+            };
+
+            let currentLanguage = 'en';
+
+            function setInitialLanguage() {
+                try {
+                    const saved = localStorage.getItem('language');
+                    if (saved === 'pt' || saved === 'en') {
+                        currentLanguage = saved;
+                        return;
+                    }
+                    const browserLang = navigator.language || navigator.userLanguage;
+                    currentLanguage = (browserLang && browserLang.toLowerCase().startsWith('pt')) ? 'pt' : 'en';
+                } catch (e) {
+                    currentLanguage = 'en';
+                }
+            }
+
+            function switchLanguage(lang, persist = false) {
+                currentLanguage = lang;
+                if (persist) localStorage.setItem('language', lang);
+
+                document.querySelectorAll('[data-translate-key]').forEach((element) => {
+                    const key = element.dataset.translateKey;
+                    const translatedText = translations[lang][key] || translations.en[key];
+                    if (translatedText === undefined) return;
+
+                    if (element.id === 'lang-en' || element.id === 'lang-pt') {
+                        element.title = translatedText;
+                        return;
+                    }
+
+                    if (key === 'speedSelectAriaLabel') {
+                        element.setAttribute('aria-label', translatedText);
+                        return;
+                    }
+
+                    if (key === 'helpText') {
+                        element.innerHTML = translatedText;
+                        return;
+                    }
+
+                    element.textContent = translatedText;
+                });
+
+                const playBtn = document.getElementById('eda-play');
+                if (playBtn) {
+                    const isRunning = playBtn.dataset.running === 'true';
+                    playBtn.textContent = isRunning ? translations[lang].pauseButton : translations[lang].playButton;
+                }
+
+                if (typeof window.edaSetLanguage === 'function') {
+                    window.edaSetLanguage(lang);
+                }
+
+                const btnEn = document.getElementById('lang-en');
+                const btnPt = document.getElementById('lang-pt');
+                btnEn.classList.toggle('active', lang === 'en');
+                btnPt.classList.toggle('active', lang === 'pt');
+                btnEn.setAttribute('aria-pressed', lang === 'en' ? 'true' : 'false');
+                btnPt.setAttribute('aria-pressed', lang === 'pt' ? 'true' : 'false');
+            }
+
+            document.getElementById('lang-en').addEventListener('click', () => switchLanguage('en', true));
+            document.getElementById('lang-pt').addEventListener('click', () => switchLanguage('pt', true));
+
+            setInitialLanguage();
+            switchLanguage(currentLanguage);
+        </script>
     </body>
 </html>

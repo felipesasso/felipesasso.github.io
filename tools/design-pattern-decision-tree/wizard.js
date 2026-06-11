@@ -11,6 +11,60 @@
     let path = [];
     let current = null; // { type: 'question', nodeId } | { type: 'result', patternId }
     let codeLang = 'python'; // shared across pattern views: 'python' | 'go'
+    let currentLanguage = 'en';
+
+    const APP_TRANSLATIONS = {
+        en: {
+            back: 'Back',
+            backToLastQuestion: 'Back to last question',
+            startOver: 'Start over',
+            questionCounter: (n) => `Question ${n}`,
+            recommendedPattern: (category) => `Recommended pattern · ${category}`,
+            reachForItWhen: 'Reach for it when…',
+            inPractice: 'In practice',
+            keepInMind: 'Keep in mind',
+            codeExample: 'Code example',
+            withoutThePattern: 'Without the pattern',
+            withPattern: (name) => `With ${name}`,
+            chooseLanguage: 'Choose a language',
+            answerOptions: 'Answer options',
+        },
+        pt: {
+            back: 'Voltar',
+            backToLastQuestion: 'Voltar para a última pergunta',
+            startOver: 'Recomeçar',
+            questionCounter: (n) => `Pergunta ${n}`,
+            recommendedPattern: (category) => `Padrão recomendado · ${category}`,
+            reachForItWhen: 'Use quando…',
+            inPractice: 'Na prática',
+            keepInMind: 'Cuidados',
+            codeExample: 'Exemplo de código',
+            withoutThePattern: 'Sem o padrão',
+            withPattern: (name) => `Com ${name}`,
+            chooseLanguage: 'Escolha uma linguagem',
+            answerOptions: 'Opções de resposta',
+        },
+    };
+
+    function t(key) {
+        return (APP_TRANSLATIONS[currentLanguage] && APP_TRANSLATIONS[currentLanguage][key] !== undefined)
+            ? APP_TRANSLATIONS[currentLanguage][key]
+            : APP_TRANSLATIONS.en[key];
+    }
+
+    function pick(item, field) {
+        if (currentLanguage === 'pt' && item[`${field}_pt`] !== undefined) {
+            return item[`${field}_pt`];
+        }
+        return item[field];
+    }
+
+    function categoryLabel(category) {
+        if (currentLanguage === 'pt' && DPDT_CATEGORIES_PT[category] !== undefined) {
+            return DPDT_CATEGORIES_PT[category];
+        }
+        return category;
+    }
 
     function start() {
         path = [];
@@ -20,7 +74,7 @@
 
     function choose(option) {
         const node = DPDT_TREE[current.nodeId];
-        path.push({ nodeId: current.nodeId, question: node.question, choiceLabel: option.label });
+        path.push({ nodeId: current.nodeId, question: node.question, option });
 
         if (option.result) {
             current = { type: 'result', patternId: option.result };
@@ -45,7 +99,7 @@
         trail.innerHTML = path.map((step, i) => `
             <span class="dpdt-trail-pill">
                 <span class="step-num">${i + 1}</span>
-                ${step.choiceLabel}
+                ${pick(step.option, 'label')}
             </span>
         `).join('');
     }
@@ -56,16 +110,16 @@
 
         stage.innerHTML = `
             <div class="dpdt-fade">
-                <p class="dpdt-question">${node.question}</p>
-                <div class="dpdt-options" role="group" aria-label="Answer options"></div>
+                <p class="dpdt-question">${pick(node, 'question')}</p>
+                <div class="dpdt-options" role="group" aria-label="${t('answerOptions')}"></div>
                 <div class="dpdt-controls">
                     <button type="button" class="dpdt-text-btn" id="dpdt-back" ${path.length === 0 ? 'disabled' : ''}>
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.75" stroke="currentColor" class="w-3.5 h-3.5">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
                         </svg>
-                        Back
+                        ${t('back')}
                     </button>
-                    <span class="text-xs text-[var(--text-secondary)]">Question ${path.length + 1}</span>
+                    <span class="text-xs text-[var(--text-secondary)]">${t('questionCounter')(path.length + 1)}</span>
                 </div>
             </div>
         `;
@@ -76,7 +130,7 @@
             btn.type = 'button';
             btn.className = 'dpdt-option';
             btn.innerHTML = `
-                <span>${option.label}</span>
+                <span>${pick(option, 'label')}</span>
                 <svg class="arrow w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.75" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
                 </svg>
@@ -89,46 +143,46 @@
         backBtn.addEventListener('click', goBack);
     }
 
-    function renderResult(patternId) {
+    function renderResult(patternId, skipScroll) {
         const pattern = DPDT_PATTERNS[patternId];
         renderTrail();
 
         stage.innerHTML = `
             <div class="dpdt-fade">
-                <span class="dpdt-result-badge">Recommended pattern · ${pattern.category}</span>
+                <span class="dpdt-result-badge">${t('recommendedPattern')(categoryLabel(pattern.category))}</span>
                 <h2 class="dpdt-result-name">${pattern.name}</h2>
-                <p class="dpdt-result-summary">${pattern.summary}</p>
+                <p class="dpdt-result-summary">${pick(pattern, 'summary')}</p>
 
                 <div class="dpdt-result-block">
-                    <h3>Reach for it when…</h3>
-                    <ul>${pattern.when.map((point) => `<li>${point}</li>`).join('')}</ul>
+                    <h3>${t('reachForItWhen')}</h3>
+                    <ul>${pick(pattern, 'when').map((point) => `<li>${point}</li>`).join('')}</ul>
                 </div>
 
                 <div class="dpdt-result-block">
-                    <h3>In practice</h3>
-                    <p>${pattern.example}</p>
+                    <h3>${t('inPractice')}</h3>
+                    <p>${pick(pattern, 'example')}</p>
                 </div>
 
                 <div class="dpdt-result-block">
-                    <h3>Keep in mind</h3>
-                    <p>${pattern.watch}</p>
+                    <h3>${t('keepInMind')}</h3>
+                    <p>${pick(pattern, 'watch')}</p>
                 </div>
 
                 <div class="dpdt-result-block">
                     <div class="dpdt-code-header">
-                        <h3 style="margin-bottom: 0;">Code example</h3>
-                        <div class="dpdt-code-tabs" role="group" aria-label="Choose a language">
+                        <h3 style="margin-bottom: 0;">${t('codeExample')}</h3>
+                        <div class="dpdt-code-tabs" role="group" aria-label="${t('chooseLanguage')}">
                             <button type="button" class="dpdt-code-tab" data-lang="python">Python</button>
                             <button type="button" class="dpdt-code-tab" data-lang="go">Go</button>
                         </div>
                     </div>
                     <div class="dpdt-code-compare">
                         <div class="dpdt-code-pane">
-                            <p class="dpdt-code-pane-label is-naive">Without the pattern</p>
+                            <p class="dpdt-code-pane-label is-naive">${t('withoutThePattern')}</p>
                             <pre class="dpdt-code-block"><code id="dpdt-code-naive"></code></pre>
                         </div>
                         <div class="dpdt-code-pane">
-                            <p class="dpdt-code-pane-label is-pattern">With ${pattern.name}</p>
+                            <p class="dpdt-code-pane-label is-pattern">${t('withPattern')(pattern.name)}</p>
                             <pre class="dpdt-code-block"><code id="dpdt-code-output"></code></pre>
                         </div>
                     </div>
@@ -139,10 +193,10 @@
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.75" stroke="currentColor" class="w-3.5 h-3.5">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
                         </svg>
-                        Back to last question
+                        ${t('backToLastQuestion')}
                     </button>
                     <button type="button" class="dpdt-text-btn" id="dpdt-restart">
-                        Start over
+                        ${t('startOver')}
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.75" stroke="currentColor" class="w-3.5 h-3.5">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
                         </svg>
@@ -175,16 +229,23 @@
 
         renderCode();
 
-        stage.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        if (!skipScroll) {
+            stage.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
     }
 
-    function render() {
+    function render(skipScroll) {
         if (current.type === 'question') {
             renderQuestion(current.nodeId);
         } else {
-            renderResult(current.patternId);
+            renderResult(current.patternId, skipScroll);
         }
     }
 
     start();
+
+    window.dpdtSetLanguage = function (lang) {
+        currentLanguage = lang === 'pt' ? 'pt' : 'en';
+        render(true);
+    };
 })();

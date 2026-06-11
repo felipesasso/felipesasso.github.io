@@ -443,12 +443,12 @@
             <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 flex items-center justify-between h-14">
                 <a href="/" class="nav-brand shrink-0">Felipe Sasso</a>
                 <div class="hidden sm:flex items-center gap-6">
-                    <a href="/" class="nav-link">Home</a>
-                    <a href="/tools/" class="nav-link">Tools</a>
-                    <span class="text-sm font-medium text-[var(--accent-color)] border-b-2 border-[var(--accent-color)] pb-0.5">Regex Playground</span>
+                    <a href="/" class="nav-link" data-translate-key="navHome">Home</a>
+                    <a href="/tools/" class="nav-link" data-translate-key="navTools">Tools</a>
+                    <span class="text-sm font-medium text-[var(--accent-color)] border-b-2 border-[var(--accent-color)] pb-0.5" data-translate-key="toolTitle">Regex Playground</span>
                 </div>
                 <div class="flex items-center gap-1 sm:gap-2 shrink-0">
-                    <a href="/tools/" class="sm:hidden nav-link text-sm">Tools</a>
+                    <a href="/tools/" class="sm:hidden nav-link text-sm" data-translate-key="navTools">Tools</a>
                     <button id="theme-toggle" class="lang-button" aria-label="Toggle dark mode" aria-pressed="false">
                         <svg id="icon-moon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z" />
@@ -457,20 +457,34 @@
                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" />
                         </svg>
                     </button>
+                    <button
+                        id="lang-en"
+                        class="lang-button active"
+                        data-translate-key="englishLanguageTooltip"
+                        aria-pressed="true"
+                        aria-label="Switch to English"
+                    >EN</button>
+                    <button
+                        id="lang-pt"
+                        class="lang-button"
+                        data-translate-key="portugueseLanguageTooltip"
+                        aria-pressed="false"
+                        aria-label="Mudar para Português"
+                    >PT</button>
                 </div>
             </div>
         </nav>
 
         <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
             <section class="card p-6 md:p-10">
-                <p class="eyebrow mb-2">Tools · Built by me</p>
-                <h1 class="section-heading text-xl sm:text-2xl font-semibold text-[var(--text-primary)] mb-3">Regex Playground with Security Rules</h1>
-                <p class="text-sm sm:text-base text-[var(--text-secondary)] leading-relaxed mb-6 max-w-2xl">
+                <p class="eyebrow mb-2" data-translate-key="eyebrow">Tools · Built by me</p>
+                <h1 class="section-heading text-xl sm:text-2xl font-semibold text-[var(--text-primary)] mb-3" data-translate-key="pageTitle">Regex Playground with Security Rules</h1>
+                <p class="text-sm sm:text-base text-[var(--text-secondary)] leading-relaxed mb-6 max-w-2xl" data-translate-key="pageIntro">
                     Build an input-validation pattern, then throw a library of well-known SQL injection, XSS, command injection, path traversal and other payloads at it. Every result is a quick reality check on whether your regex actually filters what you think it does.
                 </p>
 
                 <div class="rxp-builder">
-                    <label class="rxp-label" for="rxp-pattern">Pattern</label>
+                    <label class="rxp-label" for="rxp-pattern" data-translate-key="patternLabel">Pattern</label>
                     <div class="rxp-pattern-row">
                         <span class="rxp-delim">/</span>
                         <input id="rxp-pattern" class="rxp-pattern-input" type="text" spellcheck="false" autocomplete="off" autocapitalize="off" />
@@ -481,12 +495,12 @@
 
                     <div class="rxp-options-row">
                         <div id="rxp-mode" class="rxp-segmented" role="radiogroup" aria-label="Filter mode">
-                            <button type="button" class="rxp-segment" data-mode="deny">Deny-list</button>
-                            <button type="button" class="rxp-segment" data-mode="allow">Allow-list</button>
+                            <button type="button" class="rxp-segment" data-mode="deny" data-translate-key="denyListLabel">Deny-list</button>
+                            <button type="button" class="rxp-segment" data-mode="allow" data-translate-key="allowListLabel">Allow-list</button>
                         </div>
                         <label class="rxp-checkbox">
                             <input type="checkbox" id="rxp-fullmatch" />
-                            <span>Require full match (wraps the pattern in <code>^(?:&hellip;)$</code>)</span>
+                            <span data-translate-key="fullMatchLabel">Require full match (wraps the pattern in <code>^(?:&hellip;)$</code>)</span>
                         </label>
                     </div>
 
@@ -494,22 +508,22 @@
                 </div>
 
                 <div class="rxp-presets">
-                    <span class="rxp-presets-label">Try a preset</span>
+                    <span class="rxp-presets-label" data-translate-key="presetsLabel">Try a preset</span>
                     <div id="rxp-preset-list" class="rxp-preset-list"></div>
                 </div>
 
                 <div class="rxp-tester">
                     <div class="rxp-tester-header">
-                        <label class="rxp-label" for="rxp-test-input">Try your own input</label>
-                        <span id="rxp-test-badge" class="rxp-badge is-neutral">Empty</span>
+                        <label class="rxp-label" for="rxp-test-input" data-translate-key="testerLabel">Try your own input</label>
+                        <span id="rxp-test-badge" class="rxp-badge is-neutral" data-translate-key="badgeEmpty">Empty</span>
                     </div>
-                    <textarea id="rxp-test-input" class="rxp-test-input" rows="2" spellcheck="false" placeholder="Type something to test against your pattern..."></textarea>
+                    <textarea id="rxp-test-input" class="rxp-test-input" rows="2" spellcheck="false" data-translate-key="testerPlaceholder" placeholder="Type something to test against your pattern..."></textarea>
                     <div id="rxp-test-preview" class="rxp-test-preview" aria-live="polite"></div>
                 </div>
 
                 <div class="rxp-sweep">
-                    <h2 class="rxp-section-title">Security payload sweep</h2>
-                    <p class="rxp-section-desc">Pick which categories to test. Each payload is a documented example of a real injection technique, run through your pattern under the mode selected above.</p>
+                    <h2 class="rxp-section-title" data-translate-key="sweepTitle">Security payload sweep</h2>
+                    <p class="rxp-section-desc" data-translate-key="sweepDesc">Pick which categories to test. Each payload is a documented example of a real injection technique, run through your pattern under the mode selected above.</p>
 
                     <div id="rxp-categories" class="rxp-categories"></div>
 
@@ -518,7 +532,7 @@
                     <div class="rxp-results-controls">
                         <label class="rxp-checkbox">
                             <input type="checkbox" id="rxp-only-slipped" />
-                            <span>Show only payloads that slip through</span>
+                            <span data-translate-key="onlySlippedLabel">Show only payloads that slip through</span>
                         </label>
                     </div>
 
@@ -526,9 +540,9 @@
                 </div>
 
                 <div class="rxp-custom">
-                    <h2 class="rxp-section-title">Add your own payloads</h2>
-                    <p class="rxp-section-desc">One per line — these are tested alongside the library above under "Custom".</p>
-                    <textarea id="rxp-custom-input" class="rxp-custom-input" rows="3" spellcheck="false" placeholder="<script>alert(document.domain)</script>
+                    <h2 class="rxp-section-title" data-translate-key="customTitle">Add your own payloads</h2>
+                    <p class="rxp-section-desc" data-translate-key="customDesc">One per line — these are tested alongside the library above under "Custom".</p>
+                    <textarea id="rxp-custom-input" class="rxp-custom-input" rows="3" spellcheck="false" data-translate-key="customPlaceholder" placeholder="<script>alert(document.domain)</script>
 ' OR 'a'='a"></textarea>
                 </div>
             </section>
@@ -566,5 +580,135 @@
 
         <script src="payloads-data.js"></script>
         <script src="app.js"></script>
+
+        <script>
+            const translations = {
+                en: {
+                    navHome: 'Home',
+                    navTools: 'Tools',
+                    toolTitle: 'Regex Playground',
+                    englishLanguageTooltip: 'Switch to English',
+                    portugueseLanguageTooltip: 'Mudar para Português',
+
+                    eyebrow: 'Tools · Built by me',
+                    pageTitle: 'Regex Playground with Security Rules',
+                    pageIntro:
+                        'Build an input-validation pattern, then throw a library of well-known SQL injection, XSS, command injection, path traversal and other payloads at it. Every result is a quick reality check on whether your regex actually filters what you think it does.',
+
+                    patternLabel: 'Pattern',
+                    denyListLabel: 'Deny-list',
+                    allowListLabel: 'Allow-list',
+                    fullMatchLabel: 'Require full match (wraps the pattern in <code>^(?:&hellip;)$</code>)',
+
+                    presetsLabel: 'Try a preset',
+
+                    testerLabel: 'Try your own input',
+                    badgeEmpty: 'Empty',
+                    testerPlaceholder: 'Type something to test against your pattern...',
+
+                    sweepTitle: 'Security payload sweep',
+                    sweepDesc:
+                        'Pick which categories to test. Each payload is a documented example of a real injection technique, run through your pattern under the mode selected above.',
+                    onlySlippedLabel: 'Show only payloads that slip through',
+
+                    customTitle: 'Add your own payloads',
+                    customDesc: 'One per line — these are tested alongside the library above under "Custom".',
+                    customPlaceholder: '<scr' + 'ipt>alert(document.domain)</scr' + 'ipt>\n\' OR \'a\'=\'a',
+                },
+                pt: {
+                    navHome: 'Início',
+                    navTools: 'Ferramentas',
+                    toolTitle: 'Regex Playground',
+                    englishLanguageTooltip: 'Mudar para Inglês',
+                    portugueseLanguageTooltip: 'Mudar para Português',
+
+                    eyebrow: 'Ferramentas · Feito por mim',
+                    pageTitle: 'Regex Playground com Regras de Segurança',
+                    pageIntro:
+                        'Construa uma regex de validação de entrada e teste-a contra uma biblioteca de payloads conhecidos de SQL injection, XSS, command injection, path traversal e outros — veja exatamente quais passariam despercebidos.',
+
+                    patternLabel: 'Padrão',
+                    denyListLabel: 'Deny-list',
+                    allowListLabel: 'Allow-list',
+                    fullMatchLabel: 'Exigir correspondência total (envolve o padrão em <code>^(?:&hellip;)$</code>)',
+
+                    presetsLabel: 'Experimente um preset',
+
+                    testerLabel: 'Teste sua própria entrada',
+                    badgeEmpty: 'Vazio',
+                    testerPlaceholder: 'Digite algo para testar contra seu padrão...',
+
+                    sweepTitle: 'Varredura de payloads de segurança',
+                    sweepDesc:
+                        'Escolha quais categorias testar. Cada payload é um exemplo documentado de uma técnica real de injeção, executado contra seu padrão no modo selecionado acima.',
+                    onlySlippedLabel: 'Mostrar apenas payloads que passam despercebidos',
+
+                    customTitle: 'Adicione seus próprios payloads',
+                    customDesc: 'Um por linha — eles são testados junto com a biblioteca acima sob "Custom".',
+                    customPlaceholder: '<scr' + 'ipt>alert(document.domain)</scr' + 'ipt>\n\' OR \'a\'=\'a',
+                },
+            };
+
+            let currentLanguage = 'en';
+
+            function setInitialLanguage() {
+                try {
+                    const saved = localStorage.getItem('language');
+                    if (saved === 'pt' || saved === 'en') {
+                        currentLanguage = saved;
+                        return;
+                    }
+                    const browserLang = navigator.language || navigator.userLanguage;
+                    currentLanguage = (browserLang && browserLang.toLowerCase().startsWith('pt')) ? 'pt' : 'en';
+                } catch (e) {
+                    currentLanguage = 'en';
+                }
+            }
+
+            function switchLanguage(lang, persist = false) {
+                currentLanguage = lang;
+                if (persist) localStorage.setItem('language', lang);
+
+                document.querySelectorAll('[data-translate-key]').forEach((element) => {
+                    const key = element.dataset.translateKey;
+                    const translatedText = translations[lang][key] || translations.en[key];
+                    if (translatedText === undefined) return;
+
+                    if (element.id === 'lang-en' || element.id === 'lang-pt') {
+                        element.title = translatedText;
+                        return;
+                    }
+
+                    if (key === 'fullMatchLabel') {
+                        element.innerHTML = translatedText;
+                        return;
+                    }
+
+                    if (key === 'testerPlaceholder' || key === 'customPlaceholder') {
+                        element.placeholder = translatedText;
+                        return;
+                    }
+
+                    element.textContent = translatedText;
+                });
+
+                if (typeof window.rxpSetLanguage === 'function') {
+                    window.rxpSetLanguage(lang);
+                }
+
+                const btnEn = document.getElementById('lang-en');
+                const btnPt = document.getElementById('lang-pt');
+                btnEn.classList.toggle('active', lang === 'en');
+                btnPt.classList.toggle('active', lang === 'pt');
+                btnEn.setAttribute('aria-pressed', lang === 'en' ? 'true' : 'false');
+                btnPt.setAttribute('aria-pressed', lang === 'pt' ? 'true' : 'false');
+            }
+
+            document.getElementById('lang-en').addEventListener('click', () => switchLanguage('en', true));
+            document.getElementById('lang-pt').addEventListener('click', () => switchLanguage('pt', true));
+
+            setInitialLanguage();
+            switchLanguage(currentLanguage);
+        </script>
     </body>
 </html>

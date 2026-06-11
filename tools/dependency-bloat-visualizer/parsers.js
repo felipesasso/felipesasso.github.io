@@ -14,6 +14,16 @@
 (function (global) {
     'use strict';
 
+    // Errors carry a `code` (used by app.js to look up a translated message)
+    // alongside an English `message` fallback for environments that don't
+    // run the translation layer (e.g. the unit-test harness).
+    function parseError(code, message, detail) {
+        var err = new Error(message);
+        err.code = code;
+        if (detail !== undefined) err.detail = detail;
+        return err;
+    }
+
     function makeNode(name, opts) {
         opts = opts || {};
         return {
@@ -330,7 +340,7 @@
                 if (Array.isArray(c.modules)) modules = modules.concat(c.modules);
             });
         }
-        if (!modules || !modules.length) throw new Error('No "modules" array found in this stats file. Re-run webpack with `--json` or `stats: { modules: true }`.');
+        if (!modules || !modules.length) throw parseError('noModulesArray', 'No "modules" array found in this stats file. Re-run webpack with `--json` or `stats: { modules: true }`.');
 
         var root = makeNode('bundle', { kind: 'root' });
         function addModule(m) {
@@ -410,7 +420,7 @@
             try {
                 json = JSON.parse(trimmed);
             } catch (e) {
-                throw new Error('This looks like JSON but failed to parse: ' + e.message);
+                throw parseError('invalidJson', 'This looks like JSON but failed to parse: ' + e.message, e.message);
             }
             if (json.lockfileVersion >= 2 && json.packages) return parseNpmLockModern(json);
             if (json.lockfileVersion === 1 || (json.dependencies && json.requires !== undefined && !json.packages)) {
@@ -423,21 +433,21 @@
                 return parseWebpackStats(json);
             }
             if (json.dependencies && json.devDependencies !== undefined && !json.lockfileVersion) {
-                throw new Error('This looks like a package.json — it only lists direct dependencies. Drop a package-lock.json or yarn.lock instead.');
+                throw parseError('looksLikePackageJson', 'This looks like a package.json — it only lists direct dependencies. Drop a package-lock.json or yarn.lock instead.');
             }
-            throw new Error('Unrecognised JSON. Supported: package-lock.json, webpack stats.json, esbuild metafile, rollup/vite visualizer JSON.');
+            throw parseError('unrecognisedJson', 'Unrecognised JSON. Supported: package-lock.json, webpack stats.json, esbuild metafile, rollup/vite visualizer JSON.');
         }
 
         if (/yarn lockfile v1/.test(trimmed) || /__metadata:/.test(trimmed) || /\.ya?ml$/i.test(filename) === false && /^"?[^\s"]+@.+:\s*$/m.test(trimmed)) {
             if (/^lockfileVersion:/m.test(trimmed)) {
-                throw new Error('pnpm-lock.yaml is not supported yet. Try package-lock.json, yarn.lock, or a bundler stats file.');
+                throw parseError('pnpmNotSupported', 'pnpm-lock.yaml is not supported yet. Try package-lock.json, yarn.lock, or a bundler stats file.');
             }
             return parseYarnLock(trimmed);
         }
         if (/^lockfileVersion:/m.test(trimmed)) {
-            throw new Error('pnpm-lock.yaml is not supported yet. Try package-lock.json, yarn.lock, or a bundler stats file.');
+            throw parseError('pnpmNotSupported', 'pnpm-lock.yaml is not supported yet. Try package-lock.json, yarn.lock, or a bundler stats file.');
         }
-        throw new Error('Unrecognised file format. Supported: package-lock.json, yarn.lock, webpack stats.json, esbuild metafile, rollup/vite visualizer JSON.');
+        throw parseError('unrecognisedFormat', 'Unrecognised file format. Supported: package-lock.json, yarn.lock, webpack stats.json, esbuild metafile, rollup/vite visualizer JSON.');
     }
 
     var api = { parse: parse, makeNode: makeNode };
