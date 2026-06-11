@@ -319,6 +319,63 @@
                 color: var(--text-primary);
                 white-space: pre;
             }
+            .dpdt-diagram {
+                overflow-x: auto;
+                background-color: color-mix(in srgb, var(--secondary-bg) 70%, var(--primary-bg));
+                border: 1px solid var(--border);
+                border-radius: 0.7rem;
+                padding: 1rem;
+            }
+            .dpdt-diagram-legend {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 0.4rem 1rem;
+                margin-top: 0.6rem;
+                font-size: 0.7rem;
+                color: var(--text-secondary);
+            }
+            .dpdt-diagram-legend span {
+                white-space: nowrap;
+            }
+            .dpdt-browse-link {
+                margin-top: 1rem;
+            }
+            .dpdt-browse-categories {
+                display: flex;
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+            .dpdt-browse-category h3 {
+                font-size: 0.7rem;
+                font-weight: 600;
+                text-transform: uppercase;
+                letter-spacing: 0.1em;
+                color: var(--accent-color);
+                margin-bottom: 0.6rem;
+            }
+            .dpdt-browse-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+                gap: 0.6rem;
+            }
+            .dpdt-browse-item {
+                text-align: left;
+                padding: 0.7rem 0.9rem;
+                border: 1px solid var(--border);
+                border-radius: 0.6rem;
+                background-color: color-mix(in srgb, var(--secondary-bg) 70%, var(--primary-bg));
+                color: var(--text-primary);
+                font-size: 0.85rem;
+                font-weight: 500;
+                cursor: pointer;
+                transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+            }
+            .dpdt-browse-item:hover {
+                transform: translateX(3px);
+                border-color: color-mix(in srgb, var(--brass) 55%, var(--border));
+                box-shadow: var(--card-shadow-hover);
+                color: var(--accent-color);
+            }
         </style>
     </head>
 
@@ -404,6 +461,7 @@
         </script>
 
         <script src="tree-data.js"></script>
+        <script src="class-diagram.js"></script>
         <script src="wizard.js"></script>
 
         <script>

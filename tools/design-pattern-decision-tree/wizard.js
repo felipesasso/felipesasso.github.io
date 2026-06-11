@@ -7,9 +7,11 @@
     const trail = document.getElementById('dpdt-trail');
     const stage = document.getElementById('dpdt-stage');
 
+    const CATEGORY_ORDER = ['Creational', 'Structural', 'Behavioral'];
+
     // Each entry: { nodeId, question, choiceLabel }
     let path = [];
-    let current = null; // { type: 'question', nodeId } | { type: 'result', patternId }
+    let current = null; // { type: 'question', nodeId } | { type: 'result', patternId, fromBrowse? } | { type: 'browse' }
     let codeLang = 'python'; // shared across pattern views: 'python' | 'go'
     let currentLanguage = 'en';
 
@@ -17,6 +19,7 @@
         en: {
             back: 'Back',
             backToLastQuestion: 'Back to last question',
+            backToAllPatterns: 'Back to all patterns',
             startOver: 'Start over',
             questionCounter: (n) => `Question ${n}`,
             recommendedPattern: (category) => `Recommended pattern · ${category}`,
@@ -28,10 +31,13 @@
             withPattern: (name) => `With ${name}`,
             chooseLanguage: 'Choose a language',
             answerOptions: 'Answer options',
+            browseAllPatterns: 'Browse all patterns',
+            browseAllPatternsLink: 'Or browse all patterns directly',
         },
         pt: {
             back: 'Voltar',
             backToLastQuestion: 'Voltar para a última pergunta',
+            backToAllPatterns: 'Voltar para todos os padrões',
             startOver: 'Recomeçar',
             questionCounter: (n) => `Pergunta ${n}`,
             recommendedPattern: (category) => `Padrão recomendado · ${category}`,
@@ -43,6 +49,8 @@
             withPattern: (name) => `Com ${name}`,
             chooseLanguage: 'Escolha uma linguagem',
             answerOptions: 'Opções de resposta',
+            browseAllPatterns: 'Ver todos os padrões',
+            browseAllPatternsLink: 'Ou veja todos os padrões diretamente',
         },
     };
 
@@ -84,7 +92,26 @@
         render();
     }
 
+    function browseAll() {
+        current = { type: 'browse' };
+        render();
+    }
+
+    function selectPattern(patternId) {
+        current = { type: 'result', patternId, fromBrowse: true };
+        render();
+    }
+
     function goBack() {
+        if (current.type === 'result' && current.fromBrowse) {
+            current = { type: 'browse' };
+            render();
+            return;
+        }
+        if (current.type === 'browse') {
+            start();
+            return;
+        }
         if (path.length === 0) return;
         const last = path.pop();
         current = { type: 'question', nodeId: last.nodeId };
@@ -141,6 +168,62 @@
 
         const backBtn = document.getElementById('dpdt-back');
         backBtn.addEventListener('click', goBack);
+
+        if (path.length === 0) {
+            const browseWrap = document.createElement('div');
+            browseWrap.className = 'dpdt-browse-link';
+            browseWrap.innerHTML = `
+                <button type="button" class="dpdt-text-btn" id="dpdt-browse-all">
+                    ${t('browseAllPatternsLink')}
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.75" stroke="currentColor" class="w-3.5 h-3.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+                    </svg>
+                </button>
+            `;
+            stage.querySelector('.dpdt-fade').appendChild(browseWrap);
+            document.getElementById('dpdt-browse-all').addEventListener('click', browseAll);
+        }
+    }
+
+    function renderBrowse() {
+        renderTrail();
+
+        const categories = CATEGORY_ORDER.map((category) => ({
+            category,
+            patterns: Object.entries(DPDT_PATTERNS).filter(([, pattern]) => pattern.category === category),
+        }));
+
+        stage.innerHTML = `
+            <div class="dpdt-fade">
+                <p class="dpdt-question">${t('browseAllPatterns')}</p>
+                <div class="dpdt-browse-categories">
+                    ${categories.map(({ category, patterns }) => `
+                        <div class="dpdt-browse-category">
+                            <h3>${categoryLabel(category)}</h3>
+                            <div class="dpdt-browse-grid" role="group" aria-label="${categoryLabel(category)}">
+                                ${patterns.map(([id, pattern]) => `
+                                    <button type="button" class="dpdt-browse-item" data-pattern="${id}">${pattern.name}</button>
+                                `).join('')}
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+                <div class="dpdt-controls">
+                    <button type="button" class="dpdt-text-btn" id="dpdt-back">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.75" stroke="currentColor" class="w-3.5 h-3.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
+                        </svg>
+                        ${t('back')}
+                    </button>
+                    <span class="text-xs text-[var(--text-secondary)]"></span>
+                </div>
+            </div>
+        `;
+
+        stage.querySelectorAll('.dpdt-browse-item').forEach((btn) => {
+            btn.addEventListener('click', () => selectPattern(btn.dataset.pattern));
+        });
+        document.getElementById('dpdt-back').addEventListener('click', goBack);
     }
 
     function renderResult(patternId, skipScroll) {
@@ -168,6 +251,20 @@
                     <p>${pick(pattern, 'watch')}</p>
                 </div>
 
+                ${pattern.classDiagram ? `
+                <div class="dpdt-result-block">
+                    <h3>Class diagram</h3>
+                    <div class="dpdt-diagram" id="dpdt-diagram"></div>
+                    <div class="dpdt-diagram-legend">
+                        <span>──▷ inheritance / implements</span>
+                        <span>┄┄▷ realization (interface)</span>
+                        <span>──◆ composition</span>
+                        <span>──◇ aggregation</span>
+                        <span>┄┄&gt; dependency</span>
+                    </div>
+                </div>
+                ` : ''}
+
                 <div class="dpdt-result-block">
                     <div class="dpdt-code-header">
                         <h3 style="margin-bottom: 0;">${t('codeExample')}</h3>
@@ -193,7 +290,7 @@
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.75" stroke="currentColor" class="w-3.5 h-3.5">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
                         </svg>
-                        ${t('backToLastQuestion')}
+                        ${current.fromBrowse ? t('backToAllPatterns') : t('backToLastQuestion')}
                     </button>
                     <button type="button" class="dpdt-text-btn" id="dpdt-restart">
                         ${t('startOver')}
@@ -229,6 +326,10 @@
 
         renderCode();
 
+        if (pattern.classDiagram) {
+            renderClassDiagram(stage.querySelector('#dpdt-diagram'), pattern.classDiagram);
+        }
+
         if (!skipScroll) {
             stage.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
@@ -237,6 +338,8 @@
     function render(skipScroll) {
         if (current.type === 'question') {
             renderQuestion(current.nodeId);
+        } else if (current.type === 'browse') {
+            renderBrowse();
         } else {
             renderResult(current.patternId, skipScroll);
         }

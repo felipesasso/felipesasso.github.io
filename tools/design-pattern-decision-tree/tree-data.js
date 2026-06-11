@@ -279,6 +279,15 @@ a := NewConfig()
 b := NewConfig()
 // a != b — every part of the app can end up with its own, possibly-stale copy`,
         },
+        classDiagram: {
+            classes: [
+                { id: 'config', name: 'Config', members: ['- instance: Config', '- settings: dict', '+ getInstance(): Config'] },
+            ],
+            relations: [
+                { from: 'config', to: 'config', type: 'dependency', label: 'always returns same instance' },
+            ],
+            layout: [['config']],
+        },
     },
     builder: {
         name: 'Builder',
@@ -383,6 +392,16 @@ req := Request{
     VerifySSL: true,
 }`,
         },
+        classDiagram: {
+            classes: [
+                { id: 'builder', name: 'RequestBuilder', members: ['- request: Request', '+ header(key, value)', '+ timeout(seconds)', '+ build(): Request'] },
+                { id: 'request', name: 'Request', members: ['+ url', '+ headers', '+ timeout'] },
+            ],
+            relations: [
+                { from: 'builder', to: 'request', type: 'dependency', label: 'builds' },
+            ],
+            layout: [['builder'], ['request']],
+        },
     },
     'abstract-factory': {
         name: 'Abstract Factory',
@@ -469,6 +488,22 @@ func RenderForm(factory UIFactory) (string, string) {
     // this same switch gets copy-pasted everywhere a widget is created
 }`,
         },
+        classDiagram: {
+            classes: [
+                { id: 'button', name: 'Button', type: 'interface', members: ['+ render()'] },
+                { id: 'checkbox', name: 'Checkbox', type: 'interface', members: ['+ render()'] },
+                { id: 'factory', name: 'UIFactory', type: 'interface', members: ['+ createButton(): Button', '+ createCheckbox(): Checkbox'] },
+                { id: 'light', name: 'LightThemeFactory', members: [] },
+                { id: 'dark', name: 'DarkThemeFactory', members: [] },
+            ],
+            relations: [
+                { from: 'light', to: 'factory', type: 'realization' },
+                { from: 'dark', to: 'factory', type: 'realization' },
+                { from: 'factory', to: 'button', type: 'dependency', label: 'creates' },
+                { from: 'factory', to: 'checkbox', type: 'dependency', label: 'creates' },
+            ],
+            layout: [['button', 'checkbox'], ['factory'], ['light', 'dark']],
+        },
     },
     'factory-method': {
         name: 'Factory Method',
@@ -545,6 +580,20 @@ func OpenWith(creator DocumentCreator) string {
     // each new format means another case here — and everywhere else this logic lives
 }`,
         },
+        classDiagram: {
+            classes: [
+                { id: 'document', name: 'Document', type: 'interface', members: ['+ open()'] },
+                { id: 'creator', name: 'DocumentCreator', type: 'abstract', members: ['+ createDocument(): Document', '+ openDocument()'] },
+                { id: 'pdf', name: 'PDFCreator', members: ['+ createDocument(): Document'] },
+                { id: 'spreadsheet', name: 'SpreadsheetCreator', members: ['+ createDocument(): Document'] },
+            ],
+            relations: [
+                { from: 'pdf', to: 'creator', type: 'inheritance' },
+                { from: 'spreadsheet', to: 'creator', type: 'inheritance' },
+                { from: 'creator', to: 'document', type: 'dependency', label: 'creates' },
+            ],
+            layout: [['document'], ['creator'], ['pdf', 'spreadsheet']],
+        },
     },
     prototype: {
         name: 'Prototype',
@@ -617,6 +666,15 @@ func SpawnGoblin() Enemy {
     // restates every field — a new Enemy field means hunting down every spawn site
     return Enemy{Kind: "goblin", Health: 30, Gear: []string{"dagger", "shield"}}
 }`,
+        },
+        classDiagram: {
+            classes: [
+                { id: 'enemy', name: 'Enemy', members: ['- kind, health, gear', '+ clone(): Enemy'] },
+            ],
+            relations: [
+                { from: 'enemy', to: 'enemy', type: 'dependency', label: 'clone() returns a copy' },
+            ],
+            layout: [['enemy']],
         },
     },
     adapter: {
@@ -699,6 +757,18 @@ func Checkout(amount float64, currency string) {
     legacy.SendXMLPayment(xml)
     // every caller is welded directly to this one gateway's XML shape
 }`,
+        },
+        classDiagram: {
+            classes: [
+                { id: 'gateway', name: 'PaymentGateway', type: 'interface', members: ['+ pay(amount, currency)'] },
+                { id: 'adapter', name: 'LegacyGatewayAdapter', members: ['- legacy: LegacyXMLGateway', '+ pay(amount, currency)'] },
+                { id: 'legacy', name: 'LegacyXMLGateway', members: ['+ sendXmlPayment(xml)'] },
+            ],
+            relations: [
+                { from: 'adapter', to: 'gateway', type: 'realization' },
+                { from: 'adapter', to: 'legacy', type: 'composition', label: 'adapts' },
+            ],
+            layout: [['gateway'], ['adapter'], ['legacy']],
         },
     },
     decorator: {
@@ -790,6 +860,22 @@ func (c CoffeeWithMilkAndSugar) Cost() float64 { return c.CoffeeWithMilk.Cost() 
 
 // a new type for every combination of add-ons — the hierarchy keeps exploding`,
         },
+        classDiagram: {
+            classes: [
+                { id: 'drink', name: 'Drink', type: 'interface', members: ['+ cost()', '+ description()'] },
+                { id: 'coffee', name: 'Coffee', members: ['+ cost()', '+ description()'] },
+                { id: 'milk', name: 'MilkDecorator', members: ['- drink: Drink', '+ cost()', '+ description()'] },
+                { id: 'sugar', name: 'SugarDecorator', members: ['- drink: Drink', '+ cost()', '+ description()'] },
+            ],
+            relations: [
+                { from: 'coffee', to: 'drink', type: 'realization' },
+                { from: 'milk', to: 'drink', type: 'realization' },
+                { from: 'sugar', to: 'drink', type: 'realization' },
+                { from: 'milk', to: 'drink', type: 'aggregation', label: 'wraps' },
+                { from: 'sugar', to: 'drink', type: 'aggregation', label: 'wraps' },
+            ],
+            layout: [['drink'], ['coffee', 'milk', 'sugar']],
+        },
     },
     facade: {
         name: 'Facade',
@@ -880,6 +966,20 @@ func (v VideoConverter) Convert(file, format string) string {
     return encoder.Encode(file, codec, buffer)
     // callers must learn — and keep in sync with — the whole subsystem's wiring
 }`,
+        },
+        classDiagram: {
+            classes: [
+                { id: 'converter', name: 'VideoConverter', members: ['+ convert(file, fmt)'] },
+                { id: 'codec', name: 'CodecLibrary', members: ['+ selectCodec(fmt)'] },
+                { id: 'buffer', name: 'BufferPool', members: ['+ acquire()'] },
+                { id: 'encoder', name: 'Encoder', members: ['+ encode(data, codec, buffer)'] },
+            ],
+            relations: [
+                { from: 'converter', to: 'codec', type: 'dependency', label: 'uses' },
+                { from: 'converter', to: 'buffer', type: 'dependency', label: 'uses' },
+                { from: 'converter', to: 'encoder', type: 'dependency', label: 'uses' },
+            ],
+            layout: [['converter'], ['codec', 'buffer', 'encoder']],
         },
     },
     composite: {
@@ -975,6 +1075,19 @@ func (f Folder) Size() int {
     }
 }`,
         },
+        classDiagram: {
+            classes: [
+                { id: 'node', name: 'Node', type: 'interface', members: ['+ size(): int'] },
+                { id: 'file', name: 'File', members: ['- bytes: int', '+ size(): int'] },
+                { id: 'folder', name: 'Folder', members: ['- children: Node[]', '+ add(node)', '+ size(): int'] },
+            ],
+            relations: [
+                { from: 'file', to: 'node', type: 'realization' },
+                { from: 'folder', to: 'node', type: 'realization' },
+                { from: 'folder', to: 'node', type: 'composition', label: 'contains *' },
+            ],
+            layout: [['node'], ['file', 'folder']],
+        },
     },
     proxy: {
         name: 'Proxy',
@@ -1066,6 +1179,19 @@ for i := range gallery {
 }
 // 100 disk reads up front, whether or not any image is ever displayed`,
         },
+        classDiagram: {
+            classes: [
+                { id: 'image', name: 'Image', type: 'interface', members: ['+ display()'] },
+                { id: 'real', name: 'RealImage', members: ['- path', '+ display()'] },
+                { id: 'proxy', name: 'ImageProxy', members: ['- path', '- real: RealImage', '+ display()'] },
+            ],
+            relations: [
+                { from: 'real', to: 'image', type: 'realization' },
+                { from: 'proxy', to: 'image', type: 'realization' },
+                { from: 'proxy', to: 'real', type: 'aggregation', label: 'lazily creates' },
+            ],
+            layout: [['image'], ['real', 'proxy']],
+        },
     },
     bridge: {
         name: 'Bridge',
@@ -1154,6 +1280,20 @@ func (c RasterCircle) Draw() string {
 // type VectorSquare, RasterSquare, VectorTriangle, RasterTriangle ...
 // shapes × render styles = a brand new type for every combination`,
         },
+        classDiagram: {
+            classes: [
+                { id: 'circle', name: 'Circle', members: ['- renderer: Renderer', '- radius', '+ draw()'] },
+                { id: 'renderer', name: 'Renderer', type: 'interface', members: ['+ renderCircle(radius)'] },
+                { id: 'vector', name: 'VectorRenderer', members: ['+ renderCircle(radius)'] },
+                { id: 'raster', name: 'RasterRenderer', members: ['+ renderCircle(radius)'] },
+            ],
+            relations: [
+                { from: 'circle', to: 'renderer', type: 'aggregation', label: 'delegates to' },
+                { from: 'vector', to: 'renderer', type: 'realization' },
+                { from: 'raster', to: 'renderer', type: 'realization' },
+            ],
+            layout: [['circle', 'renderer'], ['vector', 'raster']],
+        },
     },
     flyweight: {
         name: 'Flyweight',
@@ -1239,6 +1379,16 @@ for i := range forest {
 }
 // a million copies of identical mesh/texture strings, multiplying memory use`,
         },
+        classDiagram: {
+            classes: [
+                { id: 'treetype', name: 'TreeType', members: ['+ mesh', '+ texture'] },
+                { id: 'tree', name: 'Tree', members: ['- x, y', '- type: TreeType'] },
+            ],
+            relations: [
+                { from: 'tree', to: 'treetype', type: 'aggregation', label: 'shares' },
+            ],
+            layout: [['treetype'], ['tree']],
+        },
     },
     observer: {
         name: 'Observer',
@@ -1315,6 +1465,16 @@ func (s *StockPrice) SetPrice(price float64) {
     }
     // ...edited directly here, every single time something new needs to react
 }`,
+        },
+        classDiagram: {
+            classes: [
+                { id: 'subject', name: 'StockPrice', members: ['- observers: Observer[]', '+ subscribe(observer)', '+ setPrice(price)'] },
+                { id: 'observer', name: 'Observer', type: 'interface', members: ['+ update(symbol, price)'] },
+            ],
+            relations: [
+                { from: 'subject', to: 'observer', type: 'aggregation', label: 'notifies *' },
+            ],
+            layout: [['subject', 'observer']],
         },
     },
     mediator: {
@@ -1421,6 +1581,16 @@ func (p *Plane) Land() string {
 }
 // connecting N planes means O(N²) direct references to keep in sync`,
         },
+        classDiagram: {
+            classes: [
+                { id: 'tower', name: 'ControlTower', members: ['- planes: Plane[]', '+ register(plane)', '+ requestLanding(plane)'] },
+                { id: 'plane', name: 'Plane', members: ['- tower: ControlTower', '+ land()'] },
+            ],
+            relations: [
+                { from: 'plane', to: 'tower', type: 'aggregation', label: 'delegates to' },
+            ],
+            layout: [['tower'], ['plane']],
+        },
     },
     'chain-of-responsibility': {
         name: 'Chain of Responsibility',
@@ -1521,6 +1691,19 @@ handle({"token": "abc", "body": {"item": 1}})`,
     return Process(request)
 }`,
         },
+        classDiagram: {
+            classes: [
+                { id: 'handler', name: 'Handler', type: 'abstract', members: ['- next: Handler', '+ then(handler)', '+ handle(request)'] },
+                { id: 'auth', name: 'AuthHandler', members: ['+ handle(request)'] },
+                { id: 'validation', name: 'ValidationHandler', members: ['+ handle(request)'] },
+            ],
+            relations: [
+                { from: 'auth', to: 'handler', type: 'inheritance' },
+                { from: 'validation', to: 'handler', type: 'inheritance' },
+                { from: 'handler', to: 'handler', type: 'dependency', label: 'next →' },
+            ],
+            layout: [['handler'], ['auth', 'validation']],
+        },
     },
     strategy: {
         name: 'Strategy',
@@ -1604,6 +1787,20 @@ Checkout().complete(89.90, "pix")`,
     }
     // Complete must be edited — and retested — every time a new method appears
 }`,
+        },
+        classDiagram: {
+            classes: [
+                { id: 'checkout', name: 'Checkout', members: ['- strategy: PaymentStrategy', '+ complete(amount)'] },
+                { id: 'strategy', name: 'PaymentStrategy', type: 'interface', members: ['+ pay(amount)'] },
+                { id: 'creditcard', name: 'CreditCardPayment', members: ['+ pay(amount)'] },
+                { id: 'pix', name: 'PixPayment', members: ['+ pay(amount)'] },
+            ],
+            relations: [
+                { from: 'checkout', to: 'strategy', type: 'aggregation', label: 'delegates to' },
+                { from: 'creditcard', to: 'strategy', type: 'realization' },
+                { from: 'pix', to: 'strategy', type: 'realization' },
+            ],
+            layout: [['checkout', 'strategy'], ['creditcard', 'pix']],
         },
     },
     command: {
@@ -1730,6 +1927,18 @@ func (e *Editor) Undo() {
     // a switch that grows with every new editing operation ever added
 }`,
         },
+        classDiagram: {
+            classes: [
+                { id: 'stack', name: 'CommandStack', members: ['- history: Command[]', '+ run(command)', '+ undoLast()'] },
+                { id: 'command', name: 'Command', type: 'interface', members: ['+ execute()', '+ undo()'] },
+                { id: 'insert', name: 'InsertTextCommand', members: ['- document', '- text', '+ execute()', '+ undo()'] },
+            ],
+            relations: [
+                { from: 'stack', to: 'command', type: 'aggregation', label: 'executes *' },
+                { from: 'insert', to: 'command', type: 'realization' },
+            ],
+            layout: [['stack', 'command'], ['insert']],
+        },
     },
     'template-method': {
         name: 'Template Method',
@@ -1828,6 +2037,16 @@ func (JSONExporter) Export() string {
     return rowsToJSON(rows)
 }
 // the shared "fetch -> transform -> write" skeleton lives nowhere — it's re-typed each time`,
+        },
+        classDiagram: {
+            classes: [
+                { id: 'exporter', name: 'DataExporter', type: 'abstract', members: ['+ export()', '# fetch()', '# transform(rows)', '# write(data)'] },
+                { id: 'csv', name: 'CsvExporter', members: ['# transform(rows)'] },
+            ],
+            relations: [
+                { from: 'csv', to: 'exporter', type: 'inheritance' },
+            ],
+            layout: [['exporter'], ['csv']],
         },
     },
     state: {
@@ -1934,6 +2153,20 @@ func (p *MediaPlayer) Play() string {
     // Pause() needs the mirror image of this same switch — and so does every new method
 }`,
         },
+        classDiagram: {
+            classes: [
+                { id: 'player', name: 'MediaPlayer', members: ['- state: PlayerState', '+ play()', '+ pause()'] },
+                { id: 'state', name: 'PlayerState', type: 'interface', members: ['+ play(player)', '+ pause(player)'] },
+                { id: 'playing', name: 'PlayingState', members: ['+ play(player)', '+ pause(player)'] },
+                { id: 'paused', name: 'PausedState', members: ['+ play(player)', '+ pause(player)'] },
+            ],
+            relations: [
+                { from: 'player', to: 'state', type: 'aggregation', label: 'delegates to' },
+                { from: 'playing', to: 'state', type: 'realization' },
+                { from: 'paused', to: 'state', type: 'realization' },
+            ],
+            layout: [['player', 'state'], ['playing', 'paused']],
+        },
     },
     iterator: {
         name: 'Iterator',
@@ -2015,6 +2248,16 @@ for i := 0; i < len(p.Songs); i++ {     // every consumer rewrites this same loo
 }
 // changing the backing storage means hunting down and rewriting every loop like this`,
         },
+        classDiagram: {
+            classes: [
+                { id: 'playlist', name: 'Playlist', members: ['- songs: string[]', '+ add(song)', '+ iterator(): SongIterator'] },
+                { id: 'iterator', name: 'SongIterator', members: ['- songs', '- pos', '+ hasNext(): bool', '+ next(): string'] },
+            ],
+            relations: [
+                { from: 'playlist', to: 'iterator', type: 'dependency', label: 'creates' },
+            ],
+            layout: [['playlist'], ['iterator']],
+        },
     },
     memento: {
         name: 'Memento',
@@ -2093,6 +2336,16 @@ e.Content += "Hello"
 checkpoint := e.Content              // outside code freely reads internal state...
 e.Content += " world — oops"
 e.Content = checkpoint               // ...and rewrites it directly, however it pleases`,
+        },
+        classDiagram: {
+            classes: [
+                { id: 'editor', name: 'Editor', members: ['- content: string', '+ type(text)', '+ save(): EditorMemento', '+ restore(memento)'] },
+                { id: 'memento', name: 'EditorMemento', members: ['- content: string'] },
+            ],
+            relations: [
+                { from: 'editor', to: 'memento', type: 'dependency', label: 'creates / restores' },
+            ],
+            layout: [['editor'], ['memento']],
         },
     },
     visitor: {
@@ -2184,6 +2437,23 @@ func (n AddNode) PrettyPrint() string {
 func (n AddNode) Evaluate() int { return n.Left.Evaluate() + n.Right.Evaluate() }
 
 // a new operation means adding a method to every node type that exists — and ever will`,
+        },
+        classDiagram: {
+            classes: [
+                { id: 'node', name: 'Node', type: 'interface', members: ['+ accept(visitor)'] },
+                { id: 'number', name: 'NumberNode', members: ['+ value', '+ accept(visitor)'] },
+                { id: 'add', name: 'AddNode', members: ['- left, right: Node', '+ accept(visitor)'] },
+                { id: 'visitor', name: 'Visitor', type: 'interface', members: ['+ visitNumber(node)', '+ visitAdd(node)'] },
+                { id: 'pretty', name: 'PrettyPrintVisitor', members: ['+ visitNumber(node)', '+ visitAdd(node)'] },
+            ],
+            relations: [
+                { from: 'number', to: 'node', type: 'realization' },
+                { from: 'add', to: 'node', type: 'realization' },
+                { from: 'add', to: 'node', type: 'aggregation', label: 'left / right' },
+                { from: 'pretty', to: 'visitor', type: 'realization' },
+                { from: 'node', to: 'visitor', type: 'dependency', label: 'accept(visitor)' },
+            ],
+            layout: [['node', 'visitor'], ['number', 'add', 'pretty']],
         },
     },
     interpreter: {
@@ -2286,6 +2556,21 @@ matches("status=open AND priority>2", {"status": "open", "priority": 3})`,
     return true
     // every new operator means another fragile branch in this one parsing function
 }`,
+        },
+        classDiagram: {
+            classes: [
+                { id: 'expression', name: 'Expression', type: 'interface', members: ['+ interpret(ctx): bool'] },
+                { id: 'equals', name: 'Equals', members: ['- field, value', '+ interpret(ctx): bool'] },
+                { id: 'greaterthan', name: 'GreaterThan', members: ['- field, value', '+ interpret(ctx): bool'] },
+                { id: 'and', name: 'And', members: ['- left, right: Expression', '+ interpret(ctx): bool'] },
+            ],
+            relations: [
+                { from: 'equals', to: 'expression', type: 'realization' },
+                { from: 'greaterthan', to: 'expression', type: 'realization' },
+                { from: 'and', to: 'expression', type: 'realization' },
+                { from: 'and', to: 'expression', type: 'aggregation', label: 'left / right' },
+            ],
+            layout: [['expression'], ['equals', 'greaterthan', 'and']],
         },
     },
 };
