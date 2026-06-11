@@ -328,12 +328,12 @@
             <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 flex items-center justify-between h-14">
                 <a href="/" class="nav-brand shrink-0">Felipe Sasso</a>
                 <div class="hidden sm:flex items-center gap-6">
-                    <a href="/" class="nav-link">Home</a>
-                    <a href="/tools/" class="nav-link">Tools</a>
-                    <span class="text-sm font-medium text-[var(--accent-color)] border-b-2 border-[var(--accent-color)] pb-0.5">Decision Tree</span>
+                    <a href="/" class="nav-link" data-translate-key="navHome">Home</a>
+                    <a href="/tools/" class="nav-link" data-translate-key="navTools">Tools</a>
+                    <span class="text-sm font-medium text-[var(--accent-color)] border-b-2 border-[var(--accent-color)] pb-0.5" data-translate-key="toolTitle">Decision Tree</span>
                 </div>
                 <div class="flex items-center gap-1 sm:gap-2 shrink-0">
-                    <a href="/tools/" class="sm:hidden nav-link text-sm">Tools</a>
+                    <a href="/tools/" class="sm:hidden nav-link text-sm" data-translate-key="navTools">Tools</a>
                     <button id="theme-toggle" class="lang-button" aria-label="Toggle dark mode" aria-pressed="false">
                         <svg id="icon-moon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z" />
@@ -342,15 +342,29 @@
                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" />
                         </svg>
                     </button>
+                    <button
+                        id="lang-en"
+                        class="lang-button active"
+                        data-translate-key="englishLanguageTooltip"
+                        aria-pressed="true"
+                        aria-label="Switch to English"
+                    >EN</button>
+                    <button
+                        id="lang-pt"
+                        class="lang-button"
+                        data-translate-key="portugueseLanguageTooltip"
+                        aria-pressed="false"
+                        aria-label="Mudar para Português"
+                    >PT</button>
                 </div>
             </div>
         </nav>
 
         <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
             <section class="card p-6 md:p-10">
-                <p class="eyebrow mb-2">Tools</p>
-                <h1 class="section-heading text-xl sm:text-2xl font-semibold text-[var(--text-primary)] mb-3">Design Pattern Decision Tree</h1>
-                <p class="text-sm sm:text-base text-[var(--text-secondary)] leading-relaxed mb-8 max-w-2xl">
+                <p class="eyebrow mb-2" data-translate-key="eyebrow">Tools</p>
+                <h1 class="section-heading text-xl sm:text-2xl font-semibold text-[var(--text-primary)] mb-3" data-translate-key="pageTitle">Design Pattern Decision Tree</h1>
+                <p class="text-sm sm:text-base text-[var(--text-secondary)] leading-relaxed mb-8 max-w-2xl" data-translate-key="pageIntro">
                     Not sure which Gang of Four pattern fits your problem? Answer a handful of questions about what you're trying to do, and land on a recommendation — with a plain-English explanation of why it fits, when to reach for it, and what to watch out for.
                 </p>
 
@@ -391,5 +405,85 @@
 
         <script src="tree-data.js"></script>
         <script src="wizard.js"></script>
+
+        <script>
+            const translations = {
+                en: {
+                    navHome: 'Home',
+                    navTools: 'Tools',
+                    toolTitle: 'Decision Tree',
+                    englishLanguageTooltip: 'Switch to English',
+                    portugueseLanguageTooltip: 'Mudar para Português',
+
+                    eyebrow: 'Tools',
+                    pageTitle: 'Design Pattern Decision Tree',
+                    pageIntro:
+                        "Not sure which Gang of Four pattern fits your problem? Answer a handful of questions about what you're trying to do, and land on a recommendation — with a plain-English explanation of why it fits, when to reach for it, and what to watch out for.",
+                },
+                pt: {
+                    navHome: 'Início',
+                    navTools: 'Ferramentas',
+                    toolTitle: 'Árvore de Decisão',
+                    englishLanguageTooltip: 'Mudar para Inglês',
+                    portugueseLanguageTooltip: 'Mudar para Português',
+
+                    eyebrow: 'Ferramentas',
+                    pageTitle: 'Árvore de Decisão de Padrões de Projeto',
+                    pageIntro:
+                        'Não sabe qual padrão Gang of Four se encaixa no seu problema? Responda a algumas perguntas sobre o que você está tentando fazer e chegue a uma recomendação — com uma explicação em linguagem simples do porquê ela se encaixa, quando usá-la e o que observar.',
+                },
+            };
+
+            let currentLanguage = 'en';
+
+            function setInitialLanguage() {
+                try {
+                    const saved = localStorage.getItem('language');
+                    if (saved === 'pt' || saved === 'en') {
+                        currentLanguage = saved;
+                        return;
+                    }
+                    const browserLang = navigator.language || navigator.userLanguage;
+                    currentLanguage = (browserLang && browserLang.toLowerCase().startsWith('pt')) ? 'pt' : 'en';
+                } catch (e) {
+                    currentLanguage = 'en';
+                }
+            }
+
+            function switchLanguage(lang, persist = false) {
+                currentLanguage = lang;
+                if (persist) localStorage.setItem('language', lang);
+
+                document.querySelectorAll('[data-translate-key]').forEach((element) => {
+                    const key = element.dataset.translateKey;
+                    const translatedText = translations[lang][key] || translations.en[key];
+                    if (translatedText === undefined) return;
+
+                    if (element.id === 'lang-en' || element.id === 'lang-pt') {
+                        element.title = translatedText;
+                        return;
+                    }
+
+                    element.textContent = translatedText;
+                });
+
+                if (typeof window.dpdtSetLanguage === 'function') {
+                    window.dpdtSetLanguage(lang);
+                }
+
+                const btnEn = document.getElementById('lang-en');
+                const btnPt = document.getElementById('lang-pt');
+                btnEn.classList.toggle('active', lang === 'en');
+                btnPt.classList.toggle('active', lang === 'pt');
+                btnEn.setAttribute('aria-pressed', lang === 'en' ? 'true' : 'false');
+                btnPt.setAttribute('aria-pressed', lang === 'pt' ? 'true' : 'false');
+            }
+
+            document.getElementById('lang-en').addEventListener('click', () => switchLanguage('en', true));
+            document.getElementById('lang-pt').addEventListener('click', () => switchLanguage('pt', true));
+
+            setInitialLanguage();
+            switchLanguage(currentLanguage);
+        </script>
     </body>
 </html>
