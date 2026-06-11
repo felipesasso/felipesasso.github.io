@@ -80,7 +80,7 @@
         let loopX = x + 48;
         if (rel.label) {
             const labelW = textWidth(svg, rel.label, { size: 10.5 }) + 10;
-            loopX = Math.max(loopX, x + labelW / 2 + 2);
+            loopX = Math.max(loopX, x + labelW / 2 + 8);
         }
         return { x, loopX, labelX: loopX + 4 };
     }
@@ -97,7 +97,7 @@
                 const connects = (rel.from === idA && rel.to === idB) || (rel.from === idB && rel.to === idA);
                 if (!connects) return;
                 const labelW = textWidth(svg, rel.label, { size: 10.5 }) + 10;
-                gap = Math.max(gap, labelW + 16);
+                gap = Math.max(gap, labelW + 28);
             });
             return gap;
         }
