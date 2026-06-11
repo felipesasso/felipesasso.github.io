@@ -3,6 +3,114 @@
 
     var $ = function (id) { return document.getElementById(id); };
 
+    var currentLanguage = 'en';
+
+    var APP_TRANSLATIONS = {
+        en: {
+            statTotalSize: 'Total size',
+            statInstalledPackages: 'Installed packages',
+            sourceLine: function (source) { return 'Source: ' + source; },
+            sourceBytesNote: ' — squares are sized by bytes.',
+            sourcePkgNote: ' — squares are sized by transitive dependency count (lockfiles carry no size info).',
+            sourceFetchedNote: function (covered) { return ' Sizes fetched from the npm registry for ' + covered + ' packages (unpacked size).'; },
+            coverageOf: function (covered, total) { return covered + ' of ' + total; },
+
+            noDuplicates: 'No duplicated libraries found — every package resolves to a single copy. Nice.',
+            dupCopies: function (n) { return n === 1 ? '1 copy' : n + ' copies'; },
+            dupExtra: function (waste) { return ' · ~' + waste + ' extra'; },
+            andMore: function (n) { return '…and ' + n + ' more.'; },
+
+            heaviestEmpty: 'Nothing to show.',
+
+            unitPkg: '1 pkg',
+            unitPkgs: function (n) { return Math.round(n) + ' pkgs'; },
+            unitBytes: function (s) { return s; },
+
+            tagShared: 'shared — counted where it was first installed',
+            tagDev: 'dev dependency',
+            badgeShared: 'shared',
+            badgeDev: 'dev',
+            directChild: function (n) { return n + (n === 1 ? ' direct child' : ' direct children'); },
+            ofTotal: function (pct) { return pct + ' of total'; },
+            noOwnDeps: 'No dependencies of its own.',
+            andMoreCount: function (n) { return '…and ' + n + ' more'; },
+
+            fileTooLarge: 'That file is over 60 MB — too large to parse in the browser.',
+            couldNotRead: 'Could not read the file.',
+
+            fetchingSizes: function (done, total, failedSuffix) { return 'Fetching sizes… ' + done + '/' + total + failedSuffix; },
+            failedSuffix: function (failed) { return failed ? ' (' + failed + ' unavailable)' : ''; },
+            registryUnreachable: "Couldn't reach the npm registry — keeping dependency counts.",
+
+            // Parser error messages, keyed by the `code` thrown in parsers.js.
+            errors: {
+                noModulesArray: 'No "modules" array found in this stats file. Re-run webpack with `--json` or `stats: { modules: true }`.',
+                invalidJson: function (detail) { return 'This looks like JSON but failed to parse: ' + detail; },
+                looksLikePackageJson: 'This looks like a package.json — it only lists direct dependencies. Drop a package-lock.json or yarn.lock instead.',
+                unrecognisedJson: 'Unrecognised JSON. Supported: package-lock.json, webpack stats.json, esbuild metafile, rollup/vite visualizer JSON.',
+                pnpmNotSupported: 'pnpm-lock.yaml is not supported yet. Try package-lock.json, yarn.lock, or a bundler stats file.',
+                unrecognisedFormat: 'Unrecognised file format. Supported: package-lock.json, yarn.lock, webpack stats.json, esbuild metafile, rollup/vite visualizer JSON.',
+            },
+        },
+        pt: {
+            statTotalSize: 'Tamanho total',
+            statInstalledPackages: 'Pacotes instalados',
+            sourceLine: function (source) { return 'Fonte: ' + source; },
+            sourceBytesNote: ' — os quadrados são dimensionados por bytes.',
+            sourcePkgNote: ' — os quadrados são dimensionados pela contagem de dependências transitivas (lockfiles não trazem informação de tamanho).',
+            sourceFetchedNote: function (covered) { return ' Tamanhos buscados no registro do npm para ' + covered + ' pacotes (tamanho descompactado).'; },
+            coverageOf: function (covered, total) { return covered + ' de ' + total; },
+
+            noDuplicates: 'Nenhuma biblioteca duplicada encontrada — todo pacote resolve para uma única cópia. Muito bom.',
+            dupCopies: function (n) { return n === 1 ? '1 cópia' : n + ' cópias'; },
+            dupExtra: function (waste) { return ' · ~' + waste + ' a mais'; },
+            andMore: function (n) { return '…e mais ' + n + '.'; },
+
+            heaviestEmpty: 'Nada para mostrar.',
+
+            unitPkg: '1 pacote',
+            unitPkgs: function (n) { return Math.round(n) + ' pacotes'; },
+            unitBytes: function (s) { return s; },
+
+            tagShared: 'compartilhado — contado onde foi instalado pela primeira vez',
+            tagDev: 'dependência de desenvolvimento',
+            badgeShared: 'compartilhado',
+            badgeDev: 'dev',
+            directChild: function (n) { return n + (n === 1 ? ' filho direto' : ' filhos diretos'); },
+            ofTotal: function (pct) { return pct + ' do total'; },
+            noOwnDeps: 'Sem dependências próprias.',
+            andMoreCount: function (n) { return '…e mais ' + n; },
+
+            fileTooLarge: 'Esse arquivo tem mais de 60 MB — muito grande para processar no navegador.',
+            couldNotRead: 'Não foi possível ler o arquivo.',
+
+            fetchingSizes: function (done, total, failedSuffix) { return 'Buscando tamanhos… ' + done + '/' + total + failedSuffix; },
+            failedSuffix: function (failed) { return failed ? ' (' + failed + ' indisponíveis)' : ''; },
+            registryUnreachable: 'Não foi possível acessar o registro do npm — mantendo as contagens de dependências.',
+
+            errors: {
+                noModulesArray: 'Nenhum array "modules" encontrado neste arquivo de stats. Rode o webpack novamente com `--json` ou `stats: { modules: true }`.',
+                invalidJson: function (detail) { return 'Isso parece JSON, mas falhou ao processar: ' + detail; },
+                looksLikePackageJson: 'Isso parece um package.json — ele lista apenas as dependências diretas. Solte um package-lock.json ou yarn.lock.',
+                unrecognisedJson: 'JSON não reconhecido. Suportados: package-lock.json, webpack stats.json, esbuild metafile, rollup/vite visualizer JSON.',
+                pnpmNotSupported: 'pnpm-lock.yaml ainda não é suportado. Tente package-lock.json, yarn.lock, ou um arquivo de stats do bundler.',
+                unrecognisedFormat: 'Formato de arquivo não reconhecido. Suportados: package-lock.json, yarn.lock, webpack stats.json, esbuild metafile, rollup/vite visualizer JSON.',
+            },
+        },
+    };
+
+    function t(key) {
+        var dict = APP_TRANSLATIONS[currentLanguage] || APP_TRANSLATIONS.en;
+        return dict[key] !== undefined ? dict[key] : APP_TRANSLATIONS.en[key];
+    }
+
+    function pick(item, field) {
+        if (currentLanguage === 'pt' && item[field + '_pt'] !== undefined) {
+            return item[field + '_pt'];
+        }
+        return item[field];
+    }
+
     var state = {
         root: null,
         meta: null,
@@ -108,7 +216,7 @@
 
     function formatWeight(n) {
         if (state.bytesMode) return formatBytes(n);
-        return n === 1 ? '1 pkg' : Math.round(n) + ' pkgs';
+        return n === 1 ? t('unitPkg') : t('unitPkgs')(n);
     }
 
     function pct(part, whole) {
@@ -130,7 +238,7 @@
         try {
             result = BloatParsers.parse(filename, text);
         } catch (e) {
-            showError(e.message);
+            showError(translateParseError(e));
             return;
         }
         $('bloat-error').classList.add('is-hidden');
@@ -158,15 +266,26 @@
         box.classList.remove('is-hidden');
     }
 
+    // Maps an error thrown by BloatParsers.parse() to a translated message,
+    // using the `code` set on the error (see parsers.js); falls back to the
+    // error's own (English) message for unexpected errors.
+    function translateParseError(e) {
+        var errors = t('errors');
+        var entry = e && e.code ? errors[e.code] : null;
+        if (typeof entry === 'function') return entry(e.detail);
+        if (typeof entry === 'string') return entry;
+        return e.message;
+    }
+
     function handleFile(file) {
         if (!file) return;
         if (file.size > 60 * 1024 * 1024) {
-            showError('That file is over 60 MB — too large to parse in the browser.');
+            showError(t('fileTooLarge'));
             return;
         }
         var reader = new FileReader();
         reader.onload = function () { loadText(file.name, reader.result); };
-        reader.onerror = function () { showError('Could not read the file.'); };
+        reader.onerror = function () { showError(t('couldNotRead')); };
         reader.readAsText(file);
     }
 
@@ -188,11 +307,11 @@
         $('stat-unique').textContent = counts.unique;
         $('stat-dups').textContent = state.duplicates.length;
         $('stat-dups').classList.toggle('is-warn', state.duplicates.length > 0);
-        $('stat-weight').textContent = state.bytesMode ? formatBytes(state.root.value) : counts.total + ' pkgs';
-        $('stat-weight-label').textContent = state.bytesMode ? 'Total size' : 'Installed packages';
-        var srcLine = 'Source: ' + state.meta.source +
-            (state.bytesMode ? ' — squares are sized by bytes.' : ' — squares are sized by transitive dependency count (lockfiles carry no size info).');
-        if (state.sizeCoverage) srcLine += ' Sizes fetched from the npm registry for ' + state.sizeCoverage + ' packages (unpacked size).';
+        $('stat-weight').textContent = state.bytesMode ? formatBytes(state.root.value) : t('unitPkgs')(counts.total);
+        $('stat-weight-label').textContent = state.bytesMode ? t('statTotalSize') : t('statInstalledPackages');
+        var srcLine = t('sourceLine')(state.meta.source) +
+            (state.bytesMode ? t('sourceBytesNote') : t('sourcePkgNote'));
+        if (state.sizeCoverage) srcLine += t('sourceFetchedNote')(t('coverageOf')(state.sizeCoverage.covered, state.sizeCoverage.total));
         $('bloat-source').textContent = srcLine;
     }
 
@@ -224,7 +343,7 @@
     function renderDuplicates() {
         var list = $('bloat-dups');
         if (!state.duplicates.length) {
-            list.innerHTML = '<p class="bloat-muted">No duplicated libraries found — every package resolves to a single copy. Nice.</p>';
+            list.innerHTML = '<p class="bloat-muted">' + esc(t('noDuplicates')) + '</p>';
             return;
         }
         list.innerHTML = state.duplicates.slice(0, 30).map(function (d, i) {
@@ -234,12 +353,12 @@
             var active = state.highlightName === d.name ? ' is-active' : '';
             return '<button type="button" class="bloat-dup' + active + '" data-dup="' + i + '">' +
                 '<span class="bloat-dup-head"><strong>' + esc(d.name) + '</strong>' +
-                '<span class="bloat-dup-waste">' + d.instances.length + ' copies · ~' + formatWeight(d.waste) + ' extra</span></span>' +
+                '<span class="bloat-dup-waste">' + esc(t('dupCopies')(d.instances.length)) + esc(t('dupExtra')(formatWeight(d.waste))) + '</span></span>' +
                 '<span class="bloat-dup-vers">' + versions + '</span>' +
                 '</button>';
         }).join('');
         if (state.duplicates.length > 30) {
-            list.innerHTML += '<p class="bloat-muted">…and ' + (state.duplicates.length - 30) + ' more.</p>';
+            list.innerHTML += '<p class="bloat-muted">' + esc(t('andMore')(state.duplicates.length - 30)) + '</p>';
         }
         list.querySelectorAll('[data-dup]').forEach(function (btn) {
             btn.addEventListener('click', function () {
@@ -270,9 +389,9 @@
         });
         nodes.sort(function (a, b) { return b.value - a.value; });
         $('bloat-heaviest').innerHTML = nodes.slice(0, 10).map(function (n) {
-            return '<li><span class="bloat-heavy-name">' + esc(n.name) + (n.version ? ' <em>' + esc(n.version) + '</em>' : '') + (n.dev ? ' <span class="bloat-badge">dev</span>' : '') + '</span>' +
+            return '<li><span class="bloat-heavy-name">' + esc(n.name) + (n.version ? ' <em>' + esc(n.version) + '</em>' : '') + (n.dev ? ' <span class="bloat-badge">' + esc(t('badgeDev')) + '</span>' : '') + '</span>' +
                 '<span class="bloat-heavy-size">' + formatWeight(n.value) + ' · ' + pct(n.value, state.root.value) + '</span></li>';
-        }).join('') || '<li class="bloat-muted">Nothing to show.</li>';
+        }).join('') || '<li class="bloat-muted">' + esc(t('heaviestEmpty')) + '</li>';
     }
 
     /* ------------------------------------------------------------------ *
@@ -287,11 +406,11 @@
             return;
         }
         var rows = ['<strong>' + esc(node.name) + (node.version ? ' ' + esc(node.version) : '') + '</strong>'];
-        rows.push(formatWeight(node.value) + ' · ' + pct(node.value, state.root.value) + ' of total');
-        if (node.deduped) rows.push('<em>shared — counted where it was first installed</em>');
-        if (node.dev) rows.push('<em>dev dependency</em>');
+        rows.push(formatWeight(node.value) + ' · ' + esc(t('ofTotal')(pct(node.value, state.root.value))));
+        if (node.deduped) rows.push('<em>' + esc(t('tagShared')) + '</em>');
+        if (node.dev) rows.push('<em>' + esc(t('tagDev')) + '</em>');
         var dirKids = node.children.length;
-        if (dirKids) rows.push(dirKids + (dirKids === 1 ? ' direct child' : ' direct children'));
+        if (dirKids) rows.push(esc(t('directChild')(dirKids)));
         rows.push('<span class="bloat-tip-path">' + esc(pathOf(node)) + '</span>');
         tooltip.innerHTML = rows.join('<br>');
         tooltip.classList.remove('is-hidden');
@@ -309,14 +428,14 @@
         var kids = node.children.slice().sort(function (a, b) { return b.value - a.value; });
         var kidHtml = kids.slice(0, 25).map(function (c) {
             return '<li>' + esc(c.name) + (c.version ? ' <em>' + esc(c.version) + '</em>' : '') +
-                (c.deduped ? ' <span class="bloat-badge">shared</span>' : '') +
+                (c.deduped ? ' <span class="bloat-badge">' + esc(t('badgeShared')) + '</span>' : '') +
                 ' — ' + formatWeight(c.value) + '</li>';
         }).join('');
-        if (kids.length > 25) kidHtml += '<li class="bloat-muted">…and ' + (kids.length - 25) + ' more</li>';
+        if (kids.length > 25) kidHtml += '<li class="bloat-muted">' + esc(t('andMoreCount')(kids.length - 25)) + '</li>';
         box.innerHTML = '<h3>' + esc(node.name) + (node.version ? ' <em>' + esc(node.version) + '</em>' : '') +
-            (node.dev ? ' <span class="bloat-badge">dev</span>' : '') + '</h3>' +
-            '<p>' + formatWeight(node.value) + ' (' + pct(node.value, state.root.value) + ' of total) · ' + esc(pathOf(node)) + '</p>' +
-            (kids.length ? '<ul>' + kidHtml + '</ul>' : '<p class="bloat-muted">No dependencies of its own.</p>');
+            (node.dev ? ' <span class="bloat-badge">' + esc(t('badgeDev')) + '</span>' : '') + '</h3>' +
+            '<p>' + formatWeight(node.value) + ' (' + esc(t('ofTotal')(pct(node.value, state.root.value))) + ') · ' + esc(pathOf(node)) + '</p>' +
+            (kids.length ? '<ul>' + kidHtml + '</ul>' : '<p class="bloat-muted">' + esc(t('noOwnDeps')) + '</p>');
     }
 
     /* ------------------------------------------------------------------ *
@@ -353,7 +472,7 @@
         var queue = specs.slice();
 
         function update() {
-            status.textContent = 'Fetching sizes… ' + done + '/' + specs.length + (failed ? ' (' + failed + ' unavailable)' : '');
+            status.textContent = t('fetchingSizes')(done, specs.length, t('failedSuffix')(failed));
         }
 
         function worker() {
@@ -392,12 +511,12 @@
             if (!covered) {
                 // Nothing came back (offline, ad-blocker, registry down) —
                 // stay in package-count mode instead of showing 0 B everywhere.
-                status.textContent = 'Couldn’t reach the npm registry — keeping dependency counts.';
+                status.textContent = t('registryUnreachable');
                 btn.disabled = false;
                 return;
             }
             applySizes(sizes);
-            state.sizeCoverage = covered + ' of ' + specs.length;
+            state.sizeCoverage = { covered: covered, total: specs.length };
             status.textContent = '';
             btn.classList.add('is-hidden');
             renderAll();
@@ -469,4 +588,13 @@
     new MutationObserver(function () {
         if (state.zoom) treemap.render(state.zoom);
     }).observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+
+    window.dbvSetLanguage = function (lang) {
+        currentLanguage = lang === 'pt' ? 'pt' : 'en';
+        if (!state.root) return;
+        renderAll();
+        if (!$('bloat-details').classList.contains('is-hidden') && state.zoom) {
+            showDetails(state.zoom);
+        }
+    };
 })();
