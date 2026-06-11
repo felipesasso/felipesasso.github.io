@@ -7,6 +7,98 @@
     const STATUS_CODES = ['200', '201', '204', '400', '401', '403', '404', '409', '422', '500', '503'];
     const HAS_BODY     = new Set(['POST', 'PUT', 'PATCH']);
 
+    // ── translations ─────────────────────────────────────────────────────────
+    let currentLanguage = 'en';
+
+    const APP_TRANSLATIONS = {
+        en: {
+            noResourcesYet: 'No resources yet.',
+            deleteResourceTitle: 'Delete resource',
+            deleteEndpointTitle: 'Delete endpoint',
+            deleteBtnTitle: 'Delete',
+            noSummary: 'No summary',
+            addEndpointBtn: '+ Add Endpoint',
+            selectEndpointHint: 'Select an endpoint from the sidebar to edit it.',
+            summaryPlaceholder: 'Short summary of this endpoint…',
+            descriptionPlaceholder: 'Longer description (optional)…',
+            tabParams: 'Parameters',
+            tabBody: 'Request Body',
+            tabResponses: 'Responses',
+            pathParametersLabel: 'Path Parameters',
+            queryParametersLabel: 'Query Parameters',
+            colName: 'Name',
+            colType: 'Type',
+            colDescription: 'Description',
+            colReq: 'Req',
+            descriptionPlaceholderShort: 'Description',
+            queryParamNamePlaceholder: 'param',
+            addQueryParamBtn: '+ Add Query Parameter',
+            requestBodyNotUsed: (method) => 'Request body is not used for ' + method + ' endpoints.',
+            contentTypeLabel: 'Content Type',
+            requiredCheckbox: 'Required',
+            requestBodyDescPlaceholder: 'Describe what goes in the body…',
+            exampleJsonLabel: 'Example (JSON)',
+            addResponseBtn: '+ Add Response',
+            responseExamplePlaceholder: '{ "id": 1, "name": "…" }',
+            invalidJsonFile: 'Invalid JSON file.',
+            invalidStateFile: 'Invalid state file.',
+            copiedLabel: 'Copied!',
+            copyToClipboardBtn: 'Copy to Clipboard',
+            yamlSpecTitle: 'OpenAPI 3.0 — YAML',
+            jsonSpecTitle: 'OpenAPI 3.0 — JSON',
+        },
+        pt: {
+            noResourcesYet: 'Ainda não há recursos.',
+            deleteResourceTitle: 'Excluir recurso',
+            deleteEndpointTitle: 'Excluir endpoint',
+            deleteBtnTitle: 'Excluir',
+            noSummary: 'Sem resumo',
+            addEndpointBtn: '+ Adicionar Endpoint',
+            selectEndpointHint: 'Selecione um endpoint na barra lateral para editá-lo.',
+            summaryPlaceholder: 'Resumo breve deste endpoint…',
+            descriptionPlaceholder: 'Descrição mais longa (opcional)…',
+            tabParams: 'Parâmetros',
+            tabBody: 'Corpo da Requisição',
+            tabResponses: 'Respostas',
+            pathParametersLabel: 'Parâmetros de Path',
+            queryParametersLabel: 'Parâmetros de Query',
+            colName: 'Nome',
+            colType: 'Tipo',
+            colDescription: 'Descrição',
+            colReq: 'Obr',
+            descriptionPlaceholderShort: 'Descrição',
+            queryParamNamePlaceholder: 'parametro',
+            addQueryParamBtn: '+ Adicionar Parâmetro de Query',
+            requestBodyNotUsed: (method) => 'O corpo da requisição não é usado em endpoints ' + method + '.',
+            contentTypeLabel: 'Content Type',
+            requiredCheckbox: 'Obrigatório',
+            requestBodyDescPlaceholder: 'Descreva o que vai no corpo…',
+            exampleJsonLabel: 'Exemplo (JSON)',
+            addResponseBtn: '+ Adicionar Resposta',
+            responseExamplePlaceholder: '{ "id": 1, "name": "…" }',
+            invalidJsonFile: 'Arquivo JSON inválido.',
+            invalidStateFile: 'Arquivo de estado inválido.',
+            copiedLabel: 'Copiado!',
+            copyToClipboardBtn: 'Copiar para a Área de Transferência',
+            yamlSpecTitle: 'OpenAPI 3.0 — YAML',
+            jsonSpecTitle: 'OpenAPI 3.0 — JSON',
+        },
+    };
+
+    function tr(key) {
+        const value = (APP_TRANSLATIONS[currentLanguage] && APP_TRANSLATIONS[currentLanguage][key] !== undefined)
+            ? APP_TRANSLATIONS[currentLanguage][key]
+            : APP_TRANSLATIONS.en[key];
+        return value;
+    }
+
+    function pick(item, field) {
+        if (currentLanguage === 'pt' && item[field + '_pt'] !== undefined) {
+            return item[field + '_pt'];
+        }
+        return item[field];
+    }
+
     // ── state ────────────────────────────────────────────────────────────────
     const S = {
         info: { title: 'My API', version: '1.0.0', description: '', baseUrl: '' },
@@ -129,7 +221,7 @@
     function renderTree() {
         const el = document.getElementById('api-tree');
         if (!S.resources.length) {
-            el.innerHTML = '<p style="font-size:12px;color:var(--text-secondary);text-align:center;padding:12px 4px">No resources yet.</p>';
+            el.innerHTML = '<p style="font-size:12px;color:var(--text-secondary);text-align:center;padding:12px 4px">' + escHtml(tr('noResourcesYet')) + '</p>';
             return;
         }
         el.innerHTML = S.resources.map(r => `
@@ -141,18 +233,18 @@
                            placeholder="/resource"
                            spellcheck="false"
                            autocomplete="off" />
-                    <button class="api-resource-del" data-del-resource="${r.id}" title="Delete resource">×</button>
+                    <button class="api-resource-del" data-del-resource="${r.id}" title="${escHtml(tr('deleteResourceTitle'))}">×</button>
                 </div>
                 <div class="api-endpoints-list">
                     ${r.endpoints.map(ep => {
                         const sel = ep.id === S.selectedId ? ' is-selected' : '';
                         return `<div class="api-endpoint-item${sel}" data-select-ep="${ep.id}">
                             <span class="api-method-badge api-method-${ep.method.toLowerCase()}">${ep.method}</span>
-                            <span class="api-endpoint-label">${escHtml(ep.summary) || '<span class="api-endpoint-summary">No summary</span>'}</span>
-                            <button class="api-endpoint-del" data-del-ep="${ep.id}" title="Delete endpoint">×</button>
+                            <span class="api-endpoint-label">${escHtml(ep.summary) || '<span class="api-endpoint-summary">' + escHtml(tr('noSummary')) + '</span>'}</span>
+                            <button class="api-endpoint-del" data-del-ep="${ep.id}" title="${escHtml(tr('deleteEndpointTitle'))}">×</button>
                         </div>`;
                     }).join('')}
-                    <button class="api-add-endpoint-btn" data-add-ep="${r.id}">+ Add Endpoint</button>
+                    <button class="api-add-endpoint-btn" data-add-ep="${r.id}">${escHtml(tr('addEndpointBtn'))}</button>
                 </div>
             </div>
         `).join('');
@@ -166,7 +258,7 @@
         }
         const found = findEndpoint(S.selectedId);
         if (!found) {
-            el.innerHTML = '<p class="text-sm text-[var(--text-secondary)]">Select an endpoint from the sidebar to edit it.</p>';
+            el.innerHTML = '<p class="text-sm text-[var(--text-secondary)]">' + escHtml(tr('selectEndpointHint')) + '</p>';
             return;
         }
         const { resource: res, endpoint: ep } = found;
@@ -183,17 +275,17 @@
                 <input class="api-input api-summary-input"
                        value="${escHtml(ep.summary)}"
                        data-ep="${ep.id}" data-field="summary"
-                       placeholder="Short summary of this endpoint…" />
+                       placeholder="${escHtml(tr('summaryPlaceholder'))}" />
                 <textarea class="api-input api-description-area"
                           data-ep="${ep.id}" data-field="description"
                           rows="2"
-                          placeholder="Longer description (optional)…">${escHtml(ep.description)}</textarea>
+                          placeholder="${escHtml(tr('descriptionPlaceholder'))}">${escHtml(ep.description)}</textarea>
             </div>
 
             <div class="api-tabs">
                 ${['params', 'body', 'responses'].map(t => {
-                    const labels = { params: 'Parameters', body: 'Request Body', responses: 'Responses' };
-                    return `<button class="api-tab-btn${S.activeTab === t ? ' is-active' : ''}" data-tab="${t}">${labels[t]}</button>`;
+                    const labels = { params: tr('tabParams'), body: tr('tabBody'), responses: tr('tabResponses') };
+                    return `<button class="api-tab-btn${S.activeTab === t ? ' is-active' : ''}" data-tab="${t}">${escHtml(labels[t])}</button>`;
                 }).join('')}
             </div>
 
@@ -211,9 +303,9 @@
     function renderParamsTab(ep, pathParams) {
         const meta = ep.pathParamMeta || {};
         const pathSection = pathParams.length ? `
-            <div class="api-section-label">Path Parameters</div>
+            <div class="api-section-label">${escHtml(tr('pathParametersLabel'))}</div>
             <div class="api-path-params-grid api-path-params-head">
-                <span>Name</span><span>Type</span><span>Description</span>
+                <span>${escHtml(tr('colName'))}</span><span>${escHtml(tr('colType'))}</span><span>${escHtml(tr('colDescription'))}</span>
             </div>
             ${pathParams.map(name => {
                 const m = meta[name] || {};
@@ -222,32 +314,32 @@
                     <select class="api-input api-select" data-ep="${ep.id}" data-pp-type="${name}">
                         ${PARAM_TYPES.map(t => `<option value="${t}"${(m.type || 'string') === t ? ' selected' : ''}>${t}</option>`).join('')}
                     </select>
-                    <input class="api-input" value="${escHtml(m.description || '')}" data-ep="${ep.id}" data-pp-desc="${name}" placeholder="Description" />
+                    <input class="api-input" value="${escHtml(m.description || '')}" data-ep="${ep.id}" data-pp-desc="${name}" placeholder="${escHtml(tr('descriptionPlaceholderShort'))}" />
                 </div>`;
             }).join('')}
             <hr class="api-divider" />
         ` : '';
 
         const qpSection = `
-            <div class="api-section-label">Query Parameters</div>
+            <div class="api-section-label">${escHtml(tr('queryParametersLabel'))}</div>
             ${ep.queryParams.length ? `
                 <div class="api-qp-row api-qp-head">
-                    <span>Name</span><span>Type</span><span>Req</span><span>Description</span><span></span>
+                    <span>${escHtml(tr('colName'))}</span><span>${escHtml(tr('colType'))}</span><span>${escHtml(tr('colReq'))}</span><span>${escHtml(tr('colDescription'))}</span><span></span>
                 </div>` : ''}
             ${ep.queryParams.map(p => `
                 <div class="api-qp-row">
-                    <input class="api-input" value="${escHtml(p.name)}" data-ep="${ep.id}" data-qp-name="${p.id}" placeholder="param" />
+                    <input class="api-input" value="${escHtml(p.name)}" data-ep="${ep.id}" data-qp-name="${p.id}" placeholder="${escHtml(tr('queryParamNamePlaceholder'))}" />
                     <select class="api-input api-select" data-ep="${ep.id}" data-qp-type="${p.id}">
                         ${PARAM_TYPES.map(t => `<option value="${t}"${p.type === t ? ' selected' : ''}>${t}</option>`).join('')}
                     </select>
                     <label class="api-check-label">
                         <input type="checkbox" ${p.required ? 'checked' : ''} data-ep="${ep.id}" data-qp-req="${p.id}" />
                     </label>
-                    <input class="api-input" value="${escHtml(p.description)}" data-ep="${ep.id}" data-qp-desc="${p.id}" placeholder="Description" />
-                    <button class="api-del-btn" data-ep="${ep.id}" data-del-qp="${p.id}" title="Delete">×</button>
+                    <input class="api-input" value="${escHtml(p.description)}" data-ep="${ep.id}" data-qp-desc="${p.id}" placeholder="${escHtml(tr('descriptionPlaceholderShort'))}" />
+                    <button class="api-del-btn" data-ep="${ep.id}" data-del-qp="${p.id}" title="${escHtml(tr('deleteBtnTitle'))}">×</button>
                 </div>
             `).join('')}
-            <button class="api-add-row-btn" data-add-qp="${ep.id}">+ Add Query Parameter</button>
+            <button class="api-add-row-btn" data-add-qp="${ep.id}">${escHtml(tr('addQueryParamBtn'))}</button>
         `;
 
         return `<div class="api-tab-pane">${pathSection}${qpSection}</div>`;
@@ -255,13 +347,13 @@
 
     function renderBodyTab(ep) {
         if (!HAS_BODY.has(ep.method)) {
-            return `<div class="api-tab-pane"><p class="text-sm text-[var(--text-secondary)]">Request body is not used for ${ep.method} endpoints.</p></div>`;
+            return `<div class="api-tab-pane"><p class="text-sm text-[var(--text-secondary)]">${escHtml(tr('requestBodyNotUsed')(ep.method))}</p></div>`;
         }
         const rb = ep.requestBody || {};
         return `
             <div class="api-tab-pane">
                 <div class="api-field-group">
-                    <label class="api-field-label">Content Type</label>
+                    <label class="api-field-label">${escHtml(tr('contentTypeLabel'))}</label>
                     <select class="api-input api-select" style="max-width:260px" data-ep="${ep.id}" data-rb-ct>
                         ${['application/json', 'application/x-www-form-urlencoded', 'multipart/form-data', 'text/plain'].map(ct =>
                             `<option value="${ct}"${rb.contentType === ct ? ' selected' : ''}>${ct}</option>`
@@ -271,15 +363,15 @@
                 <div>
                     <label class="api-check-label">
                         <input type="checkbox" ${rb.required ? 'checked' : ''} data-ep="${ep.id}" data-rb-required />
-                        Required
+                        ${escHtml(tr('requiredCheckbox'))}
                     </label>
                 </div>
                 <div class="api-field-group">
-                    <label class="api-field-label">Description</label>
-                    <input class="api-input" value="${escHtml(rb.description)}" data-ep="${ep.id}" data-rb-desc placeholder="Describe what goes in the body…" />
+                    <label class="api-field-label">${escHtml(tr('colDescription'))}</label>
+                    <input class="api-input" value="${escHtml(rb.description)}" data-ep="${ep.id}" data-rb-desc placeholder="${escHtml(tr('requestBodyDescPlaceholder'))}" />
                 </div>
                 <div class="api-field-group">
-                    <label class="api-field-label">Example (JSON)</label>
+                    <label class="api-field-label">${escHtml(tr('exampleJsonLabel'))}</label>
                     <textarea class="api-input api-code-area" rows="9" data-ep="${ep.id}" data-rb-example placeholder='{\n  "field": "value"\n}'>${escHtml(rb.example)}</textarea>
                 </div>
             </div>
@@ -295,13 +387,13 @@
                             <select class="api-input api-select api-select-status" data-ep="${ep.id}" data-resp-code="${r.id}">
                                 ${STATUS_CODES.map(c => `<option value="${c}"${r.statusCode === c ? ' selected' : ''}>${c}</option>`).join('')}
                             </select>
-                            <input class="api-input" style="flex:1" value="${escHtml(r.description)}" data-ep="${ep.id}" data-resp-desc="${r.id}" placeholder="Description" />
-                            <button class="api-del-btn" data-ep="${ep.id}" data-del-resp="${r.id}" title="Delete">×</button>
+                            <input class="api-input" style="flex:1" value="${escHtml(r.description)}" data-ep="${ep.id}" data-resp-desc="${r.id}" placeholder="${escHtml(tr('descriptionPlaceholderShort'))}" />
+                            <button class="api-del-btn" data-ep="${ep.id}" data-del-resp="${r.id}" title="${escHtml(tr('deleteBtnTitle'))}">×</button>
                         </div>
-                        <textarea class="api-input api-code-area" rows="4" data-ep="${ep.id}" data-resp-example="${r.id}" placeholder='{ "id": 1, "name": "…" }'>${escHtml(r.example)}</textarea>
+                        <textarea class="api-input api-code-area" rows="4" data-ep="${ep.id}" data-resp-example="${r.id}" placeholder="${escHtml(tr('responseExamplePlaceholder'))}">${escHtml(r.example)}</textarea>
                     </div>
                 `).join('')}
-                <button class="api-add-row-btn" data-add-resp="${ep.id}">+ Add Response</button>
+                <button class="api-add-row-btn" data-add-resp="${ep.id}">${escHtml(tr('addResponseBtn'))}</button>
             </div>
         `;
     }
@@ -480,7 +572,7 @@
             const reader = new FileReader();
             reader.onload = ev => {
                 try   { loadState(JSON.parse(ev.target.result)); }
-                catch { alert('Invalid JSON file.'); }
+                catch { alert(tr('invalidJsonFile')); }
             };
             reader.readAsText(file);
             e.target.value = '';
@@ -492,7 +584,7 @@
             navigator.clipboard.writeText(pre.textContent).then(() => {
                 const btn = document.getElementById('api-modal-copy');
                 const orig = btn.textContent;
-                btn.textContent = 'Copied!';
+                btn.textContent = tr('copiedLabel');
                 setTimeout(() => { btn.textContent = orig; }, 2000);
             });
         });
@@ -615,7 +707,7 @@
     }
 
     function loadState(data) {
-        if (!data || !Array.isArray(data.resources)) { alert('Invalid state file.'); return; }
+        if (!data || !Array.isArray(data.resources)) { alert(tr('invalidStateFile')); return; }
         S.info      = Object.assign({ title: '', version: '1.0.0', description: '', baseUrl: '' }, data.info);
         S.resources = data.resources;
         S._id       = data._id || 200;
@@ -702,7 +794,7 @@
         const spec    = buildOpenAPI();
         const content = format === 'yaml' ? jsToYaml(spec) : JSON.stringify(spec, null, 2);
         const ext     = format === 'yaml' ? '.openapi.yaml' : '.openapi.json';
-        const title   = format === 'yaml' ? 'OpenAPI 3.0 — YAML' : 'OpenAPI 3.0 — JSON';
+        const title   = format === 'yaml' ? tr('yamlSpecTitle') : tr('jsonSpecTitle');
         const fname   = slugify(S.info.title) + ext;
 
         showModal(title, content);
@@ -784,6 +876,11 @@
         a.href = url; a.download = name; a.click();
         URL.revokeObjectURL(url);
     }
+
+    window.radSetLanguage = function (lang) {
+        currentLanguage = lang === 'pt' ? 'pt' : 'en';
+        render();
+    };
 
     // ── init ─────────────────────────────────────────────────────────────────
     function init() {
