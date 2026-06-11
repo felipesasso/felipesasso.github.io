@@ -44,12 +44,90 @@
     };
 
     const KIND_LABEL = { producer: 'Producer', queue: 'Topic / Queue', consumer: 'Consumer' };
+    const KIND_LABEL_PT = { producer: 'Produtor', queue: 'Tópico / Fila', consumer: 'Consumidor' };
 
     const NAME_POOL = {
         producer: ['Order Service', 'Checkout API', 'Signup Worker', 'Payment Gateway', 'Mobile App'],
         queue: ['orders.created', 'payments.captured', 'users.signedup', 'notifications', 'events.raw'],
         consumer: ['Email Worker', 'Inventory Sync', 'Analytics Sink', 'Fraud Check', 'Audit Logger'],
     };
+
+    const APP_TRANSLATIONS = {
+        en: {
+            kindLabel: (type) => KIND_LABEL[type],
+            portTooltip: 'Drag to wire to another node',
+            rowRate: 'Rate',
+            rowSent: 'Sent',
+            rowBacklog: 'Backlog',
+            rowThroughput: 'In · out / s',
+            rowProcessed: 'Processed',
+            statusCrashed: 'Crashed',
+            statusProcessing: 'Processing…',
+            statusIdle: 'Idle',
+            settingsTitle: (kind) => `${kind} settings`,
+            fieldName: 'Name',
+            nodeNameAriaLabel: 'Node name',
+            fieldRate: 'Message rate',
+            unitMsgPerSec: 'msg/s',
+            fieldCapacity: 'Capacity',
+            unitMessages: 'messages',
+            fieldLatency: 'Processing time',
+            unitMsPerMessage: 'ms / message',
+            fieldFailureRate: 'Failure chance',
+            fieldAvailability: 'Availability',
+            simulateCrash: 'Simulate crash — stop pulling new messages',
+            removeNode: 'Remove node',
+            failPercent: '% fail',
+            playButton: 'Play',
+            pauseButton: 'Pause',
+        },
+        pt: {
+            kindLabel: (type) => KIND_LABEL_PT[type],
+            portTooltip: 'Arraste para conectar a outro nó',
+            rowRate: 'Taxa',
+            rowSent: 'Enviadas',
+            rowBacklog: 'Fila',
+            rowThroughput: 'Entrada · saída / s',
+            rowProcessed: 'Processadas',
+            statusCrashed: 'Caiu',
+            statusProcessing: 'Processando…',
+            statusIdle: 'Ociosa',
+            settingsTitle: (kind) => `Configurações de ${kind}`,
+            fieldName: 'Nome',
+            nodeNameAriaLabel: 'Nome do nó',
+            fieldRate: 'Taxa de mensagens',
+            unitMsgPerSec: 'msg/s',
+            fieldCapacity: 'Capacidade',
+            unitMessages: 'mensagens',
+            fieldLatency: 'Tempo de processamento',
+            unitMsPerMessage: 'ms / mensagem',
+            fieldFailureRate: 'Chance de falha',
+            fieldAvailability: 'Disponibilidade',
+            simulateCrash: 'Simular queda — parar de puxar novas mensagens',
+            removeNode: 'Remover nó',
+            failPercent: '% falha',
+            playButton: 'Play',
+            pauseButton: 'Pausar',
+        },
+    };
+
+    let currentLanguage = 'en';
+
+    function t(key) {
+        const langTable = APP_TRANSLATIONS[currentLanguage] || APP_TRANSLATIONS.en;
+        return langTable[key] !== undefined ? langTable[key] : APP_TRANSLATIONS.en[key];
+    }
+
+    function pick(item, field) {
+        if (currentLanguage === 'pt' && item[`${field}_pt`] !== undefined) {
+            return item[`${field}_pt`];
+        }
+        return item[field];
+    }
+
+    function kindLabel(type) {
+        return t('kindLabel')(type);
+    }
 
     const state = {
         nodes: [],
@@ -94,7 +172,7 @@
     function nameFor(type) {
         const used = new Set(state.nodes.filter((n) => n.type === type).map((n) => n.label));
         const free = NAME_POOL[type].find((n) => !used.has(n));
-        return free || `${KIND_LABEL[type]} ${state.nodes.filter((n) => n.type === type).length + 1}`;
+        return free || `${kindLabel(type)} ${state.nodes.filter((n) => n.type === type).length + 1}`;
     }
 
     function nextPosition(type) {
@@ -203,15 +281,15 @@
     function nodeBodyTemplate(type) {
         if (type === 'producer') {
             return `
-                <div class="eda-node-row"><span>Rate</span><strong data-ref="rate"></strong></div>
-                <div class="eda-node-row"><span>Sent</span><strong data-ref="sent"></strong></div>
+                <div class="eda-node-row"><span>${t('rowRate')}</span><strong data-ref="rate"></strong></div>
+                <div class="eda-node-row"><span>${t('rowSent')}</span><strong data-ref="sent"></strong></div>
             `;
         }
         if (type === 'queue') {
             return `
-                <div class="eda-node-row"><span>Backlog</span><strong data-ref="backlog"></strong></div>
+                <div class="eda-node-row"><span>${t('rowBacklog')}</span><strong data-ref="backlog"></strong></div>
                 <div class="eda-node-bar-track"><div class="eda-node-bar-fill" data-ref="bar"></div></div>
-                <div class="eda-node-row"><span>In · out / s</span><strong data-ref="throughput"></strong></div>
+                <div class="eda-node-row"><span>${t('rowThroughput')}</span><strong data-ref="throughput"></strong></div>
             `;
         }
         return `
@@ -219,7 +297,7 @@
                 <span class="eda-node-status"><span class="eda-status-dot"></span><span data-ref="status"></span></span>
                 <strong data-ref="config"></strong>
             </div>
-            <div class="eda-node-row"><span>Processed</span><strong data-ref="processed"></strong></div>
+            <div class="eda-node-row"><span>${t('rowProcessed')}</span><strong data-ref="processed"></strong></div>
         `;
     }
 
@@ -234,11 +312,11 @@
                 <span class="eda-node-icon">${ICONS[node.type]}</span>
                 <div class="min-w-0">
                     <p class="eda-node-title"></p>
-                    <p class="eda-node-kind">${KIND_LABEL[node.type]}</p>
+                    <p class="eda-node-kind">${kindLabel(node.type)}</p>
                 </div>
             </div>
             <div class="eda-node-body">${nodeBodyTemplate(node.type)}</div>
-            ${node.type !== 'consumer' ? '<span class="eda-port out" data-port="out" title="Drag to wire to another node"></span>' : ''}
+            ${node.type !== 'consumer' ? `<span class="eda-port out" data-port="out" title="${t('portTooltip')}"></span>` : ''}
             ${node.type !== 'producer' ? '<span class="eda-port in" data-port="in"></span>' : ''}
         `;
         canvas.appendChild(el);
@@ -261,7 +339,7 @@
         r.title.textContent = node.label;
 
         if (node.type === 'producer') {
-            r.rate.textContent = `${node.config.rate.toFixed(1)} msg/s`;
+            r.rate.textContent = `${node.config.rate.toFixed(1)} ${t('unitMsgPerSec')}`;
             r.sent.textContent = String(node.runtime.totalSent);
         } else if (node.type === 'queue') {
             const depth = node.runtime.buffer.length;
@@ -274,10 +352,10 @@
         } else {
             const isDown = !!node.config.down;
             const isBusy = !isDown && node.runtime.busyUntil !== null;
-            r.status.textContent = isDown ? 'Crashed' : (isBusy ? 'Processing…' : 'Idle');
+            r.status.textContent = isDown ? t('statusCrashed') : (isBusy ? t('statusProcessing') : t('statusIdle'));
             node.el.classList.toggle('is-down', isDown);
             node.el.classList.toggle('is-busy', isBusy);
-            r.config.textContent = `${node.config.latency} ms · ${node.config.failureRate}% fail`;
+            r.config.textContent = `${node.config.latency} ms · ${node.config.failureRate}${t('failPercent')}`;
             r.processed.textContent = `${node.runtime.totalProcessed} (~${node.runtime.rateDisplay.toFixed(1)}/s)`;
         }
     }
@@ -503,46 +581,46 @@
         if (node.type === 'producer') {
             fieldsHtml = `
                 <div class="eda-field">
-                    <label>Message rate — <span class="eda-field-value" data-out="rate">${node.config.rate.toFixed(1)}</span> msg/s</label>
+                    <label>${t('fieldRate')} — <span class="eda-field-value" data-out="rate">${node.config.rate.toFixed(1)}</span> ${t('unitMsgPerSec')}</label>
                     <input type="range" min="0.2" max="20" step="0.2" value="${node.config.rate}" data-cfg="rate" />
                 </div>
             `;
         } else if (node.type === 'queue') {
             fieldsHtml = `
                 <div class="eda-field">
-                    <label>Capacity — <span class="eda-field-value" data-out="capacity">${node.config.capacity}</span> messages</label>
+                    <label>${t('fieldCapacity')} — <span class="eda-field-value" data-out="capacity">${node.config.capacity}</span> ${t('unitMessages')}</label>
                     <input type="range" min="5" max="200" step="5" value="${node.config.capacity}" data-cfg="capacity" />
                 </div>
             `;
         } else {
             fieldsHtml = `
                 <div class="eda-field">
-                    <label>Processing time — <span class="eda-field-value" data-out="latency">${node.config.latency}</span> ms / message</label>
+                    <label>${t('fieldLatency')} — <span class="eda-field-value" data-out="latency">${node.config.latency}</span> ${t('unitMsPerMessage')}</label>
                     <input type="range" min="50" max="3000" step="50" value="${node.config.latency}" data-cfg="latency" />
                 </div>
                 <div class="eda-field">
-                    <label>Failure chance — <span class="eda-field-value" data-out="failureRate">${node.config.failureRate}</span> %</label>
+                    <label>${t('fieldFailureRate')} — <span class="eda-field-value" data-out="failureRate">${node.config.failureRate}</span> %</label>
                     <input type="range" min="0" max="80" step="1" value="${node.config.failureRate}" data-cfg="failureRate" />
                 </div>
                 <div class="eda-field">
-                    <label>Availability</label>
+                    <label>${t('fieldAvailability')}</label>
                     <label class="eda-toggle">
                         <input type="checkbox" data-cfg="down" ${node.config.down ? 'checked' : ''} />
-                        <span>Simulate crash — stop pulling new messages</span>
+                        <span>${t('simulateCrash')}</span>
                     </label>
                 </div>
             `;
         }
 
         inspector.innerHTML = `
-            <p class="eda-inspector-kind mb-2">${KIND_LABEL[node.type]} settings</p>
+            <p class="eda-inspector-kind mb-2">${t('settingsTitle')(kindLabel(node.type))}</p>
             <div class="eda-field" style="margin-bottom: 0.85rem; max-width: 22rem;">
-                <label>Name</label>
-                <input type="text" maxlength="40" value="${escapeHtml(node.label)}" data-cfg="label" aria-label="Node name" />
+                <label>${t('fieldName')}</label>
+                <input type="text" maxlength="40" value="${escapeHtml(node.label)}" data-cfg="label" aria-label="${t('nodeNameAriaLabel')}" />
             </div>
             <div class="eda-field-grid">${fieldsHtml}</div>
             <div class="eda-inspector-actions">
-                <button class="eda-danger-btn" type="button" data-action="delete">Remove node</button>
+                <button class="eda-danger-btn" type="button" data-action="delete">${t('removeNode')}</button>
             </div>
         `;
 
@@ -560,7 +638,7 @@
         const labelInput = inspector.querySelector('input[data-cfg="label"]');
         if (labelInput) {
             labelInput.addEventListener('input', () => {
-                node.label = labelInput.value.trim() || KIND_LABEL[node.type];
+                node.label = labelInput.value.trim() || kindLabel(node.type);
                 updateNodeDisplay(node);
             });
         }
@@ -716,7 +794,8 @@
 
     playBtn.addEventListener('click', () => {
         state.running = !state.running;
-        playBtn.textContent = state.running ? 'Pause' : 'Play';
+        playBtn.dataset.running = String(state.running);
+        playBtn.textContent = state.running ? t('pauseButton') : t('playButton');
     });
 
     resetBtn.addEventListener('click', () => {
@@ -779,4 +858,42 @@
 
     seedScenario();
     requestAnimationFrame(frame);
+
+    // ---------------------------------------------------------------
+    // language switching
+    // ---------------------------------------------------------------
+
+    window.edaSetLanguage = function (lang) {
+        currentLanguage = lang === 'pt' ? 'pt' : 'en';
+
+        // Re-render each node's static labels (kind, port tooltip, body
+        // template strings) without losing its runtime state, then refresh
+        // its dynamic values.
+        state.nodes.forEach((node) => {
+            const kindEl = node.el && node.el.querySelector('.eda-node-kind');
+            if (kindEl) kindEl.textContent = kindLabel(node.type);
+
+            const portOut = node.el && node.el.querySelector('.eda-port.out');
+            if (portOut) portOut.title = t('portTooltip');
+
+            const bodyEl = node.el && node.el.querySelector('.eda-node-body');
+            if (bodyEl) {
+                bodyEl.innerHTML = nodeBodyTemplate(node.type);
+                node.refs = { title: node.refs.title, portOut: node.refs.portOut, portIn: node.refs.portIn };
+                bodyEl.querySelectorAll('[data-ref]').forEach((elm) => {
+                    node.refs[elm.dataset.ref] = elm;
+                });
+            }
+
+            updateNodeDisplay(node);
+        });
+
+        // Re-render the inspector (if open) with translated labels.
+        renderInspector();
+
+        // Re-render the play/pause button label to match running state.
+        playBtn.textContent = state.running ? t('pauseButton') : t('playButton');
+
+        refreshUi();
+    };
 })();

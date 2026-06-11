@@ -103,7 +103,18 @@
             y += rowMaxH + ROW_GAP;
         });
 
-        return { boxes, width: maxRowWidth + PADDING * 2, height: y - ROW_GAP + PADDING };
+        let width = maxRowWidth + PADDING * 2;
+        (diagram.relations || []).forEach((rel) => {
+            if (rel.from !== rel.to) return;
+            const box = boxes[rel.from];
+            let extent = box.x + box.width + 48 + 4; // right edge of the self-loop curve + label gap
+            if (rel.label) {
+                extent += (textWidth(svg, rel.label, { size: 10.5 }) + 10) / 2;
+            }
+            width = Math.max(width, extent + PADDING);
+        });
+
+        return { boxes, width, height: y - ROW_GAP + PADDING };
     }
 
     function addDefs(svg) {

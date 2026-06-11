@@ -9,6 +9,53 @@
     const filters = document.getElementById('rdp-filters');
 
     let activeCategory = 'All';
+    let currentLanguage = 'en';
+
+    const APP_TRANSLATIONS = {
+        en: {
+            allLabel: 'All',
+            whenToUseLabel: 'When to use',
+            howItWorks: 'How it works',
+            watchOutFor: 'Watch out for',
+            copy: 'Copy',
+            copied: 'Copied!',
+            copyAriaLabel: 'Copy code sample',
+            backToIndex: '↑ Back to index',
+            jumpTo: (name) => `Jump to ${name}`,
+            complexityTitle: (level) => `${level} complexity`,
+            complexityLow: 'Low',
+            complexityMedium: 'Medium',
+            complexityHigh: 'High',
+        },
+        pt: {
+            allLabel: 'Todos',
+            whenToUseLabel: 'Quando usar',
+            howItWorks: 'Como funciona',
+            watchOutFor: 'Cuidados',
+            copy: 'Copiar',
+            copied: 'Copiado!',
+            copyAriaLabel: 'Copiar exemplo de código',
+            backToIndex: '↑ Voltar ao índice',
+            jumpTo: (name) => `Ir para ${name}`,
+            complexityTitle: (level) => `Complexidade ${level}`,
+            complexityLow: 'Baixa',
+            complexityMedium: 'Média',
+            complexityHigh: 'Alta',
+        },
+    };
+
+    function t(key) {
+        return (APP_TRANSLATIONS[currentLanguage] && APP_TRANSLATIONS[currentLanguage][key] !== undefined)
+            ? APP_TRANSLATIONS[currentLanguage][key]
+            : APP_TRANSLATIONS.en[key];
+    }
+
+    function pick(item, field) {
+        if (currentLanguage === 'pt' && item[`${field}_pt`] !== undefined) {
+            return item[`${field}_pt`];
+        }
+        return item[field];
+    }
 
     function escapeHtml(str) {
         return str
@@ -18,8 +65,20 @@
             .replace(/"/g, '&quot;');
     }
 
+    function categoryLabel(category) {
+        if (currentLanguage === 'pt' && CATEGORIES_PT[category] !== undefined) {
+            return CATEGORIES_PT[category];
+        }
+        return category;
+    }
+
     function badge(category) {
-        return `<span class="rdp-badge rdp-badge--${CATEGORIES[category]}">${category}</span>`;
+        return `<span class="rdp-badge rdp-badge--${CATEGORIES[category]}">${escapeHtml(categoryLabel(category))}</span>`;
+    }
+
+    function complexityLabel(level) {
+        const key = { Low: 'complexityLow', Medium: 'complexityMedium', High: 'complexityHigh' }[level];
+        return key ? t(key) : level;
     }
 
     function complexityDots(level) {
@@ -28,7 +87,8 @@
         for (let i = 1; i <= 3; i++) {
             dots += `<span class="rdp-dot ${i <= filled ? 'is-filled' : ''}"></span>`;
         }
-        return `<span class="rdp-complexity" title="${level} complexity"><span class="rdp-dots">${dots}</span>${level}</span>`;
+        const label = complexityLabel(level);
+        return `<span class="rdp-complexity" title="${escapeHtml(t('complexityTitle')(label))}"><span class="rdp-dots">${dots}</span>${escapeHtml(label)}</span>`;
     }
 
     function visiblePatterns() {
@@ -43,7 +103,7 @@
             .map(
                 (cat) => `
                     <button class="rdp-filter ${cat === activeCategory ? 'active' : ''}" data-category="${cat}">
-                        ${cat}${cat === 'All' ? ` (${PATTERNS.length})` : ''}
+                        ${escapeHtml(cat === 'All' ? t('allLabel') : categoryLabel(cat))}${cat === 'All' ? ` (${PATTERNS.length})` : ''}
                     </button>`
             )
             .join('');
@@ -53,10 +113,10 @@
         indexBody.innerHTML = visiblePatterns()
             .map(
                 (p) => `
-                    <tr class="rdp-row" data-target="${p.id}" tabindex="0" role="link" aria-label="Jump to ${p.name}">
-                        <td class="rdp-cell-name">${p.name}</td>
+                    <tr class="rdp-row" data-target="${p.id}" tabindex="0" role="link" aria-label="${escapeHtml(t('jumpTo')(pick(p, 'name')))}">
+                        <td class="rdp-cell-name">${escapeHtml(pick(p, 'name'))}</td>
                         <td>${badge(p.category)}</td>
-                        <td class="rdp-cell-when">${p.whenToUse}</td>
+                        <td class="rdp-cell-when">${pick(p, 'whenToUse')}</td>
                         <td>${complexityDots(p.complexity)}</td>
                     </tr>`
             )
@@ -73,15 +133,15 @@
                                 ${badge(p.category)}
                                 ${complexityDots(p.complexity)}
                             </div>
-                            <h2 class="rdp-pattern-name">${p.name}</h2>
-                            <p class="rdp-pattern-when"><strong>When to use:</strong> ${p.whenToUse.toLowerCase()}.</p>
+                            <h2 class="rdp-pattern-name">${escapeHtml(pick(p, 'name'))}</h2>
+                            <p class="rdp-pattern-when"><strong>${escapeHtml(t('whenToUseLabel'))}:</strong> ${pick(p, 'whenToUse').toLowerCase()}.</p>
                         </header>
 
-                        <p class="rdp-pattern-summary">${p.summary}</p>
+                        <p class="rdp-pattern-summary">${pick(p, 'summary')}</p>
 
                         <div class="rdp-block">
-                            <h3>How it works</h3>
-                            <ul>${p.howItWorks.map((item) => `<li>${item}</li>`).join('')}</ul>
+                            <h3>${escapeHtml(t('howItWorks'))}</h3>
+                            <ul>${pick(p, 'howItWorks').map((item) => `<li>${item}</li>`).join('')}</ul>
                         </div>
 
                         ${p.samples
@@ -89,12 +149,12 @@
                                 (sample, i) => `
                                     <div class="rdp-block">
                                         <div class="rdp-code-header">
-                                            <h3>${escapeHtml(sample.label)}</h3>
-                                            <button class="rdp-copy-btn" data-pattern="${p.id}" data-sample="${i}" aria-label="Copy code sample">
+                                            <h3>${escapeHtml(pick(sample, 'label'))}</h3>
+                                            <button class="rdp-copy-btn" data-pattern="${p.id}" data-sample="${i}" aria-label="${escapeHtml(t('copyAriaLabel'))}">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="rdp-copy-icon">
                                                     <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 0 1 1.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 0 0-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 0 1-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 0 0-3.375-3.375h-1.5a1.125 1.125 0 0 1-1.125-1.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H9.75" />
                                                 </svg>
-                                                <span>Copy</span>
+                                                <span>${escapeHtml(t('copy'))}</span>
                                             </button>
                                         </div>
                                         <pre class="rdp-code-block"><code>${escapeHtml(sample.code)}</code></pre>
@@ -103,11 +163,11 @@
                             .join('')}
 
                         <div class="rdp-block rdp-watch-out">
-                            <h3>Watch out for</h3>
-                            <ul>${p.watchOut.map((item) => `<li>${item}</li>`).join('')}</ul>
+                            <h3>${escapeHtml(t('watchOutFor'))}</h3>
+                            <ul>${pick(p, 'watchOut').map((item) => `<li>${item}</li>`).join('')}</ul>
                         </div>
 
-                        <a href="#rdp-index" class="rdp-back-to-top">↑ Back to index</a>
+                        <a href="#rdp-index" class="rdp-back-to-top">${escapeHtml(t('backToIndex'))}</a>
                     </article>`
             )
             .join('');
@@ -157,10 +217,10 @@
 
         navigator.clipboard.writeText(sample.code).then(() => {
             const label = btn.querySelector('span');
-            label.textContent = 'Copied!';
+            label.textContent = t('copied');
             btn.classList.add('copied');
             setTimeout(() => {
-                label.textContent = 'Copy';
+                label.textContent = t('copy');
                 btn.classList.remove('copied');
             }, 1600);
         });
@@ -173,4 +233,9 @@
         const target = document.getElementById(location.hash.slice(1));
         if (target) target.scrollIntoView({ block: 'start' });
     }
+
+    window.rdpSetLanguage = function (lang) {
+        currentLanguage = lang === 'pt' ? 'pt' : 'en';
+        renderAll();
+    };
 })();

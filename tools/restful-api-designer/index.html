@@ -566,12 +566,12 @@
             <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 flex items-center justify-between h-14">
                 <a href="/" class="nav-brand shrink-0">Felipe Sasso</a>
                 <div class="hidden sm:flex items-center gap-6">
-                    <a href="/" class="nav-link">Home</a>
-                    <a href="/tools/" class="nav-link">Tools</a>
-                    <span class="text-sm font-medium text-[var(--accent-color)] border-b-2 border-[var(--accent-color)] pb-0.5">API Designer</span>
+                    <a href="/" class="nav-link" data-translate-key="navHome">Home</a>
+                    <a href="/tools/" class="nav-link" data-translate-key="navTools">Tools</a>
+                    <span class="text-sm font-medium text-[var(--accent-color)] border-b-2 border-[var(--accent-color)] pb-0.5" data-translate-key="toolTitle">API Designer</span>
                 </div>
                 <div class="flex items-center gap-1 sm:gap-2 shrink-0">
-                    <a href="/tools/" class="sm:hidden nav-link text-sm">Tools</a>
+                    <a href="/tools/" class="sm:hidden nav-link text-sm" data-translate-key="navTools">Tools</a>
                     <button id="theme-toggle" class="lang-button" aria-label="Toggle dark mode" aria-pressed="false">
                         <svg id="icon-moon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z" />
@@ -580,6 +580,20 @@
                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" />
                         </svg>
                     </button>
+                    <button
+                        id="lang-en"
+                        class="lang-button active"
+                        data-translate-key="englishLanguageTooltip"
+                        aria-pressed="true"
+                        aria-label="Switch to English"
+                    >EN</button>
+                    <button
+                        id="lang-pt"
+                        class="lang-button"
+                        data-translate-key="portugueseLanguageTooltip"
+                        aria-pressed="false"
+                        aria-label="Mudar para Português"
+                    >PT</button>
                 </div>
             </div>
         </nav>
@@ -587,9 +601,9 @@
         <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
 
             <section class="card p-6 md:p-10 mb-4">
-                <p class="eyebrow mb-2">Tools</p>
-                <h1 class="section-heading text-xl sm:text-2xl font-semibold text-[var(--text-primary)] mb-3">RESTful API Designer</h1>
-                <p class="text-sm sm:text-base text-[var(--text-secondary)] leading-relaxed max-w-2xl">
+                <p class="eyebrow mb-2" data-translate-key="eyebrow">Tools</p>
+                <h1 class="section-heading text-xl sm:text-2xl font-semibold text-[var(--text-primary)] mb-3" data-translate-key="pageTitle">RESTful API Designer</h1>
+                <p class="text-sm sm:text-base text-[var(--text-secondary)] leading-relaxed max-w-2xl" data-translate-key="pageIntro">
                     Define your API's resources and endpoints, specify path and query parameters, request bodies and response shapes, then export a complete OpenAPI 3.0 specification — ready to paste into Swagger UI or import into Postman.
                 </p>
             </section>
@@ -598,31 +612,31 @@
             <div class="api-toolbar">
                 <button id="api-add-resource" class="api-btn api-btn-primary">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-3.5 h-3.5"><path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z"/></svg>
-                    Add Resource
+                    <span data-translate-key="addResourceBtn">Add Resource</span>
                 </button>
                 <button id="api-load-sample" class="api-btn">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-3.5 h-3.5"><path fill-rule="evenodd" d="M10 1a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0v-1.5A.75.75 0 0 1 10 1ZM5.05 3.05a.75.75 0 0 1 1.06 0l1.062 1.06A.75.75 0 1 1 6.11 5.173L5.05 4.11a.75.75 0 0 1 0-1.06ZM14.95 3.05a.75.75 0 0 1 0 1.06l-1.06 1.062a.75.75 0 0 1-1.062-1.061l1.061-1.061a.75.75 0 0 1 1.06 0ZM3 8a.75.75 0 0 1 .75-.75h1.5a.75.75 0 0 1 0 1.5h-1.5A.75.75 0 0 1 3 8Zm11 0a.75.75 0 0 1 .75-.75h1.5a.75.75 0 0 1 0 1.5h-1.5A.75.75 0 0 1 14 8Zm-6.828 2.828a.75.75 0 0 1 0 1.061L6.11 12.95a.75.75 0 0 1-1.06-1.06l1.06-1.06a.75.75 0 0 1 1.06 0Zm3.594-3.317a.75.75 0 0 1 1.06 0l3.25 3.25a.75.75 0 0 1-1.06 1.06l-3.25-3.25a.75.75 0 0 1 0-1.06ZM10 13a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" clip-rule="evenodd"/></svg>
-                    Load Sample
+                    <span data-translate-key="loadSampleBtn">Load Sample</span>
                 </button>
                 <button id="api-export-yaml" class="api-btn">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-3.5 h-3.5"><path fill-rule="evenodd" d="M6.28 5.22a.75.75 0 0 1 0 1.06L2.56 10l3.72 3.72a.75.75 0 0 1-1.06 1.06L.97 10.53a.75.75 0 0 1 0-1.06l4.25-4.25a.75.75 0 0 1 1.06 0Zm7.44 0a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L17.44 10l-3.72-3.72a.75.75 0 0 1 0-1.06ZM11.377 2.011a.75.75 0 0 1 .612.867l-2.5 14.5a.75.75 0 0 1-1.478-.255l2.5-14.5a.75.75 0 0 1 .866-.612Z" clip-rule="evenodd"/></svg>
-                    Export YAML
+                    <span data-translate-key="exportYamlBtn">Export YAML</span>
                 </button>
                 <button id="api-export-json-spec" class="api-btn">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-3.5 h-3.5"><path fill-rule="evenodd" d="M6.28 5.22a.75.75 0 0 1 0 1.06L2.56 10l3.72 3.72a.75.75 0 0 1-1.06 1.06L.97 10.53a.75.75 0 0 1 0-1.06l4.25-4.25a.75.75 0 0 1 1.06 0Zm7.44 0a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L17.44 10l-3.72-3.72a.75.75 0 0 1 0-1.06ZM11.377 2.011a.75.75 0 0 1 .612.867l-2.5 14.5a.75.75 0 0 1-1.478-.255l2.5-14.5a.75.75 0 0 1 .866-.612Z" clip-rule="evenodd"/></svg>
-                    Export JSON
+                    <span data-translate-key="exportJsonSpecBtn">Export JSON</span>
                 </button>
                 <button id="api-save-json" class="api-btn">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-3.5 h-3.5"><path d="M10.75 2.75a.75.75 0 0 0-1.5 0v8.614L6.295 8.235a.75.75 0 1 0-1.09 1.03l4.25 4.5a.75.75 0 0 0 1.09 0l4.25-4.5a.75.75 0 0 0-1.09-1.03l-2.955 3.129V2.75Z"/><path d="M3.5 12.75a.75.75 0 0 0-1.5 0v2.5A2.75 2.75 0 0 0 4.75 18h10.5A2.75 2.75 0 0 0 18 15.25v-2.5a.75.75 0 0 0-1.5 0v2.5c0 .69-.56 1.25-1.25 1.25H4.75c-.69 0-1.25-.56-1.25-1.25v-2.5Z"/></svg>
-                    Save
+                    <span data-translate-key="saveBtn">Save</span>
                 </button>
                 <button id="api-import-json" class="api-btn">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-3.5 h-3.5"><path d="M9.25 13.25a.75.75 0 0 0 1.5 0V4.636l2.955 3.129a.75.75 0 0 0 1.09-1.03l-4.25-4.5a.75.75 0 0 0-1.09 0l-4.25 4.5a.75.75 0 1 0 1.09 1.03L9.25 4.636v8.614Z"/><path d="M3.5 12.75a.75.75 0 0 0-1.5 0v2.5A2.75 2.75 0 0 0 4.75 18h10.5A2.75 2.75 0 0 0 18 15.25v-2.5a.75.75 0 0 0-1.5 0v2.5c0 .69-.56 1.25-1.25 1.25H4.75c-.69 0-1.25-.56-1.25-1.25v-2.5Z"/></svg>
-                    Import
+                    <span data-translate-key="importBtn">Import</span>
                 </button>
                 <button id="api-clear" class="api-btn api-btn-danger">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-3.5 h-3.5"><path fill-rule="evenodd" d="M8.75 1A2.75 2.75 0 0 0 6 3.75v.443c-.795.077-1.584.176-2.365.298a.75.75 0 1 0 .23 1.482l.149-.022.841 10.518A2.75 2.75 0 0 0 7.596 19h4.807a2.75 2.75 0 0 0 2.742-2.53l.841-10.52.149.023a.75.75 0 0 0 .23-1.482A41.03 41.03 0 0 0 14 4.193V3.75A2.75 2.75 0 0 0 11.25 1h-2.5ZM10 4c.84 0 1.673.025 2.5.075V3.75c0-.69-.56-1.25-1.25-1.25h-2.5c-.69 0-1.25.56-1.25 1.25v.325C8.327 4.025 9.16 4 10 4ZM8.58 7.72a.75.75 0 0 0-1.5.06l.3 7.5a.75.75 0 1 0 1.5-.06l-.3-7.5Zm4.34.06a.75.75 0 1 0-1.5-.06l-.3 7.5a.75.75 0 1 0 1.5.06l.3-7.5Z" clip-rule="evenodd"/></svg>
-                    Clear All
+                    <span data-translate-key="clearAllBtn">Clear All</span>
                 </button>
             </div>
 
@@ -632,28 +646,28 @@
                 <div class="api-sidebar-sticky">
                     <!-- API Info -->
                     <div class="api-panel">
-                        <div class="api-panel-title">API Info</div>
+                        <div class="api-panel-title" data-translate-key="apiInfoTitle">API Info</div>
                         <div class="api-info-row">
-                            <label class="api-info-label" for="api-title">Title</label>
-                            <input class="api-input" id="api-title" value="My API" placeholder="API name" />
+                            <label class="api-info-label" for="api-title" data-translate-key="titleLabel">Title</label>
+                            <input class="api-input" id="api-title" value="My API" placeholder="API name" data-translate-key="apiNamePlaceholder" />
                         </div>
                         <div class="api-info-row">
-                            <label class="api-info-label" for="api-version">Version</label>
+                            <label class="api-info-label" for="api-version" data-translate-key="versionLabel">Version</label>
                             <input class="api-input" id="api-version" value="1.0.0" placeholder="1.0.0" style="max-width:90px" />
                         </div>
                         <div class="api-info-row">
-                            <label class="api-info-label" for="api-base-url">Base URL</label>
+                            <label class="api-info-label" for="api-base-url" data-translate-key="baseUrlLabel">Base URL</label>
                             <input class="api-input" id="api-base-url" placeholder="https://api.example.com" />
                         </div>
                         <div class="api-info-row" style="align-items:flex-start">
-                            <label class="api-info-label" for="api-description" style="padding-top:5px">Desc</label>
-                            <textarea class="api-input" id="api-description" rows="2" placeholder="Short description…"></textarea>
+                            <label class="api-info-label" for="api-description" style="padding-top:5px" data-translate-key="descLabel">Desc</label>
+                            <textarea class="api-input" id="api-description" rows="2" placeholder="Short description…" data-translate-key="shortDescriptionPlaceholder"></textarea>
                         </div>
                     </div>
 
                     <!-- Resource tree -->
                     <div class="api-panel" style="padding:0.875rem">
-                        <div class="api-panel-title" style="padding:0 2px">Resources</div>
+                        <div class="api-panel-title" style="padding:0 2px" data-translate-key="resourcesTitle">Resources</div>
                         <div id="api-tree"></div>
                     </div>
                 </div>
@@ -661,7 +675,7 @@
                 <!-- Editor -->
                 <div class="api-editor-wrap">
                     <div id="api-editor-content">
-                        <p class="text-sm text-[var(--text-secondary)]">Click <strong>Add Resource</strong> to create your first API path, or <strong>Load Sample</strong> to explore a pre-built example.</p>
+                        <p class="text-sm text-[var(--text-secondary)]" data-translate-key="editorEmptyHint">Click <strong>Add Resource</strong> to create your first API path, or <strong>Load Sample</strong> to explore a pre-built example.</p>
                     </div>
                 </div>
             </div>
@@ -675,13 +689,13 @@
         <div class="api-modal-bg hidden" id="api-modal-bg" role="dialog" aria-modal="true" aria-labelledby="api-modal-title">
             <div class="api-modal">
                 <div class="api-modal-head">
-                    <h2 class="api-modal-title" id="api-modal-title">OpenAPI Specification</h2>
+                    <h2 class="api-modal-title" id="api-modal-title" data-translate-key="modalTitle">OpenAPI Specification</h2>
                     <button class="api-modal-close" id="api-modal-close" aria-label="Close">×</button>
                 </div>
                 <pre class="api-modal-pre" id="api-modal-pre"></pre>
                 <div class="api-modal-footer">
-                    <button class="api-btn api-btn-primary" id="api-modal-copy">Copy to Clipboard</button>
-                    <button class="api-btn" id="api-modal-download">Download</button>
+                    <button class="api-btn api-btn-primary" id="api-modal-copy" data-translate-key="copyToClipboardBtn">Copy to Clipboard</button>
+                    <button class="api-btn" id="api-modal-download" data-translate-key="downloadBtn">Download</button>
                 </div>
             </div>
         </div>
@@ -715,5 +729,141 @@
         </script>
 
         <script src="app.js"></script>
+
+        <script>
+            const translations = {
+                en: {
+                    navHome: 'Home',
+                    navTools: 'Tools',
+                    toolTitle: 'API Designer',
+                    englishLanguageTooltip: 'Switch to English',
+                    portugueseLanguageTooltip: 'Mudar para Português',
+
+                    eyebrow: 'Tools',
+                    pageTitle: 'RESTful API Designer',
+                    pageIntro:
+                        "Define your API's resources and endpoints, specify path and query parameters, request bodies and response shapes, then export a complete OpenAPI 3.0 specification — ready to paste into Swagger UI or import into Postman.",
+
+                    addResourceBtn: 'Add Resource',
+                    loadSampleBtn: 'Load Sample',
+                    exportYamlBtn: 'Export YAML',
+                    exportJsonSpecBtn: 'Export JSON',
+                    saveBtn: 'Save',
+                    importBtn: 'Import',
+                    clearAllBtn: 'Clear All',
+
+                    apiInfoTitle: 'API Info',
+                    titleLabel: 'Title',
+                    versionLabel: 'Version',
+                    baseUrlLabel: 'Base URL',
+                    descLabel: 'Desc',
+                    apiNamePlaceholder: 'API name',
+                    shortDescriptionPlaceholder: 'Short description…',
+
+                    resourcesTitle: 'Resources',
+                    editorEmptyHint: 'Click <strong>Add Resource</strong> to create your first API path, or <strong>Load Sample</strong> to explore a pre-built example.',
+
+                    modalTitle: 'OpenAPI Specification',
+                    copyToClipboardBtn: 'Copy to Clipboard',
+                    downloadBtn: 'Download',
+                },
+                pt: {
+                    navHome: 'Início',
+                    navTools: 'Ferramentas',
+                    toolTitle: 'API Designer',
+                    englishLanguageTooltip: 'Mudar para Inglês',
+                    portugueseLanguageTooltip: 'Mudar para Português',
+
+                    eyebrow: 'Ferramentas',
+                    pageTitle: 'Designer de API RESTful',
+                    pageIntro:
+                        'Defina os recursos e endpoints da sua API, especifique parâmetros de path e query, corpos de requisição e formatos de resposta, e exporte uma especificação OpenAPI 3.0 completa — pronta para colar no Swagger UI ou importar no Postman.',
+
+                    addResourceBtn: 'Adicionar Recurso',
+                    loadSampleBtn: 'Carregar Exemplo',
+                    exportYamlBtn: 'Exportar YAML',
+                    exportJsonSpecBtn: 'Exportar JSON',
+                    saveBtn: 'Salvar',
+                    importBtn: 'Importar',
+                    clearAllBtn: 'Limpar Tudo',
+
+                    apiInfoTitle: 'Informações da API',
+                    titleLabel: 'Título',
+                    versionLabel: 'Versão',
+                    baseUrlLabel: 'URL Base',
+                    descLabel: 'Desc',
+                    apiNamePlaceholder: 'Nome da API',
+                    shortDescriptionPlaceholder: 'Descrição curta…',
+
+                    resourcesTitle: 'Recursos',
+                    editorEmptyHint: 'Clique em <strong>Adicionar Recurso</strong> para criar seu primeiro caminho de API, ou <strong>Carregar Exemplo</strong> para explorar um exemplo pronto.',
+
+                    modalTitle: 'Especificação OpenAPI',
+                    copyToClipboardBtn: 'Copiar para a Área de Transferência',
+                    downloadBtn: 'Baixar',
+                },
+            };
+
+            let currentLanguage = 'en';
+
+            function setInitialLanguage() {
+                try {
+                    const saved = localStorage.getItem('language');
+                    if (saved === 'pt' || saved === 'en') {
+                        currentLanguage = saved;
+                        return;
+                    }
+                    const browserLang = navigator.language || navigator.userLanguage;
+                    currentLanguage = (browserLang && browserLang.toLowerCase().startsWith('pt')) ? 'pt' : 'en';
+                } catch (e) {
+                    currentLanguage = 'en';
+                }
+            }
+
+            function switchLanguage(lang, persist = false) {
+                currentLanguage = lang;
+                if (persist) localStorage.setItem('language', lang);
+
+                document.querySelectorAll('[data-translate-key]').forEach((element) => {
+                    const key = element.dataset.translateKey;
+                    const translatedText = translations[lang][key] || translations.en[key];
+                    if (translatedText === undefined) return;
+
+                    if (element.id === 'lang-en' || element.id === 'lang-pt') {
+                        element.title = translatedText;
+                        return;
+                    }
+
+                    if (key === 'editorEmptyHint') {
+                        element.innerHTML = translatedText;
+                        return;
+                    }
+
+                    if (key === 'apiNamePlaceholder' || key === 'shortDescriptionPlaceholder') {
+                        element.placeholder = translatedText;
+                        return;
+                    }
+
+                    element.textContent = translatedText;
+                });
+
+                if (typeof window.radSetLanguage === 'function') {
+                    window.radSetLanguage(lang);
+                }
+
+                const btnEn = document.getElementById('lang-en');
+                const btnPt = document.getElementById('lang-pt');
+                btnEn.classList.toggle('active', lang === 'en');
+                btnPt.classList.toggle('active', lang === 'pt');
+                btnEn.setAttribute('aria-pressed', lang === 'en' ? 'true' : 'false');
+                btnPt.setAttribute('aria-pressed', lang === 'pt' ? 'true' : 'false');
+            }
+
+            document.getElementById('lang-en').addEventListener('click', () => switchLanguage('en', true));
+            document.getElementById('lang-pt').addEventListener('click', () => switchLanguage('pt', true));
+
+            setInitialLanguage();
+            switchLanguage(currentLanguage);
+        </script>
     </body>
 </html>

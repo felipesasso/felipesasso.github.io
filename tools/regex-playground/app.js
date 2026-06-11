@@ -33,6 +33,66 @@
         onlySlipped: false,
     };
 
+    const APP_TRANSLATIONS = {
+        en: {
+            invalidPattern: (error) => `Invalid pattern or flags: ${error}`,
+            modeHelpDeny:
+                '<strong>Deny-list mode</strong> &mdash; a match means the input is <strong>rejected</strong>. ' +
+                'For each payload below, "Blocked" means your pattern matched it (good); "Slips through" means it didn\'t.',
+            modeHelpAllow:
+                '<strong>Allow-list mode</strong> &mdash; the input is only <strong>accepted</strong> if it matches. ' +
+                'For each payload below, "Blocked" means your pattern did <em>not</em> match it (good); "Slips through" means it did.',
+            fixPattern: 'Fix pattern',
+            empty: 'Empty',
+            acceptedByFilter: 'Accepted by filter',
+            rejectedByFilter: 'Rejected by filter',
+            customPayloadNote: 'Custom payload',
+            customGroupName: 'Custom',
+            fixPatternForSweep: 'Fix the pattern above to run the payload sweep.',
+            statsText: (blocked, total, slipped, pct) =>
+                `<strong>${blocked}</strong> of <strong>${total}</strong> payloads blocked (<strong>${slipped}</strong> slip through) &mdash; ${pct}% blocked`,
+            selectCategory: 'Select at least one category (or add custom payloads) to run the sweep.',
+            noPayloads: 'No payloads to show. Either everything was blocked, or no categories are selected.',
+            blocked: 'Blocked',
+            slipsThrough: 'Slips through',
+        },
+        pt: {
+            invalidPattern: (error) => `Padrão ou flags inválidos: ${error}`,
+            modeHelpDeny:
+                '<strong>Modo deny-list</strong> &mdash; uma correspondência significa que a entrada é <strong>rejeitada</strong>. ' +
+                'Para cada payload abaixo, "Bloqueado" significa que seu padrão o reconheceu (bom); "Passa despercebido" significa que não.',
+            modeHelpAllow:
+                '<strong>Modo allow-list</strong> &mdash; a entrada só é <strong>aceita</strong> se corresponder ao padrão. ' +
+                'Para cada payload abaixo, "Bloqueado" significa que seu padrão <em>não</em> o reconheceu (bom); "Passa despercebido" significa que reconheceu.',
+            fixPattern: 'Corrija o padrão',
+            empty: 'Vazio',
+            acceptedByFilter: 'Aceito pelo filtro',
+            rejectedByFilter: 'Rejeitado pelo filtro',
+            customPayloadNote: 'Payload personalizado',
+            customGroupName: 'Custom',
+            fixPatternForSweep: 'Corrija o padrão acima para executar a varredura de payloads.',
+            statsText: (blocked, total, slipped, pct) =>
+                `<strong>${blocked}</strong> de <strong>${total}</strong> payloads bloqueados (<strong>${slipped}</strong> passam despercebidos) &mdash; ${pct}% bloqueados`,
+            selectCategory: 'Selecione pelo menos uma categoria (ou adicione payloads personalizados) para executar a varredura.',
+            noPayloads: 'Nenhum payload para exibir. Ou tudo foi bloqueado, ou nenhuma categoria está selecionada.',
+            blocked: 'Bloqueado',
+            slipsThrough: 'Passa despercebido',
+        },
+    };
+
+    let currentLanguage = 'en';
+
+    function t(key) {
+        return (APP_TRANSLATIONS[currentLanguage] && APP_TRANSLATIONS[currentLanguage][key]) || APP_TRANSLATIONS.en[key];
+    }
+
+    function pick(item, field) {
+        if (currentLanguage === 'pt' && item[`${field}_pt`] !== undefined) {
+            return item[`${field}_pt`];
+        }
+        return item[field];
+    }
+
     function esc(str) {
         return String(str)
             .replace(/&/g, '&amp;')
@@ -92,7 +152,7 @@
 
     function renderError(error) {
         if (error) {
-            errorEl.textContent = `Invalid pattern or flags: ${error}`;
+            errorEl.textContent = t('invalidPattern')(error);
             errorEl.classList.remove('hidden');
         } else {
             errorEl.classList.add('hidden');
@@ -100,21 +160,13 @@
     }
 
     function renderModeHelp() {
-        if (state.mode === 'deny') {
-            modeHelpEl.innerHTML =
-                '<strong>Deny-list mode</strong> &mdash; a match means the input is <strong>rejected</strong>. ' +
-                'For each payload below, "Blocked" means your pattern matched it (good); "Slips through" means it didn\'t.';
-        } else {
-            modeHelpEl.innerHTML =
-                '<strong>Allow-list mode</strong> &mdash; the input is only <strong>accepted</strong> if it matches. ' +
-                'For each payload below, "Blocked" means your pattern did <em>not</em> match it (good); "Slips through" means it did.';
-        }
+        modeHelpEl.innerHTML = state.mode === 'deny' ? t('modeHelpDeny') : t('modeHelpAllow');
     }
 
     function renderPresets() {
         presetListEl.innerHTML = PRESET_PATTERNS.map((preset, i) => `
-            <button type="button" class="rxp-preset-chip${i === state.activePreset ? ' is-active' : ''}" data-preset="${i}" title="${esc(preset.description)}">
-                ${esc(preset.name)}
+            <button type="button" class="rxp-preset-chip${i === state.activePreset ? ' is-active' : ''}" data-preset="${i}" title="${esc(pick(preset, 'description'))}">
+                ${esc(pick(preset, 'name'))}
             </button>
         `).join('');
     }
@@ -123,14 +175,14 @@
         const value = testInput.value;
 
         if (compiled.error) {
-            testBadge.textContent = 'Fix pattern';
+            testBadge.textContent = t('fixPattern');
             testBadge.className = 'rxp-badge is-neutral';
             testPreview.innerHTML = '';
             return;
         }
 
         if (value === '') {
-            testBadge.textContent = 'Empty';
+            testBadge.textContent = t('empty');
             testBadge.className = 'rxp-badge is-neutral';
             testPreview.innerHTML = '';
             return;
@@ -139,7 +191,7 @@
         const matched = compiled.testRegex.test(value);
         const accepted = state.mode === 'allow' ? matched : !matched;
 
-        testBadge.textContent = accepted ? 'Accepted by filter' : 'Rejected by filter';
+        testBadge.textContent = accepted ? t('acceptedByFilter') : t('rejectedByFilter');
         testBadge.className = `rxp-badge ${accepted ? 'is-accept' : 'is-reject'}`;
         testPreview.innerHTML = highlight(value, compiled.highlightRegex);
     }
@@ -148,7 +200,7 @@
         categoriesEl.innerHTML = PAYLOAD_CATEGORIES.map((cat) => `
             <label class="rxp-category-chip">
                 <input type="checkbox" data-category="${cat.id}" ${state.enabledCategories.has(cat.id) ? 'checked' : ''} />
-                ${esc(cat.name)} (${cat.payloads.length})
+                ${esc(pick(cat, 'name'))} (${cat.payloads.length})
             </label>
         `).join('');
     }
@@ -158,7 +210,7 @@
             .split('\n')
             .map((line) => line.trim())
             .filter((line) => line.length > 0)
-            .map((value) => ({ value, note: 'Custom payload' }));
+            .map((value) => ({ value, note: t('customPayloadNote') }));
     }
 
     function evaluatePayload(value, compiled) {
@@ -170,7 +222,7 @@
     function renderSweep(compiled) {
         if (compiled.error) {
             statsEl.innerHTML = '';
-            resultsEl.innerHTML = '<p class="rxp-empty-note">Fix the pattern above to run the payload sweep.</p>';
+            resultsEl.innerHTML = `<p class="rxp-empty-note">${esc(t('fixPatternForSweep'))}</p>`;
             return;
         }
 
@@ -180,12 +232,12 @@
 
         PAYLOAD_CATEGORIES.forEach((cat) => {
             if (!state.enabledCategories.has(cat.id)) return;
-            const items = cat.payloads.map((p) => ({ ...p, status: evaluatePayload(p.value, compiled) }));
+            const items = cat.payloads.map((p) => ({ ...p, status: evaluatePayload(p.value, compiled), note: pick(p, 'note') }));
             items.forEach((item) => {
                 total++;
                 if (item.status === 'blocked') blocked++;
             });
-            groups.push({ id: cat.id, name: cat.name, items });
+            groups.push({ id: cat.id, name: pick(cat, 'name'), items });
         });
 
         const customPayloads = getCustomPayloads();
@@ -195,22 +247,21 @@
                 total++;
                 if (item.status === 'blocked') blocked++;
             });
-            groups.push({ id: 'custom', name: 'Custom', items });
+            groups.push({ id: 'custom', name: t('customGroupName'), items });
         }
 
         const slipped = total - blocked;
         const pct = total > 0 ? Math.round((blocked / total) * 100) : 0;
 
         if (total === 0) {
-            statsEl.innerHTML = '<p class="rxp-empty-note">Select at least one category (or add custom payloads) to run the sweep.</p>';
+            statsEl.innerHTML = `<p class="rxp-empty-note">${esc(t('selectCategory'))}</p>`;
             resultsEl.innerHTML = '';
             return;
         }
 
         statsEl.innerHTML = `
             <p class="rxp-stats-text">
-                <strong>${blocked}</strong> of <strong>${total}</strong> payloads blocked
-                (<strong>${slipped}</strong> slip through) &mdash; ${pct}% blocked
+                ${t('statsText')(blocked, total, slipped, pct)}
             </p>
             <div class="rxp-stats-bar">
                 <div class="rxp-stats-fill-blocked" style="width:${pct}%"></div>
@@ -226,7 +277,7 @@
             .filter((group) => group.items.length > 0);
 
         if (visibleGroups.length === 0) {
-            resultsEl.innerHTML = '<p class="rxp-empty-note">No payloads to show. Either everything was blocked, or no categories are selected.</p>';
+            resultsEl.innerHTML = `<p class="rxp-empty-note">${esc(t('noPayloads'))}</p>`;
             return;
         }
 
@@ -240,7 +291,7 @@
                             ${item.note ? `<p class="rxp-payload-note">${esc(item.note)}</p>` : ''}
                         </div>
                         <span class="rxp-payload-badge ${item.status === 'blocked' ? 'is-blocked' : 'is-slip'}">
-                            ${item.status === 'blocked' ? 'Blocked' : 'Slips through'}
+                            ${item.status === 'blocked' ? t('blocked') : t('slipsThrough')}
                         </span>
                     </div>
                 `).join('')}
@@ -361,6 +412,13 @@
 
         render();
     }
+
+    window.rxpSetLanguage = function (lang) {
+        currentLanguage = lang === 'pt' ? 'pt' : 'en';
+        renderPresets();
+        renderCategories();
+        render();
+    };
 
     init();
 })();

@@ -17,6 +17,82 @@
         'UUID', 'JSON', 'BLOB',
     ];
 
+    // ── translations ─────────────────────────────────────────────────────────
+    let currentLanguage = 'en';
+
+    const APP_TRANSLATIONS = {
+        en: {
+            deleteTableAria: (name) => 'Delete table ' + name,
+            deleteTableConfirm: (name) => 'Delete table "' + name + '"?',
+            tableProperties: 'Table Properties',
+            nameLabel: 'Name',
+            tableNamePlaceholder: 'table_name',
+            columnsLabel: (count) => 'Columns (' + count + ')',
+            typeLabel: 'Type',
+            columnNamePlaceholder: 'column_name',
+            pkCheckbox: 'PK',
+            notNullCheckbox: 'NOT NULL',
+            uniqueCheckbox: 'UNIQUE',
+            referencesLabel: 'References (FK → Table)',
+            fkColumnLabel: '↳ Column',
+            fkNoneOption: '— none —',
+            removeColumnBtn: 'Remove column',
+            addColumnBtn: '+ Add Column',
+            noTablesComment: '-- No tables defined yet.',
+            replaceSampleConfirm: 'Replace the current schema with the sample?',
+            clearAllConfirm: 'Clear all tables?',
+            copiedLabel: 'Copied!',
+            copyToClipboardBtn: 'Copy to Clipboard',
+            missingTablesArray: 'Missing tables array',
+            couldNotLoadSchema: (msg) => 'Could not load schema: ' + msg,
+            newTableName: 'new_table',
+            newColumnNamePrefix: 'column_',
+        },
+        pt: {
+            deleteTableAria: (name) => 'Excluir tabela ' + name,
+            deleteTableConfirm: (name) => 'Excluir a tabela "' + name + '"?',
+            tableProperties: 'Propriedades da Tabela',
+            nameLabel: 'Nome',
+            tableNamePlaceholder: 'table_name',
+            columnsLabel: (count) => 'Colunas (' + count + ')',
+            typeLabel: 'Tipo',
+            columnNamePlaceholder: 'column_name',
+            pkCheckbox: 'PK',
+            notNullCheckbox: 'NOT NULL',
+            uniqueCheckbox: 'UNIQUE',
+            referencesLabel: 'Referências (FK → Tabela)',
+            fkColumnLabel: '↳ Coluna',
+            fkNoneOption: '— nenhuma —',
+            removeColumnBtn: 'Remover coluna',
+            addColumnBtn: '+ Adicionar Coluna',
+            noTablesComment: '-- Nenhuma tabela definida ainda.',
+            replaceSampleConfirm: 'Substituir o esquema atual pelo exemplo?',
+            clearAllConfirm: 'Limpar todas as tabelas?',
+            copiedLabel: 'Copiado!',
+            copyToClipboardBtn: 'Copiar para a Área de Transferência',
+            missingTablesArray: 'Array de tabelas ausente',
+            couldNotLoadSchema: (msg) => 'Não foi possível carregar o esquema: ' + msg,
+            newTableName: 'new_table',
+            newColumnNamePrefix: 'column_',
+        },
+    };
+
+    // Named `tr` (rather than `t`) because `t` is used pervasively throughout
+    // this file as the local variable name for a "table" object.
+    function tr(key) {
+        const value = (APP_TRANSLATIONS[currentLanguage] && APP_TRANSLATIONS[currentLanguage][key] !== undefined)
+            ? APP_TRANSLATIONS[currentLanguage][key]
+            : APP_TRANSLATIONS.en[key];
+        return value;
+    }
+
+    function pick(item, field) {
+        if (currentLanguage === 'pt' && item[field + '_pt'] !== undefined) {
+            return item[field + '_pt'];
+        }
+        return item[field];
+    }
+
     // ── state ────────────────────────────────────────────────────────────────
     const S = {
         tables:     [],
@@ -51,7 +127,7 @@
         const id = uid();
         S.tables.push({
             id,
-            name: 'new_table',
+            name: tr('newTableName'),
             x: 24 + (n % 5) * 240,
             y: 24 + Math.floor(n / 5) * 220,
             columns: [mkCol('id', 'INT', true, true, true)],
@@ -77,7 +153,7 @@
     function addCol(tableId) {
         const t = tbl(tableId);
         if (!t) return;
-        t.columns.push(mkCol('column_' + (t.columns.length + 1), 'VARCHAR(255)', false, false, false));
+        t.columns.push(mkCol(tr('newColumnNamePrefix') + (t.columns.length + 1), 'VARCHAR(255)', false, false, false));
         render();
     }
 
@@ -127,11 +203,11 @@
 
         const del = ce('button');
         del.className = 'rdb-table-del';
-        del.setAttribute('aria-label', 'Delete table ' + t.name);
+        del.setAttribute('aria-label', tr('deleteTableAria')(t.name));
         del.textContent = '×';
         del.addEventListener('click', function (e) {
             e.stopPropagation();
-            if (confirm('Delete table "' + t.name + '"?')) delTable(t.id);
+            if (confirm(tr('deleteTableConfirm')(t.name))) delTable(t.id);
         });
 
         head.appendChild(title);
@@ -273,7 +349,7 @@
         var panel = document.getElementById('rdb-editor');
 
         if (!S.selectedId) {
-            panel.innerHTML = '<p class="text-sm text-[var(--text-secondary)]">Click a table on the canvas to edit it.</p>';
+            panel.innerHTML = '<p class="text-sm text-[var(--text-secondary)]">' + esc(tr('editorEmptyHint')) + '</p>';
             return;
         }
 
@@ -282,14 +358,14 @@
 
         var otherTbls = S.tables.filter(function (x) { return x.id !== t.id; });
 
-        var html = '<h3 class="text-sm font-semibold text-[var(--text-primary)] mb-3">Table Properties</h3>';
+        var html = '<h3 class="text-sm font-semibold text-[var(--text-primary)] mb-3">' + esc(tr('tableProperties')) + '</h3>';
         html += '<div class="mb-4">';
-        html += '<label class="rdb-field-label" for="rdb-tbl-name">Name</label>';
-        html += '<input id="rdb-tbl-name" class="rdb-input" value="' + esc(t.name) + '" placeholder="table_name" autocomplete="off" spellcheck="false">';
+        html += '<label class="rdb-field-label" for="rdb-tbl-name">' + esc(tr('nameLabel')) + '</label>';
+        html += '<input id="rdb-tbl-name" class="rdb-input" value="' + esc(t.name) + '" placeholder="' + esc(tr('tableNamePlaceholder')) + '" autocomplete="off" spellcheck="false">';
         html += '</div>';
         html += '<hr class="rdb-divider">';
         html += '<div class="flex items-center justify-between mb-3">';
-        html += '<span class="rdb-field-label mb-0">Columns (' + t.columns.length + ')</span>';
+        html += '<span class="rdb-field-label mb-0">' + esc(tr('columnsLabel')(t.columns.length)) + '</span>';
         html += '</div>';
 
         t.columns.forEach(function (c) {
@@ -297,7 +373,7 @@
                 return '<option value="' + tp + '"' + (c.type === tp ? ' selected' : '') + '>' + tp + '</option>';
             }).join('');
 
-            var fkTblOpts = '<option value="">— none —</option>' +
+            var fkTblOpts = '<option value="">' + esc(tr('fkNoneOption')) + '</option>' +
                 otherTbls.map(function (ot) {
                     return '<option value="' + ot.id + '"' + (c.fk && c.fk.tableId === ot.id ? ' selected' : '') + '>' + esc(ot.name) + '</option>';
                 }).join('');
@@ -309,32 +385,32 @@
                     var fkColOpts = refT.columns.map(function (rc) {
                         return '<option value="' + rc.id + '"' + (c.fk.colId === rc.id ? ' selected' : '') + '>' + esc(rc.name) + '</option>';
                     }).join('');
-                    fkColSection = '<div class="mt-1"><label class="rdb-field-label">↳ Column</label><select class="rdb-select rdb-fkc" data-col="' + c.id + '">' + fkColOpts + '</select></div>';
+                    fkColSection = '<div class="mt-1"><label class="rdb-field-label">' + esc(tr('fkColumnLabel')) + '</label><select class="rdb-select rdb-fkc" data-col="' + c.id + '">' + fkColOpts + '</select></div>';
                 }
             }
 
             html += '<div class="rdb-col-editor" data-col-id="' + c.id + '">';
             html += '<div class="grid grid-cols-2 gap-2 mb-2">';
-            html += '<div><label class="rdb-field-label" for="rdb-cn-' + c.id + '">Name</label>';
-            html += '<input id="rdb-cn-' + c.id + '" class="rdb-input rdb-cn" data-col="' + c.id + '" value="' + esc(c.name) + '" placeholder="column_name" autocomplete="off" spellcheck="false"></div>';
-            html += '<div><label class="rdb-field-label">Type</label>';
+            html += '<div><label class="rdb-field-label" for="rdb-cn-' + c.id + '">' + esc(tr('nameLabel')) + '</label>';
+            html += '<input id="rdb-cn-' + c.id + '" class="rdb-input rdb-cn" data-col="' + c.id + '" value="' + esc(c.name) + '" placeholder="' + esc(tr('columnNamePlaceholder')) + '" autocomplete="off" spellcheck="false"></div>';
+            html += '<div><label class="rdb-field-label">' + esc(tr('typeLabel')) + '</label>';
             html += '<select class="rdb-select rdb-ct" data-col="' + c.id + '">' + typeOpts + '</select></div>';
             html += '</div>';
             html += '<div class="rdb-checks mb-2">';
-            html += '<label class="rdb-check-label"><input type="checkbox" class="rdb-pk" data-col="' + c.id + '"' + (c.isPk ? ' checked' : '') + '> PK</label>';
-            html += '<label class="rdb-check-label"><input type="checkbox" class="rdb-nn" data-col="' + c.id + '"' + (c.isNn ? ' checked' : '') + '> NOT NULL</label>';
-            html += '<label class="rdb-check-label"><input type="checkbox" class="rdb-uq" data-col="' + c.id + '"' + (c.isUq ? ' checked' : '') + '> UNIQUE</label>';
+            html += '<label class="rdb-check-label"><input type="checkbox" class="rdb-pk" data-col="' + c.id + '"' + (c.isPk ? ' checked' : '') + '> ' + esc(tr('pkCheckbox')) + '</label>';
+            html += '<label class="rdb-check-label"><input type="checkbox" class="rdb-nn" data-col="' + c.id + '"' + (c.isNn ? ' checked' : '') + '> ' + esc(tr('notNullCheckbox')) + '</label>';
+            html += '<label class="rdb-check-label"><input type="checkbox" class="rdb-uq" data-col="' + c.id + '"' + (c.isUq ? ' checked' : '') + '> ' + esc(tr('uniqueCheckbox')) + '</label>';
             html += '</div>';
-            html += '<div><label class="rdb-field-label">References (FK → Table)</label>';
+            html += '<div><label class="rdb-field-label">' + esc(tr('referencesLabel')) + '</label>';
             html += '<select class="rdb-select rdb-fkt" data-col="' + c.id + '">' + fkTblOpts + '</select>';
             html += fkColSection + '</div>';
             html += '<div class="flex justify-end mt-2">';
-            html += '<button class="rdb-col-del text-xs text-[var(--text-secondary)] hover:text-red-500 transition-colors cursor-pointer bg-none border-none" data-col="' + c.id + '">Remove column</button>';
+            html += '<button class="rdb-col-del text-xs text-[var(--text-secondary)] hover:text-red-500 transition-colors cursor-pointer bg-none border-none" data-col="' + c.id + '">' + esc(tr('removeColumnBtn')) + '</button>';
             html += '</div>';
             html += '</div>';
         });
 
-        html += '<button class="rdb-add-col-btn" id="rdb-add-col">+ Add Column</button>';
+        html += '<button class="rdb-add-col-btn" id="rdb-add-col">' + esc(tr('addColumnBtn')) + '</button>';
         panel.innerHTML = html;
 
         // ── bind events ──
@@ -436,7 +512,7 @@
 
     // ── SQL generation ────────────────────────────────────────────────────────
     function genSQL() {
-        if (!S.tables.length) return '-- No tables defined yet.';
+        if (!S.tables.length) return tr('noTablesComment');
         var sql = '';
 
         S.tables.forEach(function (t) {
@@ -470,7 +546,7 @@
 
     // ── sample schema ─────────────────────────────────────────────────────────
     function loadSample() {
-        if (S.tables.length && !confirm('Replace the current schema with the sample?')) return;
+        if (S.tables.length && !confirm(tr('replaceSampleConfirm'))) return;
         S.tables = []; S._id = 1; S.selectedId = null;
 
         var uId   = uid(), uIdC = uid(), uEmailC = uid(), uNameC = uid(), uCreatedC = uid();
@@ -549,8 +625,8 @@
         var txt = document.getElementById('rdb-sql-pre').textContent;
         navigator.clipboard.writeText(txt).then(function () {
             var btn = document.getElementById('rdb-copy-sql');
-            btn.textContent = 'Copied!';
-            setTimeout(function () { btn.textContent = 'Copy to Clipboard'; }, 2000);
+            btn.textContent = tr('copiedLabel');
+            setTimeout(function () { btn.textContent = tr('copyToClipboardBtn'); }, 2000);
         });
     });
 
@@ -575,13 +651,13 @@
         reader.onload = function (ev) {
             try {
                 var data = JSON.parse(ev.target.result);
-                if (!Array.isArray(data.tables)) throw new Error('Missing tables array');
+                if (!Array.isArray(data.tables)) throw new Error(tr('missingTablesArray'));
                 S.tables = data.tables;
                 S._id = data._id || 9999;
                 S.selectedId = null;
                 render();
             } catch (err) {
-                alert('Could not load schema: ' + err.message);
+                alert(tr('couldNotLoadSchema')(err.message));
             }
         };
         reader.readAsText(file);
@@ -589,7 +665,7 @@
     });
 
     document.getElementById('rdb-clear').addEventListener('click', function () {
-        if (!S.tables.length || confirm('Clear all tables?')) {
+        if (!S.tables.length || confirm(tr('clearAllConfirm'))) {
             S.tables = []; S.selectedId = null; render();
         }
     });
@@ -606,6 +682,11 @@
             .replace(/>/g, '&gt;')
             .replace(/"/g, '&quot;');
     }
+
+    window.rdbSetLanguage = function (lang) {
+        currentLanguage = lang === 'pt' ? 'pt' : 'en';
+        render();
+    };
 
     // ── init ──────────────────────────────────────────────────────────────────
     loadSample();

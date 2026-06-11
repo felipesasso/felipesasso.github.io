@@ -11,6 +11,13 @@
     const W = 720; // logical coordinate width; the canvas scales to fit its container
     const ABORT = Symbol('scene-aborted');
 
+    // Picks a Portuguese string when app.js has switched the language
+    // (window.GC_I18N.currentLanguage === 'pt'); used for the few
+    // user-facing strings the engine itself draws (e.g. "closed").
+    function L(en, pt) {
+        return (window.GC_I18N && window.GC_I18N.currentLanguage === 'pt') ? pt : en;
+    }
+
     let paletteCache = null;
 
     function palette() {
@@ -334,7 +341,7 @@
             ctx.font = '10.5px Inter, system-ui, sans-serif';
             ctx.textAlign = 'left';
             ctx.fillStyle = p.muted;
-            const label = ch.label + (ch.closed ? '  · closed' : '');
+            const label = ch.label + (ch.closed ? L('  · closed', '  · fechado') : '');
             ctx.fillStyle = ch.closed ? p.killed : p.muted;
             ctx.fillText(label, ch.x, ch.y - 9);
         }

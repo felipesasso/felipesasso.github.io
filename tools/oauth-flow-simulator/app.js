@@ -26,12 +26,43 @@
     };
 
     const CHANNEL_META = {
-        front: { className: 'is-front', label: 'Front channel · via browser redirects' },
-        back: { className: 'is-back', label: 'Back channel · server to server' },
-        device: { className: 'is-device', label: 'Local · no redirect involved' },
+        front: { className: 'is-front', label: 'Front channel · via browser redirects', label_pt: 'Front channel · via redirecionamentos do navegador' },
+        back: { className: 'is-back', label: 'Back channel · server to server', label_pt: 'Back channel · servidor a servidor' },
+        device: { className: 'is-device', label: 'Local · no redirect involved', label_pt: 'Local · sem redirecionamento' },
+    };
+
+    const APP_TRANSLATIONS = {
+        en: {
+            stepCounter: (current, total) => `Step ${current} of ${total}`,
+            flowComplete: 'Flow complete ✓',
+            nextStep: 'Next step →',
+            fieldByField: 'Field by field',
+            onTheWire: 'On the wire',
+            stepAriaLabel: (n, title) => `Step ${n}: ${title}`,
+        },
+        pt: {
+            stepCounter: (current, total) => `Etapa ${current} de ${total}`,
+            flowComplete: 'Fluxo concluído ✓',
+            nextStep: 'Próxima etapa →',
+            fieldByField: 'Campo a campo',
+            onTheWire: 'Na comunicação',
+            stepAriaLabel: (n, title) => `Etapa ${n}: ${title}`,
+        },
     };
 
     const state = { flow: 'auth-code', step: 0 };
+    let currentLanguage = 'en';
+
+    function t(key) {
+        return (APP_TRANSLATIONS[currentLanguage] && APP_TRANSLATIONS[currentLanguage][key]) || APP_TRANSLATIONS.en[key];
+    }
+
+    function pick(item, field) {
+        if (currentLanguage === 'pt' && item[`${field}_pt`] !== undefined) {
+            return item[`${field}_pt`];
+        }
+        return item[field];
+    }
 
     function esc(str) {
         return String(str)
@@ -58,8 +89,8 @@
                 return `
                     <button type="button" role="tab" class="ofs-tab${active ? ' is-active' : ''}"
                         data-flow="${key}" aria-selected="${active}">
-                        ${esc(flow.name)}
-                        <span class="ofs-tab-badge${badgeWarn}">${esc(flow.badge)}</span>
+                        ${esc(pick(flow, 'name'))}
+                        <span class="ofs-tab-badge${badgeWarn}">${esc(pick(flow, 'badge'))}</span>
                     </button>
                 `;
             })
@@ -69,16 +100,16 @@
     function renderFlow() {
         const flow = currentFlow();
 
-        summaryEl.textContent = flow.summary;
+        summaryEl.textContent = pick(flow, 'summary');
         flowNoteEl.className = 'ofs-flow-note' + (flow.noteKind === 'warn' ? ' is-warn' : '');
-        flowNoteEl.innerHTML = `<span>${flow.note}</span>`;
+        flowNoteEl.innerHTML = `<span>${pick(flow, 'note')}</span>`;
 
         actorsEl.innerHTML = flow.actors
             .map(
                 (actor) => `
                     <div class="ofs-actor">
-                        <span class="ofs-actor-chip">${ACTOR_ICONS[actor.icon] || ''}${esc(actor.label)}</span>
-                        ${actor.sub ? `<span class="ofs-actor-sub">${esc(actor.sub)}</span>` : ''}
+                        <span class="ofs-actor-chip">${ACTOR_ICONS[actor.icon] || ''}${esc(pick(actor, 'label'))}</span>
+                        ${actor.sub ? `<span class="ofs-actor-sub">${esc(pick(actor, 'sub'))}</span>` : ''}
                     </div>
                 `
             )
@@ -94,7 +125,7 @@
                 const toC = actorCenter(flow, step.to);
                 const label = `
                     <span class="ofs-step-label">
-                        <span class="ofs-step-num">${i + 1}</span>${esc(step.title)}
+                        <span class="ofs-step-num">${i + 1}</span>${esc(pick(step, 'title'))}
                     </span>
                 `;
                 let shape;
@@ -111,7 +142,7 @@
                     `;
                 }
                 return `<div class="ofs-step-row" data-step="${i}" role="button" tabindex="0"
-                    aria-label="Step ${i + 1}: ${esc(step.title)}">${shape}${label}</div>`;
+                    aria-label="${esc(t('stepAriaLabel')(i + 1, pick(step, 'title')))}">${shape}${label}</div>`;
             })
             .join('');
 
@@ -128,7 +159,7 @@
                 (p) => `
                     <div class="ofs-param">
                         <p class="ofs-param-name">${esc(p.name)}</p>
-                        <p class="ofs-param-note">${esc(p.note)}</p>
+                        <p class="ofs-param-note">${esc(pick(p, 'note'))}</p>
                     </div>
                 `
             )
@@ -136,14 +167,14 @@
 
         detailEl.innerHTML = `
             <div class="ofs-detail-meta">
-                <span class="ofs-detail-step">Step ${state.step + 1} of ${flow.steps.length}</span>
-                ${channel ? `<span class="ofs-channel ${channel.className}">${channel.label}</span>` : ''}
+                <span class="ofs-detail-step">${esc(t('stepCounter')(state.step + 1, flow.steps.length))}</span>
+                ${channel ? `<span class="ofs-channel ${channel.className}">${esc(pick(channel, 'label'))}</span>` : ''}
             </div>
-            <h2 class="ofs-detail-title">${esc(step.title)}</h2>
-            <p class="ofs-detail-desc">${esc(step.description)}</p>
-            ${step.wire ? `<p class="ofs-wire-label">${esc(step.wireLabel || 'On the wire')}</p><pre class="ofs-code">${esc(step.wire)}</pre>` : ''}
-            ${params ? `<p class="ofs-wire-label">Field by field</p><div class="ofs-params">${params}</div>` : ''}
-            ${step.stepNote ? `<div class="ofs-step-note${step.stepNote.kind === 'warn' ? ' is-warn' : ''}"><span>${step.stepNote.text}</span></div>` : ''}
+            <h2 class="ofs-detail-title">${esc(pick(step, 'title'))}</h2>
+            <p class="ofs-detail-desc">${esc(pick(step, 'description'))}</p>
+            ${step.wire ? `<p class="ofs-wire-label">${esc(pick(step, 'wireLabel') || t('onTheWire'))}</p><pre class="ofs-code">${esc(step.wire)}</pre>` : ''}
+            ${params ? `<p class="ofs-wire-label">${esc(t('fieldByField'))}</p><div class="ofs-params">${params}</div>` : ''}
+            ${step.stepNote ? `<div class="ofs-step-note${step.stepNote.kind === 'warn' ? ' is-warn' : ''}"><span>${pick(step.stepNote, 'text')}</span></div>` : ''}
         `;
     }
 
@@ -156,11 +187,11 @@
             row.classList.toggle('is-future', i > state.step);
         });
 
-        counterEl.textContent = `Step ${state.step + 1} of ${flow.steps.length}`;
+        counterEl.textContent = t('stepCounter')(state.step + 1, flow.steps.length);
         backBtn.disabled = state.step === 0;
         const atEnd = state.step === flow.steps.length - 1;
         nextBtn.disabled = atEnd;
-        nextBtn.textContent = atEnd ? 'Flow complete ✓' : 'Next step →';
+        nextBtn.textContent = atEnd ? t('flowComplete') : t('nextStep');
 
         renderDetail();
     }
@@ -209,6 +240,13 @@
         if (e.key === 'ArrowRight') setStep(state.step + 1);
         if (e.key === 'ArrowLeft') setStep(state.step - 1);
     });
+
+    window.ofsSetLanguage = function (lang) {
+        currentLanguage = lang === 'pt' ? 'pt' : 'en';
+        renderTabs();
+        renderFlow();
+        updateUi();
+    };
 
     setFlow('auth-code');
 })();
