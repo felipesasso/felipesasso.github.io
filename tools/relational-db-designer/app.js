@@ -43,6 +43,8 @@
             clearAllConfirm: 'Clear all tables?',
             copiedLabel: 'Copied!',
             copyToClipboardBtn: 'Copy to Clipboard',
+            copyFailedLabel: 'Copy failed',
+            editorEmptyHint: 'Click a table on the canvas to edit it.',
             missingTablesArray: 'Missing tables array',
             couldNotLoadSchema: (msg) => 'Could not load schema: ' + msg,
             newTableName: 'new_table',
@@ -70,6 +72,8 @@
             clearAllConfirm: 'Limpar todas as tabelas?',
             copiedLabel: 'Copiado!',
             copyToClipboardBtn: 'Copiar para a Área de Transferência',
+            copyFailedLabel: 'Falha ao copiar',
+            editorEmptyHint: 'Clique em uma tabela no canvas para editá-la.',
             missingTablesArray: 'Array de tabelas ausente',
             couldNotLoadSchema: (msg) => 'Não foi possível carregar o esquema: ' + msg,
             newTableName: 'new_table',
@@ -623,9 +627,13 @@
 
     document.getElementById('rdb-copy-sql').addEventListener('click', function () {
         var txt = document.getElementById('rdb-sql-pre').textContent;
-        navigator.clipboard.writeText(txt).then(function () {
+        copyText(txt).then(function () {
             var btn = document.getElementById('rdb-copy-sql');
             btn.textContent = tr('copiedLabel');
+            setTimeout(function () { btn.textContent = tr('copyToClipboardBtn'); }, 2000);
+        }).catch(function () {
+            var btn = document.getElementById('rdb-copy-sql');
+            btn.textContent = tr('copyFailedLabel');
             setTimeout(function () { btn.textContent = tr('copyToClipboardBtn'); }, 2000);
         });
     });
@@ -674,6 +682,28 @@
     function ce(tag) { return document.createElement(tag); }
 
     function svgEl(tag) { return document.createElementNS('http://www.w3.org/2000/svg', tag); }
+
+    function copyText(text) {
+        if (navigator.clipboard && navigator.clipboard.writeText && window.isSecureContext) {
+            return navigator.clipboard.writeText(text);
+        }
+        return new Promise(function (resolve, reject) {
+            try {
+                var ta = document.createElement('textarea');
+                ta.value = text;
+                ta.setAttribute('readonly', '');
+                ta.style.position = 'fixed';
+                ta.style.top = '-9999px';
+                document.body.appendChild(ta);
+                ta.select();
+                var ok = document.execCommand('copy');
+                document.body.removeChild(ta);
+                ok ? resolve() : reject(new Error('copy failed'));
+            } catch (e) {
+                reject(e);
+            }
+        });
+    }
 
     function esc(s) {
         return String(s)

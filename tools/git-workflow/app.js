@@ -11,12 +11,14 @@
             example: 'Example',
             copy: 'Copy',
             copied: 'Copied!',
+            copyFailed: 'Copy failed',
             copyAriaLabel: 'Copy command',
         },
         pt: {
             example: 'Exemplo',
             copy: 'Copiar',
             copied: 'Copiado!',
+            copyFailed: 'Falha ao copiar',
             copyAriaLabel: 'Copiar comando',
         },
     };
@@ -26,6 +28,28 @@
 
     function t(key) {
         return (APP_TRANSLATIONS[currentLanguage] && APP_TRANSLATIONS[currentLanguage][key]) || APP_TRANSLATIONS.en[key];
+    }
+
+    function copyText(text) {
+        if (navigator.clipboard && navigator.clipboard.writeText && window.isSecureContext) {
+            return navigator.clipboard.writeText(text);
+        }
+        return new Promise((resolve, reject) => {
+            try {
+                const ta = document.createElement('textarea');
+                ta.value = text;
+                ta.setAttribute('readonly', '');
+                ta.style.position = 'fixed';
+                ta.style.top = '-9999px';
+                document.body.appendChild(ta);
+                ta.select();
+                const ok = document.execCommand('copy');
+                document.body.removeChild(ta);
+                ok ? resolve() : reject(new Error('copy failed'));
+            } catch (e) {
+                reject(e);
+            }
+        });
     }
 
     // Returns the `${field}_pt` value when in pt and present, else falls back to `field`.
@@ -146,14 +170,17 @@
             const btn = e.target.closest('.gw-copy-btn');
             if (!btn) return;
             const text = btn.dataset.copy;
-            navigator.clipboard.writeText(text).then(() => {
-                const original = btn.textContent;
+            const original = btn.textContent;
+            copyText(text).then(() => {
                 btn.textContent = t('copied');
                 btn.classList.add('is-copied');
                 setTimeout(() => {
                     btn.textContent = original;
                     btn.classList.remove('is-copied');
                 }, 1200);
+            }).catch(() => {
+                btn.textContent = t('copyFailed');
+                setTimeout(() => { btn.textContent = original; }, 1200);
             });
         });
     }

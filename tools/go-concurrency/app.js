@@ -32,6 +32,7 @@
             watchItRun: 'Watch it run',
             copy: 'Copy',
             copied: 'Copied!',
+            copyFailed: 'Copy failed',
             copyAriaLabel: 'Copy code sample',
             backToIndex: '↑ Back to index',
             jumpTo: (name) => `Jump to ${name}`,
@@ -55,6 +56,7 @@
             watchItRun: 'Veja funcionando',
             copy: 'Copiar',
             copied: 'Copiado!',
+            copyFailed: 'Falha ao copiar',
             copyAriaLabel: 'Copiar exemplo de código',
             backToIndex: '↑ Voltar ao índice',
             jumpTo: (name) => `Ir para ${name}`,
@@ -76,6 +78,28 @@
         return (APP_TRANSLATIONS[currentLanguage] && APP_TRANSLATIONS[currentLanguage][key] !== undefined)
             ? APP_TRANSLATIONS[currentLanguage][key]
             : APP_TRANSLATIONS.en[key];
+    }
+
+    function copyText(text) {
+        if (navigator.clipboard && navigator.clipboard.writeText && window.isSecureContext) {
+            return navigator.clipboard.writeText(text);
+        }
+        return new Promise((resolve, reject) => {
+            try {
+                const ta = document.createElement('textarea');
+                ta.value = text;
+                ta.setAttribute('readonly', '');
+                ta.style.position = 'fixed';
+                ta.style.top = '-9999px';
+                document.body.appendChild(ta);
+                ta.select();
+                const ok = document.execCommand('copy');
+                document.body.removeChild(ta);
+                ok ? resolve() : reject(new Error('copy failed'));
+            } catch (e) {
+                reject(e);
+            }
+        });
     }
 
     function pick(item, field) {
@@ -301,14 +325,17 @@
         const sample = topic && topic.samples[Number(btn.dataset.sample)];
         if (!sample) return;
 
-        navigator.clipboard.writeText(sample.code).then(() => {
-            const label = btn.querySelector('span');
+        const label = btn.querySelector('span');
+        copyText(sample.code).then(() => {
             label.textContent = t('copied');
             btn.classList.add('copied');
             setTimeout(() => {
                 label.textContent = t('copy');
                 btn.classList.remove('copied');
             }, 1600);
+        }).catch(() => {
+            label.textContent = t('copyFailed');
+            setTimeout(() => { label.textContent = t('copy'); }, 1600);
         });
     });
 

@@ -43,6 +43,7 @@
             invalidJsonFile: 'Invalid JSON file.',
             invalidStateFile: 'Invalid state file.',
             copiedLabel: 'Copied!',
+            copyFailedLabel: 'Copy failed',
             copyToClipboardBtn: 'Copy to Clipboard',
             yamlSpecTitle: 'OpenAPI 3.0 — YAML',
             jsonSpecTitle: 'OpenAPI 3.0 — JSON',
@@ -79,6 +80,7 @@
             invalidJsonFile: 'Arquivo JSON inválido.',
             invalidStateFile: 'Arquivo de estado inválido.',
             copiedLabel: 'Copiado!',
+            copyFailedLabel: 'Falha ao copiar',
             copyToClipboardBtn: 'Copiar para a Área de Transferência',
             yamlSpecTitle: 'OpenAPI 3.0 — YAML',
             jsonSpecTitle: 'OpenAPI 3.0 — JSON',
@@ -123,6 +125,28 @@
 
     function getPathParams(path) {
         return [...(path || '').matchAll(/\{([^}]+)\}/g)].map(m => m[1]);
+    }
+
+    function copyText(text) {
+        if (navigator.clipboard && navigator.clipboard.writeText && window.isSecureContext) {
+            return navigator.clipboard.writeText(text);
+        }
+        return new Promise((resolve, reject) => {
+            try {
+                const ta = document.createElement('textarea');
+                ta.value = text;
+                ta.setAttribute('readonly', '');
+                ta.style.position = 'fixed';
+                ta.style.top = '-9999px';
+                document.body.appendChild(ta);
+                ta.select();
+                const ok = document.execCommand('copy');
+                document.body.removeChild(ta);
+                ok ? resolve() : reject(new Error('copy failed'));
+            } catch (e) {
+                reject(e);
+            }
+        });
     }
 
     function escHtml(s) {
@@ -581,10 +605,13 @@
         document.getElementById('api-modal-close').addEventListener('click', closeModal);
         document.getElementById('api-modal-copy') .addEventListener('click', () => {
             const pre = document.getElementById('api-modal-pre');
-            navigator.clipboard.writeText(pre.textContent).then(() => {
-                const btn = document.getElementById('api-modal-copy');
-                const orig = btn.textContent;
+            const btn = document.getElementById('api-modal-copy');
+            const orig = btn.textContent;
+            copyText(pre.textContent).then(() => {
                 btn.textContent = tr('copiedLabel');
+                setTimeout(() => { btn.textContent = orig; }, 2000);
+            }).catch(() => {
+                btn.textContent = tr('copyFailedLabel');
                 setTimeout(() => { btn.textContent = orig; }, 2000);
             });
         });
