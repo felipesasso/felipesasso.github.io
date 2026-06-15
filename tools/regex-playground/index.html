@@ -106,6 +106,15 @@
             .rxp-error.hidden {
                 display: none;
             }
+            .rxp-redos {
+                font-size: 0.78rem;
+                line-height: 1.5;
+                color: var(--brass);
+                margin-top: 0.5rem;
+            }
+            .rxp-redos.hidden {
+                display: none;
+            }
             .rxp-options-row {
                 display: flex;
                 flex-wrap: wrap;
@@ -492,6 +501,7 @@
                         <input id="rxp-flags" class="rxp-flags-input" type="text" spellcheck="false" autocomplete="off" autocapitalize="off" maxlength="6" aria-label="Flags" />
                     </div>
                     <div id="rxp-error" class="rxp-error hidden"></div>
+                    <div id="rxp-redos" class="rxp-redos hidden" role="status"></div>
 
                     <div class="rxp-options-row">
                         <div id="rxp-mode" class="rxp-segmented" role="radiogroup" aria-label="Filter mode">
