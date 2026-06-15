@@ -10,6 +10,7 @@
     const patternInput = document.getElementById('rxp-pattern');
     const flagsInput = document.getElementById('rxp-flags');
     const errorEl = document.getElementById('rxp-error');
+    const redosEl = document.getElementById('rxp-redos');
     const modeGroup = document.getElementById('rxp-mode');
     const fullMatchCheckbox = document.getElementById('rxp-fullmatch');
     const modeHelpEl = document.getElementById('rxp-mode-help');
@@ -36,6 +37,9 @@
     const APP_TRANSLATIONS = {
         en: {
             invalidPattern: (error) => `Invalid pattern or flags: ${error}`,
+            redosWarning:
+                '⚠ This pattern nests quantifiers (e.g. (a+)+), which can cause catastrophic backtracking ' +
+                '(ReDoS) — a crafted input could hang the page. Review it before using it for validation.',
             modeHelpDeny:
                 '<strong>Deny-list mode</strong> &mdash; a match means the input is <strong>rejected</strong>. ' +
                 'For each payload below, "Blocked" means your pattern matched it (good); "Slips through" means it didn\'t.',
@@ -58,6 +62,9 @@
         },
         pt: {
             invalidPattern: (error) => `Padrão ou flags inválidos: ${error}`,
+            redosWarning:
+                '⚠ Este padrão aninha quantificadores (ex.: (a+)+), o que pode causar backtracking catastrófico ' +
+                '(ReDoS) — uma entrada maliciosa pode travar a página. Revise antes de usar para validação.',
             modeHelpDeny:
                 '<strong>Modo deny-list</strong> &mdash; uma correspondência significa que a entrada é <strong>rejeitada</strong>. ' +
                 'Para cada payload abaixo, "Bloqueado" significa que seu padrão o reconheceu (bom); "Passa despercebido" significa que não.',
@@ -100,6 +107,20 @@
             .replace(/>/g, '&gt;')
             .replace(/"/g, '&quot;')
             .replace(/'/g, '&#39;');
+    }
+
+    /**
+     * Conservative heuristic for catastrophic backtracking (ReDoS): flags the
+     * classic nested-quantifier shape — a group whose body already contains an
+     * unbounded quantifier and which is itself repeated by one (e.g. `(a+)+`).
+     * Escaped chars and character classes are neutralised first so literals
+     * like `\+` or `[*+]` aren't mistaken for quantifiers. This is advisory
+     * only; it deliberately favours no false positives over full coverage.
+     */
+    function looksCatastrophic(pattern) {
+        if (!pattern) return false;
+        const stripped = pattern.replace(/\\./g, 'x').replace(/\[[^\]]*\]/g, 'C');
+        return /\([^()]*[*+][^()]*\)[*+]/.test(stripped);
     }
 
     /**
@@ -156,6 +177,15 @@
             errorEl.classList.remove('hidden');
         } else {
             errorEl.classList.add('hidden');
+        }
+    }
+
+    function renderRedos(compiled) {
+        if (!compiled.error && looksCatastrophic(state.pattern)) {
+            redosEl.textContent = t('redosWarning');
+            redosEl.classList.remove('hidden');
+        } else {
+            redosEl.classList.add('hidden');
         }
     }
 
@@ -302,6 +332,7 @@
     function render() {
         const compiled = compile();
         renderError(compiled.error);
+        renderRedos(compiled);
         renderModeHelp();
         renderTester(compiled);
         renderSweep(compiled);
