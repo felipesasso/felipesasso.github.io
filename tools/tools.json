@@ -100,6 +100,16 @@
     "tags_pt": ["Segurança", "Regex", "Validação de Entrada"]
   },
   {
+    "name": "Token Bucket Rate Limiter Simulator",
+    "name_pt": "Simulador de Rate Limiter (Token Bucket)",
+    "description": "Configure a token bucket rate limiter — capacity, refill rate and burst size — then fire single requests or bursts and watch tokens drain, refill and requests get accepted or throttled with 429s in real time.",
+    "description_pt": "Configure um rate limiter de token bucket — capacidade, taxa de reposição e tamanho do burst — e dispare requisições avulsas ou em burst para ver os tokens esvaziarem, se reporem e as requisições serem aceitas ou bloqueadas com 429 em tempo real.",
+    "url": "/tools/rate-limiter-simulator/",
+    "kind": "built",
+    "tags": ["Rate Limiting", "APIs", "Distributed Systems"],
+    "tags_pt": ["Rate Limiting", "APIs", "Sistemas Distribuídos"]
+  },
+  {
     "name": "RESTful API Designer",
     "name_pt": "Designer de API RESTful",
     "description": "Design REST APIs endpoint by endpoint — define resources, HTTP methods, path and query parameters, request bodies and response shapes, then export a complete OpenAPI 3.0 specification as YAML or JSON.",
