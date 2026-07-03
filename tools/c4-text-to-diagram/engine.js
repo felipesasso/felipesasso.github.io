@@ -100,7 +100,7 @@
         const lines = (source || '').split(/\r?\n/);
         const root = { type: 'boundary', name: null, children: [] };
         const stack = [root];
-        const nodesById = {};
+        const nodesById = Object.create(null);
         const relationships = [];
         const errors = [];
         let title = '';
