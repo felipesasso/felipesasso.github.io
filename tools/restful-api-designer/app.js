@@ -175,7 +175,11 @@
     // ── actions ───────────────────────────────────────────────────────────────
     function addResource() {
         const id = uid();
-        S.resources.push({ id, path: '/resource', endpoints: [] });
+        const used = new Set(S.resources.map(r => r.path));
+        let path = '/resource';
+        let n = 2;
+        while (used.has(path)) path = '/resource-' + (n++);
+        S.resources.push({ id, path, endpoints: [] });
         render();
         setTimeout(() => {
             const el = document.querySelector('[data-resource-path="' + id + '"]');
@@ -193,7 +197,9 @@
     function addEndpoint(resourceId) {
         const r = findResource(resourceId);
         if (!r) return;
-        const ep = mkEndpoint('GET');
+        const used = new Set(r.endpoints.map(e => e.method));
+        const method = METHODS.find(m => !used.has(m)) || 'GET';
+        const ep = mkEndpoint(method);
         r.endpoints.push(ep);
         S.selectedId = ep.id;
         S.activeTab  = 'params';
@@ -225,7 +231,9 @@
     function addResponse(epId) {
         const found = findEndpoint(epId);
         if (!found) return;
-        found.endpoint.responses.push(mkResponse('200', ''));
+        const used = new Set(found.endpoint.responses.map(r => r.statusCode));
+        const code = STATUS_CODES.find(c => !used.has(c)) || '200';
+        found.endpoint.responses.push(mkResponse(code, ''));
         render();
     }
 
@@ -867,7 +875,7 @@
         const entries = Object.entries(val).filter(([, v]) => v !== undefined);
         if (!entries.length) return '{}';
         return '\n' + entries.map(([k, v]) => {
-            const ky = /[\s:#{}[\]&*?|<>=!%@`,]/.test(k) ? '"' + k + '"' : k;
+            const ky = /[\s:#{}[\]&*?|<>=!%@`,]/.test(k) || /^\d+(\.\d+)?$/.test(k) ? '"' + k + '"' : k;
             if (typeof v === 'object' && v !== null) {
                 if (Array.isArray(v))     return !v.length ? pad + ky + ': []' : pad + ky + ':' + jsToYaml(v, depth + 1);
                 if (!Object.keys(v).length) return pad + ky + ': {}';
@@ -882,7 +890,7 @@
         if (!entries.length) return pad + '- {}';
         return entries.map(([k, v], i) => {
             const prefix = i === 0 ? pad + '- ' : pad + '  ';
-            const ky     = /[\s:#{}[\]&*?|<>=!%@`,]/.test(k) ? '"' + k + '"' : k;
+            const ky     = /[\s:#{}[\]&*?|<>=!%@`,]/.test(k) || /^\d+(\.\d+)?$/.test(k) ? '"' + k + '"' : k;
             if (typeof v === 'object' && v !== null) {
                 if (Array.isArray(v))     return !v.length ? prefix + ky + ': []' : prefix + ky + ':' + jsToYaml(v, depth + 2);
                 if (!Object.keys(v).length) return prefix + ky + ': {}';

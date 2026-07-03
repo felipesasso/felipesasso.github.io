@@ -146,6 +146,10 @@
             cancelAnimationFrame(this.raf);
             this.resizeObserver.disconnect();
             this.intersectionObserver.disconnect();
+            this.timers.forEach((tm) => tm.reject(ABORT));
+            this.tweens.forEach((tw) => tw.reject(ABORT));
+            this.timers = [];
+            this.tweens = [];
         }
 
         frame(t) {
@@ -251,13 +255,13 @@
 
                 sleep(ms) {
                     if (!alive()) return Promise.reject(ABORT);
-                    return new Promise((resolve) => scene.timers.push({ deadline: scene.now + ms, resolve }));
+                    return new Promise((resolve, reject) => scene.timers.push({ deadline: scene.now + ms, resolve, reject }));
                 },
 
                 move(t, x, y, dur = 600) {
                     if (!alive()) return Promise.reject(ABORT);
-                    return new Promise((resolve) =>
-                        scene.tweens.push({ obj: t, fromX: t.x, fromY: t.y, toX: x, toY: y, start: scene.now, dur, resolve })
+                    return new Promise((resolve, reject) =>
+                        scene.tweens.push({ obj: t, fromX: t.x, fromY: t.y, toX: x, toY: y, start: scene.now, dur, resolve, reject })
                     );
                 },
 

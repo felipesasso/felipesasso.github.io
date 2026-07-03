@@ -164,6 +164,10 @@
     function delCol(tableId, colId) {
         const t = tbl(tableId);
         if (!t) return;
+        // clear FK references pointing at this column
+        S.tables.forEach(ot => ot.columns.forEach(c => {
+            if (c.fk && c.fk.tableId === tableId && c.fk.colId === colId) c.fk = null;
+        }));
         t.columns = t.columns.filter(c => c.id !== colId);
         render();
     }
@@ -515,19 +519,23 @@
     document.addEventListener('mouseup', function () { S.dragging = null; });
 
     // ── SQL generation ────────────────────────────────────────────────────────
+    function escIdent(name) {
+        return String(name).replace(/`/g, '``');
+    }
+
     function genSQL() {
         if (!S.tables.length) return tr('noTablesComment');
         var sql = '';
 
         S.tables.forEach(function (t) {
-            sql += 'CREATE TABLE `' + t.name + '` (\n';
+            sql += 'CREATE TABLE `' + escIdent(t.name) + '` (\n';
             var defs = t.columns.map(function (c) {
-                var d = '  `' + c.name + '` ' + c.type;
+                var d = '  `' + escIdent(c.name) + '` ' + c.type;
                 if (c.isNn && !c.isPk) d += ' NOT NULL';
                 if (c.isUq && !c.isPk) d += ' UNIQUE';
                 return d;
             });
-            var pks = t.columns.filter(function (c) { return c.isPk; }).map(function (c) { return '`' + c.name + '`'; });
+            var pks = t.columns.filter(function (c) { return c.isPk; }).map(function (c) { return '`' + escIdent(c.name) + '`'; });
             if (pks.length) defs.push('  PRIMARY KEY (' + pks.join(', ') + ')');
             sql += defs.join(',\n') + '\n);\n\n';
         });
@@ -539,9 +547,9 @@
                              || r.toTbl.columns.find(function (c) { return c.isPk; })
                              || r.toTbl.columns[0];
                 var refName = refColObj ? refColObj.name : 'id';
-                sql += 'ALTER TABLE `' + r.fromTbl.name + '`\n';
-                sql += '  ADD FOREIGN KEY (`' + r.fromCol.name + '`)\n';
-                sql += '  REFERENCES `' + r.toTbl.name + '`(`' + refName + '`);\n\n';
+                sql += 'ALTER TABLE `' + escIdent(r.fromTbl.name) + '`\n';
+                sql += '  ADD FOREIGN KEY (`' + escIdent(r.fromCol.name) + '`)\n';
+                sql += '  REFERENCES `' + escIdent(r.toTbl.name) + '`(`' + escIdent(refName) + '`);\n\n';
             });
         }
 

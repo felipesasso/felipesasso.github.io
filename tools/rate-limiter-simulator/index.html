@@ -512,6 +512,7 @@
             let tokens = CAPACITY;
             let lastUpdate = performance.now();
             let totalReq = 0, okReq = 0, denyReq = 0;
+            let burstInterval = null;
             let lang = 'en';
 
             const STR = {
@@ -660,16 +661,24 @@
             }
 
             function burst(){
+                if (burstInterval) clearInterval(burstInterval);
                 log(`<span class="rls-log-sys">${STR[lang].firingBurst(BURST_SIZE)}</span>`);
                 let i = 0;
-                const interval = setInterval(() => {
+                burstInterval = setInterval(() => {
                     sendRequest();
                     i++;
-                    if (i >= BURST_SIZE) clearInterval(interval);
+                    if (i >= BURST_SIZE){
+                        clearInterval(burstInterval);
+                        burstInterval = null;
+                    }
                 }, 120);
             }
 
             function reset(){
+                if (burstInterval){
+                    clearInterval(burstInterval);
+                    burstInterval = null;
+                }
                 tokens = CAPACITY;
                 lastUpdate = performance.now();
                 totalReq = 0; okReq = 0; denyReq = 0;
