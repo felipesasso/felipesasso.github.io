@@ -1,6 +1,6 @@
 /* ===========================================================================
-   Felipe Coral Sasso — Warm & Literary portfolio
-   Palette: "Sage & Brass"  ·  Type: Fraunces (display) + Inter (body)
+   Felipe Coral Sasso — Minimal portfolio
+   Palette: single warm-neutral + sage accent  ·  Type: Fraunces (display) + Inter (body)
    Fonts are loaded via <link> in each HTML page.
    =========================================================================== */
 
@@ -16,60 +16,54 @@ body {
     -moz-osx-font-smoothing: grayscale;
     overflow-x: hidden;
 
-    /* Sage & Brass — light (warm linen) */
-    --primary-bg: #F7F4EC;
+    /* Minimal — light */
+    --primary-bg: #FAFAF7;
     --secondary-bg: #FFFFFF;
-    --text-primary: #26241E;
-    --text-secondary: #5F5C4E;
-    --accent-color: #4F6F52;        /* forest / olive */
-    --accent-soft: #E7EDE3;         /* olive tint */
-    --brass: #A9874E;               /* warm metallic highlight */
-    --brass-soft: #EFE6D3;
-    --border: #E9E2D2;              /* warm hairline */
-    --link-color: #4F6F52;
-    --link-hover-color: #3E5A41;
-    --skill-bg: #E7EDE3;
-    --skill-text: #3E5A41;
-    --lang-button-bg: #ECE8DB;
-    --lang-button-text: #4F6F52;
-    --lang-button-active-bg: #4F6F52;
+    --text-primary: #1D1D1B;
+    --text-secondary: #6B6A62;
+    --accent-color: #3F6652;        /* single accent — deep sage */
+    --accent-soft: #EAF1EC;         /* accent tint, for tags / hover fills */
+    --border: #E6E3DA;              /* hairline */
+    --link-color: #3F6652;
+    --link-hover-color: #2C4A3B;
+    --skill-bg: #EAF1EC;
+    --skill-text: #33543F;
+    --lang-button-bg: #F0EEE6;
+    --lang-button-text: #4B4A43;
+    --lang-button-active-bg: #3F6652;
     --lang-button-active-text: #FFFFFF;
-    --lang-button-hover-bg: #E2DCCB;
-    --profile-bg: #E7EDE3;
-    --profile-border: #A9874E;      /* brass portrait frame */
+    --lang-button-hover-bg: #E5E2D6;
+    --profile-bg: #EFEDE4;
+    --profile-border: #E6E3DA;
 
-    --card-shadow: 0 1px 2px rgba(38, 36, 30, 0.04), 0 10px 30px -14px rgba(38, 36, 30, 0.16);
-    --card-shadow-hover: 0 2px 4px rgba(38, 36, 30, 0.05), 0 18px 40px -16px rgba(38, 36, 30, 0.22);
+    --card-shadow: 0 1px 2px rgba(29, 29, 27, 0.04);
 
     background-color: var(--primary-bg);
     color: var(--text-primary);
 }
 
-/* ── Dark theme (deep moss) ──────────────────────────────────────────────── */
+/* ── Dark theme ───────────────────────────────────────────────────────────── */
 html.dark body {
-    --primary-bg: #16180F;
-    --secondary-bg: #20221A;
-    --text-primary: #E9E6D7;
-    --text-secondary: #A8A795;
-    --accent-color: #8FB58A;        /* sage */
-    --accent-soft: #2A3326;
-    --brass: #C9A96A;
-    --brass-soft: #2E2A1E;
-    --border: #2D3325;
+    --primary-bg: #15170F;
+    --secondary-bg: #1B1D16;
+    --text-primary: #ECE9DE;
+    --text-secondary: #9B9A8C;
+    --accent-color: #8FB58A;        /* sage, lightened for dark contrast */
+    --accent-soft: #202B1E;
+    --border: #292B21;
     --link-color: #8FB58A;
     --link-hover-color: #A6C8A1;
-    --skill-bg: #2A3326;
+    --skill-bg: #202B1E;
     --skill-text: #B8D2B2;
-    --lang-button-bg: #262A1E;
-    --lang-button-text: #C9D6C2;
+    --lang-button-bg: #1E2016;
+    --lang-button-text: #C7C4B4;
     --lang-button-active-bg: #8FB58A;
-    --lang-button-active-text: #16180F;
-    --lang-button-hover-bg: #2F3426;
-    --profile-bg: #262A1E;
-    --profile-border: #C9A96A;
+    --lang-button-active-text: #15170F;
+    --lang-button-hover-bg: #262819;
+    --profile-bg: #1E2016;
+    --profile-border: #292B21;
 
-    --card-shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 12px 30px -16px rgba(0, 0, 0, 0.6);
-    --card-shadow-hover: 0 2px 4px rgba(0, 0, 0, 0.5), 0 18px 44px -18px rgba(0, 0, 0, 0.7);
+    --card-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 /* Smooth palette transition when toggling theme */
@@ -89,17 +83,6 @@ body,
         box-shadow 0.3s ease;
 }
 
-/* ── Subtle paper grain ──────────────────────────────────────────────────── */
-body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    z-index: -1;
-    pointer-events: none;
-    opacity: 0.4;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
-}
-
 /* ── Typography ──────────────────────────────────────────────────────────── */
 .font-display,
 .hero-name,
@@ -117,9 +100,6 @@ body::before {
     body {
         -webkit-print-color-adjust: exact;
         color-adjust: exact;
-    }
-    body::before {
-        display: none;
     }
     .no-print {
         display: none !important;
@@ -152,11 +132,11 @@ body::before {
     backdrop-filter: saturate(1.1) blur(8px);
     background-color: color-mix(in srgb, var(--secondary-bg) 86%, transparent);
     border-bottom: 1px solid var(--border);
-    transition: box-shadow 0.2s, background-color 0.3s;
+    transition: border-color 0.2s, background-color 0.3s;
 }
 
 #main-nav.scrolled {
-    box-shadow: 0 4px 18px -10px rgba(38, 36, 30, 0.3);
+    border-bottom-color: color-mix(in srgb, var(--text-primary) 14%, var(--border));
 }
 
 .nav-brand {
@@ -183,7 +163,7 @@ body::before {
 
 .nav-link:hover {
     color: var(--accent-color);
-    border-color: var(--brass);
+    border-color: var(--accent-color);
 }
 
 /* ── Language / theme buttons ────────────────────────────────────────────── */
@@ -214,35 +194,18 @@ body::before {
     background-color: var(--lang-button-hover-bg);
 }
 
-/* ── Card surface ────────────────────────────────────────────────────────── */
+/* ── Card surface (shared with /tools and /livros pages) ─────────────────── */
 .card {
     position: relative;
     background-color: var(--secondary-bg);
     border: 1px solid var(--border);
-    border-radius: 1rem;
+    border-radius: 0.85rem;
     box-shadow: var(--card-shadow);
 }
 
-/* thin brass rule along the top edge of each card */
-.card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 1.75rem;
-    right: 1.75rem;
-    height: 2px;
-    background: linear-gradient(90deg, transparent, var(--brass), transparent);
-    opacity: 0.55;
-    border-radius: 2px;
-}
-
-.card-hover {
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
-}
-
-.card-hover:hover {
-    transform: translateY(-3px);
-    box-shadow: var(--card-shadow-hover);
+/* ── Section rhythm (homepage) ──────────────────────────────────────────── */
+.section-block {
+    border-top: 1px solid var(--border);
 }
 
 /* ── Hero ────────────────────────────────────────────────────────────────── */
@@ -258,9 +221,9 @@ body::before {
     position: absolute;
     left: 0;
     bottom: 0;
-    width: 3.5rem;
+    width: 3rem;
     height: 3px;
-    background: var(--brass);
+    background: var(--accent-color);
     border-radius: 2px;
     transform-origin: left center;
     animation: underline-grow 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.25s both;
@@ -279,11 +242,18 @@ body::before {
 
 .profile-frame {
     background-color: var(--profile-bg);
-    border: 3px solid var(--profile-border);
-    box-shadow: 0 0 0 6px color-mix(in srgb, var(--brass) 14%, transparent);
+    border: 4px solid var(--secondary-bg);
+    box-shadow: 0 0 0 1px var(--border);
 }
 
-/* ── Contact chips ───────────────────────────────────────────────────────── */
+/* plain hairline divider */
+.rule {
+    height: 1px;
+    border: 0;
+    background: var(--border);
+}
+
+/* ── Contact chips (shared with /livros) ─────────────────────────────────── */
 .contact-chip {
     display: inline-flex;
     align-items: center;
@@ -307,7 +277,7 @@ body::before {
     color: var(--accent-color);
 }
 
-/* ── Section headings ────────────────────────────────────────────────────── */
+/* ── Section headings (shared with /tools and /livros) ───────────────────── */
 .section-heading {
     position: relative;
     padding-bottom: 0.7rem;
@@ -321,25 +291,18 @@ body::before {
     bottom: 0;
     width: 2.25rem;
     height: 3px;
-    background: var(--brass);
-    opacity: 0.85;
+    background: var(--accent-color);
+    opacity: 0.9;
     border-radius: 2px;
 }
 
-/* eyebrow label above section titles */
+/* eyebrow label above section titles (shared with /tools and /livros) */
 .eyebrow {
     font-size: 0.7rem;
     font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 0.18em;
-    color: var(--brass);
-}
-
-/* decorative brass divider */
-.brass-rule {
-    height: 1px;
-    border: 0;
-    background: linear-gradient(90deg, transparent, var(--border) 18%, var(--border) 82%, transparent);
+    letter-spacing: 0.16em;
+    color: var(--accent-color);
 }
 
 /* ── Skill tags (generated by JS — must not rely on Tailwind CDN scanning) ── */
@@ -351,7 +314,6 @@ body::before {
     border-radius: 9999px;
     font-size: 0.75rem;
     font-weight: 500;
-    border: 1px solid color-mix(in srgb, var(--accent-color) 22%, transparent);
 }
 
 .skill-category-label {
@@ -359,11 +321,11 @@ body::before {
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.1em;
-    color: var(--brass);
+    color: var(--text-secondary);
     margin-bottom: 0.6rem;
 }
 
-/* ── Selected Work grid ──────────────────────────────────────────────────── */
+/* ── Selected Work grid (shared with /tools) ─────────────────────────────── */
 .highlight-grid {
     display: grid;
     grid-template-columns: 1fr;
@@ -382,16 +344,16 @@ body::before {
     gap: 0.5rem;
     padding: 1.25rem 1.35rem;
     border: 1px solid var(--border);
-    border-radius: 0.85rem;
-    background-color: color-mix(in srgb, var(--secondary-bg) 70%, var(--primary-bg));
+    border-radius: 0.75rem;
+    background-color: transparent;
     text-decoration: none;
-    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+    transition: border-color 0.2s ease, background-color 0.2s ease, transform 0.2s ease;
 }
 
 .highlight-card:hover {
-    transform: translateY(-3px);
-    box-shadow: var(--card-shadow-hover);
-    border-color: color-mix(in srgb, var(--brass) 55%, var(--border));
+    border-color: var(--accent-color);
+    background-color: var(--accent-soft);
+    transform: translateY(-2px);
 }
 
 .highlight-card .kicker {
@@ -399,7 +361,7 @@ body::before {
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.12em;
-    color: var(--brass);
+    color: var(--text-secondary);
 }
 
 .highlight-card h3 {
@@ -424,7 +386,7 @@ body::before {
     letter-spacing: 0.01em;
 }
 
-/* ── Reading shelf ───────────────────────────────────────────────────────── */
+/* ── Reading shelf (grid shared with /livros) ────────────────────────────── */
 .shelf {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -449,17 +411,16 @@ body::before {
     justify-content: space-between;
     gap: 0.6rem;
     min-height: 8.5rem;
-    padding: 0.85rem 0.85rem 0.9rem;
+    padding: 0.85rem;
     border: 1px solid var(--border);
-    border-left: 3px solid var(--brass);
-    border-radius: 0.4rem 0.6rem 0.6rem 0.4rem;
-    background-color: color-mix(in srgb, var(--secondary-bg) 70%, var(--primary-bg));
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    border-radius: 0.6rem;
+    background-color: transparent;
+    transition: border-color 0.2s ease, transform 0.2s ease;
 }
 
 .book-card:hover {
-    transform: translateY(-3px);
-    box-shadow: var(--card-shadow-hover);
+    border-color: var(--accent-color);
+    transform: translateY(-2px);
 }
 
 a.book-card {
@@ -526,7 +487,7 @@ a:hover .book-link-icon {
 .book-card .year {
     font-size: 0.7rem;
     font-weight: 500;
-    color: var(--brass);
+    color: var(--text-secondary);
     letter-spacing: 0.04em;
 }
 
@@ -542,9 +503,8 @@ a:hover .book-link-icon {
     left: 0.375rem;
     top: 0.5rem;
     bottom: 0;
-    width: 2px;
-    background: linear-gradient(var(--accent-color), color-mix(in srgb, var(--accent-color) 20%, transparent));
-    opacity: 0.35;
+    width: 1px;
+    background: var(--border);
 }
 
 .timeline-item {
@@ -560,21 +520,19 @@ a:hover .book-link-icon {
     position: absolute;
     left: -1.5rem;
     top: 0.3rem;
-    width: 0.8rem;
-    height: 0.8rem;
+    width: 0.7rem;
+    height: 0.7rem;
     border-radius: 50%;
-    background-color: var(--secondary-bg);
-    border: 2px solid var(--accent-color);
-    box-shadow: 0 0 0 3px var(--primary-bg);
+    background-color: var(--primary-bg);
+    border: 2px solid var(--border);
 }
 
 .timeline-item.is-current .timeline-dot {
-    background-color: var(--brass);
-    border-color: var(--brass);
-    box-shadow: 0 0 0 3px var(--primary-bg), 0 0 0 6px color-mix(in srgb, var(--brass) 22%, transparent);
+    background-color: var(--accent-color);
+    border-color: var(--accent-color);
 }
 
-/* ── Show more button ────────────────────────────────────────────────────── */
+/* ── Show more button (shared behaviour) ──────────────────────────────────── */
 .show-more-btn {
     display: inline-flex;
     align-items: center;
@@ -583,24 +541,25 @@ a:hover .book-link-icon {
     font-size: 0.8rem;
     font-weight: 500;
     background: transparent;
-    border: 1px solid var(--accent-color);
+    border: 1px solid var(--border);
     padding: 0.45rem 0.95rem;
     border-radius: 0.5rem;
     cursor: pointer;
     margin-top: 1.5rem;
-    transition: background-color 0.2s, color 0.2s;
+    transition: background-color 0.2s, color 0.2s, border-color 0.2s;
 }
 
 .show-more-btn:hover {
     background-color: var(--accent-color);
+    border-color: var(--accent-color);
     color: var(--secondary-bg);
 }
 
 /* ── Scroll-reveal animation (only hides when JS is available) ───────────── */
 html.js .reveal {
     opacity: 0;
-    transform: translateY(16px);
-    transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+    transform: translateY(12px);
+    transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
     will-change: opacity, transform;
 }
 
@@ -634,11 +593,6 @@ html.js .reveal.is-visible {
     .timeline-dot {
         left: -1.25rem;
     }
-
-    .card::before {
-        left: 1.25rem;
-        right: 1.25rem;
-    }
 }
 
 /* ── Respect reduced-motion preferences ──────────────────────────────────── */
@@ -653,7 +607,6 @@ html.js .reveal.is-visible {
         animation: none;
     }
 
-    .card-hover:hover,
     .highlight-card:hover,
     .book-card:hover {
         transform: none;
@@ -663,4 +616,3 @@ html.js .reveal.is-visible {
         scroll-behavior: auto !important;
     }
 }
-
