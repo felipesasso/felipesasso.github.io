@@ -214,6 +214,119 @@ body::before {
     background-color: var(--lang-button-hover-bg);
 }
 
+/* ── Mobile menu ─────────────────────────────────────────────────────────── */
+.mobile-menu-toggle {
+    display: inline-flex;
+}
+
+@media (min-width: 768px) {
+    .mobile-menu-toggle {
+        display: none;
+    }
+}
+
+.mobile-menu {
+    display: flex;
+    flex-direction: column;
+    border-top: 1px solid var(--border);
+    background-color: var(--secondary-bg);
+    padding: 0.25rem 1rem;
+}
+
+.mobile-menu[hidden] {
+    display: none;
+}
+
+@media (min-width: 768px) {
+    .mobile-menu {
+        display: none !important;
+    }
+}
+
+.mobile-menu-link {
+    padding: 0.9rem 0.25rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    text-decoration: none;
+    border-bottom: 1px solid var(--border);
+}
+
+.mobile-menu-link:last-child {
+    border-bottom: none;
+}
+
+.mobile-menu-link:hover,
+.mobile-menu-link:active {
+    color: var(--accent-color);
+}
+
+/* ── Availability badge ──────────────────────────────────────────────────── */
+.availability-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.35rem 0.75rem;
+    border-radius: 9999px;
+    background-color: var(--accent-soft);
+    color: var(--accent-color);
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+}
+
+.status-dot {
+    width: 0.45rem;
+    height: 0.45rem;
+    border-radius: 50%;
+    background-color: var(--accent-color);
+    animation: status-pulse 2.2s ease-in-out infinite;
+}
+
+@keyframes status-pulse {
+    0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent-color) 45%, transparent); }
+    70% { box-shadow: 0 0 0 6px color-mix(in srgb, var(--accent-color) 0%, transparent); }
+    100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent-color) 0%, transparent); }
+}
+
+/* ── Buttons (hero CTAs) ─────────────────────────────────────────────────── */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.45rem 0.95rem;
+    border-radius: 0.5rem;
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-decoration: none;
+    border: 1px solid transparent;
+    transition: background-color 0.2s, color 0.2s, border-color 0.2s, transform 0.2s;
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+}
+
+.btn-primary {
+    background-color: var(--accent-color);
+    color: var(--secondary-bg);
+}
+
+.btn-primary:hover {
+    background-color: var(--link-hover-color);
+}
+
+.btn-secondary {
+    background-color: transparent;
+    border-color: var(--border);
+    color: var(--text-primary);
+}
+
+.btn-secondary:hover {
+    border-color: var(--accent-color);
+    color: var(--accent-color);
+}
+
 /* ── Card surface ────────────────────────────────────────────────────────── */
 .card {
     position: relative;
@@ -650,6 +763,10 @@ html.js .reveal.is-visible {
     }
 
     .hero-name::after {
+        animation: none;
+    }
+
+    .status-dot {
         animation: none;
     }
 
