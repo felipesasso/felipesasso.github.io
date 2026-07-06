@@ -91,7 +91,30 @@
                         aria-pressed="false"
                         aria-label="Mudar para Português"
                     >PT</button>
+                    <button
+                        id="mobile-menu-toggle"
+                        class="lang-button mobile-menu-toggle"
+                        aria-label="Open menu"
+                        aria-expanded="false"
+                        aria-controls="mobile-menu"
+                    >
+                        <svg id="icon-menu-open" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                        </svg>
+                        <svg id="icon-menu-close" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 hidden">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
                 </div>
+            </div>
+
+            <div id="mobile-menu" class="mobile-menu no-print" hidden role="menu">
+                <a href="#work" class="mobile-menu-link" data-translate-key="navWork">Work</a>
+                <a href="#skills" class="mobile-menu-link" data-translate-key="navSkills">Skills</a>
+                <a href="#experience" class="mobile-menu-link" data-translate-key="navExperience">Experience</a>
+                <a href="#education" class="mobile-menu-link" data-translate-key="navEducation">Education</a>
+                <a href="#reading" class="mobile-menu-link" data-translate-key="navReading">Reading</a>
+                <a href="/tools/" class="mobile-menu-link" data-translate-key="navTools">Tools</a>
             </div>
         </nav>
 
@@ -114,8 +137,12 @@
 
                     <!-- Name, title, contacts -->
                     <div class="flex-1 text-center sm:text-left">
+                        <span class="availability-badge">
+                            <span class="status-dot" aria-hidden="true"></span>
+                            <span data-translate-key="heroAvailability">Open to new opportunities</span>
+                        </span>
                         <h1
-                            class="hero-name text-4xl sm:text-5xl md:text-6xl font-bold text-[var(--text-primary)]"
+                            class="hero-name text-4xl sm:text-5xl md:text-6xl font-bold text-[var(--text-primary)] mt-3"
                             data-translate-key="name"
                         >Felipe Coral Sasso</h1>
                         <p
@@ -126,6 +153,12 @@
                             class="text-xs sm:text-sm text-[var(--text-secondary)] mt-1"
                             data-translate-key="location"
                         >Florianópolis, Santa Catarina, Brazil</p>
+
+                        <!-- Primary calls to action -->
+                        <div class="mt-5 flex flex-wrap gap-3 justify-center sm:justify-start">
+                            <a href="mailto:felipecsasso@gmail.com" class="btn btn-primary" data-translate-key="ctaContact">Get in touch</a>
+                            <a href="#work" class="btn btn-secondary" data-translate-key="ctaWork">See my work</a>
+                        </div>
 
                         <!-- Contact chips -->
                         <div class="mt-5 flex flex-wrap gap-2 justify-center sm:justify-start">

@@ -99,6 +99,12 @@ const translations = {
         navReading: 'Reading',
         navTools: 'Tools',
 
+        heroAvailability: 'Open to new opportunities',
+        ctaContact: 'Get in touch',
+        ctaWork: 'See my work',
+        openMenuTooltip: 'Open menu',
+        closeMenuTooltip: 'Close menu',
+
         workEyebrow: 'Selected Work',
         workTitle: 'Selected Work & Research',
         workPinterestTitle: 'Front-end at scale',
@@ -258,6 +264,12 @@ const translations = {
         navEducation: 'Formação',
         navReading: 'Leituras',
         navTools: 'Ferramentas',
+
+        heroAvailability: 'Aberto a novas oportunidades',
+        ctaContact: 'Fale comigo',
+        ctaWork: 'Ver meus trabalhos',
+        openMenuTooltip: 'Abrir menu',
+        closeMenuTooltip: 'Fechar menu',
 
         workEyebrow: 'Trabalhos Selecionados',
         workTitle: 'Trabalhos e Pesquisas Selecionados',
@@ -508,6 +520,7 @@ function switchLanguage(lang, persist = false) {
     updateJobDurations(lang);
     populateSkills();
     updateToggleButton();
+    updateMobileMenuButton();
     updateReadingSeeAll();
     renderToolCards();
 
@@ -781,6 +794,64 @@ function setupExperienceCollapse() {
     });
 }
 
+/**
+ * Updates the mobile menu toggle button's icon and aria attributes to
+ * reflect whether the menu is open, in the current language.
+ */
+function updateMobileMenuButton() {
+    const btn = document.getElementById('mobile-menu-toggle');
+    const menu = document.getElementById('mobile-menu');
+    const iconOpen = document.getElementById('icon-menu-open');
+    const iconClose = document.getElementById('icon-menu-close');
+    if (!btn || !menu) return;
+
+    const isOpen = !menu.hidden;
+    const t = translations[currentLanguage];
+    btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    btn.setAttribute('aria-label', isOpen ? t.closeMenuTooltip : t.openMenuTooltip);
+    if (iconOpen) iconOpen.classList.toggle('hidden', isOpen);
+    if (iconClose) iconClose.classList.toggle('hidden', !isOpen);
+}
+
+/**
+ * Wires up the mobile navigation menu: toggle button, link clicks,
+ * Escape key, outside clicks, and resizing past the desktop breakpoint.
+ */
+function setupMobileMenu() {
+    const btn = document.getElementById('mobile-menu-toggle');
+    const menu = document.getElementById('mobile-menu');
+    if (!btn || !menu) return;
+
+    const closeMenu = () => {
+        if (menu.hidden) return;
+        menu.hidden = true;
+        updateMobileMenuButton();
+    };
+
+    btn.addEventListener('click', () => {
+        menu.hidden = !menu.hidden;
+        updateMobileMenuButton();
+    });
+
+    menu.querySelectorAll('a').forEach((link) => {
+        link.addEventListener('click', closeMenu);
+    });
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeMenu();
+    });
+
+    document.addEventListener('click', (e) => {
+        if (!menu.hidden && !menu.contains(e.target) && !btn.contains(e.target)) closeMenu();
+    });
+
+    window.matchMedia('(min-width: 768px)').addEventListener('change', (e) => {
+        if (e.matches) closeMenu();
+    });
+
+    updateMobileMenuButton();
+}
+
 // Set the current year in the footer
 document.getElementById('currentYear').textContent = new Date().getFullYear();
 
@@ -795,6 +866,7 @@ document.addEventListener('DOMContentLoaded', function () {
     setInitialLanguage();
     switchLanguage(currentLanguage);
     setupExperienceCollapse();
+    setupMobileMenu();
     updateThemeButton();
     renderReading();
     renderTools();
