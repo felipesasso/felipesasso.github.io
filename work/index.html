@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Selected Work - Felipe Sasso</title>
+        <meta name="description" content="Selected work and research by Felipe Coral Sasso — Pinterest, Freeplay, CanDIG genomics, and Cisco network automation." />
+        <meta name="author" content="Felipe Coral Sasso" />
+
+        <script>
+            (function () {
+                document.documentElement.classList.add('js');
+                var stored = localStorage.getItem('theme');
+                var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+                if (stored === 'dark' || (stored !== 'light' && prefersDark)) {
+                    document.documentElement.classList.add('dark');
+                }
+            })();
+        </script>
+        <link rel="stylesheet" href="/tailwind.css" />
+        <link rel="stylesheet" href="/style.css" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    </head>
+
+    <body class="bg-[var(--primary-bg)] text-[var(--text-primary)]">
+
+        <nav id="main-nav" class="sticky top-0 z-50 bg-[var(--secondary-bg)] border-b border-[var(--lang-button-bg)]">
+            <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 flex items-center justify-between h-14">
+                <a href="/" class="nav-brand shrink-0">Felipe Sasso</a>
+                <div class="hidden sm:flex items-center gap-6">
+                    <a href="/" class="nav-link">Home</a>
+                    <span class="text-sm font-medium text-[var(--accent-color)] border-b-2 border-[var(--accent-color)] pb-0.5">Selected Work</span>
+                </div>
+                <div class="flex items-center gap-1 sm:gap-2 shrink-0">
+                    <a href="/" class="sm:hidden nav-link text-sm">Home</a>
+                    <button id="theme-toggle" class="lang-button" aria-label="Toggle dark mode" aria-pressed="false">
+                        <svg id="icon-moon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z" />
+                        </svg>
+                        <svg id="icon-sun" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 hidden">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+            <section class="card p-6 md:p-8">
+                <p class="eyebrow mb-2">Selected work &amp; research</p>
+                <h1 class="section-heading text-xl sm:text-2xl font-semibold text-[var(--text-primary)] mb-6">Selected Work &amp; Research</h1>
+
+                <div class="highlight-grid">
+                    <a href="https://newsroom.pinterest.com/en-ca/company/" target="_blank" rel="noopener noreferrer" class="highlight-card">
+                        <span class="kicker">Pinterest</span>
+                        <h3>Front-end at scale</h3>
+                        <p>Building, testing, and shipping user-facing features for millions of Pinners — owning components from design review through to A/B testing in production.</p>
+                        <span class="stack">React · TypeScript · GraphQL</span>
+                    </a>
+                    <a href="https://freeplay.ai/" target="_blank" rel="noopener noreferrer" class="highlight-card">
+                        <span class="kicker">Freeplay</span>
+                        <h3>Tooling for LLMs</h3>
+                        <p>Full-stack work on a platform that helps product teams build with large language models — Python back-ends, React front-ends, and SDKs in Python, Node, and Java.</p>
+                        <span class="stack">Python · React · SDKs</span>
+                    </a>
+                    <a href="https://doi.org/10.1101/2021.03.30.434101" target="_blank" rel="noopener noreferrer" class="highlight-card">
+                        <span class="kicker">Genome Sciences Centre</span>
+                        <h3>Federated genomics</h3>
+                        <p>APIs and interactive dashboards for CanDIG, a distributed genomics platform, and CanCOGEN's COVID-19 data — backed by a peer-reviewed publication.</p>
+                        <span class="stack">Python · Flask · React</span>
+                    </a>
+                    <a href="https://developer.cisco.com/docs/pyats/" target="_blank" rel="noopener noreferrer" class="highlight-card">
+                        <span class="kicker">Cisco</span>
+                        <h3>Network automation</h3>
+                        <p>Scalable features for the Genie and pyATS automation framework, including RegEx-based protocol parsers and automated device testing in Python.</p>
+                        <span class="stack">Python · RegEx · pyATS</span>
+                    </a>
+                </div>
+            </section>
+
+            <footer class="text-center py-8 text-xs sm:text-sm text-[var(--text-secondary)]">
+                <p>&copy; <span id="currentYear"></span> Felipe Coral Sasso. All rights reserved.</p>
+            </footer>
+        </div>
+
+        <script>
+            document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+            const themeToggle = document.getElementById('theme-toggle');
+            const iconMoon = document.getElementById('icon-moon');
+            const iconSun = document.getElementById('icon-sun');
+
+            function applyTheme(dark) {
+                document.documentElement.classList.toggle('dark', dark);
+                iconMoon.classList.toggle('hidden', dark);
+                iconSun.classList.toggle('hidden', !dark);
+                themeToggle.setAttribute('aria-pressed', String(dark));
+            }
+
+            applyTheme(document.documentElement.classList.contains('dark'));
+            themeToggle.addEventListener('click', () => {
+                const isDark = document.documentElement.classList.contains('dark');
+                localStorage.setItem('theme', isDark ? 'light' : 'dark');
+                applyTheme(!isDark);
+            });
+
+            window.addEventListener('scroll', () => {
+                document.getElementById('main-nav').classList.toggle('scrolled', window.scrollY > 10);
+            });
+        </script>
+    </body>
+</html>
