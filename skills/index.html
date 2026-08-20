@@ -1,118 +1,186 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Skills - Felipe Sasso</title>
         <meta name="description" content="Top skills of Felipe Coral Sasso — React, TypeScript, Python, and the tools he relies on daily." />
         <meta name="author" content="Felipe Coral Sasso" />
+        <meta name="robots" content="index, follow" />
+        <meta name="theme-color" content="#faf8f4" />
+        <link rel="canonical" href="https://felipesasso.github.io/skills/" />
 
-        <script>
-            (function () {
-                document.documentElement.classList.add('js');
-                var stored = localStorage.getItem('theme');
-                var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-                if (stored === 'dark' || (stored !== 'light' && prefersDark)) {
-                    document.documentElement.classList.add('dark');
+        <style>
+            body {
+                margin: 0;
+                background: #faf8f4;
+                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+                color: oklch(22% 0.01 85);
+            }
+            a.pf-link {
+                color: #2a6fd6;
+                text-decoration: none;
+            }
+            a.pf-link:hover {
+                text-decoration: underline;
+            }
+            .pf-photo {
+                width: 112px;
+                height: 112px;
+                border-radius: 50%;
+                object-fit: cover;
+                display: block;
+                margin: 0 auto;
+            }
+            .pf-page {
+                display: flex;
+                flex-wrap: wrap;
+                min-height: 100vh;
+                max-width: 1240px;
+                margin: 0 auto;
+                box-shadow: 0 0 0 1px oklch(90% 0.005 85);
+            }
+            .pf-aside {
+                box-sizing: border-box;
+                flex: 1 1 280px;
+                max-width: 340px;
+                min-width: 260px;
+                padding: clamp(32px, 5vw, 56px) clamp(24px, 4vw, 36px);
+                background: oklch(96% 0.008 85);
+                border-right: 1px solid oklch(90% 0.005 85);
+                display: flex;
+                flex-direction: column;
+                gap: 28px;
+            }
+            .pf-main {
+                box-sizing: border-box;
+                flex: 3 1 600px;
+                padding: clamp(32px, 5vw, 56px) clamp(24px, 5vw, 48px);
+                display: flex;
+                flex-direction: column;
+                gap: 44px;
+                min-width: 0;
+                max-width: 900px;
+            }
+            .pf-eyebrow {
+                font-size: 12px;
+                font-weight: 700;
+                letter-spacing: 0.08em;
+                text-transform: uppercase;
+                color: oklch(52% 0.16 255);
+                margin-bottom: 20px;
+            }
+            @media (max-width: 640px) {
+                .pf-aside {
+                    max-width: none;
+                    border-right: none;
+                    border-bottom: 1px solid oklch(90% 0.005 85);
                 }
-            })();
-        </script>
-        <link rel="stylesheet" href="/tailwind.css" />
-        <link rel="stylesheet" href="/style.css" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-        <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+            }
+            .pf-tag {
+                font-size: 11px;
+                padding: 3px 9px;
+                background: oklch(94% 0.03 255);
+                color: oklch(40% 0.14 255);
+                border-radius: 20px;
+            }
+            .pf-nav-current {
+                color: oklch(22% 0.01 85);
+                font-weight: 700;
+            }
+            .pf-skill-groups {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                gap: 28px;
+            }
+            .pf-skill-label {
+                font-size: 12px;
+                font-weight: 700;
+                text-transform: uppercase;
+                letter-spacing: 0.04em;
+                color: oklch(45% 0.01 85);
+                margin: 0 0 10px;
+            }
+            .pf-skill-tags {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 8px;
+            }
+        </style>
     </head>
 
-    <body class="bg-[var(--primary-bg)] text-[var(--text-primary)]">
+    <body>
+        <div class="pf-page">
 
-        <nav id="main-nav" class="sticky top-0 z-50 bg-[var(--secondary-bg)] border-b border-[var(--lang-button-bg)]">
-            <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 flex items-center justify-between h-14">
-                <a href="/" class="nav-brand shrink-0">Felipe Sasso</a>
-                <div class="hidden sm:flex items-center gap-6">
-                    <a href="/" class="nav-link">Home</a>
-                    <span class="text-sm font-medium text-[var(--accent-color)] border-b-2 border-[var(--accent-color)] pb-0.5">Skills</span>
+            <aside class="pf-aside">
+                <a href="/" style="text-decoration:none;color:inherit">
+                    <img class="pf-photo" src="../assets/headshot.jpeg" alt="Felipe Coral Sasso" />
+                </a>
+                <div>
+                    <div style="font-size:26px;font-weight:700;letter-spacing:-0.01em;line-height:1.15"><a href="/" style="color:inherit;text-decoration:none">Felipe Coral Sasso</a></div>
+                    <div style="font-size:14px;color:oklch(45% 0.01 85);margin-top:6px">Software Engineer</div>
                 </div>
-                <div class="flex items-center gap-1 sm:gap-2 shrink-0">
-                    <a href="/" class="sm:hidden nav-link text-sm">Home</a>
-                    <button id="theme-toggle" class="lang-button" aria-label="Toggle dark mode" aria-pressed="false">
-                        <svg id="icon-moon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z" />
-                        </svg>
-                        <svg id="icon-sun" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 hidden">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" />
-                        </svg>
-                    </button>
+                <p style="font-size:13.5px;line-height:1.6;color:oklch(38% 0.01 85);margin:0">Full-stack engineer with 6+ years shipping production systems at enterprise scale — from consumer platforms reaching millions of users to national research infrastructure — using Python and React.</p>
+                <div style="display:flex;flex-direction:column;gap:8px;font-size:13px">
+                    <a class="pf-link" href="mailto:felipecsasso@gmail.com">felipecsasso@gmail.com</a>
+                    <a class="pf-link" href="https://github.com/felipesasso" target="_blank" rel="noopener noreferrer">github.com/felipesasso</a>
+                    <a class="pf-link" href="https://www.linkedin.com/in/felipecoralsasso/" target="_blank" rel="noopener noreferrer">linkedin.com/in/felipecoralsasso</a>
                 </div>
-            </div>
-        </nav>
+                <a href="../assets/Felipe-Coral-Sasso-Resume.pdf" target="_blank" style="text-decoration:none;text-align:center;padding:10px 18px;background:oklch(52% 0.16 255);color:#fff;border-radius:6px;font-size:13px;font-weight:600">Download Resume</a>
+                <div style="display:flex;flex-direction:column;gap:6px;font-size:12.5px;color:oklch(45% 0.01 85);border-top:1px solid oklch(90% 0.005 85);padding-top:20px">
+                    <a class="pf-link" style="color:oklch(38% 0.01 85)" href="/#exp">Experience</a>
+                    <a class="pf-link" style="color:oklch(38% 0.01 85)" href="/#edu">Education</a>
+                    <a class="pf-link" style="color:oklch(38% 0.01 85)" href="/work/">Selected Work</a>
+                    <span class="pf-nav-current">Skills</span>
+                    <a class="pf-link" style="color:oklch(38% 0.01 85)" href="/livros/">Reading</a>
+                    <a class="pf-link" style="color:oklch(38% 0.01 85)" href="/tools/">Tools</a>
+                </div>
+            </aside>
 
-        <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
-            <section class="card p-6 md:p-8">
-                <h1 class="section-heading text-xl sm:text-2xl font-semibold text-[var(--text-primary)] mb-5">Top Skills</h1>
-
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-5">
-                    <div>
-                        <p class="skill-category-label">Frontend</p>
-                        <div class="flex flex-wrap gap-2">
-                            <span class="skill-tag">React</span>
-                            <span class="skill-tag">TypeScript</span>
-                            <span class="skill-tag">JavaScript</span>
-                            <span class="skill-tag">GraphQL</span>
-                            <span class="skill-tag">CSS</span>
+            <main class="pf-main">
+                <section>
+                    <div class="pf-eyebrow">Skills</div>
+                    <div class="pf-skill-groups">
+                        <div>
+                            <p class="pf-skill-label">Frontend</p>
+                            <div class="pf-skill-tags">
+                                <span class="pf-tag">React</span>
+                                <span class="pf-tag">TypeScript</span>
+                                <span class="pf-tag">JavaScript</span>
+                                <span class="pf-tag">GraphQL</span>
+                                <span class="pf-tag">CSS</span>
+                            </div>
+                        </div>
+                        <div>
+                            <p class="pf-skill-label">Backend</p>
+                            <div class="pf-skill-tags">
+                                <span class="pf-tag">Python</span>
+                                <span class="pf-tag">Flask</span>
+                                <span class="pf-tag">Go</span>
+                                <span class="pf-tag">SQL / PostgreSQL</span>
+                                <span class="pf-tag">REST APIs</span>
+                            </div>
+                        </div>
+                        <div>
+                            <p class="pf-skill-label">Tools &amp; Practices</p>
+                            <div class="pf-skill-tags">
+                                <span class="pf-tag">Git / GitHub</span>
+                                <span class="pf-tag">Unit Testing</span>
+                                <span class="pf-tag">Agile / Scrum</span>
+                                <span class="pf-tag">CI/CD</span>
+                            </div>
                         </div>
                     </div>
-                    <div>
-                        <p class="skill-category-label">Backend</p>
-                        <div class="flex flex-wrap gap-2">
-                            <span class="skill-tag">Python</span>
-                            <span class="skill-tag">Flask</span>
-                            <span class="skill-tag">Go</span>
-                            <span class="skill-tag">SQL / PostgreSQL</span>
-                            <span class="skill-tag">REST APIs</span>
-                        </div>
-                    </div>
-                    <div>
-                        <p class="skill-category-label">Tools &amp; Practices</p>
-                        <div class="flex flex-wrap gap-2">
-                            <span class="skill-tag">Git / GitHub</span>
-                            <span class="skill-tag">Unit Testing</span>
-                            <span class="skill-tag">Agile / Scrum</span>
-                            <span class="skill-tag">CI/CD</span>
-                        </div>
-                    </div>
-                </div>
-            </section>
+                </section>
+            </main>
 
-            <footer class="text-center py-8 text-xs sm:text-sm text-[var(--text-secondary)]">
-                <p>&copy; <span id="currentYear"></span> Felipe Coral Sasso. All rights reserved.</p>
-            </footer>
         </div>
 
+        <footer style="text-align:center;padding:24px;font-size:12px;color:oklch(45% 0.01 85)">
+            &copy; <span id="currentYear"></span> Felipe Coral Sasso. All rights reserved.
+        </footer>
         <script>
             document.getElementById('currentYear').textContent = new Date().getFullYear();
-
-            const themeToggle = document.getElementById('theme-toggle');
-            const iconMoon = document.getElementById('icon-moon');
-            const iconSun = document.getElementById('icon-sun');
-
-            function applyTheme(dark) {
-                document.documentElement.classList.toggle('dark', dark);
-                iconMoon.classList.toggle('hidden', dark);
-                iconSun.classList.toggle('hidden', !dark);
-                themeToggle.setAttribute('aria-pressed', String(dark));
-            }
-
-            applyTheme(document.documentElement.classList.contains('dark'));
-            themeToggle.addEventListener('click', () => {
-                const isDark = document.documentElement.classList.contains('dark');
-                localStorage.setItem('theme', isDark ? 'light' : 'dark');
-                applyTheme(!isDark);
-            });
-
-            window.addEventListener('scroll', () => {
-                document.getElementById('main-nav').classList.toggle('scrolled', window.scrollY > 10);
-            });
         </script>
     </body>
 </html>
