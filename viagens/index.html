@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Viagens - Felipe Sasso</title>
+        <meta name="description" content="Lugares por onde Felipe Coral Sasso já passou — registro de referência com restaurantes, turismo, compras e hospedagem por cidade." />
+        <meta name="author" content="Felipe Coral Sasso" />
+        <meta name="robots" content="index, follow" />
+        <meta name="theme-color" content="#faf8f4" />
+        <link rel="canonical" href="https://felipesasso.github.io/viagens/" />
+
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link href="https://fonts.googleapis.com/css2?family=Caprasimo&family=Figtree:wght@400;600;700&display=swap" rel="stylesheet" />
+
+        <style>
+            body {
+                margin: 0;
+                background: #faf8f4;
+                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+                color: oklch(22% 0.01 85);
+            }
+            a.pf-link {
+                color: #2a6fd6;
+                text-decoration: none;
+            }
+            a.pf-link:hover {
+                text-decoration: underline;
+            }
+            .pf-photo {
+                width: 112px;
+                height: 112px;
+                border-radius: 50%;
+                object-fit: cover;
+                display: block;
+                margin: 0 auto;
+            }
+            .pf-page {
+                display: flex;
+                flex-wrap: wrap;
+                min-height: 100vh;
+                max-width: 1240px;
+                margin: 0 auto;
+                box-shadow: 0 0 0 1px oklch(90% 0.005 85);
+            }
+            .pf-aside {
+                box-sizing: border-box;
+                flex: 1 1 280px;
+                max-width: 340px;
+                min-width: 260px;
+                padding: clamp(32px, 5vw, 56px) clamp(24px, 4vw, 36px);
+                background: oklch(96% 0.008 85);
+                border-right: 1px solid oklch(90% 0.005 85);
+                display: flex;
+                flex-direction: column;
+                gap: 28px;
+            }
+            .pf-main {
+                box-sizing: border-box;
+                flex: 3 1 600px;
+                min-width: 0;
+                padding: 0;
+            }
+            .pf-nav-current {
+                color: oklch(22% 0.01 85);
+                font-weight: 700;
+            }
+            @media (max-width: 640px) {
+                .pf-aside {
+                    max-width: none;
+                    border-right: none;
+                    border-bottom: 1px solid oklch(90% 0.005 85);
+                }
+            }
+
+            /* --- Viagens: design tokens (Organic system) --- */
+            #viagens {
+                --color-bg: #f5ead8;
+                --color-text: #201e1d;
+                --color-neutral-100: #f9f4ed;
+                --color-neutral-300: #dcd3c4;
+                --color-neutral-600: #82796a;
+                --color-neutral-700: #645c50;
+                --color-accent: #c67139;
+                --color-accent-700: #8c491a;
+                --color-accent-2: #7a8a5e;
+                --color-accent-2-100: #f0fae1;
+                --color-accent-2-700: #56633f;
+                --font-heading: "Caprasimo", serif;
+                --font-body: "Figtree", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+                background: var(--color-bg);
+                color: var(--color-text);
+                font-family: var(--font-body);
+                font-size: 15px;
+                line-height: 1.55;
+            }
+            #viagens a {
+                color: var(--color-accent-700);
+            }
+            #viagens .v-nav {
+                display: flex;
+                align-items: center;
+                padding: 17.6px 17.6px;
+                border-bottom: 1px solid var(--color-neutral-300);
+            }
+            #viagens .v-nav-brand {
+                font-weight: 700;
+                font-size: 16px;
+            }
+            #viagens .v-main {
+                max-width: 960px;
+                margin: 0 auto;
+                padding: 35.2px 17.6px;
+            }
+            #viagens .v-main.v-detail {
+                max-width: 820px;
+            }
+            #viagens h1 {
+                font-family: var(--font-heading);
+                font-weight: 400;
+                font-size: clamp(32px, 5vw, 48px);
+                margin: 0 0 13.2px;
+            }
+            #viagens .v-intro {
+                max-width: 640px;
+            }
+            #viagens .v-intro p {
+                font-size: 16px;
+                line-height: 1.6;
+                color: var(--color-neutral-700);
+                margin: 0;
+            }
+            #viagens .v-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+                gap: 17.6px;
+                margin-top: 35.2px;
+            }
+            #viagens .v-card {
+                text-align: left;
+                cursor: pointer;
+                border: none;
+                background: var(--color-neutral-100);
+                border-radius: 28px;
+                padding: 24px;
+                display: flex;
+                flex-direction: column;
+                gap: 8.8px;
+                font-family: var(--font-body);
+                box-shadow: 0 1px 2px rgba(46, 43, 37, 0.14);
+                transition: transform 0.15s ease, box-shadow 0.15s ease;
+            }
+            #viagens .v-card:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 4px 10px rgba(46, 43, 37, 0.18);
+            }
+            #viagens .v-card-flag {
+                font-size: 28px;
+            }
+            #viagens .v-card-title {
+                font-weight: 700;
+                font-size: 18px;
+                color: var(--color-text);
+            }
+            #viagens .v-card-summary {
+                font-size: 13.5px;
+                color: var(--color-neutral-700);
+                flex: 1;
+                margin: 0;
+            }
+            #viagens .v-tag {
+                display: inline-block;
+                background: var(--color-accent-2-100);
+                color: var(--color-accent-2-700);
+                font-size: 11.5px;
+                font-weight: 600;
+                padding: 3px 10px;
+                border-radius: 20px;
+            }
+            #viagens .v-back {
+                display: inline-flex;
+                align-items: center;
+                gap: 6px;
+                background: none;
+                border: none;
+                cursor: pointer;
+                color: var(--color-neutral-700);
+                font-family: var(--font-body);
+                font-size: 13px;
+                font-weight: 600;
+                padding: 8px 4px;
+                margin-bottom: 17.6px;
+            }
+            #viagens .v-back:hover {
+                color: var(--color-accent-700);
+            }
+            #viagens .v-detail-header {
+                display: flex;
+                align-items: center;
+                gap: 13.2px;
+            }
+            #viagens .v-detail-header .v-flag {
+                font-size: 36px;
+            }
+            #viagens .v-detail-header h1 {
+                font-size: clamp(28px, 4vw, 40px);
+                margin: 0;
+            }
+            #viagens .v-summary {
+                font-size: 15px;
+                line-height: 1.6;
+                color: var(--color-neutral-700);
+                max-width: 640px;
+                margin: 13.2px 0 35.2px;
+            }
+            #viagens .v-field {
+                max-width: 280px;
+                margin-bottom: 26.4px;
+                display: flex;
+                flex-direction: column;
+                gap: 4.4px;
+            }
+            #viagens .v-field label {
+                font-size: 12px;
+                font-weight: 600;
+                color: var(--color-neutral-700);
+            }
+            #viagens .v-field select {
+                font-family: var(--font-body);
+                font-size: 14px;
+                padding: 8.8px 13.2px;
+                border-radius: 8px;
+                border: 1px solid var(--color-neutral-300);
+                background: var(--color-neutral-100);
+                color: var(--color-text);
+            }
+            #viagens .v-field[hidden] {
+                display: none;
+            }
+            #viagens .v-section-heading {
+                font-family: var(--font-heading);
+                font-weight: 400;
+                font-size: 24px;
+                margin: 0 0 17.6px;
+                color: var(--color-accent-700);
+            }
+            #viagens .v-group {
+                margin-bottom: 35.2px;
+            }
+            #viagens .v-group-divider {
+                display: flex;
+                align-items: center;
+                gap: 13.2px;
+                margin-bottom: 17.6px;
+            }
+            #viagens .v-group-label {
+                font-size: 13px;
+                font-weight: 700;
+                letter-spacing: 0.08em;
+                text-transform: uppercase;
+                color: var(--color-accent-2-700);
+                white-space: nowrap;
+            }
+            #viagens .v-group-rule {
+                height: 1px;
+                flex: 1;
+                background: var(--color-neutral-300);
+            }
+            #viagens .v-place-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+                gap: 13.2px;
+            }
+            #viagens .v-place-card {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                gap: 13.2px;
+                padding: 13.2px;
+                background: var(--color-neutral-100);
+                border-radius: 16px;
+                box-shadow: 0 1px 2px rgba(46, 43, 37, 0.14);
+            }
+            #viagens .v-place-text {
+                min-width: 0;
+                flex: 1;
+                text-align: left;
+            }
+            #viagens .v-place-name-row {
+                display: flex;
+                align-items: center;
+                gap: 6px;
+            }
+            #viagens .v-place-name {
+                font-weight: 600;
+                font-size: 13px;
+                color: var(--color-text);
+                text-decoration: none;
+                overflow-wrap: anywhere;
+            }
+            #viagens .v-place-name:hover {
+                color: var(--color-accent-700);
+            }
+            #viagens .v-place-pin {
+                width: 22px;
+                height: 22px;
+                min-width: 22px;
+                border-radius: 50%;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                background: var(--color-neutral-300);
+                color: var(--color-text);
+                flex-shrink: 0;
+            }
+            #viagens .v-place-note {
+                font-size: 11px;
+                color: var(--color-neutral-600);
+                margin-top: 1px;
+            }
+            #viagens .v-thumb {
+                width: 88px;
+                height: 88px;
+                min-width: 88px;
+                flex-shrink: 0;
+                cursor: pointer;
+                border-radius: 12px;
+                background: var(--color-neutral-300);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: var(--color-neutral-600);
+                font-size: 11px;
+                border: none;
+                padding: 0;
+                font-family: var(--font-body);
+            }
+            #viagens .v-dialog-backdrop {
+                position: fixed;
+                inset: 0;
+                background: rgba(32, 30, 29, 0.55);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 17.6px;
+                z-index: 100;
+            }
+            #viagens .v-dialog-backdrop[hidden] {
+                display: none;
+            }
+            #viagens .v-dialog {
+                width: min(90vw, 520px);
+                background: var(--color-neutral-100);
+                border-radius: 20px;
+                padding: 17.6px;
+                box-shadow: 0 8px 24px rgba(46, 43, 37, 0.28);
+            }
+            #viagens .v-dialog-title {
+                font-weight: 700;
+                font-size: 16px;
+                margin-bottom: 13.2px;
+            }
+            #viagens .v-dialog-body {
+                width: 100%;
+                height: min(70vh, 420px);
+                border-radius: 14px;
+                background: var(--color-neutral-300);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: var(--color-neutral-600);
+                font-size: 13px;
+            }
+            #viagens .v-dialog-actions {
+                display: flex;
+                justify-content: flex-end;
+                margin-top: 17.6px;
+            }
+            #viagens .v-btn-secondary {
+                font-family: var(--font-body);
+                font-size: 13px;
+                font-weight: 600;
+                padding: 8.8px 17.6px;
+                border-radius: 8px;
+                border: 1px solid var(--color-neutral-300);
+                background: var(--color-neutral-100);
+                color: var(--color-text);
+                cursor: pointer;
+            }
+            #viagens .v-btn-secondary:hover {
+                border-color: var(--color-accent-700);
+                color: var(--color-accent-700);
+            }
+            #viagens[hidden] {
+                display: none;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="pf-page">
+
+            <aside class="pf-aside">
+                <a href="/" style="text-decoration:none;color:inherit">
+                    <img class="pf-photo" src="../assets/headshot.jpeg" alt="Felipe Coral Sasso" />
+                </a>
+                <div>
+                    <div style="font-size:26px;font-weight:700;letter-spacing:-0.01em;line-height:1.15"><a href="/" style="color:inherit;text-decoration:none">Felipe Coral Sasso</a></div>
+                    <div style="font-size:14px;color:oklch(45% 0.01 85);margin-top:6px">Software Engineer</div>
+                </div>
+                <p style="font-size:13.5px;line-height:1.6;color:oklch(38% 0.01 85);margin:0">Full-stack engineer with 6+ years shipping production systems at enterprise scale — from consumer platforms reaching millions of users to national research infrastructure — using Python and React.</p>
+                <div style="display:flex;flex-direction:column;gap:8px;font-size:13px">
+                    <a class="pf-link" href="mailto:felipecsasso@gmail.com">felipecsasso@gmail.com</a>
+                    <a class="pf-link" href="https://github.com/felipesasso" target="_blank" rel="noopener noreferrer">github.com/felipesasso</a>
+                    <a class="pf-link" href="https://www.linkedin.com/in/felipecoralsasso/" target="_blank" rel="noopener noreferrer">linkedin.com/in/felipecoralsasso</a>
+                </div>
+                <a href="../assets/Felipe-Coral-Sasso-Resume.pdf" target="_blank" style="text-decoration:none;text-align:center;padding:10px 18px;background:oklch(52% 0.16 255);color:#fff;border-radius:6px;font-size:13px;font-weight:600">Download Resume</a>
+                <div style="display:flex;flex-direction:column;gap:6px;font-size:12.5px;color:oklch(45% 0.01 85);border-top:1px solid oklch(90% 0.005 85);padding-top:20px">
+                    <a class="pf-link" style="color:oklch(38% 0.01 85)" href="/#exp">Experience</a>
+                    <a class="pf-link" style="color:oklch(38% 0.01 85)" href="/#edu">Education</a>
+                    <a class="pf-link" style="color:oklch(38% 0.01 85)" href="/work/">Selected Work</a>
+                    <a class="pf-link" style="color:oklch(38% 0.01 85)" href="/skills/">Skills</a>
+                    <a class="pf-link" style="color:oklch(38% 0.01 85)" href="/livros/">Reading</a>
+                    <span class="pf-nav-current">Viagens</span>
+                    <a class="pf-link" style="color:oklch(38% 0.01 85)" href="/tools/">Tools</a>
+                </div>
+            </aside>
+
+            <main class="pf-main">
+                <div id="viagens">
+                    <nav class="v-nav">
+                        <span class="v-nav-brand">🧭 Guia de viagens</span>
+                    </nav>
+
+                    <main id="v-list-view" class="v-main">
+                        <div class="v-intro">
+                            <h1>Lugares por onde já passei</h1>
+                            <p>Uma lista de referência — não são roteiros prontos, mas os lugares que valeram a visita, com um comentário rápido e o link direto pro Google Maps.</p>
+                        </div>
+                        <div id="v-trip-grid" class="v-grid"></div>
+                    </main>
+
+                    <main id="v-detail-view" class="v-main v-detail" hidden>
+                        <button type="button" class="v-back" id="v-back-btn">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
+                            Voltar
+                        </button>
+                        <div class="v-detail-header">
+                            <div class="v-flag" id="v-detail-flag"></div>
+                            <h1 id="v-detail-title"></h1>
+                        </div>
+                        <p class="v-summary" id="v-detail-summary"></p>
+
+                        <div class="v-field" id="v-section-field" hidden>
+                            <label for="v-section-select">Cidade</label>
+                            <select id="v-section-select"></select>
+                        </div>
+
+                        <div id="v-detail-content"></div>
+                    </main>
+
+                    <div id="v-lightbox" class="v-dialog-backdrop" hidden>
+                        <div class="v-dialog">
+                            <div class="v-dialog-title" id="v-lightbox-title"></div>
+                            <div class="v-dialog-body">Foto</div>
+                            <div class="v-dialog-actions">
+                                <button type="button" class="v-btn-secondary" id="v-lightbox-close">Fechar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+
+        </div>
+
+        <footer style="text-align:center;padding:24px;font-size:12px;color:oklch(45% 0.01 85)">
+            &copy; <span id="currentYear"></span> Felipe Coral Sasso. All rights reserved.
+        </footer>
+
+        <script>
+            document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+            const pinIcon = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg>';
+
+            let trips = [];
+            let selectedSlug = null;
+            let selectedSectionIndex = 0;
+
+            const listView = document.getElementById('v-list-view');
+            const detailView = document.getElementById('v-detail-view');
+            const tripGrid = document.getElementById('v-trip-grid');
+            const backBtn = document.getElementById('v-back-btn');
+            const detailFlag = document.getElementById('v-detail-flag');
+            const detailTitle = document.getElementById('v-detail-title');
+            const detailSummary = document.getElementById('v-detail-summary');
+            const sectionField = document.getElementById('v-section-field');
+            const sectionSelect = document.getElementById('v-section-select');
+            const detailContent = document.getElementById('v-detail-content');
+            const lightbox = document.getElementById('v-lightbox');
+            const lightboxTitle = document.getElementById('v-lightbox-title');
+            const lightboxClose = document.getElementById('v-lightbox-close');
+
+            function countPlaces(trip) {
+                return trip.sections.reduce((sum, s) => sum + s.groups.reduce((s2, g) => s2 + g.places.length, 0), 0);
+            }
+
+            function escapeHtml(str) {
+                return String(str ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+            }
+
+            function renderTripGrid() {
+                tripGrid.innerHTML = trips.map((t) => `
+                    <button type="button" class="v-card" data-slug="${escapeHtml(t.slug)}">
+                        <div class="v-card-flag">${t.flag}</div>
+                        <div class="v-card-title">${escapeHtml(t.title)}</div>
+                        <p class="v-card-summary">${escapeHtml(t.summary)}</p>
+                        <div><span class="v-tag">${countPlaces(t)}&nbsp;lugares</span></div>
+                    </button>
+                `).join('');
+                tripGrid.querySelectorAll('.v-card').forEach((card) => {
+                    card.addEventListener('click', () => openTrip(card.dataset.slug));
+                });
+            }
+
+            function placeCardHtml(place) {
+                return `
+                    <div class="v-place-card">
+                        <div class="v-place-text">
+                            <div class="v-place-name-row">
+                                <a class="v-place-name" href="${escapeHtml(place.mapsUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(place.name)}</a>
+                                <a class="v-place-pin" href="${escapeHtml(place.mapsUrl)}" target="_blank" rel="noopener noreferrer" aria-label="Ver no mapa">${pinIcon}</a>
+                            </div>
+                            ${place.note ? `<div class="v-place-note">${escapeHtml(place.note)}</div>` : ''}
+                        </div>
+                        <button type="button" class="v-thumb" data-name="${escapeHtml(place.name)}" aria-label="Ver foto de ${escapeHtml(place.name)}">Foto</button>
+                    </div>
+                `;
+            }
+
+            function groupHtml(group, showLabel) {
+                const divider = (showLabel && group.label) ? `
+                    <div class="v-group-divider">
+                        <div class="v-group-label">${escapeHtml(group.label)}</div>
+                        <div class="v-group-rule"></div>
+                    </div>
+                ` : '';
+                return `
+                    <div class="v-group">
+                        ${divider}
+                        <div class="v-place-grid">${group.places.map(placeCardHtml).join('')}</div>
+                    </div>
+                `;
+            }
+
+            function renderGroups(section, groupIndex, container) {
+                if (groupIndex === -1) {
+                    container.innerHTML = section.groups.map((g) => groupHtml(g, true)).join('');
+                } else {
+                    const group = section.groups[groupIndex] || section.groups[0];
+                    container.innerHTML = groupHtml(group, false);
+                }
+            }
+
+            // Renders one section with its own category picker + filtered group(s) — used when a
+            // specific city (not "Ver todos") is selected.
+            function renderSectionFiltered(section) {
+                const wrap = document.createElement('div');
+                if (section.heading) {
+                    const h2 = document.createElement('h2');
+                    h2.className = 'v-section-heading';
+                    h2.textContent = section.heading;
+                    wrap.appendChild(h2);
+                }
+
+                const showGroupPicker = section.groups.length > 1;
+                if (showGroupPicker) {
+                    const groupOptions = [{ index: -1, label: 'Ver todos' }].concat(
+                        section.groups.map((g, i) => ({ index: i, label: g.label || 'Lugares' }))
+                    );
+                    const fieldWrap = document.createElement('div');
+                    fieldWrap.className = 'v-field';
+                    fieldWrap.innerHTML = `
+                        <label for="v-group-select-${section.__idx}">Categoria</label>
+                        <select id="v-group-select-${section.__idx}">
+                            ${groupOptions.map((o) => `<option value="${o.index}">${escapeHtml(o.label)}</option>`).join('')}
+                        </select>
+                    `;
+                    wrap.appendChild(fieldWrap);
+
+                    const groupsContainer = document.createElement('div');
+                    wrap.appendChild(groupsContainer);
+                    renderGroups(section, 0, groupsContainer);
+
+                    const groupSelect = fieldWrap.querySelector('select');
+                    groupSelect.value = '0';
+                    groupSelect.addEventListener('change', (e) => {
+                        renderGroups(section, Number(e.target.value), groupsContainer);
+                        attachThumbHandlers(groupsContainer);
+                    });
+                } else {
+                    const groupsContainer = document.createElement('div');
+                    wrap.appendChild(groupsContainer);
+                    renderGroups(section, -1, groupsContainer);
+                }
+                return wrap;
+            }
+
+            // Renders one section fully expanded — every category stacked with a divider label,
+            // no category picker — used when "Ver todos" is selected on the city dropdown.
+            function renderSectionExpanded(section) {
+                const wrap = document.createElement('div');
+                if (section.heading) {
+                    const h2 = document.createElement('h2');
+                    h2.className = 'v-section-heading';
+                    h2.textContent = section.heading;
+                    wrap.appendChild(h2);
+                }
+                const groupsContainer = document.createElement('div');
+                groupsContainer.innerHTML = section.groups.map((g) => groupHtml(g, true)).join('');
+                wrap.appendChild(groupsContainer);
+                return wrap;
+            }
+
+            function attachThumbHandlers(root) {
+                root.querySelectorAll('.v-thumb').forEach((thumb) => {
+                    thumb.addEventListener('click', () => openLightbox(thumb.dataset.name));
+                });
+            }
+
+            function renderDetailContent() {
+                const trip = trips.find((t) => t.slug === selectedSlug);
+                if (!trip) return;
+                const sections = trip.sections.map((s, i) => ({ ...s, __idx: i }));
+                const showSectionPicker = sections.length > 1;
+                sectionField.hidden = !showSectionPicker;
+
+                detailContent.innerHTML = '';
+                if (selectedSectionIndex === -1) {
+                    sections.forEach((s) => detailContent.appendChild(renderSectionExpanded(s)));
+                } else {
+                    const section = sections[selectedSectionIndex] || sections[0];
+                    detailContent.appendChild(renderSectionFiltered(section));
+                }
+                attachThumbHandlers(detailContent);
+            }
+
+            function openTrip(slug) {
+                const trip = trips.find((t) => t.slug === slug);
+                if (!trip) return;
+                selectedSlug = slug;
+                selectedSectionIndex = 0;
+
+                detailFlag.textContent = trip.flag;
+                detailTitle.textContent = trip.title;
+                detailSummary.textContent = trip.summary;
+
+                const sectionOptions = [{ index: -1, heading: 'Ver todos' }].concat(
+                    trip.sections.map((s, i) => ({ index: i, heading: s.heading || trip.title }))
+                );
+                sectionSelect.innerHTML = sectionOptions.map((o) => `<option value="${o.index}">${escapeHtml(o.heading)}</option>`).join('');
+                sectionSelect.value = '0';
+
+                renderDetailContent();
+
+                listView.hidden = true;
+                detailView.hidden = false;
+                window.scrollTo(0, 0);
+            }
+
+            function goBack() {
+                detailView.hidden = true;
+                listView.hidden = false;
+                selectedSlug = null;
+                window.scrollTo(0, 0);
+            }
+
+            sectionSelect.addEventListener('change', (e) => {
+                selectedSectionIndex = Number(e.target.value);
+                renderDetailContent();
+            });
+            backBtn.addEventListener('click', goBack);
+
+            function openLightbox(name) {
+                lightboxTitle.textContent = name;
+                lightbox.hidden = false;
+            }
+            function closeLightbox() {
+                lightbox.hidden = true;
+            }
+            lightbox.addEventListener('click', (e) => {
+                if (e.target === lightbox) closeLightbox();
+            });
+            lightbox.querySelector('.v-dialog').addEventListener('click', (e) => e.stopPropagation());
+            lightboxClose.addEventListener('click', closeLightbox);
+
+            fetch('trips-data.json')
+                .then((r) => r.json())
+                .then((data) => {
+                    trips = data;
+                    renderTripGrid();
+                });
+        </script>
+    </body>
+</html>

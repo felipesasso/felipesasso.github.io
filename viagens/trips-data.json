@@ -1,0 +1,1170 @@
+[
+  {
+    "slug": "italia",
+    "flag": "🇮🇹",
+    "title": "Itália — Roma, Veneza e Florença",
+    "summary": "Registro dos lugares que já visitamos na Itália — não é um roteiro, é uma lista de referência (pra lembrar e pra recomendar).",
+    "sections": [
+      {
+        "heading": "Roma",
+        "groups": [
+          {
+            "label": "Onde comer",
+            "places": [
+              {
+                "name": "Pastasciutta",
+                "note": "Massas boas e baratas",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Pastasciutta+Roma"
+              },
+              {
+                "name": "Two Sizes",
+                "note": "Melhor tiramisu",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Two+Sizes+Roma"
+              },
+              {
+                "name": "Gelateria Pasquino",
+                "note": "Sorvete delicioso",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Gelateria+Pasquino+Roma"
+              },
+              {
+                "name": "La Canonica",
+                "note": "Comida excelente",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=La+Canonica+Roma"
+              },
+              {
+                "name": "Cantina e Cucina",
+                "note": "Melhor lasanha",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Cantina+e+Cucina+Roma"
+              },
+              {
+                "name": "All'Antico Vinaio",
+                "note": "Melhor sanduíche (são gigantes)",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=All%27Antico+Vinaio+Roma"
+              },
+              {
+                "name": "Pastificio Guerra",
+                "note": "Massas boas e baratas",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Pastificio+Guerra+Roma"
+              }
+            ]
+          },
+          {
+            "label": "Turismo",
+            "places": [
+              {
+                "name": "Museu do Vaticano",
+                "note": "",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Vatican+Museums+Roma"
+              },
+              {
+                "name": "Piazza Navona",
+                "note": "",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Piazza+Navona+Roma"
+              },
+              {
+                "name": "Panteão",
+                "note": "",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Pantheon+Roma"
+              },
+              {
+                "name": "Fontana di Trevi",
+                "note": "",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Trevi+Fountain+Roma"
+              },
+              {
+                "name": "Monumento a Vítor Emanuel II",
+                "note": "Mirante legal",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Monument+to+Victor+Emmanuel+II+Roma"
+              },
+              {
+                "name": "Foro Romano",
+                "note": "Construções antigas",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Roman+Forum+Roma"
+              },
+              {
+                "name": "Coliseu",
+                "note": "",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Colosseum+Roma"
+              },
+              {
+                "name": "Colina Palatino",
+                "note": "Antigos palácios imperiais",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Palatine+Hill+Roma"
+              },
+              {
+                "name": "Escadarias da Praça da Espanha",
+                "note": "Legal pra fotos e vista da cidade",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Spanish+Steps+Roma"
+              },
+              {
+                "name": "Porta Portese",
+                "note": "Domingo de manhã tem uma feira de rua gigantesca",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Porta+Portese+Roma"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "heading": "Veneza",
+        "groups": [
+          {
+            "label": "Onde comer",
+            "places": [
+              {
+                "name": "Farini",
+                "note": "Pizza barata e boa",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Farini+Venezia"
+              },
+              {
+                "name": "Pizzeria Birreria Barbanera",
+                "note": "",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Pizzeria+Birreria+Barbanera+Venezia"
+              },
+              {
+                "name": "Caffè Gelateria Al Todaro Dal 1948",
+                "note": "Sorveteria",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Caff%C3%A8+Gelateria+Al+Todaro+Venezia"
+              }
+            ]
+          },
+          {
+            "label": "Turismo",
+            "places": [
+              {
+                "name": "Livraria Água Alta",
+                "note": "Livraria que enche de água, porém bonita",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Libreria+Acqua+Alta+Venezia"
+              },
+              {
+                "name": "Campo Santa Maria Formosa e Majestic Zanipolo",
+                "note": "",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Campo+Santa+Maria+Formosa+Venezia"
+              },
+              {
+                "name": "Praça de São Marcos",
+                "note": "",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Piazza+San+Marco+Venezia"
+              },
+              {
+                "name": "Ponte della Paglia",
+                "note": "",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Ponte+della+Paglia+Venezia"
+              },
+              {
+                "name": "Ponte de la Pietà",
+                "note": "",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Ponte+de+la+Piet%C3%A0+Venezia"
+              },
+              {
+                "name": "Ponte de Rialto",
+                "note": "",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Ponte+di+Rialto+Venezia"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "heading": "Florença",
+        "groups": [
+          {
+            "label": "Onde comer",
+            "places": [
+              {
+                "name": "Pino's Sandwiches - Salumeria Verdi",
+                "note": "Sanduíche top",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Pino%27s+Sandwiches+Salumeria+Verdi+Firenze"
+              },
+              {
+                "name": "Venchi Gelato and Chocolate",
+                "note": "Sorveteria muito boa",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Venchi+Gelato+and+Chocolate+Firenze"
+              },
+              {
+                "name": "Nino and Friends",
+                "note": "Chocolateria",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Nino+and+Friends+Firenze"
+              },
+              {
+                "name": "Trattoria Zà Zà",
+                "note": "Restaurante",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Trattoria+Z%C3%A0+Z%C3%A0+Firenze"
+              },
+              {
+                "name": "Mercato Centrale",
+                "note": "Um \"mercado público\"",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Mercato+Centrale+Firenze"
+              }
+            ]
+          },
+          {
+            "label": "Turismo",
+            "places": [
+              {
+                "name": "Ponte Vecchio",
+                "note": "",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Ponte+Vecchio+Firenze"
+              },
+              {
+                "name": "Galleria degli Uffizi",
+                "note": "Obras famosas do renascimento",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Uffizi+Galleries+Firenze"
+              },
+              {
+                "name": "Piazza della Signoria",
+                "note": "Réplicas de obras famosas de Michelangelo ao ar livre",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Piazza+della+Signoria+Firenze"
+              },
+              {
+                "name": "Vista Panoramica di Firenze",
+                "note": "",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Vista+Panoramica+di+Firenze"
+              },
+              {
+                "name": "Villa Bardini",
+                "note": "",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Villa+Bardini+Firenze"
+              },
+              {
+                "name": "Santa Maria del Fiore",
+                "note": "",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Cathedral+of+Santa+Maria+del+Fiore+Firenze"
+              },
+              {
+                "name": "Farmácia de Santa Maria Novella",
+                "note": "Farmácia mais antiga da Europa",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Officina+Profumo+Farmaceutica+di+Santa+Maria+Novella+Firenze"
+              },
+              {
+                "name": "Fontana del Porcellino",
+                "note": "Fonte de um javali",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Fontana+del+Porcellino+Firenze"
+              },
+              {
+                "name": "Santa Maria Novella",
+                "note": "",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Basilica+of+Santa+Maria+Novella+Firenze"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "londres",
+    "flag": "🇬🇧",
+    "title": "Londres",
+    "summary": "Registro dos lugares que já visitamos em Londres — não é um roteiro, é uma lista de referência (pra lembrar e pra recomendar).",
+    "sections": [
+      {
+        "heading": null,
+        "groups": [
+          {
+            "label": "Onde comer",
+            "places": [
+              {
+                "name": "Pret A Manger (Camden)",
+                "note": "",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=231+Camden+High+St%2C+London+NW1+7BU"
+              },
+              {
+                "name": "Pret A Manger (King William St)",
+                "note": "",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=43+King+William+St%2C+London+EC4R+9AN"
+              },
+              {
+                "name": "Pret A Manger (Southwark Bridge Rd)",
+                "note": "",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Unit+3%2C+2A+Southwark+Bridge+Rd%2C+London+SE1+9HA"
+              },
+              {
+                "name": "Hermanos Colombian Coffee Roasters",
+                "note": "Coffee shop",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Hermanos+Colombian+Coffee+Roasters+London"
+              },
+              {
+                "name": "Two Eyes Coffee House",
+                "note": "Coffee shop",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Two+Eyes+Coffee+House+London"
+              },
+              {
+                "name": "Bancone Borough Yards",
+                "note": "Italiano",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Bancone+Borough+Yards+London"
+              },
+              {
+                "name": "Mercato Mayfair",
+                "note": "Food court",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Mercato+Mayfair+London"
+              },
+              {
+                "name": "Earls Court Tavern",
+                "note": "Pub",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Earls+Court+Tavern+London"
+              }
+            ]
+          },
+          {
+            "label": "Turismo",
+            "places": [
+              {
+                "name": "Platform 9¾",
+                "note": "King's Cross",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Platform+9+3%2F4+King%27s+Cross+London"
+              },
+              {
+                "name": "Camden Market",
+                "note": "",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Camden+Market+London"
+              },
+              {
+                "name": "Richmond Park",
+                "note": "",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Richmond+Park+London"
+              },
+              {
+                "name": "Richmond Park Visitor Centre",
+                "note": "",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Richmond+Park+Visitor+Centre+London"
+              },
+              {
+                "name": "Kensington Gardens",
+                "note": "",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Kensington+Gardens+London"
+              },
+              {
+                "name": "Queen Victoria Memorial",
+                "note": "",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Queen+Victoria+Memorial+London"
+              },
+              {
+                "name": "Hyde Park",
+                "note": "",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Hyde+Park+London"
+              },
+              {
+                "name": "Westminster Bridge",
+                "note": "",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Westminster+Bridge+London"
+              },
+              {
+                "name": "Westminster Abbey",
+                "note": "",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Westminster+Abbey+London"
+              },
+              {
+                "name": "Abbey Road Pedestrian Crossing",
+                "note": "",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Abbey+Road+Pedestrian+Crossing+London"
+              },
+              {
+                "name": "Big Ben",
+                "note": "",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Big+Ben+London"
+              },
+              {
+                "name": "Tower Bridge",
+                "note": "",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Tower+Bridge+London"
+              },
+              {
+                "name": "London Bridge",
+                "note": "",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=London+Bridge+London"
+              },
+              {
+                "name": "Millennium Bridge",
+                "note": "",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Millennium+Bridge+London"
+              },
+              {
+                "name": "Sky Garden",
+                "note": "Vista panorâmica",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Sky+Garden+London"
+              },
+              {
+                "name": "Leadenhall Market",
+                "note": "",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Leadenhall+Market+London"
+              },
+              {
+                "name": "Warner Bros. Studio Tour London",
+                "note": "",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Warner+Bros+Studio+Tour+London"
+              }
+            ]
+          },
+          {
+            "label": "Compras",
+            "places": [
+              {
+                "name": "MINISO Camden London",
+                "note": "",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=MINISO+Camden+London"
+              },
+              {
+                "name": "TK Maxx",
+                "note": "Oxford St",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=203-207+Oxford+St%2C+London+W1D+2LE"
+              },
+              {
+                "name": "Mountain Warehouse Richmond",
+                "note": "",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Mountain+Warehouse+Richmond+London"
+              },
+              {
+                "name": "Primark",
+                "note": "Oxford St",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=499-517+Oxford+St%2C+London+W1K+7DA"
+              },
+              {
+                "name": "Mountain Warehouse London Regent St",
+                "note": "",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Mountain+Warehouse+London+Regent+Street"
+              },
+              {
+                "name": "The Abbey Road Shop",
+                "note": "Souvenir store",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=The+Abbey+Road+Shop+London"
+              },
+              {
+                "name": "The Notting Hill Bookshop",
+                "note": "",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=The+Notting+Hill+Bookshop+London"
+              },
+              {
+                "name": "M&M'S London",
+                "note": "Candy store",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=M%26M%27S+London"
+              },
+              {
+                "name": "The LEGO Store Leicester Square",
+                "note": "",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=The+LEGO+Store+Leicester+Square+London"
+              },
+              {
+                "name": "Oseyo London Bridge",
+                "note": "Mercearia asiática",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Oseyo+London+Bridge+London"
+              },
+              {
+                "name": "Sainsbury's Local",
+                "note": "Earls Court",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=162-164+Earls+Ct+Rd%2C+London+SW5+9QQ"
+              }
+            ]
+          },
+          {
+            "label": "Hospedagem",
+            "places": [
+              {
+                "name": "Kensington Court Hotel",
+                "note": "3-star hotel",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Kensington+Court+Hotel+London"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "paris",
+    "flag": "🇫🇷",
+    "title": "Paris",
+    "summary": "Registro dos lugares que já visitamos em Paris — não é um roteiro, é uma lista de referência (pra lembrar e pra recomendar).",
+    "sections": [
+      {
+        "heading": "Trocadéro & Champs-Élysées",
+        "groups": [
+          {
+            "label": "Turismo",
+            "places": [
+              {
+                "name": "Arc de Triomphe",
+                "note": "",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Arc+de+Triomphe+Paris"
+              },
+              {
+                "name": "Jardins do Trocadéro",
+                "note": "",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Jardins+du+Trocad%C3%A9ro+Paris"
+              },
+              {
+                "name": "Pont d'Iéna",
+                "note": "",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Pont+d%27I%C3%A9na+Paris"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "heading": "Montmartre",
+        "groups": [
+          {
+            "label": "Turismo",
+            "places": [
+              {
+                "name": "Basilique du Sacré-Cœur",
+                "note": "",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Basilique+du+Sacr%C3%A9-C%C5%93ur+Paris"
+              },
+              {
+                "name": "Le mur des je t'aime",
+                "note": "",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Le+mur+des+je+t%27aime+Paris"
+              }
+            ]
+          },
+          {
+            "label": "Compras",
+            "places": [
+              {
+                "name": "Art Atak Souvenirs",
+                "note": "Loja de presentes",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Art+Atak+Souvenirs+Paris"
+              },
+              {
+                "name": "FREE'P'STAR",
+                "note": "Brechó",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=FREE%27P%27STAR+Paris"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "heading": "Île de la Cité & Quartier Latin",
+        "groups": [
+          {
+            "label": "Turismo",
+            "places": [
+              {
+                "name": "Notre-Dame Cathedral",
+                "note": "",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Notre-Dame+Cathedral+Paris"
+              },
+              {
+                "name": "Crypte Archéologique de l'Île de la Cité",
+                "note": "Temporariamente fechado",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Crypte+Arch%C3%A9ologique+de+l%27%C3%8Ele+de+la+Cit%C3%A9+Paris"
+              },
+              {
+                "name": "Panthéon",
+                "note": "",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Panth%C3%A9on+Paris"
+              },
+              {
+                "name": "Jardin du Luxembourg",
+                "note": "",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Jardin+du+Luxembourg+Paris"
+              },
+              {
+                "name": "Saint-Sulpice Fountain",
+                "note": "",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Saint-Sulpice+Fountain+Paris"
+              }
+            ]
+          },
+          {
+            "label": "Onde comer",
+            "places": [
+              {
+                "name": "Brasserie des Prés",
+                "note": "",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Brasserie+des+Pr%C3%A9s+Paris"
+              },
+              {
+                "name": "Terres de Café (Saint-Germain-des-Prés)",
+                "note": "",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=4+Rue+de+Bourbon+le+Ch%C3%A2teau+75006+Paris"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "heading": "Louvre & Palais Royal",
+        "groups": [
+          {
+            "label": "Turismo",
+            "places": [
+              {
+                "name": "Louvre Museum",
+                "note": "",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Louvre+Museum+Paris"
+              },
+              {
+                "name": "Arc de Triomphe du Carrousel",
+                "note": "",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Arc+de+Triomphe+du+Carrousel+Paris"
+              },
+              {
+                "name": "Grand Bassin Rond",
+                "note": "",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Grand+Bassin+Rond+Paris"
+              },
+              {
+                "name": "Colonnes de Buren / Les Deux Plateaux",
+                "note": "",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Colonnes+de+Buren+Paris"
+              },
+              {
+                "name": "Jardin du Palais Royal",
+                "note": "",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Jardin+du+Palais+Royal+Paris"
+              }
+            ]
+          },
+          {
+            "label": "Onde comer",
+            "places": [
+              {
+                "name": "Terres de Café (Rambuteau)",
+                "note": "",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=14+Rue+Rambuteau+75003+Paris"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "heading": "Grands Boulevards & Opéra",
+        "groups": [
+          {
+            "label": "Onde comer",
+            "places": [
+              {
+                "name": "Bouillon Chartier Grands Boulevards",
+                "note": "",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Bouillon+Chartier+Grands+Boulevards+Paris"
+              },
+              {
+                "name": "La Crème de Paris",
+                "note": "",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=La+Cr%C3%A8me+de+Paris"
+              }
+            ]
+          },
+          {
+            "label": "Turismo & Compras",
+            "places": [
+              {
+                "name": "Vivienne Art Galerie",
+                "note": "Galeria de arte",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Vivienne+Art+Galerie+Paris"
+              },
+              {
+                "name": "Galeries Lafayette · Rooftop",
+                "note": "Mirante",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Galeries+Lafayette+Rooftop+Paris"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "lisboa",
+    "flag": "🇵🇹",
+    "title": "Lisboa",
+    "summary": "Registro dos lugares que já visitamos em Lisboa e arredores — não é um roteiro, é uma lista de referência (pra lembrar e pra recomendar).",
+    "sections": [
+      {
+        "heading": null,
+        "groups": [
+          {
+            "label": "Onde comer",
+            "places": [
+              {
+                "name": "Quiosque das Portas do Sol",
+                "note": "Cafeteria no Miradouro das Portas do Sol, Alfama",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Largo+Portas+do+Sol%2C+1100-411+Lisboa%2C+Portugal"
+              },
+              {
+                "name": "Pizzaiollo Sé by Fullest",
+                "note": "Restaurante, perto da Sé de Lisboa",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Cruzes+da+S%C3%A9+29%2C+1100-070+Lisboa%2C+Portugal"
+              },
+              {
+                "name": "Time Out Market",
+                "note": "Food court, Cais do Sodré",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Time+Out+Market+Lisboa"
+              },
+              {
+                "name": "Starbucks (Estação do Rossio)",
+                "note": "Tem pastel de nata mais barato — bom pra comparar com outros lugares",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Esta%C3%A7%C3%A3o+do+Rossio%2C+Pra%C3%A7a+Dom+Jo%C3%A3o+da+C%C3%A2mara%2C+1200-147+Lisboa%2C+Portugal"
+              },
+              {
+                "name": "Pastéis de Belém",
+                "note": "Pastelaria histórica, Belém",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Past%C3%A9is+de+Bel%C3%A9m+Lisboa"
+              },
+              {
+                "name": "Manteigaria (Chiado)",
+                "note": "Pastelaria",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Rua+do+Loreto+2%2C+1200-108+Lisboa%2C+Portugal"
+              },
+              {
+                "name": "O Marques",
+                "note": "Restaurante familiar, serve bacalhau",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Tv.+do+Forno+11%2C+1150-265+Lisboa%2C+Portugal"
+              },
+              {
+                "name": "Continente Bom Dia Martim Moniz",
+                "note": "Supermercado",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Continente+Bom+Dia+Martim+Moniz+Lisboa"
+              }
+            ]
+          },
+          {
+            "label": "Turismo",
+            "places": [
+              {
+                "name": "Miradouro de São Vicente",
+                "note": "",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Miradouro+de+S%C3%A3o+Vicente+Lisboa"
+              },
+              {
+                "name": "Arco do Castelo",
+                "note": "Marco histórico, Alfama",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Arco+do+Castelo+Lisboa"
+              },
+              {
+                "name": "R. do Milagre de Santo António",
+                "note": "Rua em Alfama",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=R.+do+Milagre+de+Santo+Ant%C3%B3nio%2C+Alfama%2C+1100-351+Lisboa%2C+Portugal"
+              },
+              {
+                "name": "Praça do Rossio",
+                "note": "",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Pra%C3%A7a+do+Rossio+Lisboa"
+              },
+              {
+                "name": "Padrão dos Descobrimentos",
+                "note": "Monumento, Belém",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Padr%C3%A3o+dos+Descobrimentos+Lisboa"
+              },
+              {
+                "name": "Torre de Belém",
+                "note": "Temporariamente fechada",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Torre+de+Bel%C3%A9m+Lisboa"
+              },
+              {
+                "name": "Miradouro de Santa Luzia",
+                "note": "",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Miradouro+de+Santa+Luzia+Lisboa"
+              },
+              {
+                "name": "Praça do Comércio",
+                "note": "",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Pra%C3%A7a+do+Com%C3%A9rcio+Lisboa"
+              },
+              {
+                "name": "Elevador de Santa Justa",
+                "note": "Temporariamente fechado",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Elevador+de+Santa+Justa+Lisboa"
+              },
+              {
+                "name": "Jardim do Torel",
+                "note": "",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Jardim+do+Torel+Lisboa"
+              },
+              {
+                "name": "Torel Garden Fountain",
+                "note": "Permanentemente fechada",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Torel+Garden+Fountain+Lisboa"
+              }
+            ]
+          },
+          {
+            "label": "Compras",
+            "places": [
+              {
+                "name": "Ale Hop Sé",
+                "note": "Loja, perto da Sé de Lisboa",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=R.+de+Santo+Ant%C3%B3nio+da+S%C3%A9%2C+1100-404+Lisboa%2C+Portugal"
+              },
+              {
+                "name": "ALE-HOP Rua do Ouro",
+                "note": "Loja, Baixa",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=R.+%C3%81urea+271%2C+1100-200+Lisboa%2C+Portugal"
+              }
+            ]
+          },
+          {
+            "label": "Hospedagem",
+            "places": [
+              {
+                "name": "Rossio Boutique Hotel",
+                "note": "4-star hotel",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Rossio+Boutique+Hotel+Lisboa"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "cidade-do-cabo",
+    "flag": "🇿🇦",
+    "title": "Cidade do Cabo",
+    "summary": "Registro dos lugares que já visitamos na Cidade do Cabo — não é um roteiro, é uma lista de referência (pra lembrar e pra recomendar).",
+    "sections": [
+      {
+        "heading": null,
+        "groups": [
+          {
+            "label": "Onde comer",
+            "places": [
+              {
+                "name": "GOLD Restaurant",
+                "note": "R400–1.000 · Africano",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=15+Bennett+St%2C+Green+Point%2C+Cape+Town%2C+8005%2C+South+Africa"
+              },
+              {
+                "name": "Hang Ten",
+                "note": "R1–100 · Café (Muizenberg)",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Balmoral+Building%2C+62+Beach+Rd%2C+Muizenberg%2C+Cape+Town%2C+7945%2C+South+Africa"
+              },
+              {
+                "name": "KAUAI Camps Bay",
+                "note": "R100–200 · Comida saudável",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=KAUAI+Camps+Bay+Cape+Town"
+              },
+              {
+                "name": "Our Local Sea Point",
+                "note": "R100–200 · Restaurante",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Our+Local+Sea+Point+Cape+Town"
+              },
+              {
+                "name": "Table Mountain Cafe",
+                "note": "Café no Pipe Track / Cableway",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Pipe+Track%2C+Table+Mountain+Aerial+Cableway%2C+Table+Mountain+Nature+Reserve%2C+Cape+Town%2C+South+Africa"
+              },
+              {
+                "name": "Time Out Market Cape Town",
+                "note": "R100–500 · Mercado gastronômico",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=The+Old+Power+Station%2C+Dock+Rd%2C+Victoria+%26+Alfred+Waterfront%2C+Cape+Town%2C+7806%2C+South+Africa"
+              }
+            ]
+          },
+          {
+            "label": "Turismo",
+            "places": [
+              {
+                "name": "GrandWest Grand Arena",
+                "note": "Arena",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=GrandWest+Grand+Arena+Cape+Town"
+              },
+              {
+                "name": "Boulders Beach",
+                "note": "Praia pública (pinguins)",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Boulders+Beach+Cape+Town"
+              },
+              {
+                "name": "Muizenberg Beach Huts",
+                "note": "Cabanas coloridas",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Muizenberg+Beach+Huts+Cape+Town"
+              },
+              {
+                "name": "The Old Biscuit Mill Conference and Events",
+                "note": "Espaço de eventos",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=The+Old+Biscuit+Mill+Conference+and+Events+Cape+Town"
+              },
+              {
+                "name": "The Rock",
+                "note": "Mirante (Bantry Bay)",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=405+Ocean+View+Dr%2C+Bantry+Bay%2C+Cape+Town%2C+8005%2C+South+Africa"
+              },
+              {
+                "name": "Kirstenbosch National Botanical Garden",
+                "note": "Jardim botânico",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Kirstenbosch+National+Botanical+Garden+Cape+Town"
+              },
+              {
+                "name": "Lion's Head Hiking Trail",
+                "note": "Trilha",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Lion%27s+Head+Hiking+Trail+Cape+Town"
+              },
+              {
+                "name": "Lion's Head",
+                "note": "Pico",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Lion%27s+Head+Cape+Town"
+              },
+              {
+                "name": "Signal Hill",
+                "note": "Pico",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Signal+Hill+Cape+Town"
+              },
+              {
+                "name": "Green Point Park",
+                "note": "Parque",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Green+Point+Park+Cape+Town"
+              },
+              {
+                "name": "Table Mountain",
+                "note": "Pico / cartão-postal",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Table+Mountain+Cape+Town"
+              }
+            ]
+          },
+          {
+            "label": "Cabo da Boa Esperança (Cape Point Nature Reserve)",
+            "places": [
+              {
+                "name": "Chapman's Peak Drive Lookout Point",
+                "note": "Mirante na estrada de acesso",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Chapman%27s+Peak+Drive+Lookout+Point+Cape+Town"
+              },
+              {
+                "name": "Chapman's Peak Drive - Long Beach",
+                "note": "Praia na mesma estrada",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Chapman%27s+Peak+Drive+Long+Beach+Cape+Town"
+              },
+              {
+                "name": "Cape Point Nature Reserve",
+                "note": "Parque nacional que engloba o Cabo da Boa Esperança",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Cape+Point+Nature+Reserve"
+              },
+              {
+                "name": "Cape of Good Hope",
+                "note": "Ponto mais a sudoeste do continente africano (o mais ao sul é o Cabo Agulhas)",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Cape+of+Good+Hope"
+              },
+              {
+                "name": "Old Cape Point Lighthouse",
+                "note": "Farol histórico dentro da reserva",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Old+Cape+Point+Lighthouse"
+              },
+              {
+                "name": "Flying Dutchman Funicular",
+                "note": "Funicular até o farol",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Flying+Dutchman+Funicular+Cape+Point"
+              },
+              {
+                "name": "Cape Point Food Shop",
+                "note": "Coffee shop, dentro da reserva",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Cape+Point+Food+Shop"
+              }
+            ]
+          },
+          {
+            "label": "Compras",
+            "places": [
+              {
+                "name": "Victoria Wharf Shopping Centre",
+                "note": "Shopping",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Victoria+Wharf+Shopping+Centre+Cape+Town"
+              },
+              {
+                "name": "The Watershed",
+                "note": "Mercado de artesanato/design",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=The+Watershed+V%26A+Waterfront+Cape+Town"
+              },
+              {
+                "name": "Oranjezicht City Farm Market",
+                "note": "Feira de produtores",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Oranjezicht+City+Farm+Market+Cape+Town"
+              },
+              {
+                "name": "V&A Waterfront",
+                "note": "Shopping / orla",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=V%26A+Waterfront+Cape+Town"
+              }
+            ]
+          },
+          {
+            "label": "Garden Route / Overberg (bate-volta)",
+            "places": [
+              {
+                "name": "Southern Tip of Africa",
+                "note": "Ponto mais ao sul da África (Cabo Agulhas)",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Southern+Tip+of+Africa+Cape+Agulhas"
+              },
+              {
+                "name": "Soldate Poel (Tidal Pool)",
+                "note": "Piscina de maré, L'Agulhas",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=George+St%2C+L%27Agulhas%2C+7287%2C+South+Africa"
+              },
+              {
+                "name": "Overberg - Caledon Country Store",
+                "note": "Espresso bar, Caledon",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Overberg+Caledon+Country+Store"
+              },
+              {
+                "name": "Clarence Drive Outlook Point",
+                "note": "Mirante na R44 (Gordon's Bay–Rooi-Els)",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Clarence+Drive+Outlook+Point"
+              },
+              {
+                "name": "Stony Point Penguin Colony Entrance",
+                "note": "Colônia de pinguins, Betty's Bay",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Stony+Point+Penguin+Colony+Entrance+Betty%27s+Bay"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "joanesburgo-kruger",
+    "flag": "🦁",
+    "title": "Joanesburgo → Kruger (Road Trip)",
+    "summary": "Registro dos lugares dessa road trip entre Joanesburgo e o Parque Kruger — não é um roteiro, é uma lista de referência (pra lembrar e pra recomendar).",
+    "sections": [
+      {
+        "heading": null,
+        "groups": [
+          {
+            "label": "Onde ficar / passar em Joanesburgo",
+            "places": [
+              {
+                "name": "Garden Court O.R. Tambo International",
+                "note": "4.1★ · Hotel 3 estrelas",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Garden+Court+O.R.+Tambo+International+Airport"
+              },
+              {
+                "name": "Park Central",
+                "note": "3.5★ · Hotel — 6 Keyes Ave, Rosebank, Johannesburg",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=6+Keyes+Ave%2C+Rosebank%2C+Johannesburg%2C+2196%2C+South+Africa"
+              },
+              {
+                "name": "The Zone @ Rosebank",
+                "note": "4.4★ · Shopping",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=The+Zone+%40+Rosebank+Johannesburg"
+              },
+              {
+                "name": "Rosebank Mall",
+                "note": "4.5★ · Shopping",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Rosebank+Mall+Johannesburg"
+              },
+              {
+                "name": "Motherland Coffee Company",
+                "note": "4.4★ · Café, Rosebank",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Motherland+Coffee+Company+Rosebank+Johannesburg"
+              },
+              {
+                "name": "Pick n Pay Hypermarket Boksburg",
+                "note": "4.1★ · Hipermercado",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Pick+n+Pay+Hypermarket+Boksburg"
+              }
+            ]
+          },
+          {
+            "label": "No caminho (Dullstroom / Hazyview)",
+            "places": [
+              {
+                "name": "Clarkysbucklist Dullstroom",
+                "note": "5.0★ · Hospedagem self-catering",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Clarkysbucklist+Dullstroom"
+              },
+              {
+                "name": "Clarkys lakeside restaurant",
+                "note": "Restaurante, Dullstroom",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=585+Teding+Van+Berkhout+St%2C+Dullstroom%2C+1110%2C+South+Africa"
+              },
+              {
+                "name": "Harrie's Pancakes Graskop",
+                "note": "4.1★ · Restaurante",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Harrie%27s+Pancakes+Graskop"
+              },
+              {
+                "name": "Engen Bluehaze",
+                "note": "3.7★ · Posto de gasolina",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Engen+Bluehaze"
+              },
+              {
+                "name": "Hotel Numbi & Garden Suites",
+                "note": "4.1★ · Hotel 3 estrelas, Hazyview",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Hotel+Numbi+%26+Garden+Suites+Hazyview"
+              },
+              {
+                "name": "Pick n Pay Hazyview",
+                "note": "4.0★ · Mercado",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Pick+n+Pay+Hazyview"
+              }
+            ]
+          },
+          {
+            "label": "Atrações no caminho (Panorama Route)",
+            "places": [
+              {
+                "name": "Bourke's Luck Potholes",
+                "note": "4.5★ · Atração turística",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Bourke%27s+Luck+Potholes"
+              },
+              {
+                "name": "Lisbon Falls",
+                "note": "4.4★ · Atração turística",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Lisbon+Falls+Panorama+Route"
+              },
+              {
+                "name": "Lowveld View",
+                "note": "4.6★ · Mirante",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Lowveld+View+Panorama+Route"
+              },
+              {
+                "name": "Three Rondavels Coffee Shop",
+                "note": "2.9★ · Café",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Three+Rondavels+Coffee+Shop"
+              }
+            ]
+          },
+          {
+            "label": "Dentro do Parque Kruger",
+            "places": [
+              {
+                "name": "Skukuza Rest Camp",
+                "note": "4.3★ · Hotel 2 estrelas",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Skukuza+Rest+Camp+Kruger+National+Park"
+              },
+              {
+                "name": "Cattle Baron @ Skukuza Camp",
+                "note": "4.2★ · Restaurante",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Cattle+Baron+Skukuza+Camp"
+              },
+              {
+                "name": "The Parks Shop @ Skukuza Rest Camp",
+                "note": "4.3★ · Loja de presentes",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=The+Parks+Shop+Skukuza+Rest+Camp"
+              },
+              {
+                "name": "Afsaal Trader's Rest",
+                "note": "Ponto de parada / piquenique dentro do parque",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Afsaal+Picnic+Site+Kruger+National+Park"
+              },
+              {
+                "name": "Nkumbe View Site",
+                "note": "4.7★ · Mirante",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Nkumbe+View+Site+Kruger+National+Park"
+              },
+              {
+                "name": "Tshokwane Trading Post & Picnic Site",
+                "note": "4.2★ · Área de piquenique",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Tshokwane+Picnic+Site+Kruger+National+Park"
+              },
+              {
+                "name": "Lower Sabie Rest Camp",
+                "note": "4.3★ · Hotel 2 estrelas",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Lower+Sabie+Rest+Camp+Kruger+National+Park"
+              },
+              {
+                "name": "Mugg & Bean @ Lower Sabie",
+                "note": "3.8★ · Restaurante",
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Mugg+%26+Bean+Lower+Sabie"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]
