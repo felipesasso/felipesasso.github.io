@@ -38,13 +38,14 @@
               {
                 "name": "La Canonica",
                 "note": "Comida excelente",
-                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=La+Canonica+Roma",
+                "mapsUrl": "https://maps.app.goo.gl/wF3pi1jUriotMD1Z7",
                 "photo": "italia-la-canonica.webp"
               },
               {
                 "name": "Cantina e Cucina",
                 "note": "Melhor lasanha",
-                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Cantina+e+Cucina+Roma"
+                "mapsUrl": "https://maps.app.goo.gl/3VAQhuSqdPVtAcvC9",
+                "photo": "italia-cantina-e-cucina.webp"
               },
               {
                 "name": "All'Antico Vinaio",
