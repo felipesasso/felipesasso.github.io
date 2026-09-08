@@ -137,17 +137,20 @@
               {
                 "name": "Farini",
                 "note": "Pizza barata e boa",
-                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Farini+Venezia"
+                "mapsUrl": "https://maps.app.goo.gl/7Cs6Y8NbbxynDH5d9",
+                "photo": "italia-farini.webp"
               },
               {
                 "name": "Pizzeria Birreria Barbanera",
                 "note": "",
-                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Pizzeria+Birreria+Barbanera+Venezia"
+                "mapsUrl": "https://maps.app.goo.gl/y9MgaQPWrqr3dpQUA",
+                "photo": "italia-pizzeria-birreria-barbanera.webp"
               },
               {
                 "name": "Caffè Gelateria Al Todaro Dal 1948",
                 "note": "Sorveteria",
-                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Caff%C3%A8+Gelateria+Al+Todaro+Venezia"
+                "mapsUrl": "https://maps.app.goo.gl/5sWzPsaashT7gM3j9",
+                "photo": "italia-caffe-gelateria-al-todaro.webp"
               }
             ]
           },
@@ -157,7 +160,8 @@
               {
                 "name": "Livraria Água Alta",
                 "note": "Livraria que enche de água, porém bonita",
-                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Libreria+Acqua+Alta+Venezia"
+                "mapsUrl": "https://maps.app.goo.gl/ZtcY6dvwY5hif2SM6",
+                "photo": "italia-livraria-agua-alta.webp"
               },
               {
                 "name": "Campo Santa Maria Formosa e Majestic Zanipolo",
