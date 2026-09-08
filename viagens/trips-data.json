@@ -313,27 +313,32 @@
               {
                 "name": "Pret A Manger (Camden)",
                 "note": "",
-                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=231+Camden+High+St%2C+London+NW1+7BU"
+                "mapsUrl": "https://maps.app.goo.gl/fuGKhdvaUz4XHfeXA",
+                "photo": "londres-pret-a-manger-camden.webp"
               },
               {
                 "name": "Pret A Manger (King William St)",
                 "note": "",
-                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=43+King+William+St%2C+London+EC4R+9AN"
+                "mapsUrl": "https://maps.app.goo.gl/DCkUUmuG45dunnM38",
+                "photo": "londres-pret-a-manger-king-william-st.webp"
               },
               {
                 "name": "Pret A Manger (Southwark Bridge Rd)",
                 "note": "",
-                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Unit+3%2C+2A+Southwark+Bridge+Rd%2C+London+SE1+9HA"
+                "mapsUrl": "https://maps.app.goo.gl/4zfAxMyzNq2dTvJW9",
+                "photo": "londres-pret-a-manger-southwark-bridge-rd.webp"
               },
               {
                 "name": "Hermanos Colombian Coffee Roasters",
                 "note": "Coffee shop",
-                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Hermanos+Colombian+Coffee+Roasters+London"
+                "mapsUrl": "https://maps.app.goo.gl/JyohuF8azVzGbaqy9",
+                "photo": "londres-hermanos-colombian-coffee.webp"
               },
               {
                 "name": "Two Eyes Coffee House",
                 "note": "Coffee shop",
-                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Two+Eyes+Coffee+House+London"
+                "mapsUrl": "https://maps.app.goo.gl/FYAyCxKp1W4ETqeX8",
+                "photo": "londres-two-eyes-coffee-house.webp"
               },
               {
                 "name": "Bancone Borough Yards",
