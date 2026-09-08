@@ -596,12 +596,14 @@
               {
                 "name": "Basilique du Sacré-Cœur",
                 "note": "",
-                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Basilique+du+Sacr%C3%A9-C%C5%93ur+Paris"
+                "mapsUrl": "https://maps.app.goo.gl/y3K2Z2csqvfubjUi9",
+                "photo": "paris-basilique-sacre-coeur.webp"
               },
               {
                 "name": "Le mur des je t'aime",
                 "note": "",
-                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Le+mur+des+je+t%27aime+Paris"
+                "mapsUrl": "https://maps.app.goo.gl/P6NgQr5Ns7Cx2UQe8",
+                "photo": "paris-mur-des-je-taime.webp"
               }
             ]
           },
@@ -611,12 +613,14 @@
               {
                 "name": "Art Atak Souvenirs",
                 "note": "Loja de presentes",
-                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Art+Atak+Souvenirs+Paris"
+                "mapsUrl": "https://maps.app.goo.gl/qyUsrZoFKa1RXAJN9",
+                "photo": "paris-art-atak-souvenirs.webp"
               },
               {
                 "name": "FREE'P'STAR",
                 "note": "Brechó",
-                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=FREE%27P%27STAR+Paris"
+                "mapsUrl": "https://maps.app.goo.gl/EDmwkXqCD5XmcCKV7",
+                "photo": "paris-freepstar.webp"
               }
             ]
           }
