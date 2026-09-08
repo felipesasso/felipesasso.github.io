@@ -686,27 +686,32 @@
               {
                 "name": "Louvre Museum",
                 "note": "",
-                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Louvre+Museum+Paris"
+                "mapsUrl": "https://maps.app.goo.gl/48XSKDdLYD7jgUft8",
+                "photo": "paris-louvre-museum.webp"
               },
               {
                 "name": "Arc de Triomphe du Carrousel",
                 "note": "",
-                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Arc+de+Triomphe+du+Carrousel+Paris"
+                "mapsUrl": "https://maps.app.goo.gl/MokSoJtezwyyTLYJ7",
+                "photo": "paris-arc-de-triomphe-carrousel.webp"
               },
               {
                 "name": "Grand Bassin Rond",
                 "note": "",
-                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Grand+Bassin+Rond+Paris"
+                "mapsUrl": "https://maps.app.goo.gl/51Yw2KYaB116kSTA8",
+                "photo": "paris-grand-bassin-rond.webp"
               },
               {
                 "name": "Colonnes de Buren / Les Deux Plateaux",
                 "note": "",
-                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Colonnes+de+Buren+Paris"
+                "mapsUrl": "https://maps.app.goo.gl/nk3Edbnz3Kr2gQkZ9",
+                "photo": "paris-colonnes-de-buren.webp"
               },
               {
                 "name": "Jardin du Palais Royal",
                 "note": "",
-                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Jardin+du+Palais+Royal+Paris"
+                "mapsUrl": "https://maps.app.goo.gl/BmuuNUtD68xT6fAM9",
+                "photo": "paris-jardin-du-palais-royal.webp"
               }
             ]
           },
