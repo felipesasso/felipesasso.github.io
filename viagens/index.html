@@ -443,6 +443,12 @@
                 });
             }
 
+            function thumbInnerHtml(place) {
+                return place.photo
+                    ? `<img src="photos/${escapeHtml(place.photo)}" alt="" loading="lazy" style="width:100%;height:100%;object-fit:cover;border-radius:7px" />`
+                    : 'Foto';
+            }
+
             function placeCardHtml(place) {
                 return `
                     <div class="v-place-card">
@@ -453,7 +459,7 @@
                             </div>
                             ${place.note ? `<div class="v-place-note">${escapeHtml(place.note)}</div>` : ''}
                         </div>
-                        <button type="button" class="v-thumb" data-name="${escapeHtml(place.name)}" aria-label="Ver foto de ${escapeHtml(place.name)}">Foto</button>
+                        <button type="button" class="v-thumb" data-name="${escapeHtml(place.name)}" data-photo="${escapeHtml(place.photo || '')}" aria-label="Ver foto de ${escapeHtml(place.name)}">${thumbInnerHtml(place)}</button>
                     </div>
                 `;
             }
@@ -545,7 +551,7 @@
 
             function attachThumbHandlers(root) {
                 root.querySelectorAll('.v-thumb').forEach((thumb) => {
-                    thumb.addEventListener('click', () => openLightbox(thumb.dataset.name));
+                    thumb.addEventListener('click', () => openLightbox(thumb.dataset.name, thumb.dataset.photo));
                 });
             }
 
@@ -602,8 +608,12 @@
             });
             backBtn.addEventListener('click', goBack);
 
-            function openLightbox(name) {
+            const lightboxBody = lightbox.querySelector('.v-dialog-body');
+            function openLightbox(name, photo) {
                 lightboxTitle.textContent = name;
+                lightboxBody.innerHTML = photo
+                    ? `<img src="photos/${escapeHtml(photo)}" alt="" style="width:100%;height:100%;object-fit:cover;border-radius:8px" />`
+                    : 'Foto';
                 lightbox.hidden = false;
             }
             function closeLightbox() {
