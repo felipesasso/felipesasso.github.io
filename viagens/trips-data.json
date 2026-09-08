@@ -635,22 +635,26 @@
               {
                 "name": "Notre-Dame Cathedral",
                 "note": "",
-                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Notre-Dame+Cathedral+Paris"
+                "mapsUrl": "https://maps.app.goo.gl/WySLDMLaUacMySXaA",
+                "photo": "paris-notre-dame.webp"
               },
               {
                 "name": "Panthéon",
                 "note": "",
-                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Panth%C3%A9on+Paris"
+                "mapsUrl": "https://maps.app.goo.gl/8dDm67a4hVS5aDqG8",
+                "photo": "paris-pantheon.webp"
               },
               {
                 "name": "Jardin du Luxembourg",
                 "note": "",
-                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Jardin+du+Luxembourg+Paris"
+                "mapsUrl": "https://maps.app.goo.gl/q1N5vVB1xN5sCf2FA",
+                "photo": "paris-jardin-du-luxembourg.webp"
               },
               {
                 "name": "Saint-Sulpice Fountain",
                 "note": "",
-                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Saint-Sulpice+Fountain+Paris"
+                "mapsUrl": "https://maps.app.goo.gl/LXT4VJraJocLpegu5",
+                "photo": "paris-saint-sulpice-fountain.webp"
               }
             ]
           },
