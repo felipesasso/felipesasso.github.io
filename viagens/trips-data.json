@@ -103,22 +103,26 @@
               {
                 "name": "Coliseu",
                 "note": "",
-                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Colosseum+Roma"
+                "mapsUrl": "https://maps.app.goo.gl/NRLKCqEfmXQJ6q2s8",
+                "photo": "italia-coliseu.webp"
               },
               {
                 "name": "Colina Palatino",
                 "note": "Antigos palácios imperiais",
-                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Palatine+Hill+Roma"
+                "mapsUrl": "https://maps.app.goo.gl/Z48A3bVX3UGN4VpJ8",
+                "photo": "italia-colina-palatino.webp"
               },
               {
                 "name": "Escadarias da Praça da Espanha",
                 "note": "Legal pra fotos e vista da cidade",
-                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Spanish+Steps+Roma"
+                "mapsUrl": "https://maps.app.goo.gl/Jdyo5e2Vs4S8G9Lg8",
+                "photo": "italia-escadarias-praca-espanha.webp"
               },
               {
                 "name": "Porta Portese",
                 "note": "Domingo de manhã tem uma feira de rua gigantesca",
-                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Porta+Portese+Roma"
+                "mapsUrl": "https://maps.app.goo.gl/FDBeUkSQBQ5JXT65A",
+                "photo": "italia-porta-portese.webp"
               }
             ]
           }
