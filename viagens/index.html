@@ -246,6 +246,11 @@
                 color: oklch(45% 0.01 85);
                 margin-top: 1px;
             }
+            .v-place-address {
+                font-size: 10.5px;
+                color: oklch(55% 0.01 85);
+                margin-top: 2px;
+            }
             .v-thumb {
                 width: 80px;
                 height: 80px;
@@ -460,6 +465,7 @@
                                 <a class="v-place-pin" href="${escapeHtml(place.mapsUrl)}" target="_blank" rel="noopener noreferrer" aria-label="Ver no mapa">${pinIcon}</a>
                             </div>
                             ${place.note ? `<div class="v-place-note">${escapeHtml(place.note)}</div>` : ''}
+                            ${place.address ? `<div class="v-place-address">${escapeHtml(place.address)}</div>` : ''}
                         </div>
                         <button type="button" class="v-thumb" data-name="${escapeHtml(place.name)}" data-photo="${escapeHtml(place.photo || '')}" aria-label="Ver foto de ${escapeHtml(place.name)}">${thumbInnerHtml(place)}</button>
                     </div>
