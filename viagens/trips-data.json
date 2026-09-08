@@ -533,7 +533,8 @@
               {
                 "name": "Sainsbury's Local",
                 "note": "Earls Court",
-                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=162-164+Earls+Ct+Rd%2C+London+SW5+9QQ"
+                "mapsUrl": "https://maps.app.goo.gl/ywfoS7U3rh8rKmYx7",
+                "photo": "londres-sainsburys-local.webp"
               }
             ]
           },
@@ -543,7 +544,8 @@
               {
                 "name": "Kensington Court Hotel",
                 "note": "3-star hotel",
-                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Kensington+Court+Hotel+London"
+                "mapsUrl": "https://maps.app.goo.gl/TA6Jr3NHp9m4UnYq7",
+                "photo": "londres-kensington-court-hotel.webp"
               }
             ]
           }
