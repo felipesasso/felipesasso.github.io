@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Viagens - Felipe Sasso</title>
+        <meta name="description" content="Lugares por onde Felipe Coral Sasso já passou — registro de referência com restaurantes, turismo, compras e hospedagem por cidade." />
+        <meta name="author" content="Felipe Coral Sasso" />
+        <meta name="robots" content="index, follow" />
+        <meta name="theme-color" content="#faf8f4" />
+        <link rel="canonical" href="https://felipesasso.github.io/viagens/" />
+
+        <style>
+            body {
+                margin: 0;
+                background: #faf8f4;
+                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+                color: oklch(22% 0.01 85);
+            }
+            a.pf-link {
+                color: #2a6fd6;
+                text-decoration: none;
+            }
+            a.pf-link:hover {
+                text-decoration: underline;
+            }
+            .pf-photo {
+                width: 112px;
+                height: 112px;
+                border-radius: 50%;
+                object-fit: cover;
+                display: block;
+                margin: 0 auto;
+            }
+            .pf-page {
+                display: flex;
+                flex-wrap: wrap;
+                min-height: 100vh;
+                max-width: 1240px;
+                margin: 0 auto;
+                box-shadow: 0 0 0 1px oklch(90% 0.005 85);
+            }
+            .pf-aside {
+                box-sizing: border-box;
+                flex: 1 1 280px;
+                max-width: 340px;
+                min-width: 260px;
+                padding: clamp(32px, 5vw, 56px) clamp(24px, 4vw, 36px);
+                background: oklch(96% 0.008 85);
+                border-right: 1px solid oklch(90% 0.005 85);
+                display: flex;
+                flex-direction: column;
+                gap: 28px;
+            }
+            .pf-main {
+                box-sizing: border-box;
+                flex: 3 1 600px;
+                padding: clamp(32px, 5vw, 56px) clamp(24px, 5vw, 48px);
+                display: flex;
+                flex-direction: column;
+                gap: 44px;
+                min-width: 0;
+                max-width: 900px;
+            }
+            .pf-eyebrow {
+                font-size: 12px;
+                font-weight: 700;
+                letter-spacing: 0.08em;
+                text-transform: uppercase;
+                color: oklch(52% 0.16 255);
+                margin-bottom: 20px;
+            }
+            @media (max-width: 640px) {
+                .pf-aside {
+                    max-width: none;
+                    border-right: none;
+                    border-bottom: 1px solid oklch(90% 0.005 85);
+                }
+            }
+            .pf-tag {
+                font-size: 11px;
+                padding: 3px 9px;
+                background: oklch(94% 0.03 255);
+                color: oklch(40% 0.14 255);
+                border-radius: 20px;
+            }
+            .pf-nav-current {
+                color: oklch(22% 0.01 85);
+                font-weight: 700;
+            }
+            .pf-card-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+                gap: 16px;
+            }
+            .pf-card {
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
+                text-align: left;
+                padding: 20px;
+                border: 1px solid oklch(90% 0.005 85);
+                border-radius: 10px;
+                text-decoration: none;
+                color: inherit;
+                background: #fff;
+                cursor: pointer;
+                font: inherit;
+                transition: border-color 0.15s ease;
+            }
+            .pf-card:hover {
+                border-color: #2a6fd6;
+            }
+            .pf-card h3 {
+                font-size: 15px;
+                font-weight: 700;
+                margin: 0;
+            }
+            .pf-card p {
+                font-size: 13px;
+                line-height: 1.6;
+                color: oklch(38% 0.01 85);
+                margin: 0;
+                flex: 1;
+            }
+
+            /* --- Viagens page-specific --- */
+            #v-back-btn {
+                display: inline-flex;
+                align-items: center;
+                gap: 6px;
+                background: none;
+                border: none;
+                cursor: pointer;
+                font: inherit;
+                font-size: 13px;
+                font-weight: 600;
+                color: #2a6fd6;
+                padding: 0;
+            }
+            #v-back-btn:hover {
+                text-decoration: underline;
+            }
+            .v-field {
+                max-width: 280px;
+                display: flex;
+                flex-direction: column;
+                gap: 4px;
+            }
+            .v-field label {
+                font-size: 11px;
+                font-weight: 700;
+                letter-spacing: 0.04em;
+                text-transform: uppercase;
+                color: oklch(45% 0.01 85);
+            }
+            .v-field select {
+                font: inherit;
+                font-size: 13.5px;
+                padding: 8px 12px;
+                border-radius: 6px;
+                border: 1px solid oklch(90% 0.005 85);
+                background: #fff;
+                color: oklch(22% 0.01 85);
+            }
+            .v-field[hidden] {
+                display: none;
+            }
+            .v-section-heading {
+                font-size: 18px;
+                font-weight: 700;
+                margin: 0 0 16px;
+                color: oklch(22% 0.01 85);
+            }
+            .v-group {
+                margin-bottom: 28px;
+            }
+            .v-group-divider {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                margin-bottom: 14px;
+            }
+            .v-group-label {
+                font-size: 11px;
+                font-weight: 700;
+                letter-spacing: 0.08em;
+                text-transform: uppercase;
+                color: oklch(52% 0.16 255);
+                white-space: nowrap;
+            }
+            .v-group-rule {
+                height: 1px;
+                flex: 1;
+                background: oklch(90% 0.005 85);
+            }
+            .v-place-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+                gap: 12px;
+            }
+            .v-place-card {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                gap: 12px;
+                padding: 12px;
+                background: #fff;
+                border: 1px solid oklch(90% 0.005 85);
+                border-radius: 10px;
+            }
+            .v-place-text {
+                min-width: 0;
+                flex: 1;
+                text-align: left;
+            }
+            .v-place-name-row {
+                display: flex;
+                align-items: center;
+                gap: 6px;
+            }
+            .v-place-name {
+                font-weight: 600;
+                font-size: 13px;
+                color: oklch(22% 0.01 85);
+                text-decoration: none;
+                overflow-wrap: anywhere;
+            }
+            .v-place-name:hover {
+                color: #2a6fd6;
+            }
+            .v-place-pin {
+                width: 20px;
+                height: 20px;
+                min-width: 20px;
+                border-radius: 50%;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                background: oklch(94% 0.03 255);
+                color: oklch(40% 0.14 255);
+                flex-shrink: 0;
+            }
+            .v-place-note {
+                font-size: 11px;
+                color: oklch(45% 0.01 85);
+                margin-top: 1px;
+            }
+            .v-place-address {
+                font-size: 10.5px;
+                color: oklch(55% 0.01 85);
+                margin-top: 2px;
+            }
+            .v-thumb {
+                width: 80px;
+                height: 80px;
+                min-width: 80px;
+                flex-shrink: 0;
+                cursor: pointer;
+                border-radius: 8px;
+                background: oklch(96% 0.008 85);
+                border: 1px solid oklch(90% 0.005 85);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: oklch(50% 0.01 85);
+                font-size: 11px;
+                padding: 0;
+                font: inherit;
+            }
+            .v-dialog-backdrop {
+                position: fixed;
+                inset: 0;
+                background: rgba(20, 19, 17, 0.5);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 16px;
+                z-index: 100;
+            }
+            .v-dialog-backdrop[hidden] {
+                display: none;
+            }
+            .v-dialog {
+                width: min(90vw, 520px);
+                background: #fff;
+                border: 1px solid oklch(90% 0.005 85);
+                border-radius: 10px;
+                padding: 20px;
+            }
+            .v-dialog-title {
+                font-weight: 700;
+                font-size: 15px;
+                margin-bottom: 12px;
+            }
+            .v-dialog-body {
+                width: 100%;
+                min-height: 160px;
+                max-height: 70vh;
+                border-radius: 8px;
+                background: oklch(96% 0.008 85);
+                border: 1px solid oklch(90% 0.005 85);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                overflow: hidden;
+                color: oklch(50% 0.01 85);
+                font-size: 13px;
+            }
+            .v-dialog-actions {
+                display: flex;
+                justify-content: flex-end;
+                margin-top: 16px;
+            }
+            .v-btn-secondary {
+                font: inherit;
+                font-size: 13px;
+                font-weight: 600;
+                padding: 8px 16px;
+                border-radius: 6px;
+                border: 1px solid oklch(90% 0.005 85);
+                background: #fff;
+                color: oklch(22% 0.01 85);
+                cursor: pointer;
+            }
+            .v-btn-secondary:hover {
+                border-color: #2a6fd6;
+                color: #2a6fd6;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="pf-page">
+
+            <aside class="pf-aside">
+                <a href="/" style="text-decoration:none;color:inherit">
+                    <img class="pf-photo" src="../assets/headshot.jpeg" alt="Felipe Coral Sasso" />
+                </a>
+                <div>
+                    <div style="font-size:26px;font-weight:700;letter-spacing:-0.01em;line-height:1.15"><a href="/" style="color:inherit;text-decoration:none">Felipe Coral Sasso</a></div>
+                    <div style="font-size:14px;color:oklch(45% 0.01 85);margin-top:6px">Software Engineer</div>
+                </div>
+                <p style="font-size:13.5px;line-height:1.6;color:oklch(38% 0.01 85);margin:0">Full-stack engineer with 6+ years shipping production systems at enterprise scale — from consumer platforms reaching millions of users to national research infrastructure — using Python and React.</p>
+                <div style="display:flex;flex-direction:column;gap:8px;font-size:13px">
+                    <a class="pf-link" href="mailto:felipecsasso@gmail.com">felipecsasso@gmail.com</a>
+                    <a class="pf-link" href="https://github.com/felipesasso" target="_blank" rel="noopener noreferrer">github.com/felipesasso</a>
+                    <a class="pf-link" href="https://www.linkedin.com/in/felipecoralsasso/" target="_blank" rel="noopener noreferrer">linkedin.com/in/felipecoralsasso</a>
+                </div>
+                <a href="../assets/Felipe-Coral-Sasso-Resume.pdf" target="_blank" style="text-decoration:none;text-align:center;padding:10px 18px;background:oklch(52% 0.16 255);color:#fff;border-radius:6px;font-size:13px;font-weight:600">Download Resume</a>
+                <div style="display:flex;flex-direction:column;gap:6px;font-size:12.5px;color:oklch(45% 0.01 85);border-top:1px solid oklch(90% 0.005 85);padding-top:20px">
+                    <a class="pf-link" style="color:oklch(38% 0.01 85)" href="/#exp">Experience</a>
+                    <a class="pf-link" style="color:oklch(38% 0.01 85)" href="/#edu">Education</a>
+                    <a class="pf-link" style="color:oklch(38% 0.01 85)" href="/work/">Selected Work</a>
+                    <a class="pf-link" style="color:oklch(38% 0.01 85)" href="/skills/">Skills</a>
+                    <a class="pf-link" style="color:oklch(38% 0.01 85)" href="/livros/">Reading</a>
+                    <span class="pf-nav-current">Viagens</span>
+                    <a class="pf-link" style="color:oklch(38% 0.01 85)" href="/tools/">Tools</a>
+                </div>
+            </aside>
+
+            <main class="pf-main">
+                <section id="v-list-view">
+                    <div class="pf-eyebrow">Viagens</div>
+                    <p style="font-size:13.5px;line-height:1.6;color:oklch(38% 0.01 85);margin:0 0 24px">
+                        Uma lista de referência — não são roteiros prontos, mas os lugares que valeram a visita, com um comentário rápido e o link direto pro Google Maps.
+                    </p>
+                    <div id="v-trip-grid" class="pf-card-grid"></div>
+                </section>
+
+                <section id="v-detail-view" hidden style="display:flex;flex-direction:column;gap:20px">
+                    <button type="button" id="v-back-btn">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
+                        Voltar
+                    </button>
+                    <div>
+                        <div style="display:flex;align-items:center;gap:10px">
+                            <div id="v-detail-flag" style="font-size:28px"></div>
+                            <div id="v-detail-title" style="font-size:20px;font-weight:700;color:oklch(22% 0.01 85)"></div>
+                        </div>
+                        <p id="v-detail-summary" style="font-size:13.5px;line-height:1.6;color:oklch(38% 0.01 85);margin:10px 0 0;max-width:640px"></p>
+                    </div>
+
+                    <div class="v-field" id="v-section-field" hidden>
+                        <label for="v-section-select">Cidade</label>
+                        <select id="v-section-select"></select>
+                    </div>
+
+                    <div id="v-detail-content"></div>
+                </section>
+
+                <div id="v-lightbox" class="v-dialog-backdrop" hidden>
+                    <div class="v-dialog">
+                        <div class="v-dialog-title" id="v-lightbox-title"></div>
+                        <div class="v-dialog-body">Foto</div>
+                        <div class="v-dialog-actions">
+                            <button type="button" class="v-btn-secondary" id="v-lightbox-close">Fechar</button>
+                        </div>
+                    </div>
+                </div>
+            </main>
+
+        </div>
+
+        <footer style="text-align:center;padding:24px;font-size:12px;color:oklch(45% 0.01 85)">
+            &copy; <span id="currentYear"></span> Felipe Coral Sasso. All rights reserved.
+        </footer>
+
+        <script>
+            document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+            const pinIcon = '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg>';
+
+            let trips = [];
+            let selectedSlug = null;
+            let selectedSectionIndex = 0;
+
+            const listView = document.getElementById('v-list-view');
+            const detailView = document.getElementById('v-detail-view');
+            const tripGrid = document.getElementById('v-trip-grid');
+            const backBtn = document.getElementById('v-back-btn');
+            const detailFlag = document.getElementById('v-detail-flag');
+            const detailTitle = document.getElementById('v-detail-title');
+            const detailSummary = document.getElementById('v-detail-summary');
+            const sectionField = document.getElementById('v-section-field');
+            const sectionSelect = document.getElementById('v-section-select');
+            const detailContent = document.getElementById('v-detail-content');
+            const lightbox = document.getElementById('v-lightbox');
+            const lightboxTitle = document.getElementById('v-lightbox-title');
+            const lightboxClose = document.getElementById('v-lightbox-close');
+
+            function countPlaces(trip) {
+                return trip.sections.reduce((sum, s) => sum + s.groups.reduce((s2, g) => s2 + g.places.length, 0), 0);
+            }
+
+            function escapeHtml(str) {
+                return String(str ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+            }
+
+            function renderTripGrid() {
+                tripGrid.innerHTML = trips.map((t) => `
+                    <button type="button" class="pf-card" data-slug="${escapeHtml(t.slug)}">
+                        <h3>${t.flag} ${escapeHtml(t.title)}</h3>
+                        <p>${escapeHtml(t.summary)}</p>
+                        <div><span class="pf-tag">${countPlaces(t)}&nbsp;lugares</span></div>
+                    </button>
+                `).join('');
+                tripGrid.querySelectorAll('.pf-card').forEach((card) => {
+                    card.addEventListener('click', () => openTrip(card.dataset.slug));
+                });
+            }
+
+            function thumbInnerHtml(place) {
+                return place.photo
+                    ? `<img src="photos/${escapeHtml(place.photo)}" alt="" loading="lazy" style="width:100%;height:100%;object-fit:cover;border-radius:7px" />`
+                    : 'Foto';
+            }
+
+            function placeCardHtml(place) {
+                return `
+                    <div class="v-place-card">
+                        <div class="v-place-text">
+                            <div class="v-place-name-row">
+                                <a class="v-place-name" href="${escapeHtml(place.mapsUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(place.name)}</a>
+                                <a class="v-place-pin" href="${escapeHtml(place.mapsUrl)}" target="_blank" rel="noopener noreferrer" aria-label="Ver no mapa">${pinIcon}</a>
+                            </div>
+                            ${place.note ? `<div class="v-place-note">${escapeHtml(place.note)}</div>` : ''}
+                            ${place.address ? `<div class="v-place-address">${escapeHtml(place.address)}</div>` : ''}
+                        </div>
+                        <button type="button" class="v-thumb" data-name="${escapeHtml(place.name)}" data-photo="${escapeHtml(place.photo || '')}" aria-label="Ver foto de ${escapeHtml(place.name)}">${thumbInnerHtml(place)}</button>
+                    </div>
+                `;
+            }
+
+            function groupHtml(group, showLabel) {
+                const divider = (showLabel && group.label) ? `
+                    <div class="v-group-divider">
+                        <div class="v-group-label">${escapeHtml(group.label)}</div>
+                        <div class="v-group-rule"></div>
+                    </div>
+                ` : '';
+                return `
+                    <div class="v-group">
+                        ${divider}
+                        <div class="v-place-grid">${group.places.map(placeCardHtml).join('')}</div>
+                    </div>
+                `;
+            }
+
+            function renderGroups(section, groupIndex, container) {
+                if (groupIndex === -1) {
+                    container.innerHTML = section.groups.map((g) => groupHtml(g, true)).join('');
+                } else {
+                    const group = section.groups[groupIndex] || section.groups[0];
+                    container.innerHTML = groupHtml(group, false);
+                }
+            }
+
+            // Renders one section with its own category picker + filtered group(s) — used when a
+            // specific city (not "Ver todos") is selected.
+            function renderSectionFiltered(section) {
+                const wrap = document.createElement('div');
+                if (section.heading) {
+                    const h2 = document.createElement('h2');
+                    h2.className = 'v-section-heading';
+                    h2.textContent = section.heading;
+                    wrap.appendChild(h2);
+                }
+
+                const showGroupPicker = section.groups.length > 1;
+                if (showGroupPicker) {
+                    const groupOptions = [{ index: -1, label: 'Ver todos' }].concat(
+                        section.groups.map((g, i) => ({ index: i, label: g.label || 'Lugares' }))
+                    );
+                    const fieldWrap = document.createElement('div');
+                    fieldWrap.className = 'v-field';
+                    fieldWrap.style.marginBottom = '20px';
+                    fieldWrap.innerHTML = `
+                        <label for="v-group-select-${section.__idx}">Categoria</label>
+                        <select id="v-group-select-${section.__idx}">
+                            ${groupOptions.map((o) => `<option value="${o.index}">${escapeHtml(o.label)}</option>`).join('')}
+                        </select>
+                    `;
+                    wrap.appendChild(fieldWrap);
+
+                    const groupsContainer = document.createElement('div');
+                    wrap.appendChild(groupsContainer);
+                    renderGroups(section, 0, groupsContainer);
+
+                    const groupSelect = fieldWrap.querySelector('select');
+                    groupSelect.value = '0';
+                    groupSelect.addEventListener('change', (e) => {
+                        renderGroups(section, Number(e.target.value), groupsContainer);
+                        attachThumbHandlers(groupsContainer);
+                    });
+                } else {
+                    const groupsContainer = document.createElement('div');
+                    wrap.appendChild(groupsContainer);
+                    renderGroups(section, -1, groupsContainer);
+                }
+                return wrap;
+            }
+
+            // Renders one section fully expanded — every category stacked with a divider label,
+            // no category picker — used when "Ver todos" is selected on the city dropdown.
+            function renderSectionExpanded(section) {
+                const wrap = document.createElement('div');
+                if (section.heading) {
+                    const h2 = document.createElement('h2');
+                    h2.className = 'v-section-heading';
+                    h2.textContent = section.heading;
+                    wrap.appendChild(h2);
+                }
+                const groupsContainer = document.createElement('div');
+                groupsContainer.innerHTML = section.groups.map((g) => groupHtml(g, true)).join('');
+                wrap.appendChild(groupsContainer);
+                return wrap;
+            }
+
+            function attachThumbHandlers(root) {
+                root.querySelectorAll('.v-thumb').forEach((thumb) => {
+                    thumb.addEventListener('click', () => openLightbox(thumb.dataset.name, thumb.dataset.photo));
+                });
+            }
+
+            function renderDetailContent() {
+                const trip = trips.find((t) => t.slug === selectedSlug);
+                if (!trip) return;
+                const sections = trip.sections.map((s, i) => ({ ...s, __idx: i }));
+                const showSectionPicker = sections.length > 1;
+                sectionField.hidden = !showSectionPicker;
+
+                detailContent.innerHTML = '';
+                if (selectedSectionIndex === -1) {
+                    sections.forEach((s) => detailContent.appendChild(renderSectionExpanded(s)));
+                } else {
+                    const section = sections[selectedSectionIndex] || sections[0];
+                    detailContent.appendChild(renderSectionFiltered(section));
+                }
+                attachThumbHandlers(detailContent);
+            }
+
+            function openTrip(slug) {
+                const trip = trips.find((t) => t.slug === slug);
+                if (!trip) return;
+                selectedSlug = slug;
+                selectedSectionIndex = 0;
+
+                detailFlag.textContent = trip.flag;
+                detailTitle.textContent = trip.title;
+                detailSummary.textContent = trip.summary;
+
+                const sectionOptions = [{ index: -1, heading: 'Ver todos' }].concat(
+                    trip.sections.map((s, i) => ({ index: i, heading: s.heading || trip.title }))
+                );
+                sectionSelect.innerHTML = sectionOptions.map((o) => `<option value="${o.index}">${escapeHtml(o.heading)}</option>`).join('');
+                sectionSelect.value = '0';
+
+                renderDetailContent();
+
+                listView.hidden = true;
+                detailView.hidden = false;
+                window.scrollTo(0, 0);
+            }
+
+            function goBack() {
+                detailView.hidden = true;
+                listView.hidden = false;
+                selectedSlug = null;
+                window.scrollTo(0, 0);
+            }
+
+            sectionSelect.addEventListener('change', (e) => {
+                selectedSectionIndex = Number(e.target.value);
+                renderDetailContent();
+            });
+            backBtn.addEventListener('click', goBack);
+
+            const lightboxBody = lightbox.querySelector('.v-dialog-body');
+            function openLightbox(name, photo) {
+                lightboxTitle.textContent = name;
+                lightboxBody.innerHTML = photo
+                    ? `<img src="photos/${escapeHtml(photo)}" alt="" style="max-width:100%;max-height:70vh;width:auto;height:auto;object-fit:contain;border-radius:8px;display:block" />`
+                    : 'Foto';
+                lightbox.hidden = false;
+            }
+            function closeLightbox() {
+                lightbox.hidden = true;
+            }
+            lightbox.addEventListener('click', (e) => {
+                if (e.target === lightbox) closeLightbox();
+            });
+            lightbox.querySelector('.v-dialog').addEventListener('click', (e) => e.stopPropagation());
+            lightboxClose.addEventListener('click', closeLightbox);
+
+            fetch('trips-data.json')
+                .then((r) => r.json())
+                .then((data) => {
+                    trips = data;
+                    renderTripGrid();
+                });
+        </script>
+    </body>
+</html>
