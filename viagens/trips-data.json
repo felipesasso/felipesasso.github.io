@@ -206,27 +206,32 @@
               {
                 "name": "Pino's Sandwiches - Salumeria Verdi",
                 "note": "Sanduíche top",
-                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Pino%27s+Sandwiches+Salumeria+Verdi+Firenze"
+                "mapsUrl": "https://maps.app.goo.gl/LLVFZrWW5tK2qF7c9",
+                "photo": "italia-pinos-sandwiches.webp"
               },
               {
                 "name": "Venchi Gelato and Chocolate",
                 "note": "Sorveteria muito boa",
-                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Venchi+Gelato+and+Chocolate+Firenze"
+                "mapsUrl": "https://maps.app.goo.gl/rBp4xXhX1RetLRTDA",
+                "photo": "italia-venchi-gelato.webp"
               },
               {
                 "name": "Nino and Friends",
                 "note": "Chocolateria",
-                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Nino+and+Friends+Firenze"
+                "mapsUrl": "https://maps.app.goo.gl/n5yRvfgFJkKJ3beJ6",
+                "photo": "italia-nino-and-friends.webp"
               },
               {
                 "name": "Trattoria Zà Zà",
                 "note": "Restaurante",
-                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Trattoria+Z%C3%A0+Z%C3%A0+Firenze"
+                "mapsUrl": "https://maps.app.goo.gl/LaxRwAUMFj9usSoq5",
+                "photo": "italia-trattoria-za-za.webp"
               },
               {
                 "name": "Mercato Centrale",
                 "note": "Um \"mercado público\"",
-                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Mercato+Centrale+Firenze"
+                "mapsUrl": "https://maps.app.goo.gl/oo6oFdZs7cWhukTC6",
+                "photo": "italia-mercato-centrale.webp"
               }
             ]
           },
