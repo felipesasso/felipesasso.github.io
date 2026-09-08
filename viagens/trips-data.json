@@ -426,27 +426,32 @@
               {
                 "name": "Big Ben",
                 "note": "",
-                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Big+Ben+London"
+                "mapsUrl": "https://maps.app.goo.gl/5gfqX7AKJHeu36x1A",
+                "photo": "londres-big-ben.webp"
               },
               {
                 "name": "Tower Bridge",
                 "note": "",
-                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Tower+Bridge+London"
+                "mapsUrl": "https://maps.app.goo.gl/TPDpJHHznNM1gKvs6",
+                "photo": "londres-tower-bridge.webp"
               },
               {
                 "name": "London Bridge",
                 "note": "",
-                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=London+Bridge+London"
+                "mapsUrl": "https://maps.app.goo.gl/qTsYUWvwPDk4NdAZA",
+                "photo": "londres-london-bridge.webp"
               },
               {
                 "name": "Millennium Bridge",
                 "note": "",
-                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Millennium+Bridge+London"
+                "mapsUrl": "https://maps.app.goo.gl/xhuk4riKGCcBhmpo9",
+                "photo": "londres-millennium-bridge.webp"
               },
               {
                 "name": "Sky Garden",
                 "note": "Vista panorâmica",
-                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Sky+Garden+London"
+                "mapsUrl": "https://maps.app.goo.gl/V8ppbxWiWMNnNLNw5",
+                "photo": "londres-sky-garden.webp"
               },
               {
                 "name": "Leadenhall Market",
