@@ -38,7 +38,8 @@
               {
                 "name": "La Canonica",
                 "note": "Comida excelente",
-                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=La+Canonica+Roma"
+                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=La+Canonica+Roma",
+                "photo": "italia-la-canonica.webp"
               },
               {
                 "name": "Cantina e Cucina",
