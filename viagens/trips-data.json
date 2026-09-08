@@ -473,27 +473,32 @@
               {
                 "name": "MINISO Camden London",
                 "note": "",
-                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=MINISO+Camden+London"
+                "mapsUrl": "https://maps.app.goo.gl/aUHoZfQebeZGhwsB6",
+                "photo": "londres-miniso-camden.webp"
               },
               {
                 "name": "TK Maxx",
                 "note": "Oxford St",
-                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=203-207+Oxford+St%2C+London+W1D+2LE"
+                "mapsUrl": "https://maps.app.goo.gl/kaiErbsLssQpgHA56",
+                "photo": "londres-tk-maxx.webp"
               },
               {
                 "name": "Mountain Warehouse Richmond",
                 "note": "",
-                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Mountain+Warehouse+Richmond+London"
+                "mapsUrl": "https://maps.app.goo.gl/8uBiHt5LLqY5kj6j6",
+                "photo": "londres-mountain-warehouse-richmond.webp"
               },
               {
                 "name": "Primark",
                 "note": "Oxford St",
-                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=499-517+Oxford+St%2C+London+W1K+7DA"
+                "mapsUrl": "https://maps.app.goo.gl/VGZJLyMgYjdYZrdw5",
+                "photo": "londres-primark.webp"
               },
               {
                 "name": "Mountain Warehouse London Regent St",
                 "note": "",
-                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Mountain+Warehouse+London+Regent+Street"
+                "mapsUrl": "https://maps.app.goo.gl/9cAYz9e2MU2Qd1cs8",
+                "photo": "londres-mountain-warehouse-regent-st.webp"
               },
               {
                 "name": "The Abbey Road Shop",
