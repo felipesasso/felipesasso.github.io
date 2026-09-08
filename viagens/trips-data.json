@@ -343,17 +343,20 @@
               {
                 "name": "Bancone Borough Yards",
                 "note": "Italiano",
-                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Bancone+Borough+Yards+London"
+                "mapsUrl": "https://maps.app.goo.gl/Wj7FR7abrZqWq61V9",
+                "photo": "londres-bancone-borough-yards.webp"
               },
               {
                 "name": "Mercato Mayfair",
                 "note": "Food court",
-                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Mercato+Mayfair+London"
+                "mapsUrl": "https://maps.app.goo.gl/pTkJfG1jJ1R65kZz8",
+                "photo": "londres-mercato-mayfair.webp"
               },
               {
                 "name": "Earls Court Tavern",
                 "note": "Pub",
-                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Earls+Court+Tavern+London"
+                "mapsUrl": "https://maps.app.goo.gl/p9NoTA8oVYaBc8zz7",
+                "photo": "londres-earls-court-tavern.webp"
               }
             ]
           },
