@@ -456,12 +456,14 @@
               {
                 "name": "Leadenhall Market",
                 "note": "",
-                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Leadenhall+Market+London"
+                "mapsUrl": "https://maps.app.goo.gl/oa4gwdJFTAyiNCti6",
+                "photo": "londres-leadenhall-market.webp"
               },
               {
                 "name": "Warner Bros. Studio Tour London",
                 "note": "",
-                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Warner+Bros+Studio+Tour+London"
+                "mapsUrl": "https://maps.app.goo.gl/Xu1cbv9ySqRs5z356",
+                "photo": "londres-warner-bros-studio-tour.webp"
               }
             ]
           },
