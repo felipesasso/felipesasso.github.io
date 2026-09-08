@@ -166,27 +166,32 @@
               {
                 "name": "Campo Santa Maria Formosa e Majestic Zanipolo",
                 "note": "",
-                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Campo+Santa+Maria+Formosa+Venezia"
+                "mapsUrl": "https://maps.app.goo.gl/FUFhgfFumGmeSbZX9",
+                "photo": "italia-campo-santa-maria-formosa.webp"
               },
               {
                 "name": "Praça de São Marcos",
                 "note": "",
-                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Piazza+San+Marco+Venezia"
+                "mapsUrl": "https://maps.app.goo.gl/6bjyNpKfaVyDdFVZ9",
+                "photo": "italia-praca-sao-marcos.webp"
               },
               {
                 "name": "Ponte della Paglia",
                 "note": "",
-                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Ponte+della+Paglia+Venezia"
+                "mapsUrl": "https://maps.app.goo.gl/zPg5gChuU8vEL48TA",
+                "photo": "italia-ponte-della-paglia.webp"
               },
               {
                 "name": "Ponte de la Pietà",
                 "note": "",
-                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Ponte+de+la+Piet%C3%A0+Venezia"
+                "mapsUrl": "https://maps.app.goo.gl/KhjbA3S2EQ4HAiRh8",
+                "photo": "italia-ponte-de-la-pieta.webp"
               },
               {
                 "name": "Ponte de Rialto",
                 "note": "",
-                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Ponte+di+Rialto+Venezia"
+                "mapsUrl": "https://maps.app.goo.gl/6xciNP1A19b8Niye7",
+                "photo": "italia-ponte-de-rialto.webp"
               }
             ]
           }
