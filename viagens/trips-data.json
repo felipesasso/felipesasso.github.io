@@ -271,22 +271,26 @@
               {
                 "name": "Santa Maria del Fiore",
                 "note": "",
-                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Cathedral+of+Santa+Maria+del+Fiore+Firenze"
+                "mapsUrl": "https://maps.app.goo.gl/9TNUXQGLRo5k5eJXA",
+                "photo": "italia-santa-maria-del-fiore.webp"
               },
               {
                 "name": "Farmácia de Santa Maria Novella",
                 "note": "Farmácia mais antiga da Europa",
-                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Officina+Profumo+Farmaceutica+di+Santa+Maria+Novella+Firenze"
+                "mapsUrl": "https://maps.app.goo.gl/9uTRohJbkffbNqaV7",
+                "photo": "italia-farmacia-santa-maria-novella.webp"
               },
               {
                 "name": "Fontana del Porcellino",
                 "note": "Fonte de um javali",
-                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Fontana+del+Porcellino+Firenze"
+                "mapsUrl": "https://maps.app.goo.gl/cJF3dr8bsngmDVcr9",
+                "photo": "italia-fontana-del-porcellino.webp"
               },
               {
                 "name": "Santa Maria Novella",
                 "note": "",
-                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Basilica+of+Santa+Maria+Novella+Firenze"
+                "mapsUrl": "https://maps.app.goo.gl/TssBtDVhwu6GKvq56",
+                "photo": "italia-santa-maria-novella.webp"
               }
             ]
           }
