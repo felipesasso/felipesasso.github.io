@@ -366,27 +366,32 @@
               {
                 "name": "Platform 9¾",
                 "note": "King's Cross",
-                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Platform+9+3%2F4+King%27s+Cross+London"
+                "mapsUrl": "https://maps.app.goo.gl/icmPFMhf3H8qDqSL9",
+                "photo": "londres-platform-9-3-4.webp"
               },
               {
                 "name": "Camden Market",
                 "note": "",
-                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Camden+Market+London"
+                "mapsUrl": "https://maps.app.goo.gl/pKiVqRmnizeZqcER6",
+                "photo": "londres-camden-market.webp"
               },
               {
                 "name": "Richmond Park",
                 "note": "",
-                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Richmond+Park+London"
+                "mapsUrl": "https://maps.app.goo.gl/eTxGRGxDqggmK9Ly6",
+                "photo": "londres-richmond-park.webp"
               },
               {
                 "name": "Richmond Park Visitor Centre",
                 "note": "",
-                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Richmond+Park+Visitor+Centre+London"
+                "mapsUrl": "https://maps.app.goo.gl/2Mwy3etjRcn1PQa59",
+                "photo": "londres-richmond-park-visitor-centre.webp"
               },
               {
                 "name": "Kensington Gardens",
                 "note": "",
-                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Kensington+Gardens+London"
+                "mapsUrl": "https://maps.app.goo.gl/bN3zxBL5uo4bjMSL7",
+                "photo": "londres-kensington-gardens.webp"
               },
               {
                 "name": "Queen Victoria Memorial",
