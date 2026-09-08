@@ -396,27 +396,32 @@
               {
                 "name": "Queen Victoria Memorial",
                 "note": "",
-                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Queen+Victoria+Memorial+London"
+                "mapsUrl": "https://maps.app.goo.gl/J89scnzzHfJJ3aQD8",
+                "photo": "londres-queen-victoria-memorial.webp"
               },
               {
                 "name": "Hyde Park",
                 "note": "",
-                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Hyde+Park+London"
+                "mapsUrl": "https://maps.app.goo.gl/efedLX9m3d9vYdp3A",
+                "photo": "londres-hyde-park.webp"
               },
               {
                 "name": "Westminster Bridge",
                 "note": "",
-                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Westminster+Bridge+London"
+                "mapsUrl": "https://maps.app.goo.gl/kkz1u1AqGzamnhf66",
+                "photo": "londres-westminster-bridge.webp"
               },
               {
                 "name": "Westminster Abbey",
                 "note": "",
-                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Westminster+Abbey+London"
+                "mapsUrl": "https://maps.app.goo.gl/CYQ7PGB63s2w9Kgo9",
+                "photo": "londres-westminster-abbey.webp"
               },
               {
                 "name": "Abbey Road Pedestrian Crossing",
                 "note": "",
-                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Abbey+Road+Pedestrian+Crossing+London"
+                "mapsUrl": "https://maps.app.goo.gl/FDQ7Asi3pqfzFQBT6",
+                "photo": "londres-abbey-road-crossing.webp"
               },
               {
                 "name": "Big Ben",
