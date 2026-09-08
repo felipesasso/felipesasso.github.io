@@ -241,27 +241,32 @@
               {
                 "name": "Ponte Vecchio",
                 "note": "",
-                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Ponte+Vecchio+Firenze"
+                "mapsUrl": "https://maps.app.goo.gl/XyPQ1BDutAcm7uCv9",
+                "photo": "italia-ponte-vecchio.webp"
               },
               {
                 "name": "Galleria degli Uffizi",
                 "note": "Obras famosas do renascimento",
-                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Uffizi+Galleries+Firenze"
+                "mapsUrl": "https://maps.app.goo.gl/girjrfsnmr7rSxmb6",
+                "photo": "italia-galleria-degli-uffizi.webp"
               },
               {
                 "name": "Piazza della Signoria",
                 "note": "Réplicas de obras famosas de Michelangelo ao ar livre",
-                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Piazza+della+Signoria+Firenze"
+                "mapsUrl": "https://maps.app.goo.gl/Mt4q9UoxDrDPdt2fA",
+                "photo": "italia-piazza-della-signoria.webp"
               },
               {
                 "name": "Vista Panoramica di Firenze",
                 "note": "",
-                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Vista+Panoramica+di+Firenze"
+                "mapsUrl": "https://maps.app.goo.gl/6bTRdtTNbQASuMpMA",
+                "photo": "italia-vista-panoramica-firenze.webp"
               },
               {
                 "name": "Villa Bardini",
                 "note": "",
-                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Villa+Bardini+Firenze"
+                "mapsUrl": "https://maps.app.goo.gl/HeRkdqfEy4qpg1vL6",
+                "photo": "italia-villa-bardini.webp"
               },
               {
                 "name": "Santa Maria del Fiore",
