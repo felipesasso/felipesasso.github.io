@@ -664,12 +664,14 @@
               {
                 "name": "Brasserie des Prés",
                 "note": "",
-                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Brasserie+des+Pr%C3%A9s+Paris"
+                "mapsUrl": "https://maps.app.goo.gl/5LjpJNs6tHPXxGbL7",
+                "photo": "paris-brasserie-des-pres.webp"
               },
               {
                 "name": "Terres de Café (Saint-Germain-des-Prés)",
                 "note": "",
-                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=4+Rue+de+Bourbon+le+Ch%C3%A2teau+75006+Paris"
+                "mapsUrl": "https://maps.app.goo.gl/G5MuS53C6wbUEC5P7",
+                "photo": "paris-terres-de-cafe-saint-germain.webp"
               }
             ]
           }
