@@ -503,27 +503,32 @@
               {
                 "name": "The Abbey Road Shop",
                 "note": "Souvenir store",
-                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=The+Abbey+Road+Shop+London"
+                "mapsUrl": "https://maps.app.goo.gl/EapEkUYc1r997wza9",
+                "photo": "londres-abbey-road-shop.webp"
               },
               {
                 "name": "The Notting Hill Bookshop",
                 "note": "",
-                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=The+Notting+Hill+Bookshop+London"
+                "mapsUrl": "https://maps.app.goo.gl/ZMzYvSVqgVqyd6aM8",
+                "photo": "londres-notting-hill-bookshop.webp"
               },
               {
                 "name": "M&M'S London",
                 "note": "Candy store",
-                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=M%26M%27S+London"
+                "mapsUrl": "https://maps.app.goo.gl/RbvU4fSsj7JZS3mw9",
+                "photo": "londres-mms-london.webp"
               },
               {
                 "name": "The LEGO Store Leicester Square",
                 "note": "",
-                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=The+LEGO+Store+Leicester+Square+London"
+                "mapsUrl": "https://maps.app.goo.gl/wAD5LTieLucBoP5u7",
+                "photo": "londres-lego-store-leicester-square.webp"
               },
               {
                 "name": "Oseyo London Bridge",
                 "note": "Mercearia asiática",
-                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Oseyo+London+Bridge+London"
+                "mapsUrl": "https://maps.app.goo.gl/y4ddujp2MapYBBdi7",
+                "photo": "londres-oseyo-london-bridge.webp"
               },
               {
                 "name": "Sainsbury's Local",
