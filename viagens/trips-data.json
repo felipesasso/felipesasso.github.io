@@ -568,17 +568,20 @@
               {
                 "name": "Arc de Triomphe",
                 "note": "",
-                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Arc+de+Triomphe+Paris"
+                "mapsUrl": "https://maps.app.goo.gl/Sf8ikPzck7vmVb1d7",
+                "photo": "paris-arc-de-triomphe.webp"
               },
               {
                 "name": "Jardins do Trocadéro",
                 "note": "",
-                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Jardins+du+Trocad%C3%A9ro+Paris"
+                "mapsUrl": "https://maps.app.goo.gl/vScr11cz5a6kr6vH8",
+                "photo": "paris-jardins-du-trocadero.webp"
               },
               {
                 "name": "Pont d'Iéna",
                 "note": "",
-                "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Pont+d%27I%C3%A9na+Paris"
+                "mapsUrl": "https://maps.app.goo.gl/bRAhZsNvDHMZuzw47",
+                "photo": "paris-pont-diena.webp"
               }
             ]
           }
