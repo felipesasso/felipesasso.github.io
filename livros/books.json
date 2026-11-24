@@ -75,5 +75,6 @@
   { "title": "O Hobbit", "titleEn": "The Hobbit", "author": "J.R.R. Tolkien", "year": 1937 },
   { "title": "A Metamorfose", "titleEn": "The Metamorphosis", "author": "Franz Kafka", "year": 1915 },
   { "title": "Os Miseráveis", "titleEn": "Les Misérables", "author": "Victor Hugo", "year": 1862 },
-  { "title": "Noites Brancas", "titleEn": "White Nights", "author": "Fiodor Dostoïevski", "year": 1848 }
+  { "title": "Noites Brancas", "titleEn": "White Nights", "author": "Fiodor Dostoïevski", "year": 1848 },
+  { "title": "Uma Canção de Natal", "titleEn": "A Christmas Carol", "author": "Charles Dickens", "year": 1843 }
 ]
